@@ -1,6 +1,6 @@
 // src/api/authors.ts
 // Dummy API client for authors
-import type { Author, Book, Interview } from './types';
+import type { Author, Book } from './types';
 
 const dummyAuthors: Author[] = [
   {
