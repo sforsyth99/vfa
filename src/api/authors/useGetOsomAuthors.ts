@@ -1,16 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import type { OsomAuthor } from './types.ts';
 import { BASE_URL } from '../types.ts';
+import wretch from '../wretch';
 
-const OSOM_AUTHORS_URL = `${BASE_URL}/book-authors`;
+const OSOM_AUTHORS_PATH = 'book-authors';
+const OSOM_AUTHORS_URL = `${BASE_URL}/${OSOM_AUTHORS_PATH}`;
 
 export function useGetOsomAuthors() {
   return useQuery<OsomAuthor[]>({
-    queryKey: ['osom_authors'],
+    queryKey: [OSOM_AUTHORS_PATH],
     queryFn: async () => {
-      const res = await fetch(OSOM_AUTHORS_URL);
-      if (!res.ok) throw new Error('Failed to fetch authors');
-      return res.json();
+      return wretch(OSOM_AUTHORS_URL)
+        .get()
+        .json();
     },
     refetchOnWindowFocus: false,
   });

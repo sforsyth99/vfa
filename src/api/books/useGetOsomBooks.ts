@@ -1,16 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import type { OsomBook } from './types.ts';
 import { BASE_URL } from '../types.ts';
+import wretch from '../wretch';
 
-const OSOM_BOOKS_URL = `${BASE_URL}/books`;
+const OSOM_BOOKS_PATH = 'books';
+const OSOM_BOOKS_URL = `${BASE_URL}/${OSOM_BOOKS_PATH}`;
 
 export function useGetOsomBooks() {
   return useQuery<OsomBook[]>({
-    queryKey: ['osom_books'],
+    queryKey: [OSOM_BOOKS_PATH],
     queryFn: async () => {
-      const res = await fetch(OSOM_BOOKS_URL);
-      if (!res.ok) throw new Error('Failed to fetch books');
-      return res.json();
+      return wretch(OSOM_BOOKS_URL)
+        .get()
+        .json();
     },
     refetchOnWindowFocus: false,
   });

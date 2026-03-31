@@ -1,16 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import type { TribeEvent } from './types.ts';
 import { BASE_URL } from '../types.ts';
+import wretch from '../wretch';
 
-const TRIBE_EVENTS_URL = `${BASE_URL}/tribe_events`;
+const TRIBE_EVENTS_PATH = 'tribe_events';
+const TRIBE_EVENTS_URL = `${BASE_URL}/${TRIBE_EVENTS_PATH}`;
 
 export function useGetTribeEvents() {
   return useQuery<TribeEvent[]>({
-    queryKey: ['tribe_events'],
+    queryKey: [TRIBE_EVENTS_PATH],
     queryFn: async () => {
-      const res = await fetch(TRIBE_EVENTS_URL);
-      if (!res.ok) throw new Error('Failed to fetch events');
-      return res.json();
+      return wretch(TRIBE_EVENTS_URL)
+        .get()
+        .json();
     },
     refetchOnWindowFocus: false,
   });
