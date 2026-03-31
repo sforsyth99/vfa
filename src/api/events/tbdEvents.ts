@@ -1,7 +1,18 @@
+export interface TbdEvents {
+  id: string;
+  title: string;
+  date?: string;
+  description?: string;
+  eventbriteUrl?: string;
+  featured?: boolean;
+  format: 'in-person' | 'online';
+  location?: {
+    indigenous?: string;
+    english?: string;
+  };
+}
 
-import type { Event } from './types';
-
-const dummyEvents: Event[] = [
+const dummyEvents: TbdEvents[] = [
   {
     id: '1',
     title: 'Opening Night Gala',
@@ -30,14 +41,6 @@ const dummyEvents: Event[] = [
   },
 ];
 
-// export async function fetchEvents(): Promise<Event[]> {
-//   // Simulate network delay
-//   await new Promise((r) => setTimeout(r, 300));
-//   return dummyEvents;
-// }
-
-export function fetchEvents() {
-  // Simulate network delay
-  // await new Promise((r) => setTimeout(r, 300));
+export function fetchDummyEvents() {
   return dummyEvents;
 }

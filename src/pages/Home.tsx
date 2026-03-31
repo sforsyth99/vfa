@@ -1,7 +1,7 @@
 import styles from './Home.module.css';
 import { FormattedMessage } from 'react-intl';
 import { EventList } from '../components/EventList';
-import { fetchEvents } from '../api/events';
+import { fetchDummyEvents } from '../api/events/tbdEvents.ts';
 
 export function HomePage() {
   // const { data: events, isLoading, error } = useQuery<Event[]>({
@@ -9,7 +9,7 @@ export function HomePage() {
   //   queryFn: fetchEvents,
   // });
 
-  const events = fetchEvents();
+  const events = fetchDummyEvents();
   // if (isLoading) return <div>Loading events...</div>;
   // if (error) return <div>Failed to load events.</div>;
 
