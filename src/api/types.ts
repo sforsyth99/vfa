@@ -1,5 +1,4 @@
-// src/api/types.ts
-
+export const BASE_URL = 'https://victoriafestivalofauthors.ca/wp-json/wp/v2';
 
 export interface Author {
   id: string;
