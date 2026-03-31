@@ -1,18 +1,5 @@
 // src/api/types.ts
 
-export interface Event {
-  id: string;
-  title: string;
-  date: string;
-  description: string;
-  eventbriteUrl: string;
-  featured: boolean;
-  format: 'in-person' | 'online';
-  location: {
-    indigenous: string;
-    english: string;
-  };
-}
 
 export interface Author {
   id: string;
@@ -44,4 +31,32 @@ export interface Interview {
   videoUrl?: string;
   transcriptUrl?: string;
   authorId: string;
+}
+
+export interface WPHrefLInk {
+  'href': string;
+}
+
+export interface CuriesLink {
+  name: string;
+  href: string;
+  templated: boolean;
+}
+
+export interface SelfLink {
+  href: string;
+  targetHints?: {
+    allow: string[];
+  };
+}
+
+export interface EmbeddableLink {
+  embeddable: boolean;
+  href: string;
+}
+
+export interface TermLink {
+  taxonomy: string;
+  embeddable: boolean;
+  href: string;
 }

@@ -1,0 +1,15 @@
+.homeMain {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.homeMain h1,
+.homeMain h2 {
+    margin-bottom: 1rem;
+}
+
+.homeMain p {
+    font-size: 1.1rem;
+    color: var(--vfa-color-text);
+}

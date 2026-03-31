@@ -1,0 +1,14 @@
+.aboutMain {
+    padding: 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.aboutMain h1 {
+    margin-bottom: 1rem;
+}
+
+.aboutMain p {
+    font-size: 1.1rem;
+    color: var(--vfa-color-text);
+}

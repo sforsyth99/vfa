@@ -1,0 +1,38 @@
+.eventCard {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: box-shadow 0.2s;
+}
+
+.eventCard:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.eventCard h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.eventCard a {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #0070f3;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.eventCard a:hover {
+    text-decoration: underline;
+}
+
+.eventCard div {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #555;
+    display: flex;
+    gap: 1.5rem;
+}
