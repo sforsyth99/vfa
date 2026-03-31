@@ -1,0 +1,6 @@
+# npm publish ignores
+node_modules/
+dist/
+build/
+coverage/
+.env*
