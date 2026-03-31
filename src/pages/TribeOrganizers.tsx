@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGetTribeOrganizers } from '../api/events/useGetTribeOrganizers';
-import type { TribeOrganizer } from '../api/events/useGetTribeOrganizers';
+import type { TribeOrganizer } from '../api/events/types';
 import styles from './Events.module.css';
 
 const renderOrganizerDetail = (key: string, value: unknown): React.ReactNode => {

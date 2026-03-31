@@ -1,3 +1,13 @@
+import type { CuriesLink, SelfLink, WPHrefLInk } from '../types.ts';
+
+export interface OsomAuthorLinks {
+  self?: SelfLink[];
+  collection?: WPHrefLInk[];
+  about?: WPHrefLInk[];
+  'wp:post_type'?: WPHrefLInk[];
+  curies?: CuriesLink[];
+}
+
 export interface OsomAuthor {
   id: number;
   count: number;
@@ -8,5 +18,5 @@ export interface OsomAuthor {
   taxonomy: string;
   parent: number;
   meta: unknown[];
-  _links: unknown;
+  _links: OsomAuthorLinks;
 }

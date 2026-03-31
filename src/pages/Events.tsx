@@ -2,16 +2,20 @@ import { useGetTribeEvents } from '../api/events/useGetTribeEvents.ts';
 import styles from './Events.module.css';
 
 
-const renderEventDetail = (key: string, value: any) => {
+const renderEventDetail = (key: string, value: unknown): React.ReactNode => {
   if (typeof value === 'object' && value !== null) {
-    if (key === 'title' || key === 'content' || key === 'excerpt') {
-      // Render HTML safely for known fields
-      return (
-        <span dangerouslySetInnerHTML={{ __html: value.rendered }} />
-      );
+    if (
+      key === 'title' ||
+      key === 'content' ||
+      key === 'excerpt'
+    ) {
+      return <span dangerouslySetInnerHTML={{ __html: (value as { rendered: string }).rendered }} />;
     }
-    // Render objects/arrays as JSON for now
-    return <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{JSON.stringify(value, null, 2)}</pre>;
+    return (
+      <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+        {JSON.stringify(value, null, 2)}
+      </pre>
+    );
   }
   if (typeof value === 'boolean') {
     return value ? 'true' : 'false';

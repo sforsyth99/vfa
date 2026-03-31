@@ -1,5 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import type { TribeVenue } from './types.ts';
+import type { TribeVenue } from './types';
+
+
+export type { TribeVenue };
 
 
 export function useGetTribeVenue() {

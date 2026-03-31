@@ -1,3 +1,50 @@
+import type { CuriesLink, EmbeddableLink, SelfLink, WPHrefLInk } from '../types.ts';
+
+export interface VersionHistoryLink {
+  href: string;
+  count: number;
+}
+
+export interface PredecessorVersionLink {
+  id: number;
+  href: string;
+}
+
+export interface OrganizerLinks {
+  self?: SelfLink[];
+  collection?: WPHrefLInk[];
+  about?: WPHrefLInk[];
+  author?: EmbeddableLink[];
+  'version-history'?: VersionHistoryLink[];
+  'predecessor-version'?: PredecessorVersionLink[];
+  'wp:attachment'?: WPHrefLInk[];
+  curies?: CuriesLink[];
+}
+
+
+export interface VenueLinks {
+  self?: SelfLink[];
+  collection?: WPHrefLInk[];
+  about?: WPHrefLInk[];
+  author?: EmbeddableLink[];
+  'version-history'?: VersionHistoryLink[];
+  'wp:attachment'?: WPHrefLInk[];
+  curies?: CuriesLink[];
+}
+
+export interface EventLinks {
+  self?: SelfLink[];
+  collection?: WPHrefLInk[];
+  about?: WPHrefLInk[];
+  author?: EmbeddableLink[];
+  'version-history'?: VersionHistoryLink[];
+  'predecessor-version'?: PredecessorVersionLink[];
+  'wp:attachment'?: WPHrefLInk[];
+  'wp:term'?: WPHrefLInk[];
+  curies?: CuriesLink[];
+}
+
+
 export interface TribeEvent {
   id: number;
   date: string;
@@ -20,7 +67,7 @@ export interface TribeEvent {
   tribe_events_cat: number[];
   class_list: string[];
   jetpack_sharing_enabled: boolean;
-  _links: Record<string, unknown>;
+  _links: EventLinks;
 }
 
 export interface TribeOrganizer {
@@ -51,7 +98,7 @@ export interface TribeOrganizer {
     jetpack_post_was_ever_published: boolean;
     footnotes: string;
   };
-  _links: unknown;
+  _links: OrganizerLinks;
 }
 
 export interface TribeVenue {
@@ -82,5 +129,5 @@ export interface TribeVenue {
     jetpack_post_was_ever_published: boolean;
     footnotes: string;
   };
-  _links: unknown;
+  _links: VenueLinks;
 }

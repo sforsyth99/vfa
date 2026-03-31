@@ -1,3 +1,16 @@
+import type { CuriesLink, EmbeddableLink, SelfLink, TermLink, WPHrefLInk } from '../types.ts';
+
+export interface BookLinks {
+  self?: SelfLink[];
+  collection?: WPHrefLInk[];
+  about?: WPHrefLInk[];
+  replies?: EmbeddableLink[];
+  'wp:featuredmedia'?: EmbeddableLink[];
+  'wp:attachment'?: WPHrefLInk[];
+  'wp:term'?: TermLink[];
+  curies?: CuriesLink[];
+}
+
 export interface OsomBook {
   id: number;
   date: string;
@@ -22,5 +35,5 @@ export interface OsomBook {
   'book-tags': number[];
   class_list: string[];
   jetpack_sharing_enabled: boolean;
-  _links: any;
+  _links: BookLinks;
 }
