@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import type { OsomAuthor } from './types.ts';
 
-
 export function useGetOsomAuthors() {
   return useQuery<OsomAuthor[]>({
     queryKey: ['osom_authors'],
