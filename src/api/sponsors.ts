@@ -1,6 +1,6 @@
 // src/api/sponsors.ts
 // Dummy API client for sponsors
-import { Sponsor } from './types';
+import type { Sponsor } from './types';
 
 const dummySponsors: Sponsor[] = [
   {

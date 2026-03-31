@@ -1,6 +1,6 @@
 // src/api/events.ts
 // Dummy API client for events
-import { Event } from './types';
+import type { Event } from './types';
 
 const dummyEvents: Event[] = [
   {

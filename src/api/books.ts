@@ -1,6 +1,6 @@
 // src/api/books.ts
 // Dummy API client for books
-import { Book } from './types';
+import type { Book } from './types';
 
 const dummyBooks: Book[] = [
   {
