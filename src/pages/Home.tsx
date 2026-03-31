@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchEvents } from '../api/events';
 import type { Event } from '../api/types';
+import { EventList } from '../components/EventList';
+import { FormattedMessage } from 'react-intl';
 
 export function HomePage() {
   const { data: events, isLoading, error } = useQuery<Event[]>({
@@ -16,31 +18,17 @@ export function HomePage() {
 
   return (
     <main id="main-content">
-      <h1>Featured Events</h1>
+      <h1><FormattedMessage id="home.featuredEvents" defaultMessage="Featured Events" /></h1>
       {featured.length === 0 ? (
-        <p>No featured events.</p>
+        <p><FormattedMessage id="home.noEvents" defaultMessage="No upcoming events. Check back soon or sign up for our newsletter!" /></p>
       ) : (
-        <ul>
-          {featured.map(event => (
-            <li key={event.id}>
-              <strong>{event.title}</strong> — {new Date(event.date).toLocaleString()}<br />
-              <a href={event.eventbriteUrl} target="_blank" rel="noopener noreferrer">Buy Tickets</a>
-            </li>
-          ))}
-        </ul>
+        <EventList events={featured} />
       )}
-      <h2>Upcoming Events</h2>
+      <h2><FormattedMessage id="home.upcomingEvents" defaultMessage="Upcoming Events" /></h2>
       {upcoming.length === 0 ? (
-        <p>No upcoming events.</p>
+        <p><FormattedMessage id="home.noEvents" defaultMessage="No upcoming events. Check back soon or sign up for our newsletter!" /></p>
       ) : (
-        <ul>
-          {upcoming.map(event => (
-            <li key={event.id}>
-              <strong>{event.title}</strong> — {new Date(event.date).toLocaleString()}<br />
-              <a href={event.eventbriteUrl} target="_blank" rel="noopener noreferrer">Buy Tickets</a>
-            </li>
-          ))}
-        </ul>
+        <EventList events={upcoming} />
       )}
     </main>
   );

@@ -4,14 +4,14 @@
 
 ## Phase 1: Setup (Shared Infrastructure)
 
-- [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize React + TypeScript project with Vite and pnpm
-- [ ] T003 [P] Configure linting, formatting, and pre-commit hooks
-- [ ] T004 [P] Set up src/ directory structure (api/, components/, features/, pages/, stores/, hooks/, utils/, assets/, styles/, locales/)
-- [ ] T005 [P] Add en.json for UI strings in src/locales/ and set up react-intl integration
-- [ ] T006 [P] Set up CSS modules and global styles in src/styles/
-- [ ] T007 [P] Install and configure TanStack ReactQuery, Zustand, react-router-dom, classnames, react-helmet-async
-- [ ] T008 [P] Set up vitest, @testing-library/react, @testing-library/user-event, jest-axe for testing
+- [x] T001 Create project structure per implementation plan
+- [x] T002 Initialize React + TypeScript project with Vite and pnpm
+- [x] T003 [P] Configure linting, formatting, and pre-commit hooks
+- [x] T004 [P] Set up src/ directory structure (api/, components/, features/, pages/, stores/, hooks/, utils/, assets/, styles/, locales/)
+- [x] T005 [P] Add en.json for UI strings in src/locales/ and set up react-intl integration
+- [x] T006 [P] Set up CSS modules and global styles in src/styles/
+- [x] T007 [P] Install and configure TanStack ReactQuery, Zustand, react-router-dom, classnames, react-helmet-async
+- [x] T008 [P] Set up vitest, @testing-library/react, @testing-library/user-event, jest-axe for testing
 
 ## Phase 2: Foundational (Blocking Prerequisites)
 
@@ -23,12 +23,12 @@
 
 ## Phase 3: User Story 1 - Discover and Attend Events (P1)
 
-- [ ] T014 [P] [US1] Implement Events feature module in src/features/events/
-- [ ] T015 [P] [US1] Create EventCard and EventList components in src/components/
-- [ ] T016 [P] [US1] Fetch and display featured/upcoming events on Home page (src/pages/Home.tsx)
-- [ ] T017 [P] [US1] Add Eventbrite ticket links to event cards
-- [ ] T018 [US1] Handle no upcoming events (show message, suggest past events/newsletter)
-- [ ] T019 [US1] Support event format (physical/online) and dual location names
+- [x] T014 [P] [US1] Implement Events feature module in src/features/events/
+- [x] T015 [P] [US1] Create EventCard and EventList components in src/components/
+- [x] T016 [P] [US1] Fetch and display featured/upcoming events on Home page (src/pages/Home.tsx)
+- [x] T017 [P] [US1] Add Eventbrite ticket links to event cards
+- [x] T018 [US1] Handle no upcoming events (show message, suggest past events/newsletter)
+- [x] T019 [US1] Support event format (physical/online) and dual location names
 
 ## Phase 4: User Story 2 - Explore Author Interviews (P2)
 
