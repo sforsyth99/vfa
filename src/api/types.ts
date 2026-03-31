@@ -19,6 +19,7 @@ export interface Author {
   name: string;
   bio: string;
   profilePhotoUrl: string;
+  pronouns?: string;
   interviews: Interview[];
   books: Book[];
 }
