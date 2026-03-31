@@ -1,5 +1,4 @@
-// src/api/events.ts
-// Dummy API client for events
+
 import type { Event } from './types';
 
 const dummyEvents: Event[] = [
@@ -31,8 +30,14 @@ const dummyEvents: Event[] = [
   },
 ];
 
-export async function fetchEvents(): Promise<Event[]> {
+// export async function fetchEvents(): Promise<Event[]> {
+//   // Simulate network delay
+//   await new Promise((r) => setTimeout(r, 300));
+//   return dummyEvents;
+// }
+
+export function fetchEvents() {
   // Simulate network delay
-  await new Promise((r) => setTimeout(r, 300));
+  // await new Promise((r) => setTimeout(r, 300));
   return dummyEvents;
 }

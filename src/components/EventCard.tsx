@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Event } from '../api/types';
-import styles from '../styles/App.module.css';
+import styles from './EventCard.module.css';
 import { FormattedMessage } from 'react-intl';
 
 interface EventCardProps {

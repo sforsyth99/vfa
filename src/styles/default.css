@@ -1,0 +1,15 @@
+:root {
+    --vfa-color-primary: #1a5cff;
+    --vfa-color-primary-dark: #174bb3;
+    --vfa-color-secondary: #f8f8f8;
+    --vfa-color-background: #f8f8f8;
+    --vfa-color-surface: #fff;
+    --vfa-color-text: #222;
+    --vfa-color-text-light: #fff;
+    --vfa-color-border: #ccc;
+    --vfa-color-link: #1a5cff;
+    --vfa-color-link-hover: #174bb3;
+    --vfa-color-accent: #ffe066;
+    --vfa-color-error: #e53935;
+    --vfa-color-success: #43a047;
+}
