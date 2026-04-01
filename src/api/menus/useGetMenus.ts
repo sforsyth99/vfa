@@ -13,6 +13,8 @@ function toBasicAuth(username: string, password: string) {
 export function useGetMenus() {
   const username = import.meta.env.WORDPRESS_USER;
   const password = import.meta.env.WORDPRESS_PASSWORD;
+  console.warn('Username:', username);
+  console.warn('Password:', password);
   return useQuery<Menu[]>({
     queryKey: [MENUS_PATH],
     queryFn: async () => {
