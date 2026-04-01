@@ -11,8 +11,8 @@ function toBasicAuth(username: string, password: string) {
 }
 
 export function useGetMenus() {
-  const username = import.meta.env.VITE_MENU_API_USER;
-  const password = import.meta.env.VITE_MENU_API_PASS;
+  const username = import.meta.env.WORDPRESS_USER;
+  const password = import.meta.env.WORDPRESS_PASSWORD;
   return useQuery<Menu[]>({
     queryKey: [MENUS_PATH],
     queryFn: async () => {

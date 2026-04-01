@@ -7,8 +7,8 @@ export function useGetMenuItems(menuId: number) {
   return useQuery<MenuItem[]>({
     queryKey: ['menu-items', menuId],
     queryFn: async () => {
-      const username = import.meta.env.VITE_MENU_API_USER;
-      const password = import.meta.env.VITE_MENU_API_PASS;
+      const username = import.meta.env.WORDPRESS_USER;
+      const password = import.meta.env.WORDPRESS_PASSWORD;
       const url = `${BASE_URL}/menu-items?menus=${menuId}`;
       return wretch(url)
         .headers({
