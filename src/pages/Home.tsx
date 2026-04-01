@@ -3,7 +3,7 @@ import { TribeEventCard } from '../components/TribeEventCard.tsx';
 
 export function HomePage() {
   return (<main id="main-content" className={styles.homeMain}>
-
+    Vercel test
     <TribeEventCard eventSlug={'7195'} venueSlug={'7196'} />
   </main>);
 }
