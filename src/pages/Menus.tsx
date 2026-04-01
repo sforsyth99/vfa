@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useGetMenus } from '../api/menus/useGetMenus';
-import { useGetMenuItems } from '../api/menus/useGetMenuItems';
-import type { MenuItem } from '../api/menus/menuItemTypes';
+import { useGetMenuItems } from '../api/menus/useGetMenuItems.ts';
+import type { MenuItem } from '../api/menus/types.ts';
+import { useGetPrimaryMenu } from '../api/menus/useGetPrimaryMenu.ts';
 
 const Menus: React.FC = () => {
   const { data, isLoading, error } = useGetMenus();
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
 
+  const { data: primaryMenuLocation } = useGetPrimaryMenu();
+  console.log('Primary menu location:', primaryMenuLocation);
   const handleToggle = (menuId: number) => {
     setOpenMenuId(openMenuId === menuId ? null : menuId);
   };
