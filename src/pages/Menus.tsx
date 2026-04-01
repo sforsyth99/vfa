@@ -41,24 +41,27 @@ const MenuItemsList: React.FC<{ menuId: number }> = ({ menuId }) => {
   if (error) return <div>Error loading menu items: {String(error)}</div>;
   if (!data || data.length === 0) return <div>No items in this menu.</div>;
 
+  // Helper type for tree nodes
+  type MenuItemNode = MenuItem & { children: MenuItemNode[] };
+
   // Build a tree from the flat array
-  const buildTree = (items: MenuItem[]) => {
-    const map = new Map<number, MenuItem & { children: MenuItem[] }>();
-    const roots: (MenuItem & { children: MenuItem[] })[] = [];
+  const buildTree = (items: MenuItem[]): MenuItemNode[] => {
+    const map = new Map<number, MenuItemNode>();
+    const roots: MenuItemNode[] = [];
     items.forEach(item => {
       map.set(item.id, { ...item, children: [] });
     });
     map.forEach(item => {
       if (item.parent && map.has(item.parent)) {
-        map.get(item.parent)!.children.push(item);
+        map.get(item.parent)!.children.push(map.get(item.id)!);
       } else {
-        roots.push(item);
+        roots.push(map.get(item.id)!);
       }
     });
     return roots;
   };
 
-  const renderTree = (items: (MenuItem & { children: MenuItem[] })[]) => (
+  const renderTree = (items: MenuItemNode[]) => (
     <ul>
       {items.map(item => (
         <li key={item.id}>
