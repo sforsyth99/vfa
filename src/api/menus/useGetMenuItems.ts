@@ -9,6 +9,8 @@ export function useGetMenuItems(menuId: number) {
     queryFn: async () => {
       const username = import.meta.env.WORDPRESS_USER;
       const password = import.meta.env.WORDPRESS_PASSWORD;
+      console.warn('Username:', username);
+      console.warn('Password:', password);
       const url = `${BASE_URL}/menu-items?menus=${menuId}`;
       return wretch(url)
         .headers({
