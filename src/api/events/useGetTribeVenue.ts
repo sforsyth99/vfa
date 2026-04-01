@@ -1,20 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
-import type { TribeVenue } from './types';
-import { BASE_URL } from '../types.ts';
-
+import { TRIBE_VENUE_PATH, TRIBE_VENUE_URL, type TribeVenue } from './types';
+import wretch from '../wretch';
 
 export type { TribeVenue };
 
-const TRIBE_VENUE_URL = `${BASE_URL}/tribe_venue`;
+export interface UseGetTribeVenueParams {
+  venueSlug: string;
+}
 
-export function useGetTribeVenue() {
-  return useQuery<TribeVenue[]>({
-    queryKey: ['tribe_venue'],
+export function useGetTribeVenue({ venueSlug }: UseGetTribeVenueParams) {
+  const venueUrl = `${TRIBE_VENUE_URL}/${venueSlug}`;
+  const queryKey = [`${TRIBE_VENUE_PATH}/${venueSlug}`];
+  return useQuery<TribeVenue>({
+    queryKey: [queryKey],
     queryFn: async () => {
-      const res = await fetch(TRIBE_VENUE_URL);
-      if (!res.ok) throw new Error('Failed to fetch tribe venues');
-      return res.json();
-    }, refetchOnWindowFocus: false,
-
+      return wretch(venueUrl)
+        .get()
+        .json();
+    },
+    refetchOnWindowFocus: false,
   });
 }

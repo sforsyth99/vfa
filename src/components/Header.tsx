@@ -6,6 +6,7 @@ const Header: React.FC = () => (
   <header className={styles.header}>
     <nav>
       <ul className={styles.navList}>
+        <li><Link to="/">Home</Link></li>
         <li><Link to="/events">Events</Link></li>
         <li><Link to="/books">Books</Link></li>
         <li><Link to="/authors">Authors</Link></li>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { useGetTribeVenue } from '../api/events/useGetTribeVenue';
 import type { TribeVenue } from '../api/events/types';
 import styles from './Events.module.css';
+import { useGetTribeVenues } from '../api/events/useGetTribeVenues.ts';
 
 const renderVenueDetail = (key: string, value: unknown): React.ReactNode => {
   if (typeof value === 'object' && value !== null) {
@@ -18,7 +18,7 @@ const renderVenueDetail = (key: string, value: unknown): React.ReactNode => {
 };
 
 const TribeVenues: React.FC = () => {
-  const { data: venues, isLoading, error } = useGetTribeVenue();
+  const { data: venues, isLoading, error } = useGetTribeVenues();
 
   return (
     <main className={styles.eventsMain}>
