@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { BASE_URL } from '../api/types.ts';
 
 interface WPPost {
   id: number;
@@ -13,7 +14,7 @@ const Test: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('https://victoriafestivalofauthors.ca/wp-json/wp/v2/posts?per_page=30')
+    fetch(`${BASE_URL}/posts?per_page=30`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch posts');
         return res.json();
