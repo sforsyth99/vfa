@@ -1,8 +1,18 @@
 // Media type for WP REST API media/attachments
-import { BASE_URL } from '../commonTypes.ts';
+import { BASE_URL, type EmbeddableLink, type SelfLink, type WPHrefLInk } from '../commonTypes.ts';
 
 export const MEDIA_PATH = 'media';
 export const MEDIA_URL = `${BASE_URL}/${MEDIA_PATH}`;
+
+export interface MediaLinks {
+  self?: SelfLink[];
+  collection?: WPHrefLInk[];
+  about?: WPHrefLInk[];
+  author?: EmbeddableLink[];
+  replies?: EmbeddableLink[];
+
+  [key: string]: unknown;
+}
 
 export interface Media {
   id: number;
@@ -47,5 +57,5 @@ export interface Media {
   };
   post: number;
   source_url: string;
-  _links: Record<string, unknown>;
+  _links: MediaLinks;
 }

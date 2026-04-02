@@ -1,9 +1,10 @@
-import { BASE_URL, type CuriesLink, type SelfLink, type WPHrefLInk } from '../commonTypes.ts';
+import type { CuriesLink, SelfLink, WPHrefLInk } from '../commonTypes.ts';
+import { BASE_URL } from '../commonTypes.ts';
 
-export const OSOM_AUTHORS_PATH = 'book-authors';
-export const OSOM_AUTHORS_URL = `${BASE_URL}/${OSOM_AUTHORS_PATH}`;
+export const CATEGORIES_PATH = 'categories';
+export const CATEGORIES_URL = `${BASE_URL}/${CATEGORIES_PATH}`;
 
-export interface OsomAuthorLinks {
+export interface CategoryLinks {
   self?: SelfLink[];
   collection?: WPHrefLInk[];
   about?: WPHrefLInk[];
@@ -11,11 +12,9 @@ export interface OsomAuthorLinks {
   curies?: CuriesLink[];
 
   [key: string]: unknown;
-
-
 }
 
-export interface OsomAuthor {
+export interface Category {
   id: number;
   count: number;
   description: string;
@@ -25,5 +24,5 @@ export interface OsomAuthor {
   taxonomy: string;
   parent: number;
   meta: unknown[];
-  _links: OsomAuthorLinks;
+  _links: CategoryLinks;
 }

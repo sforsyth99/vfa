@@ -1,31 +1,20 @@
-import { BASE_URL, type CuriesLink, type EmbeddableLink, type SelfLink, type WPHrefLInk } from '../commonTypes.ts';
+import {
+  BASE_URL,
+  type CuriesLink,
+  type EmbeddableLink,
+  type PredecessorVersionLink,
+  type SelfLink,
+  type VersionHistoryLink,
+  type WPHrefLInk,
+} from '../commonTypes.ts';
 
-export interface VersionHistoryLink {
-  href: string;
-  count: number;
-}
-
-export interface PredecessorVersionLink {
-  id: number;
-  href: string;
-}
-
-export interface OrganizerLinks {
-  self?: SelfLink[];
-  collection?: WPHrefLInk[];
-  about?: WPHrefLInk[];
-  author?: EmbeddableLink[];
-  'version-history'?: VersionHistoryLink[];
-  'predecessor-version'?: PredecessorVersionLink[];
-  'wp:attachment'?: WPHrefLInk[];
-  curies?: CuriesLink[];
-}
-
-
+export const TRIBE_EVENTS_PATH = 'tribe_events';
+export const TRIBE_EVENTS_URL = `${BASE_URL}/${TRIBE_EVENTS_PATH}`;
 export const TRIBE_VENUE_PATH = 'tribe_venue';
 export const TRIBE_VENUE_URL = `${BASE_URL}/${TRIBE_VENUE_PATH}`;
 export const TRIBE_ORGANIZER_PATH = 'tribe_organizer';
 export const TRIBE_ORGANIZER_URL = `${BASE_URL}/${TRIBE_ORGANIZER_PATH}`;
+
 
 export interface VenueLinks {
   self?: SelfLink[];
@@ -35,6 +24,9 @@ export interface VenueLinks {
   'version-history'?: VersionHistoryLink[];
   'wp:attachment'?: WPHrefLInk[];
   curies?: CuriesLink[];
+
+  [key: string]: unknown;
+
 }
 
 export interface TribeVenue {
@@ -68,10 +60,8 @@ export interface TribeVenue {
   _links: VenueLinks;
 }
 
-export const TRIBE_EVENTS_PATH = 'tribe_events';
-export const TRIBE_EVENTS_URL = `${BASE_URL}/${TRIBE_EVENTS_PATH}`;
 
-export interface EventLinks {
+export interface TribeEventLinks {
   self?: SelfLink[];
   collection?: WPHrefLInk[];
   about?: WPHrefLInk[];
@@ -81,8 +71,9 @@ export interface EventLinks {
   'wp:attachment'?: WPHrefLInk[];
   'wp:term'?: WPHrefLInk[];
   curies?: CuriesLink[];
-}
 
+  [key: string]: unknown;
+}
 
 export interface TribeEvent {
   id: number;
@@ -106,7 +97,20 @@ export interface TribeEvent {
   tribe_events_cat: number[];
   class_list: string[];
   jetpack_sharing_enabled: boolean;
-  _links: EventLinks;
+  _links: TribeEventLinks;
+}
+
+export interface TribeOrganizerLinks {
+  self?: SelfLink[];
+  collection?: WPHrefLInk[];
+  about?: WPHrefLInk[];
+  author?: EmbeddableLink[];
+  'version-history'?: VersionHistoryLink[];
+  'predecessor-version'?: PredecessorVersionLink[];
+  'wp:attachment'?: WPHrefLInk[];
+  curies?: CuriesLink[];
+
+  [key: string]: unknown;
 }
 
 export interface TribeOrganizer {
@@ -137,6 +141,6 @@ export interface TribeOrganizer {
     jetpack_post_was_ever_published: boolean;
     footnotes: string;
   };
-  _links: OrganizerLinks;
+  _links: TribeOrganizerLinks;
 }
 

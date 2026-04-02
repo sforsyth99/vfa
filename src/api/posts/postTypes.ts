@@ -11,6 +11,21 @@ import {
 export const POSTS_PATH = 'posts';
 export const POSTS_URL = `${BASE_URL}/${POSTS_PATH}`;
 
+export interface PostLinks {
+  self: SelfLink[];
+  collection: WPHrefLInk[];
+  about: WPHrefLInk[];
+  author: EmbeddableLink[];
+  replies: EmbeddableLink[];
+  'version-history': VersionHistoryLink[];
+  'wp:attachment': WPHrefLInk[];
+  'wp:term': TermLink[];
+  curies: CuriesLink[];
+
+  [key: string]: unknown;
+}
+
+
 // Types for a single Post and an array of Posts returned by /posts
 export interface Post {
   id: number;
@@ -56,16 +71,6 @@ export interface Post {
   categories: number[];
   tags: number[];
   class_list: string[];
-  _links: {
-    self: SelfLink[];
-    collection: WPHrefLInk[];
-    about: WPHrefLInk[];
-    author: EmbeddableLink[];
-    replies: EmbeddableLink[];
-    'version-history': VersionHistoryLink[];
-    'wp:attachment': WPHrefLInk[];
-    'wp:term': TermLink[];
-    curies: CuriesLink[];
-  };
+  _links: PostLinks;
 }
 

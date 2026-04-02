@@ -10,7 +10,7 @@ import {
 export const OSOM_BOOKS_PATH = 'books';
 export const OSOM_BOOKS_URL = `${BASE_URL}/${OSOM_BOOKS_PATH}`;
 
-export interface BookLinks {
+export interface OsomBookLinks {
   self?: SelfLink[];
   collection?: WPHrefLInk[];
   about?: WPHrefLInk[];
@@ -19,6 +19,9 @@ export interface BookLinks {
   'wp:attachment'?: WPHrefLInk[];
   'wp:term'?: TermLink[];
   curies?: CuriesLink[];
+
+  [key: string]: unknown;
+
 }
 
 export interface OsomBook {
@@ -45,5 +48,5 @@ export interface OsomBook {
   'book-tags': number[];
   class_list: string[];
   jetpack_sharing_enabled: boolean;
-  _links: BookLinks;
+  _links: OsomBookLinks;
 }

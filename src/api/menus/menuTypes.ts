@@ -1,4 +1,4 @@
-import type { CuriesLink, SelfLink, TermLink, WPHrefLInk } from '../commonTypes.ts';
+import type { CuriesLink, EmbeddableLink, SelfLink, TermLink, WPHrefLInk } from '../commonTypes.ts';
 import { BASE_URL } from '../commonTypes.ts';
 
 export const MENUS_PATH = 'menus';
@@ -14,6 +14,8 @@ export interface MenuItemLinks {
   about?: WPHrefLInk[];
   'wp:term'?: TermLink[];
   curies?: CuriesLink[];
+
+  [key: string]: unknown;
 }
 
 export interface MenuItem {
@@ -33,6 +35,16 @@ export interface MenuItem {
   _links: MenuItemLinks;
 }
 
+export interface MenuLinks {
+  self?: SelfLink[];
+  collection?: WPHrefLInk[];
+  about?: WPHrefLInk[];
+  'wp:post_type'?: WPHrefLInk[];
+  'wp:menu-location'?: EmbeddableLink[];
+  curies?: CuriesLink[];
+
+  [key: string]: unknown;
+}
 
 export interface Menu {
   id: number;
@@ -42,49 +54,19 @@ export interface Menu {
   meta: unknown[];
   locations: unknown[];
   auto_add: boolean;
-  _links: Record<string, unknown>;
+  _links: MenuLinks;
+}
+
+export interface MenuLocationLinks {
+  self?: SelfLink[];
+  collection?: WPHrefLInk[];
+
+  [key: string]: unknown;
 }
 
 export interface MenuLocation {
   name: string;
   description: string;
   menu: number;
-  _links: Record<string, unknown>;
+  _links: MenuLocationLinks;
 }
-
-// Menu location
-// {
-//   "name": "primary",
-//   "description": "Header Menu",
-//   "menu": 90,
-//   "_links": {
-//   "self": [
-//     {
-//       "href": "https://victoriafestivalofauthors.ca/wp-json/wp/v2/menu-locations/primary",
-//       "targetHints": {
-//         "allow": [
-//           "GET"
-//         ]
-//       }
-//     }
-//   ],
-//     "collection": [
-//     {
-//       "href": "https://victoriafestivalofauthors.ca/wp-json/wp/v2/menu-locations"
-//     }
-//   ],
-//     "wp:menu": [
-//     {
-//       "embeddable": true,
-//       "href": "https://victoriafestivalofauthors.ca/wp-json/wp/v2/menus/90"
-//     }
-//   ],
-//     "curies": [
-//     {
-//       "name": "wp",
-//       "href": "https://api.w.org/{rel}",
-//       "templated": true
-//     }
-//   ]
-// }
-// }

@@ -32,3 +32,8 @@ export interface VersionHistoryLink {
   count: number;
   href: string;
 }
+
+export interface PredecessorVersionLink {
+  id: number;
+  href: string;
+}

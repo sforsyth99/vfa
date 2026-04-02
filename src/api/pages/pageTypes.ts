@@ -11,6 +11,19 @@ import {
 export const PAGES_PATH = 'pages';
 export const PAGES_URL = `${BASE_URL}/${PAGES_PATH}`;
 
+export interface PageLinks {
+  self: SelfLink[];
+  collection: WPHrefLInk[];
+  about: WPHrefLInk[];
+  author: EmbeddableLink[];
+  replies: EmbeddableLink[];
+  'version-history': VersionHistoryLink[];
+  'wp:attachment': WPHrefLInk[];
+  curies: CuriesLink[];
+
+  [key: string]: unknown;
+}
+
 export interface Page {
   id: number;
   date: string;
@@ -51,14 +64,5 @@ export interface Page {
     footnotes: string;
   };
   class_list: string[];
-  _links: {
-    self: SelfLink[];
-    collection: WPHrefLInk[];
-    about: WPHrefLInk[];
-    author: EmbeddableLink[];
-    replies: EmbeddableLink[];
-    'version-history': VersionHistoryLink[];
-    'wp:attachment': WPHrefLInk[];
-    curies: CuriesLink[];
-  };
+  _links: PageLinks;
 }
