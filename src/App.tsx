@@ -12,6 +12,7 @@ import TribeVenues from './pages/TribeVenues';
 import TribeOrganizers from './pages/TribeOrganizers';
 import MediaPage from './pages/Media';
 import Menus from './pages/Menus';
+import DynamicPage from './pages/DynamicPage';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/menus" element={<Menus />} />
         <Route path="/test" element={<Test />} />
+        <Route path="/pages/:slug" element={<DynamicPage />} />
       </Routes>
       <Footer />
     </>

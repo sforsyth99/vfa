@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 import { useGetPrimaryMenu } from '../api/menus/useGetPrimaryMenu';
 import { useGetMenuItems } from '../api/menus/useGetMenuItems';
+import { useGetPages } from '../api/pages/useGetPages';
 import type { MenuItem } from '../api/menus/types';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 
@@ -27,16 +28,28 @@ const Header: React.FC = () => {
   const { data: menuLocation, isLoading: loadingMenu, error: menuError } = useGetPrimaryMenu();
   const menuId = menuLocation?.menu;
   const { data: menuItems, isLoading: loadingItems, error: itemsError } = useGetMenuItems(menuId ?? 0);
+  const { data: pages, isLoading: loadingPages, error: pagesError } = useGetPages();
 
   return (
     <header className={styles.header}>
       <nav>
-        {loadingMenu || loadingItems ? (
+        {(loadingMenu || loadingItems || loadingPages) ? (
           <div>Loading menu...</div>
-        ) : menuError || itemsError ? (
+        ) : menuError || itemsError || pagesError ? (
           <div>Error loading menu</div>
         ) : (
-          menuItems && renderMenuItems(menuItems)
+          <>
+            {/*{menuItems && renderMenuItems(menuItems)}*/}
+            {pages && (
+              <ul className={styles.navList}>
+                {pages.map((page) => (
+                  <li key={page.id}>
+                    <Link to={`/pages/${page.slug}`}>{decodeHtmlEntities(page.title.rendered)}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
         )}
       </nav>
     </header>
