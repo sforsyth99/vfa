@@ -1,4 +1,5 @@
-import { BASE_URL } from '../types.ts';
+import type { CuriesLink, SelfLink, TermLink, WPHrefLInk } from '../commonTypes.ts';
+import { BASE_URL } from '../commonTypes.ts';
 
 export const MENUS_PATH = 'menus';
 export const MENUS_URL = `${BASE_URL}/${MENUS_PATH}`;
@@ -6,6 +7,14 @@ export const MENU_ITEMS_PATH = 'menu-items';
 export const MENU_ITEMS_URL = `${BASE_URL}/${MENU_ITEMS_PATH}`;
 export const MENU_LOCATIONS_PATH = 'menu-locations';
 export const MENU_LOCATIONS_URL = `${BASE_URL}/${MENU_LOCATIONS_PATH}`;
+
+export interface MenuItemLinks {
+  self?: SelfLink[];
+  collection?: WPHrefLInk[];
+  about?: WPHrefLInk[];
+  'wp:term'?: TermLink[];
+  curies?: CuriesLink[];
+}
 
 export interface MenuItem {
   id: number;
@@ -21,7 +30,7 @@ export interface MenuItem {
   classes: string[];
   xfn: string[];
   target?: string;
-  _links: Record<string, any>;
+  _links: MenuItemLinks;
 }
 
 
@@ -30,17 +39,17 @@ export interface Menu {
   description: string;
   name: string;
   slug: string;
-  meta: any[];
-  locations: any[];
+  meta: unknown[];
+  locations: unknown[];
   auto_add: boolean;
-  _links: Record<string, any>;
+  _links: Record<string, unknown>;
 }
 
 export interface MenuLocation {
   name: string;
   description: string;
   menu: number;
-  _links: Record<string, any>;
+  _links: Record<string, unknown>;
 }
 
 // Menu location

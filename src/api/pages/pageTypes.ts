@@ -1,10 +1,10 @@
-import { BASE_URL } from '../types.ts';
+// Types for a single Page and an array of Pages returned by /pages
+import { BASE_URL } from '../commonTypes.ts';
 
-export const POSTS_PATH = 'posts';
-export const POSTS_URL = `${BASE_URL}/${POSTS_PATH}`;
+export const PAGES_PATH = 'pages';
+export const PAGES_URL = `${BASE_URL}/${PAGES_PATH}`;
 
-// Types for a single Post and an array of Posts returned by /posts
-export interface Post {
+export interface Page {
   id: number;
   date: string;
   date_gmt: string;
@@ -30,11 +30,11 @@ export interface Post {
   };
   author: number;
   featured_media: number;
+  parent: number;
+  menu_order: number;
   comment_status: string;
   ping_status: string;
-  sticky: boolean;
   template: string;
-  format: string;
   meta: {
     _genesis_hide_title: boolean;
     _genesis_hide_breadcrumbs: boolean;
@@ -45,8 +45,6 @@ export interface Post {
     _genesis_layout: string;
     footnotes: string;
   };
-  categories: number[];
-  tags: number[];
   class_list: string[];
   _links: any; // You can further type this if needed
 }

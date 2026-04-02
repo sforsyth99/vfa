@@ -1,4 +1,14 @@
-import type { CuriesLink, EmbeddableLink, SelfLink, TermLink, WPHrefLInk } from '../types.ts';
+import {
+  BASE_URL,
+  type CuriesLink,
+  type EmbeddableLink,
+  type SelfLink,
+  type TermLink,
+  type WPHrefLInk,
+} from '../commonTypes.ts';
+
+export const OSOM_BOOKS_PATH = 'books';
+export const OSOM_BOOKS_URL = `${BASE_URL}/${OSOM_BOOKS_PATH}`;
 
 export interface BookLinks {
   self?: SelfLink[];

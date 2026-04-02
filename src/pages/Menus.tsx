@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useGetMenus } from '../api/menus/useGetMenus';
 import { useGetMenuItems } from '../api/menus/useGetMenuItems.ts';
-import type { MenuItem } from '../api/menus/types.ts';
+import type { MenuItem } from '../api/menus/menuTypes.ts';
 import { useGetPrimaryMenu } from '../api/menus/useGetPrimaryMenu.ts';
 
 const Menus: React.FC = () => {
   const { data, isLoading, error } = useGetMenus();
+  console.log('Menus data:', data);
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
 
   const { data: primaryMenuLocation } = useGetPrimaryMenu();

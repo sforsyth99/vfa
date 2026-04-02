@@ -1,10 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import type { TribeOrganizer } from './types';
-import { BASE_URL } from '../types.ts';
 import wretch from '../wretch';
+import { TRIBE_ORGANIZER_PATH, TRIBE_ORGANIZER_URL, type TribeOrganizer } from './eventTypes.ts';
 
-const TRIBE_ORGANIZER_PATH = 'tribe_organizer';
-const TRIBE_ORGANIZER_URL = `${BASE_URL}/${TRIBE_ORGANIZER_PATH}`;
 
 export function useGetTribeOrganizers() {
   return useQuery<TribeOrganizer[]>({

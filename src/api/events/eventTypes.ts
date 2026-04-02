@@ -1,4 +1,4 @@
-import { BASE_URL, type CuriesLink, type EmbeddableLink, type SelfLink, type WPHrefLInk } from '../types.ts';
+import { BASE_URL, type CuriesLink, type EmbeddableLink, type SelfLink, type WPHrefLInk } from '../commonTypes.ts';
 
 export interface VersionHistoryLink {
   href: string;
@@ -24,6 +24,8 @@ export interface OrganizerLinks {
 
 export const TRIBE_VENUE_PATH = 'tribe_venue';
 export const TRIBE_VENUE_URL = `${BASE_URL}/${TRIBE_VENUE_PATH}`;
+export const TRIBE_ORGANIZER_PATH = 'tribe_organizer';
+export const TRIBE_ORGANIZER_URL = `${BASE_URL}/${TRIBE_ORGANIZER_PATH}`;
 
 export interface VenueLinks {
   self?: SelfLink[];

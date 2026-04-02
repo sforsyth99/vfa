@@ -1,10 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import type { OsomBook } from './types.ts';
-import { BASE_URL } from '../types.ts';
 import wretch from '../wretch';
+import { OSOM_BOOKS_PATH, OSOM_BOOKS_URL, type OsomBook } from './bookTypes.ts';
 
-const OSOM_BOOKS_PATH = 'books';
-const OSOM_BOOKS_URL = `${BASE_URL}/${OSOM_BOOKS_PATH}`;
 
 export function useGetOsomBooks() {
   return useQuery<OsomBook[]>({

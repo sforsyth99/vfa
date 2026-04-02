@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGetOsomBooks } from '../api/books/useGetOsomBooks';
 import styles from './Events.module.css';
-import type { OsomBook } from '../api/books/types.ts';
+import type { OsomBook } from '../api/books/bookTypes.ts';
 
 const renderBookDetail = (key: string, value: unknown): React.ReactNode => {
   if (typeof value === 'object' && value !== null) {

@@ -1,10 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import type { OsomAuthor } from './types.ts';
-import { BASE_URL } from '../types.ts';
+import { OSOM_AUTHORS_PATH, OSOM_AUTHORS_URL, type OsomAuthor } from './authorTypes.ts';
 import wretch from '../wretch';
 
-const OSOM_AUTHORS_PATH = 'book-authors';
-const OSOM_AUTHORS_URL = `${BASE_URL}/${OSOM_AUTHORS_PATH}`;
 
 export function useGetOsomAuthors() {
   return useQuery<OsomAuthor[]>({

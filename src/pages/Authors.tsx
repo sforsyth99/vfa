@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGetOsomAuthors } from '../api/authors/useGetOsomAuthors';
 import styles from './Events.module.css';
-import type { OsomAuthor } from '../api/authors/types.ts';
+import type { OsomAuthor } from '../api/authors/authorTypes.ts';
 
 const renderAuthorDetail = (_key: string, value: unknown): React.ReactNode => {
   if (typeof value === 'object' && value !== null) {

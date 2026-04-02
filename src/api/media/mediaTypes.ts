@@ -1,4 +1,9 @@
 // Media type for WP REST API media/attachments
+import { BASE_URL } from '../commonTypes.ts';
+
+export const MEDIA_PATH = 'media';
+export const MEDIA_URL = `${BASE_URL}/${MEDIA_PATH}`;
+
 export interface Media {
   id: number;
   date: string;

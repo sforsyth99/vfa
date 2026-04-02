@@ -1,5 +1,5 @@
 import React from 'react';
-import type { TribeVenue } from '../api/events/types';
+import type { TribeVenue } from '../api/events/eventTypes.ts';
 import styles from './Events.module.css';
 import { useGetTribeVenues } from '../api/events/useGetTribeVenues.ts';
 

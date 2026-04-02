@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import wretch from '../wretch';
-import { MENU_ITEMS_URL, type MenuItem } from './types.ts';
+import { MENU_ITEMS_URL, type MenuItem } from './menuTypes.ts';
 
 export function useGetMenuItems(menuId: number) {
   return useQuery<MenuItem[]>({

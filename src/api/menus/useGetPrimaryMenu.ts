@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { MENU_LOCATIONS_PATH, MENU_LOCATIONS_URL, type MenuLocation } from './types.ts';
 import wretch from '../wretch.ts';
+import { MENU_LOCATIONS_PATH, MENU_LOCATIONS_URL, type MenuLocation } from './menuTypes.ts';
 
 export function useGetPrimaryMenu() {
   return useQuery<MenuLocation>({

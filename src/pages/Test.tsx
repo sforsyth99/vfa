@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BASE_URL } from '../api/types.ts';
+import { BASE_URL } from '../api/commonTypes.ts';
 
 interface WPPost {
   id: number;

@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { TRIBE_VENUE_PATH, TRIBE_VENUE_URL, type TribeVenue } from './types';
 import wretch from '../wretch';
+import { TRIBE_VENUE_PATH, TRIBE_VENUE_URL, type TribeVenue } from './eventTypes.ts';
 
-export type { TribeVenue };
 
 export interface UseGetTribeVenueParams {
   venueSlug: string;
