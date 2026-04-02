@@ -1,4 +1,12 @@
-import { BASE_URL } from '../commonTypes.ts';
+import {
+  BASE_URL,
+  type CuriesLink,
+  type EmbeddableLink,
+  type SelfLink,
+  type TermLink,
+  type VersionHistoryLink,
+  type WPHrefLInk,
+} from '../commonTypes.ts';
 
 export const POSTS_PATH = 'posts';
 export const POSTS_URL = `${BASE_URL}/${POSTS_PATH}`;
@@ -48,6 +56,16 @@ export interface Post {
   categories: number[];
   tags: number[];
   class_list: string[];
-  _links: any; // You can further type this if needed
+  _links: {
+    self: SelfLink[];
+    collection: WPHrefLInk[];
+    about: WPHrefLInk[];
+    author: EmbeddableLink[];
+    replies: EmbeddableLink[];
+    'version-history': VersionHistoryLink[];
+    'wp:attachment': WPHrefLInk[];
+    'wp:term': TermLink[];
+    curies: CuriesLink[];
+  };
 }
 

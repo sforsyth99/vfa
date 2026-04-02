@@ -1,5 +1,12 @@
 // Types for a single Page and an array of Pages returned by /pages
-import { BASE_URL } from '../commonTypes.ts';
+import {
+  BASE_URL,
+  type CuriesLink,
+  type EmbeddableLink,
+  type SelfLink,
+  type VersionHistoryLink,
+  type WPHrefLInk,
+} from '../commonTypes.ts';
 
 export const PAGES_PATH = 'pages';
 export const PAGES_URL = `${BASE_URL}/${PAGES_PATH}`;
@@ -21,12 +28,10 @@ export interface Page {
     rendered: string;
   };
   content: {
-    rendered: string;
-    protected: boolean;
+    rendered: string; protected: boolean;
   };
   excerpt: {
-    rendered: string;
-    protected: boolean;
+    rendered: string; protected: boolean;
   };
   author: number;
   featured_media: number;
@@ -46,6 +51,14 @@ export interface Page {
     footnotes: string;
   };
   class_list: string[];
-  _links: any; // You can further type this if needed
+  _links: {
+    self: SelfLink[];
+    collection: WPHrefLInk[];
+    about: WPHrefLInk[];
+    author: EmbeddableLink[];
+    replies: EmbeddableLink[];
+    'version-history': VersionHistoryLink[];
+    'wp:attachment': WPHrefLInk[];
+    curies: CuriesLink[];
+  };
 }
-

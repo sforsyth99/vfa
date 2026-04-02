@@ -27,3 +27,8 @@ export interface TermLink {
   embeddable: boolean;
   href: string;
 }
+
+export interface VersionHistoryLink {
+  count: number;
+  href: string;
+}
