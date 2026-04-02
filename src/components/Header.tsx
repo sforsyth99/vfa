@@ -39,7 +39,7 @@ const Header: React.FC = () => {
           <div>Error loading menu</div>
         ) : (
           <>
-            {/*{menuItems && renderMenuItems(menuItems)}*/}
+            {menuItems && renderMenuItems(menuItems)}
             {pages && (
               <ul className={styles.navList}>
                 {pages.map((page) => (
