@@ -5,26 +5,41 @@ import { useGetPrimaryMenu } from '../api/menus/useGetPrimaryMenu';
 import { useGetMenuItems } from '../api/menus/useGetMenuItems';
 import { useGetPages } from '../api/pages/useGetPages';
 import type { MenuItem } from '../api/menus/menuTypes.ts';
+import type { Page } from '../api/pages/pageTypes';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 
-function renderMenuItems(menuItems: MenuItem[], parentId = 0): React.ReactNode {
+function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0): React.ReactNode {
   const items = menuItems
     .filter((item: MenuItem) => item.parent === parentId)
     .sort((a: MenuItem, b: MenuItem) => a.order - b.order);
   if (!items.length) return null;
   return (
     <ul className={parentId === 0 ? styles.navList : styles.subMenu}>
-      {items.map((item: MenuItem) => (
-        <li key={item.id}>
-          <Link to={item.url.replace(/^https?:\/\/[^/]+/, '') || '/'}>{decodeHtmlEntities(item.title.rendered)}</Link>
-          {renderMenuItems(menuItems, item.id)}
-        </li>
-      ))}
+      {items.map((item: MenuItem) => {
+        // Try to find a matching page by comparing the menu item URL to the page slug or URL
+        let pageMatch = null;
+        if (pages && pages.length) {
+          pageMatch = pages.find(
+            (page) =>
+              item.url.endsWith(`/pages/${page.slug}`) ||
+              item.url.replace(/^https?:\/\/[^/]+/, '') === `/pages/${page.slug}` ||
+              item.url.replace(/^https?:\/\/[^/]+/, '') === `/${page.slug}` ||
+              item.url === page.link, // fallback if page.link is absolute
+          );
+        }
+        const linkTo = pageMatch ? `/pages/${pageMatch.slug}` : (item.url.replace(/^https?:\/\/[^/]+/, '') || '/');
+        return (
+          <li key={item.id}>
+            <Link to={linkTo}>{decodeHtmlEntities(item.title.rendered)}</Link>
+            {renderMenuItems(menuItems, pages, item.id)}
+          </li>
+        );
+      })}
     </ul>
   );
 }
 
-const Header: React.FC = () => {
+function Header() {
   const { data: menuLocation, isLoading: loadingMenu, error: menuError } = useGetPrimaryMenu();
   const menuId = menuLocation?.menu;
   const { data: menuItems, isLoading: loadingItems, error: itemsError } = useGetMenuItems(menuId ?? 0);
@@ -39,21 +54,12 @@ const Header: React.FC = () => {
           <div>Error loading menu</div>
         ) : (
           <>
-            {menuItems && renderMenuItems(menuItems)}
-            {pages && (
-              <ul className={styles.navList}>
-                {pages.map((page) => (
-                  <li key={page.id}>
-                    <Link to={`/pages/${page.slug}`}>{decodeHtmlEntities(page.title.rendered)}</Link>
-                  </li>
-                ))}
-              </ul>
-            )}
+            {menuItems && renderMenuItems(menuItems, pages)}
           </>
         )}
       </nav>
     </header>
   );
-};
+}
 
 export default Header;
