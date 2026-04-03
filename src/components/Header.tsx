@@ -16,7 +16,6 @@ function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0
   return (
     <ul className={parentId === 0 ? styles.navList : styles.subMenu}>
       {items.map((item: MenuItem) => {
-        // Try to find a matching page by comparing the menu item URL to the page slug or URL
         let pageMatch = null;
         if (pages && pages.length) {
           pageMatch = pages.find(
@@ -24,13 +23,18 @@ function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0
               item.url.endsWith(`/pages/${page.slug}`) ||
               item.url.replace(/^https?:\/\/[^/]+/, '') === `/pages/${page.slug}` ||
               item.url.replace(/^https?:\/\/[^/]+/, '') === `/${page.slug}` ||
-              item.url === page.link, // fallback if page.link is absolute
+              item.url === page.link,
           );
         }
+        const isExternal = /^https?:\/\//.test(item.url) && !pageMatch;
         const linkTo = pageMatch ? `/pages/${pageMatch.slug}` : (item.url.replace(/^https?:\/\/[^/]+/, '') || '/');
         return (
           <li key={item.id}>
-            <Link to={linkTo}>{decodeHtmlEntities(item.title.rendered)}</Link>
+            {isExternal ? (
+              <a href={item.url} target="_blank" rel="noopener noreferrer">{decodeHtmlEntities(item.title.rendered)}</a>
+            ) : (
+              <Link to={linkTo}>{decodeHtmlEntities(item.title.rendered)}</Link>
+            )}
             {renderMenuItems(menuItems, pages, item.id)}
           </li>
         );
