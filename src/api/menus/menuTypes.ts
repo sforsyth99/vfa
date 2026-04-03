@@ -1,5 +1,12 @@
-import type { CuriesLink, EmbeddableLink, SelfLink, TermLink, WPHrefLInk } from '../commonTypes.ts';
-import { BASE_URL } from '../commonTypes.ts';
+import {
+  BASE_URL,
+  type CuriesLink,
+  type EmbeddableLink,
+  type SelfLink,
+  StatusType,
+  type TermLink,
+  type WPHrefLInk,
+} from '../commonTypes.ts';
 
 export const MENUS_PATH = 'menus';
 export const MENUS_URL = `${BASE_URL}/${MENUS_PATH}`;
@@ -13,25 +20,49 @@ export interface MenuItemLinks {
   collection?: WPHrefLInk[];
   about?: WPHrefLInk[];
   'wp:term'?: TermLink[];
+  // '"wp:menu-item-object": '?: EmbeddableLink[];
   curies?: CuriesLink[];
 
   [key: string]: unknown;
 }
 
+export enum MenuItemType {
+  CUSTOM = 'custom', //custom links
+  POST_TYPE = 'post_type', //posts and pages
+  TAXONOMY = 'taxonomy', //categories
+}
+
+
+export enum MenuObjectType {
+  PAGE = 'page',
+  CUSTOM = 'custom',
+  CATEGORY = 'category',
+  TRIBE_EVENTS = 'tribe_events',
+}
+
+export enum MenuLocationType {
+  PRIMARY = 'primary',
+  //TODO there are more. Are these theme-specific? If so, we might want to just make this a string instead of an enum
+}
+
 export interface MenuItem {
   id: number;
-  order: number;
-  parent: number;
   title: { rendered: string };
+  status: StatusType;
   url: string;
   attr_title?: string;
   description?: string;
-  type: string;
-  object: string;
+  type: MenuItemType;
+  type_label: string;
+  object: MenuObjectType;
   object_id: number;
+  parent: number;
+  menu_order: number;
+  target?: string;
   classes: string[];
   xfn: string[];
-  target?: string;
+  invalid: boolean;
+  menus: number;
   _links: MenuItemLinks;
 }
 
@@ -52,7 +83,7 @@ export interface Menu {
   name: string;
   slug: string;
   meta: unknown[];
-  locations: unknown[];
+  locations: MenuLocationType[];
   auto_add: boolean;
   _links: MenuLinks;
 }
@@ -65,7 +96,7 @@ export interface MenuLocationLinks {
 }
 
 export interface MenuLocation {
-  name: string;
+  name: MenuLocationType; //TODO this might just be a string
   description: string;
   menu: number;
   _links: MenuLocationLinks;
