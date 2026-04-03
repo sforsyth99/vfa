@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import wretch from '../wretch';
-import { type Menu, MENUS_PATH, MENUS_URL } from './types.ts';
+import { type Menu, MENUS_PATH, MENUS_URL } from './menuTypes.ts';
 
 
 export function useGetMenus() {

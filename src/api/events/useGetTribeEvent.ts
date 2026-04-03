@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { TRIBE_EVENTS_PATH, TRIBE_EVENTS_URL, type TribeEvent } from './types.ts';
 import wretch from '../wretch';
+import { TRIBE_EVENTS_PATH, TRIBE_EVENTS_URL, type TribeEvent } from './eventTypes.ts';
 
 export interface UseGetTribeEventParams {
   eventSlug: string;

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import wretch from '../wretch.ts';
-import { type Post, POSTS_PATH, POSTS_URL } from './types.ts';
+import { type Post, POSTS_PATH, POSTS_URL } from './postTypes.ts';
 
 export function useGetPost({ postId }: { postId: number }) {
   return useQuery<Post>({

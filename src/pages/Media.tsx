@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGetMedia } from '../api/media/useGetMedia';
-import type { Media } from '../api/media/types';
+import type { Media } from '../api/media/mediaTypes.ts';
 
 const MediaPage: React.FC = () => {
   const { data, isLoading, error } = useGetMedia();

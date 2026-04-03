@@ -4,7 +4,7 @@ import styles from './Header.module.css';
 import { useGetPrimaryMenu } from '../api/menus/useGetPrimaryMenu';
 import { useGetMenuItems } from '../api/menus/useGetMenuItems';
 import { useGetPages } from '../api/pages/useGetPages';
-import type { MenuItem } from '../api/menus/types';
+import type { MenuItem } from '../api/menus/menuTypes.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 
 function renderMenuItems(menuItems: MenuItem[], parentId = 0): React.ReactNode {

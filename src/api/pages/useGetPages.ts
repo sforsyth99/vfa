@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { type Page, PAGES_PATH, PAGES_URL } from './types.ts';
 import wretch from '../wretch';
+import { type Page, PAGES_PATH, PAGES_URL } from './pageTypes.ts';
 
 
 export function useGetPages() {

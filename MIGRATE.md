@@ -4,7 +4,6 @@
 
 - In cPanel, create an `api` subdomain (e.g., `api.victoriafestivalofauthors.com`) and route it to a new `api` folder.
 - Install a fresh WordPress instance in this folder.
-- Install a migration plugin (e.g., All-in-One WP Migration) on both the original and new WordPress sites.
 
 ## 2. Migrate Content
 
@@ -15,11 +14,10 @@
 - Update your Vercel (React) frontend to use the new API endpoint (`api.victoriafestivalofauthors.com`) for development
   and testing.
 
-## 4. Make Major Changes on Staging
+## 4. Make Major Changes on API
 
-- Log in to the staging WordPress site.
-- Remove UI-only plugins, clean up old images, and upgrade to Gutenberg blocks as needed.
-- Do not use migration plugins after this point to avoid overwriting changes.
+- Log in to the API WordPress site.
+- Remove extra media, posts, plugins.
 
 ## 5. Prepare for Launch
 

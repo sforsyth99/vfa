@@ -1,10 +1,7 @@
-import { BASE_URL } from '../types.ts';
 import { useQuery } from '@tanstack/react-query';
-import type { Media } from './types.ts';
 import wretch from '../wretch';
+import { type Media, MEDIA_PATH, MEDIA_URL } from './mediaTypes.ts';
 
-const MEDIA_PATH = 'media';
-const MEDIA_URL = `${BASE_URL}/${MEDIA_PATH}`;
 
 export function useGetMedia() {
   return useQuery<Media[]>({

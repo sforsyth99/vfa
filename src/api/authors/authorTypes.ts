@@ -1,4 +1,7 @@
-import type { CuriesLink, SelfLink, WPHrefLInk } from '../types.ts';
+import { BASE_URL, type CuriesLink, type SelfLink, type WPHrefLInk } from '../commonTypes.ts';
+
+export const OSOM_AUTHORS_PATH = 'book-authors';
+export const OSOM_AUTHORS_URL = `${BASE_URL}/${OSOM_AUTHORS_PATH}`;
 
 export interface OsomAuthorLinks {
   self?: SelfLink[];
@@ -6,6 +9,10 @@ export interface OsomAuthorLinks {
   about?: WPHrefLInk[];
   'wp:post_type'?: WPHrefLInk[];
   curies?: CuriesLink[];
+
+  [key: string]: unknown;
+
+
 }
 
 export interface OsomAuthor {

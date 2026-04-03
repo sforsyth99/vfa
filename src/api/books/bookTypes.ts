@@ -1,6 +1,16 @@
-import type { CuriesLink, EmbeddableLink, SelfLink, TermLink, WPHrefLInk } from '../types.ts';
+import {
+  BASE_URL,
+  type CuriesLink,
+  type EmbeddableLink,
+  type SelfLink,
+  type TermLink,
+  type WPHrefLInk,
+} from '../commonTypes.ts';
 
-export interface BookLinks {
+export const OSOM_BOOKS_PATH = 'books';
+export const OSOM_BOOKS_URL = `${BASE_URL}/${OSOM_BOOKS_PATH}`;
+
+export interface OsomBookLinks {
   self?: SelfLink[];
   collection?: WPHrefLInk[];
   about?: WPHrefLInk[];
@@ -9,6 +19,9 @@ export interface BookLinks {
   'wp:attachment'?: WPHrefLInk[];
   'wp:term'?: TermLink[];
   curies?: CuriesLink[];
+
+  [key: string]: unknown;
+
 }
 
 export interface OsomBook {
@@ -35,5 +48,5 @@ export interface OsomBook {
   'book-tags': number[];
   class_list: string[];
   jetpack_sharing_enabled: boolean;
-  _links: BookLinks;
+  _links: OsomBookLinks;
 }
