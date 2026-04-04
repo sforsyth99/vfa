@@ -3,8 +3,39 @@
     color: #fff;
     text-align: center;
     padding: 1rem 0;
-    position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
+}
+
+.footerNavList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1em 0;
+}
+
+.footerSubMenu {
+    list-style: disc;
+    margin-left: 2em;
+    color: #fff;
+    padding-left: 1.5em;
+    display: block;
+    text-align: left;
+}
+
+.footerNavLink {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.footerNavLink:hover,
+.footerNavLink:focus {
+    color: #ffd700;
+    text-decoration: underline;
 }

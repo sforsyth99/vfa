@@ -5,11 +5,11 @@ import { useGetCategories } from '../api/categories/useGetCategories';
 import { useMemo } from 'react';
 
 function QandA2024Posts() {
-  // Get all categories and find the Q&A 2024 category id
+  // Get all categories and find the Q&A 2024 category id by slug
   const { data: categories, isLoading: catLoading, isError: catError } = useGetCategories();
-  console.log('Category names:', categories?.map(cat => cat.name)); // Debug log to check category names
+  const QNA_2024_SLUG = 'qa-2024';
   const qnaCategory = useMemo(() =>
-    categories?.find(cat => cat.name === 'Q&amp;A 2024'), [categories]);
+    categories?.find(cat => cat.slug === QNA_2024_SLUG), [categories]);
 
   const categoryId = qnaCategory?.id;
 
