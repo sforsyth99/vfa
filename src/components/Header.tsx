@@ -11,7 +11,7 @@ import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0): React.ReactNode {
   const items = menuItems
     .filter((item: MenuItem) => item.parent === parentId)
-    .sort((a: MenuItem, b: MenuItem) => a.order - b.order);
+    .sort((a: MenuItem, b: MenuItem) => a.menu_order - b.menu_order);
   if (!items.length) return null;
   return (
     <ul className={parentId === 0 ? styles.navList : styles.subMenu}>
