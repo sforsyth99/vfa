@@ -23,7 +23,7 @@ const renderEventDetail = (key: string, value: unknown): React.ReactNode => {
   return value === null || value === undefined ? '' : value.toString();
 };
 
-const Events: React.FC = () => {
+function Events() {
   const { data: events, isLoading, error } = useGetTribeEvents();
 
   return (
@@ -46,6 +46,6 @@ const Events: React.FC = () => {
       )}
     </main>
   );
-};
+}
 
 export default Events;

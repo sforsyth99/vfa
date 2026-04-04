@@ -3,7 +3,6 @@ import wretch from '../wretch.ts';
 import { type Page, PAGES_PATH, PAGES_URL } from './pageTypes.ts';
 
 export function useGetPage({ pageId }: { pageId: number }) {
-  console.log('in useGetPage with pageId:', pageId);
   return useQuery<Page>({
     queryKey: [`${PAGES_PATH}/${pageId}`],
     queryFn: async () => {

@@ -4,7 +4,7 @@ import type { Post } from '../api/posts/postTypes.ts';
 
 const POSTS_PER_PAGE = 3;
 
-const PaginatedPosts: React.FC = () => {
+function PaginatedPosts() {
   const [page, setPage] = useState(1);
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -51,6 +51,6 @@ const PaginatedPosts: React.FC = () => {
       )}
     </div>
   );
-};
+}
 
 export default PaginatedPosts;

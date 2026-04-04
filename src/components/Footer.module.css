@@ -3,8 +3,62 @@
     color: #fff;
     text-align: center;
     padding: 1rem 0;
-    position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
+}
+
+.footerNavList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1em 0;
+}
+
+.footerSubMenu {
+    list-style: disc;
+    margin-left: 2em;
+    color: #fff;
+    padding-left: 1.5em;
+    display: block;
+    text-align: left;
+}
+
+.footerNavLink {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.footerNavLink:hover,
+.footerNavLink:focus {
+    color: #ffd700;
+    text-decoration: underline;
+}
+
+.sponsorRow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5em;
+    margin-bottom: 1.5em;
+    background: white;
+    padding: 20px;
+    /*max-width: 800px;*/
+    /*margin: auto;*/
+}
+
+.sponsorLogo {
+    height: 40px;
+    max-width: 120px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 4px;
+    padding: 2px 6px;
+    /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);*/
 }

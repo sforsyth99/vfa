@@ -1,10 +1,9 @@
-import React from 'react';
 import { useInfinitePosts } from '../api/posts/useGetPosts';
 import type { Post } from '../api/posts/postTypes';
 
 const POSTS_PER_PAGE = 3;
 
-const InfinitePosts: React.FC = () => {
+function InfinitePosts() {
   const {
     data,
     isLoading,
@@ -39,6 +38,6 @@ const InfinitePosts: React.FC = () => {
       {!hasNextPage && <div style={{ marginTop: 16 }}>No more posts.</div>}
     </div>
   );
-};
+}
 
 export default InfinitePosts;
