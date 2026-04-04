@@ -42,6 +42,10 @@ function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0
   );
 }
 
+// Vite-specific: import all sponsor images statically
+const sponsorImages = import.meta.glob('../assets/sponsors/*.{png,jpg,jpeg,svg}', { eager: true, import: 'default' });
+const sponsorLogos: string[] = Object.values(sponsorImages) as string[];
+
 function Footer() {
   // Use the localized land acknowledgement
   const landAcknowledgement = useMemo(() => en['footer.landAcknowledgement'], []);
@@ -59,6 +63,11 @@ function Footer() {
           {renderMenuItems(menuItems, pages)}
         </nav>
       )}
+      <div className={styles.sponsorRow}>
+        {sponsorLogos.map((src: string, idx: number) => (
+          <img key={idx} src={src} alt="Sponsor logo" className={styles.sponsorLogo} />
+        ))}
+      </div>
       <p style={{ marginBottom: '1em', fontSize: '0.95em' }}>{landAcknowledgement}</p>
       <p>&copy; {new Date().getFullYear()} Author Festival. All rights reserved.</p>
     </footer>
