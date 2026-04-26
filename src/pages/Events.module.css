@@ -1,14 +1,185 @@
-.eventsMain {
-    padding: 2rem;
-    max-width: 700px;
-    margin: 0 auto;
+.eventsPage {
+  background: var(--vfa-bg);
+  min-height: 60vh;
 }
 
-.eventsMain h1 {
-    margin-bottom: 1rem;
+.pageHeader {
+  padding: 56px 56px 24px;
+  border-bottom: 1px solid var(--vfa-ink);
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
-.eventsMain p {
-    font-size: 1.1rem;
-    color: var(--vfa-color-text);
+.kicker {
+  font: 500 11px/1 var(--vfa-font-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--vfa-muted);
+}
+
+.pageTitle {
+  font-size: clamp(56px, 6.6vw, 96px);
+  font-weight: 700;
+  line-height: 0.95;
+  margin-top: 16px;
+  color: var(--vfa-ink);
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  font: 500 11px/1 var(--vfa-font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--vfa-hairline);
+  color: var(--vfa-ink-2);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.pill:hover {
+  background: var(--vfa-ink);
+  color: var(--vfa-bg);
+  border-color: var(--vfa-ink);
+}
+
+.pillActive {
+  background: var(--vfa-ink);
+  color: var(--vfa-bg);
+  border-color: var(--vfa-ink);
+}
+
+.eventsSection {
+  padding: 40px 56px 64px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.eventsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.eventCard {
+  background: var(--vfa-bg-elev);
+  border: 1px solid var(--vfa-ink);
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  min-height: 180px;
+  overflow: hidden;
+}
+
+.eventCardImg {
+  background-color: var(--vfa-surface-dark);
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--vfa-stripe-overlay) 0 1px,
+    transparent 1px 9px
+  );
+}
+
+.eventCardBody {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.eventCardMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dateBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--vfa-ink);
+  background: var(--vfa-bg-elev);
+  font-family: var(--vfa-font-display);
+  flex-shrink: 0;
+}
+
+.dateDay {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--vfa-ink);
+}
+
+.dateMonth {
+  font: 500 10px/1 var(--vfa-font-mono);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  color: var(--vfa-muted);
+}
+
+.eventCardTime {
+  font-size: 13px;
+  color: var(--vfa-muted);
+  margin-top: 4px;
+}
+
+.eventCardTitle {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.eventCardExcerpt {
+  font-size: 14px;
+  color: var(--vfa-muted);
+  line-height: 1.45;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.eventCardExcerpt p { margin: 0; }
+
+.eventCardFooter {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.btnLink {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: var(--vfa-ink);
+  font: 600 14px/1 var(--vfa-font-body);
+  padding: 0;
+  padding-bottom: 2px;
+  border: none;
+  border-bottom: 1.5px solid var(--vfa-ink);
+  border-radius: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.emptyState {
+  color: var(--vfa-muted);
+  font-size: 17px;
+  line-height: 1.55;
+  margin-top: 32px;
 }
