@@ -3,6 +3,7 @@ import InfinitePosts from '../components/InfinitePosts';
 import { useGetPostsByCategory } from '../api/posts/useGetPostsByCategory';
 import { useGetCategories } from '../api/categories/useGetCategories';
 import { useMemo } from 'react';
+import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 
 function QandA2024Posts() {
   // Get all categories and find the Q&A 2024 category id by slug
@@ -38,7 +39,7 @@ function QandA2024Posts() {
       <ul>
         {allPosts.map(post => (
           <li key={post.id}>
-            <strong>{post.title.rendered}</strong>
+            <strong>{decodeHtmlEntities(post.title.rendered)}</strong>
           </li>
         ))}
       </ul>
