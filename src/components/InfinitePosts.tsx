@@ -1,5 +1,6 @@
 import { useInfinitePosts } from '../api/posts/useGetPosts';
 import type { Post } from '../api/posts/postTypes';
+import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 
 const POSTS_PER_PAGE = 3;
 
@@ -26,7 +27,7 @@ function InfinitePosts() {
       <ul>
         {allPosts.map(post => (
           <li key={post.id}>
-            <strong>{post.title.rendered}</strong>
+            <strong>{decodeHtmlEntities(post.title.rendered)}</strong>
           </li>
         ))}
       </ul>
