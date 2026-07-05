@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400;1,600&display=swap');
+
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+  color: #1c1917;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b8f7e;
+  font-weight: 600;
+  margin: 0 0 0.9rem;
+}
+
+.name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #1c1917;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 640px) {
+  .name {
+    font-size: 1.9rem;
+  }
+}
+
+.alternateName {
+  font-size: 1.125rem;
+  font-style: italic;
+  color: #7a7580;
+  margin: 0 0 0.75rem;
+}
+
+.address {
+  font-size: 1rem;
+  color: #3d3a3f;
+  margin: 0 0 1rem;
+}
+
+.onlineLink {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #1d3d2f;
+  text-decoration: none;
+  border-bottom: 1px solid #1d3d2f;
+  padding-bottom: 1px;
+  transition: opacity 0.15s ease;
+  margin-bottom: 1.5rem;
+}
+
+.onlineLink:hover {
+  opacity: 0.6;
+  text-decoration: none;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #3d3a3f;
+  margin: 1.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid #d9d4ce;
+  white-space: pre-line;
+}

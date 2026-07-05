@@ -2,8 +2,13 @@ import styles from './Home.module.css';
 import InfinitePosts from '../components/InfinitePosts';
 import { useGetPostsByCategory } from '../api/posts/useGetPostsByCategory';
 import { useGetCategories } from '../api/categories/useGetCategories';
+import { useGetInterviews } from '../api/interviews/useGetInterviews';
+import { useGetPeople } from '../api/people/useGetPeople';
+import { useGetFestivalEvents } from '../api/festivalEvents/useGetFestivalEvents';
+import { useGetVenues } from '../api/venues/useGetVenues';
 import { useMemo } from 'react';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
+import { Link } from 'react-router-dom';
 
 function QandA2024Posts() {
   // Get all categories and find the Q&A 2024 category id by slug
@@ -39,7 +44,9 @@ function QandA2024Posts() {
       <ul>
         {allPosts.map(post => (
           <li key={post.id}>
-            <strong>{decodeHtmlEntities(post.title.rendered)}</strong>
+            <Link to={`/interviews/${post.slug}`}>
+              {decodeHtmlEntities(post.title.rendered)}
+            </Link>
           </li>
         ))}
       </ul>
@@ -53,9 +60,105 @@ function QandA2024Posts() {
   );
 }
 
+function InterviewsList() {
+  const { data: interviews, isLoading, isError } = useGetInterviews();
+
+  if (isLoading) return <div>Loading interviews...</div>;
+  if (isError) return <div>Error loading interviews.</div>;
+  if (!interviews?.length) return null;
+
+  return (
+    <div style={{ margin: '2rem 0' }}>
+      <h2>Interviews</h2>
+      <ul>
+        {interviews.map(interview => (
+          <li key={interview.id}>
+            <Link to={`/interviews/${interview.slug}`}>
+              {decodeHtmlEntities(interview.title.rendered)}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function PeopleList() {
+  const { data: people, isLoading, isError } = useGetPeople();
+
+  if (isLoading) return <div>Loading people...</div>;
+  if (isError) return <div>Error loading people.</div>;
+  if (!people?.length) return null;
+
+  return (
+    <div style={{ margin: '2rem 0' }}>
+      <h2>People</h2>
+      <ul>
+        {people.map(person => (
+          <li key={person.id}>
+            <Link to={`/people/${person.slug}`}>
+              {decodeHtmlEntities(person.title.rendered)}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function FestivalEventsList() {
+  const { data: events, isLoading, isError } = useGetFestivalEvents();
+
+  if (isLoading) return <div>Loading events...</div>;
+  if (isError) return <div>Error loading events.</div>;
+  if (!events?.length) return null;
+
+  return (
+    <div style={{ margin: '2rem 0' }}>
+      <h2>Events</h2>
+      <ul>
+        {events.map(event => (
+          <li key={event.id}>
+            <Link to={`/festival-events/${event.slug}`}>
+              {decodeHtmlEntities(event.title.rendered)}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function VenuesList() {
+  const { data: venues, isLoading, isError } = useGetVenues();
+
+  if (isLoading) return <div>Loading venues...</div>;
+  if (isError) return <div>Error loading venues.</div>;
+  if (!venues?.length) return null;
+
+  return (
+    <div style={{ margin: '2rem 0' }}>
+      <h2>Venues</h2>
+      <ul>
+        {venues.map(venue => (
+          <li key={venue.id}>
+            <Link to={`/venues/${venue.slug}`}>
+              {decodeHtmlEntities(venue.title.rendered)}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function HomePage() {
   return (
     <main id="main-content" className={styles.homeMain}>
+      <FestivalEventsList />
+      <InterviewsList />
+      <PeopleList />
+      <VenuesList />
       <QandA2024Posts />
       <InfinitePosts />
     </main>

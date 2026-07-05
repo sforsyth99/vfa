@@ -68,6 +68,73 @@ The REST API response for an interview post includes an `interview_data` key:
 }
 ```
 
+---
+
+## People post type
+
+Represents a person who may appear in any role across the festival — author, moderator, curator, musician. Enter each person once; events reference them by selection.
+
+**CPT UI settings:** Slug `people`, REST base `people`, Show in REST API: True
+
+The **post title** is the person's primary name. Either name can be primary — use whichever should display first.
+
+| Field | Type | Description |
+|---|---|---|
+| `alternate_name` | Text | Secondary name for the person — e.g. name in another language (optional) |
+| `photo` | Image | Portrait photo (optional) |
+| `bio` | Textarea | Short biography (optional) |
+| `website_url` | URL | Personal or publisher website (optional) |
+
+REST API response includes a `person_data` key with all fields expanded.
+
+REST endpoint: `/wp-json/wp/v2/people`
+
+---
+
+## Venues post type
+
+Represents a physical or online venue. Enter once and reference from any event — avoids re-entering address and indigenous name for recurring venues like McPherson Playhouse.
+
+**CPT UI settings:** Slug `venues`, REST base `venues`, Show in REST API: True
+
+| Field | Type | Description |
+|---|---|---|
+| `alternate_name` | Text | Alternate name for the venue — either language can be primary (optional) |
+| `address` | Text | Street address (optional) |
+| `online_url` | URL | Link for online/hybrid venues (optional) |
+| `description` | Textarea | Notes about the venue (optional) |
+
+The **post title** is the venue's primary name. Either name can be primary — use whichever should display first. REST API response includes a `venue_data` key.
+
+REST endpoint: `/wp-json/wp/v2/venues`
+
+---
+
+## Festival Events post type
+
+Represents a single festival event. All fields are optional.
+
+**CPT UI settings:** Slug `festival_events`, REST base `festival_events`, Show in REST API: True
+
+| Field | Type | Description |
+|---|---|---|
+| `event_image` | Image | Banner or promotional image |
+| `description` | Textarea | Event description |
+| `event_date` | Date | Date of the event |
+| `time_start` | Time | Start time |
+| `time_end` | Time | End time |
+| `venue` | Post | Reference to a Venues post (optional) |
+| `authors` | Post (multiple) | Participating authors — select from People |
+| `moderator` | Post | Moderator — select from People (optional) |
+| `curator` | Post | Curator — select from People (optional) |
+| `musician` | Post | Musician — select from People (optional) |
+| `ticket_tier` | Text (cloneable) | Ticket tier label, e.g. "General", "Low income" |
+| `ticket_price` | Text (cloneable) | Price for that tier, e.g. "$20". Pairs by position with ticket_tier. |
+
+REST endpoint: `/wp-json/wp/v2/festival_events`
+
+---
+
 ### Adding a new post type
 
 To add fields for a new post type (e.g. `author_profiles`):
