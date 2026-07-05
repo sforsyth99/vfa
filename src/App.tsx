@@ -5,6 +5,7 @@ import { SkipToContent } from './components/SkipToContent';
 import HomePage from './pages/Home';
 import Events from './pages/Events';
 import DynamicPage from './pages/DynamicPage';
+import InterviewPage from './pages/Interview';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/events" element={<Events />} />
         <Route path="/pages/:slug" element={<DynamicPage />} />
+        <Route path="/interviews/:slug" element={<InterviewPage />} />
       </Routes>
       <Footer />
     </>
