@@ -10,7 +10,7 @@ export default function VenuePage() {
   if (isLoading) return <div>Loading...</div>;
   if (error || !venue) return <div>Venue not found</div>;
 
-  const { alternate_name, address, online_url, description } = venue.venue_data;
+  const { alternate_name, address, description } = venue.venue_data;
 
   return (
     <main className={styles.page}>
@@ -18,7 +18,6 @@ export default function VenuePage() {
       <h1 className={styles.name}>{decodeHtmlEntities(venue.title.rendered)}</h1>
       {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
       {address && <p className={styles.address}>{address}</p>}
-      {online_url && <a href={online_url} className={styles.onlineLink}>Join online →</a>}
       {description && <p className={styles.description}>{description}</p>}
     </main>
   );

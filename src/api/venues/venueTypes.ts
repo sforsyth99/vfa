@@ -9,7 +9,6 @@ export interface VenueData {
   name: string;
   alternate_name: string;
   address: string;
-  online_url: string;
   description: string;
 }
 
