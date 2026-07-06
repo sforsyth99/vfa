@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400;1,600&display=swap');
+
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+  color: #1c1917;
+}
+
+.bookLayout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .bookLayout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.coverImage {
+  display: block;
+  width: 100%;
+  border-radius: 2px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b8f7e;
+  font-weight: 600;
+  margin: 0 0 0.9rem;
+}
+
+.title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #1c1917;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 1.9rem;
+  }
+}
+
+.authors {
+  font-size: 1.05rem;
+  color: #5a5560;
+  margin: 0 0 1.5rem;
+}
+
+.authorLink {
+  color: #1d3d2f;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+.authorLink:hover {
+  border-bottom-color: #1d3d2f;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #3d3a3f;
+  margin: 0 0 2rem;
+  white-space: pre-line;
+}
+
+.buyLink {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  background: #1d3d2f;
+  text-decoration: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 2px;
+  letter-spacing: 0.02em;
+  transition: opacity 0.15s ease;
+}
+
+.buyLink:hover {
+  opacity: 0.85;
+}

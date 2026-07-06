@@ -12,12 +12,14 @@ export interface EventData {
   event_image: [string, number, number, boolean] | false;
   description: string;
   venue: VenueData | null;
+  online_url: string;
+  eventbrite_url: string;
   ticket_tier: string[];
   ticket_price: string[];
   authors: PersonData[];
-  moderator: PersonData | null;
-  curator: PersonData | null;
-  musician: PersonData | null;
+  moderator: PersonData[];
+  curator: PersonData[];
+  musician: PersonData[];
 }
 
 export interface FestivalEvent {

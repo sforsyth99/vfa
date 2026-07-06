@@ -22,7 +22,7 @@ export default function FestivalEventPage() {
   const {
     event_date, time_start, time_end,
     event_image, description,
-    venue,
+    venue, online_url, eventbrite_url,
     ticket_tier, ticket_price,
     authors, moderator, curator, musician,
   } = event.event_data;
@@ -41,19 +41,23 @@ export default function FestivalEventPage() {
       {event_date && <p className={styles.datetime}>{event_date}{timeRange ? ` · ${timeRange}` : ''}</p>}
       {description && <p className={styles.description}>{description}</p>}
 
-      {venue && (
+      {(venue || online_url) && (
         <div className={styles.section}>
           <p className={styles.sectionLabel}>Venue</p>
-          <Link to={`/venues/${venue.slug}`} className={styles.venueName}>{venue.name}</Link>
-          {venue.alternate_name && <p className={styles.venueIndigenous}>{venue.alternate_name}</p>}
-          {venue.address && <p className={styles.venueAddress}>{venue.address}</p>}
-          {venue.online_url && (
-            <a href={venue.online_url} className={styles.onlineLink}>Join online →</a>
+          {venue && (
+            <>
+              <Link to={`/venues/${venue.slug}`} className={styles.venueName}>{venue.name}</Link>
+              {venue.alternate_name && <p className={styles.venueIndigenous}>{venue.alternate_name}</p>}
+              {venue.address && <p className={styles.venueAddress}>{venue.address}</p>}
+            </>
+          )}
+          {online_url && (
+            <a href={online_url} className={styles.onlineLink}>Join online →</a>
           )}
         </div>
       )}
 
-      {(authors.length > 0 || moderator || curator || musician) && (
+      {(authors.length > 0 || moderator.length > 0 || curator.length > 0 || musician.length > 0) && (
         <div className={styles.section}>
           <p className={styles.sectionLabel}>People</p>
           {authors.length > 0 && (
@@ -63,38 +67,51 @@ export default function FestivalEventPage() {
               ))}
             </ul>
           )}
-          {moderator && (
+          {moderator.length > 0 && (
             <div className={styles.roleRow}>
               <span className={styles.roleLabel}>Moderator</span>
-              <PersonLink person={moderator} />
+              <span>{moderator.map((p, i) => (
+                <span key={p.id}><PersonLink person={p} />{i < moderator.length - 1 ? ', ' : ''}</span>
+              ))}</span>
             </div>
           )}
-          {curator && (
+          {curator.length > 0 && (
             <div className={styles.roleRow}>
               <span className={styles.roleLabel}>Curator</span>
-              <PersonLink person={curator} />
+              <span>{curator.map((p, i) => (
+                <span key={p.id}><PersonLink person={p} />{i < curator.length - 1 ? ', ' : ''}</span>
+              ))}</span>
             </div>
           )}
-          {musician && (
+          {musician.length > 0 && (
             <div className={styles.roleRow}>
               <span className={styles.roleLabel}>Musician</span>
-              <PersonLink person={musician} />
+              <span>{musician.map((p, i) => (
+                <span key={p.id}><PersonLink person={p} />{i < musician.length - 1 ? ', ' : ''}</span>
+              ))}</span>
             </div>
           )}
         </div>
       )}
 
-      {ticket_tier.length > 0 && (
+      {(ticket_tier.length > 0 || eventbrite_url) && (
         <div className={styles.section}>
           <p className={styles.sectionLabel}>Tickets</p>
-          <ul className={styles.ticketList}>
-            {ticket_tier.map((tier, i) => (
-              <li key={i} className={styles.ticketRow}>
-                <span className={styles.ticketTier}>{tier}</span>
-                <span className={styles.ticketPrice}>{ticket_price[i]}</span>
-              </li>
-            ))}
-          </ul>
+          {ticket_tier.length > 0 && (
+            <ul className={styles.ticketList}>
+              {ticket_tier.map((tier, i) => (
+                <li key={i} className={styles.ticketRow}>
+                  <span className={styles.ticketTier}>{tier}</span>
+                  <span className={styles.ticketPrice}>{ticket_price[i]}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {eventbrite_url && (
+            <a href={eventbrite_url} className={styles.eventbriteLink} target="_blank" rel="noopener noreferrer">
+              Buy tickets on Eventbrite →
+            </a>
+          )}
         </div>
       )}
     </main>

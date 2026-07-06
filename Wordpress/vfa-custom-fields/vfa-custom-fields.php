@@ -101,11 +101,6 @@ add_filter('rwmb_meta_boxes', function($meta_boxes) {
                 'type' => 'text',
             ],
             [
-                'id'   => 'online_url',
-                'name' => 'Online URL',
-                'type' => 'url',
-            ],
-            [
                 'id'   => 'description',
                 'name' => 'Description',
                 'type' => 'textarea',
@@ -150,6 +145,16 @@ add_filter('rwmb_meta_boxes', function($meta_boxes) {
                 'post_type' => ['venues'],
             ],
             [
+                'id'   => 'online_url',
+                'name' => 'Online URL',
+                'type' => 'url',
+            ],
+            [
+                'id'   => 'eventbrite_url',
+                'name' => 'Eventbrite URL',
+                'type' => 'url',
+            ],
+            [
                 'id'        => 'authors',
                 'name'      => 'Authors',
                 'type'      => 'post',
@@ -162,18 +167,21 @@ add_filter('rwmb_meta_boxes', function($meta_boxes) {
                 'name'      => 'Moderator',
                 'type'      => 'post',
                 'post_type' => ['people'],
+                'multiple'  => true,
             ],
             [
                 'id'        => 'curator',
                 'name'      => 'Curator',
                 'type'      => 'post',
                 'post_type' => ['people'],
+                'multiple'  => true,
             ],
             [
                 'id'        => 'musician',
                 'name'      => 'Musician',
                 'type'      => 'post',
                 'post_type' => ['people'],
+                'multiple'  => true,
             ],
             [
                 'id'               => 'ticket_tier',
@@ -190,6 +198,37 @@ add_filter('rwmb_meta_boxes', function($meta_boxes) {
                 'clone'            => true,
                 'clone_as_multiple' => true,
                 'desc'             => 'e.g. "$10". Price 1 pairs with Tier 1, Price 2 with Tier 2, etc.',
+            ],
+        ],
+    ];
+
+    $meta_boxes[] = [
+        'title'      => 'Book Fields',
+        'id'         => 'book_fields',
+        'post_types' => ['books'],
+        'fields'     => [
+            [
+                'id'        => 'authors',
+                'name'      => 'Authors',
+                'type'      => 'post',
+                'post_type' => ['people'],
+                'multiple'  => true,
+                'desc'      => 'Select all authors of this book.',
+            ],
+            [
+                'id'   => 'cover_image',
+                'name' => 'Cover Image',
+                'type' => 'image_advanced',
+            ],
+            [
+                'id'   => 'description',
+                'name' => 'Description',
+                'type' => 'textarea',
+            ],
+            [
+                'id'   => 'munros_url',
+                'name' => 'Buy at Munro\'s Books',
+                'type' => 'url',
             ],
         ],
     ];
@@ -226,7 +265,6 @@ add_action('rest_api_init', function() {
             'name'            => $post->post_title,
             'alternate_name'  => get_post_meta($post_id, 'alternate_name', true),
             'address'         => get_post_meta($post_id, 'address', true),
-            'online_url'      => get_post_meta($post_id, 'online_url', true),
             'description'     => get_post_meta($post_id, 'description', true),
         ];
     }
@@ -256,6 +294,25 @@ add_action('rest_api_init', function() {
         'schema' => null,
     ]);
 
+    register_rest_field('books', 'book_data', [
+        'get_callback' => function($post) {
+            $id = $post['id'];
+            $author_ids = get_post_meta($id, 'authors', false);
+            return [
+                'authors'     => array_values(array_filter(array_map(
+                                     'vfa_get_person_data', $author_ids
+                                 ))),
+                'cover_image' => wp_get_attachment_image_src(
+                                     get_post_meta($id, 'cover_image', true),
+                                     'large'
+                                 ),
+                'description' => get_post_meta($id, 'description', true),
+                'munros_url'  => get_post_meta($id, 'munros_url', true),
+            ];
+        },
+        'schema' => null,
+    ]);
+
     register_rest_field('venues', 'venue_data', [
         'get_callback' => function($post) {
             return vfa_get_venue_data($post['id']);
@@ -276,15 +333,23 @@ add_action('rest_api_init', function() {
                                      'large'
                                  ),
                 'description' => get_post_meta($id, 'description', true),
-                'venue'       => vfa_get_venue_data(get_post_meta($id, 'venue', true)),
+                'venue'          => vfa_get_venue_data(get_post_meta($id, 'venue', true)),
+                'online_url'     => get_post_meta($id, 'online_url', true),
+                'eventbrite_url' => get_post_meta($id, 'eventbrite_url', true),
                 'ticket_tier' => get_post_meta($id, 'ticket_tier'),
                 'ticket_price'=> get_post_meta($id, 'ticket_price'),
                 'authors'     => array_values(array_filter(array_map(
                                      'vfa_get_person_data', $author_ids
                                  ))),
-                'moderator'   => vfa_get_person_data(get_post_meta($id, 'moderator', true)),
-                'curator'     => vfa_get_person_data(get_post_meta($id, 'curator', true)),
-                'musician'    => vfa_get_person_data(get_post_meta($id, 'musician', true)),
+                'moderator'   => array_values(array_filter(array_map(
+                                     'vfa_get_person_data', get_post_meta($id, 'moderator', false)
+                                 ))),
+                'curator'     => array_values(array_filter(array_map(
+                                     'vfa_get_person_data', get_post_meta($id, 'curator', false)
+                                 ))),
+                'musician'    => array_values(array_filter(array_map(
+                                     'vfa_get_person_data', get_post_meta($id, 'musician', false)
+                                 ))),
             ];
         },
         'schema' => null,

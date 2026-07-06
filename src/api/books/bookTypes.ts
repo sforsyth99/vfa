@@ -6,6 +6,7 @@ import {
   type TermLink,
   type WPHrefLInk,
 } from '../commonTypes.ts';
+import type { PersonData } from '../people/peopleTypes.ts';
 
 export const OSOM_BOOKS_PATH = 'books';
 export const OSOM_BOOKS_URL = `${BASE_URL}/${OSOM_BOOKS_PATH}`;
@@ -49,4 +50,24 @@ export interface OsomBook {
   class_list: string[];
   jetpack_sharing_enabled: boolean;
   _links: OsomBookLinks;
+}
+
+// VFA Books CPT
+export const VFA_BOOKS_PATH = 'books';
+export const VFA_BOOKS_URL = `${BASE_URL}/${VFA_BOOKS_PATH}`;
+
+export interface BookData {
+  authors: PersonData[];
+  cover_image: [string, number, number, boolean] | false;
+  description: string;
+  munros_url: string;
+}
+
+export interface Book {
+  id: number;
+  slug: string;
+  title: {
+    rendered: string;
+  };
+  book_data: BookData;
 }

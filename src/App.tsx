@@ -9,6 +9,7 @@ import InterviewPage from './pages/Interview';
 import PersonPage from './pages/Person';
 import FestivalEventPage from './pages/FestivalEvent';
 import VenuePage from './pages/Venue';
+import BookPage from './pages/Book';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/people/:slug" element={<PersonPage />} />
         <Route path="/festival-events/:slug" element={<FestivalEventPage />} />
         <Route path="/venues/:slug" element={<VenuePage />} />
+        <Route path="/books/:slug" element={<BookPage />} />
       </Routes>
       <Footer />
     </>

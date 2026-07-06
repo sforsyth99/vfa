@@ -101,12 +101,32 @@ Represents a physical or online venue. Enter once and reference from any event �
 |---|---|---|
 | `alternate_name` | Text | Alternate name for the venue — either language can be primary (optional) |
 | `address` | Text | Street address (optional) |
-| `online_url` | URL | Link for online/hybrid venues (optional) |
 | `description` | Textarea | Notes about the venue (optional) |
 
 The **post title** is the venue's primary name. Either name can be primary — use whichever should display first. REST API response includes a `venue_data` key.
 
 REST endpoint: `/wp-json/wp/v2/venues`
+
+---
+
+## Books post type
+
+Represents a book featured at the festival. Enter once and link to events, people pages, etc.
+
+**CPT UI settings:** Slug `books`, REST base `books`, Show in REST API: True
+
+The **post title** is the book's title.
+
+| Field | Type | Description |
+|---|---|---|
+| `authors` | Post (multiple) | Authors of the book — select from People (optional) |
+| `cover_image` | Image | Book cover photo (optional) |
+| `description` | Textarea | Summary or description of the book (optional) |
+| `munros_url` | URL | Link to purchase the book at Munro's Books (optional) |
+
+REST API response includes a `book_data` key with author details expanded.
+
+REST endpoint: `/wp-json/wp/v2/books`
 
 ---
 
@@ -124,10 +144,12 @@ Represents a single festival event. All fields are optional.
 | `time_start` | Time | Start time |
 | `time_end` | Time | End time |
 | `venue` | Post | Reference to a Venues post (optional) |
+| `online_url` | URL | Zoom, livestream, or other online link for this event (optional) |
+| `eventbrite_url` | URL | Link to purchase tickets on Eventbrite (optional) |
 | `authors` | Post (multiple) | Participating authors — select from People |
-| `moderator` | Post | Moderator — select from People (optional) |
-| `curator` | Post | Curator — select from People (optional) |
-| `musician` | Post | Musician — select from People (optional) |
+| `moderator` | Post (multiple) | Moderators — select from People (optional) |
+| `curator` | Post (multiple) | Curators — select from People (optional) |
+| `musician` | Post (multiple) | Musicians — select from People (optional) |
 | `ticket_tier` | Text (cloneable) | Ticket tier label, e.g. "General", "Low income" |
 | `ticket_price` | Text (cloneable) | Price for that tier, e.g. "$20". Pairs by position with ticket_tier. |
 
