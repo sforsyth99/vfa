@@ -1,7 +1,19 @@
 .header {
     background: #222;
     color: #fff;
-    padding: 1rem 0;
+    padding: 1rem 1.5rem;
+}
+
+.headerInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav {
+    flex: 1;
 }
 
 .navList {
@@ -22,4 +34,24 @@
 
 .navList a:hover {
     color: #ffd700;
+}
+
+.donateButton {
+    display: inline-block;
+    padding: 0.45em 1.2em;
+    background: #ffd700;
+    color: #222;
+    font-weight: 700;
+    font-size: 0.95em;
+    border-radius: 4px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.donateButton:hover,
+.donateButton:focus {
+    background: #e6c200;
+    color: #222;
 }
