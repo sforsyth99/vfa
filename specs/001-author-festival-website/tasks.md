@@ -27,7 +27,8 @@
 
 - [x] T014 [P] [US1] Implement Events feature module in src/features/events/
 - [x] T015 [P] [US1] Create EventCard and EventList components in src/components/
-- [x] T016 [P] [US1] Fetch and display fea1tured/upcoming events on Home page (src/pages/Home.tsx)
+- [x] T016 [P] [US1] Fetch and display fea1
+- tured/upcoming events on Home page (src/pages/Home.tsx)
 - [x] T017 [P] [US1] Add Eventbrite ticket links to event cards
 - [x] T018 [US1] Handle no upcoming events (show message, suggest past events/newsletter)
 - [x] T019 [US1] Support event format (physical/online) and dual location names

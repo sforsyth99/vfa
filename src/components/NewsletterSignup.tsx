@@ -16,7 +16,7 @@ function NewsletterSignup() {
     setStatus('loading');
 
     const callbackName = `mc_cb_${Date.now()}`;
-    (window as Record<string, unknown>)[callbackName] = (data: { result: string; msg: string }) => {
+    (window as unknown as Record<string, unknown>)[callbackName] = (data: { result: string; msg: string }) => {
       if (data.result === 'success') {
         setStatus('success');
         setMessage('Thanks for subscribing!');
@@ -26,7 +26,7 @@ function NewsletterSignup() {
         // Mailchimp error messages sometimes start with a number + " - "
         setMessage(data.msg?.replace(/^\d+ - /, '') || 'Something went wrong. Please try again.');
       }
-      delete (window as Record<string, unknown>)[callbackName];
+      delete (window as unknown as Record<string, unknown>)[callbackName];
       document.getElementById(callbackName)?.remove();
     };
 
