@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useGetPages } from '../api/pages/useGetPages';
 import { useGetPage } from '../api/pages/useGetPage';
+import styles from './DynamicPage.module.css';
 
 export default function DynamicPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -17,9 +18,9 @@ export default function DynamicPage() {
   if (error) return <div>Error loading page</div>;
 
   return (
-    <div>
-      <h1 dangerouslySetInnerHTML={{ __html: pageData.title.rendered }} />
-      <div dangerouslySetInnerHTML={{ __html: pageData.content.rendered }} />
+    <div className={styles.page}>
+      <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: pageData.title.rendered }} />
+      <div className={styles.content} dangerouslySetInnerHTML={{ __html: pageData.content.rendered }} />
     </div>
   );
 }

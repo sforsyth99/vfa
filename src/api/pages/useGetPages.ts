@@ -7,7 +7,7 @@ export function useGetPages() {
   return useQuery<Page[]>({
     queryKey: [PAGES_PATH],
     queryFn: async () => {
-      return wretch(PAGES_URL)
+      return wretch(`${PAGES_URL}?per_page=100`)
         .get()
         .json();
     },
