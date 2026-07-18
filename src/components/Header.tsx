@@ -51,17 +51,27 @@ function Header() {
 
   return (
     <header className={styles.header}>
-      <nav>
-        {(loadingMenu || loadingItems || loadingPages) ? (
-          <div>Loading menu...</div>
-        ) : menuError || itemsError || pagesError ? (
-          <div>Error loading menu</div>
-        ) : (
-          <>
-            {menuItems && renderMenuItems(menuItems, pages)}
-          </>
-        )}
-      </nav>
+      <div className={styles.headerInner}>
+        <nav className={styles.nav}>
+          {(loadingMenu || loadingItems || loadingPages) ? (
+            <div>Loading menu...</div>
+          ) : menuError || itemsError || pagesError ? (
+            <div>Error loading menu</div>
+          ) : (
+            <>
+              {menuItems && renderMenuItems(menuItems, pages)}
+            </>
+          )}
+        </nav>
+        <a
+          href="https://www.canadahelps.org/en/charities/victoria-festival-of-authors-society/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.donateButton}
+        >
+          Donate
+        </a>
+      </div>
     </header>
   );
 }
