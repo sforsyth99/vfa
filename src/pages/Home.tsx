@@ -1,9 +1,9 @@
 import styles from './Home.module.css';
 // import { useGetCategories } from '../api/categories/useGetCategories';
 import { useGetInterviews } from '../api/interviews/useGetInterviews';
-import { useGetPeople } from '../api/people/useGetPeople';
+import { useGetAuthors } from '../api/people/useGetAuthors';
+import { useGetKidfestAuthors } from '../api/people/useGetKidfestAuthors';
 import { useGetFestivalEvents } from '../api/festivalEvents/useGetFestivalEvents';
-import { useGetVenues } from '../api/venues/useGetVenues';
 import { useGetBooks } from '../api/books/useGetBooks';
 // import { useMemo } from 'react';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
@@ -82,20 +82,20 @@ function InterviewsList() {
   );
 }
 
-function PeopleList() {
-  const { data: people, isLoading, isError } = useGetPeople();
+function AuthorsList() {
+  const { data: authors, isLoading, isError } = useGetAuthors(2026);
 
-  if (isLoading) return <div>Loading people...</div>;
-  if (isError) return <div>Error loading people.</div>;
-  if (!people?.length) return null;
+  if (isLoading) return <div>Loading authors...</div>;
+  if (isError) return <div>Error loading authors.</div>;
+  if (!authors?.length) return null;
 
   return (
     <div style={{ margin: '2rem 0' }}>
-      <h2>People</h2>
+      <h2>Authors</h2>
       <ul>
-        {people.map((person) => (
-          <li key={person.id}>
-            <Link to={`/people/${person.slug}`}>{decodeHtmlEntities(person.title?.rendered ?? '')}</Link>
+        {authors.map((author) => (
+          <li key={author.id}>
+            <Link to={`/people/${author.slug}`}>{author.name}</Link>
           </li>
         ))}
       </ul>
@@ -103,46 +103,102 @@ function PeopleList() {
   );
 }
 
-function FestivalEventsList() {
+function KidsAuthorsList() {
+  const { data: authors, isLoading, isError } = useGetKidfestAuthors(2026);
+
+  if (isLoading) return <div>Loading kids authors...</div>;
+  if (isError) return <div>Error loading kids authors.</div>;
+  if (!authors?.length) return null;
+
+  return (
+    <div style={{ margin: '2rem 0' }}>
+      <h2>Kids Authors</h2>
+      <ul>
+        {authors.map((author) => (
+          <li key={author.id}>
+            <Link to={`/people/${author.slug}`}>{author.name}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function formatDate(iso: string): string {
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' });
+}
+
+function formatTime(t: string): string {
+  if (!t) return '';
+  const [h, m] = t.split(':').map(Number);
+  const period = h >= 12 ? 'PM' : 'AM';
+  return `${h % 12 || 12}:${m.toString().padStart(2, '0')} ${period}`;
+}
+
+function EventSchedule() {
   const { data: events, isLoading, isError } = useGetFestivalEvents();
 
   if (isLoading) return <div>Loading events...</div>;
   if (isError) return <div>Error loading events.</div>;
   if (!events?.length) return null;
 
-  return (
-    <div style={{ margin: '2rem 0' }}>
-      <h2>Events</h2>
-      <ul>
-        {events.map((event) => (
-          <li key={event.id}>
-            <Link to={`/festival-events/${event.slug}`}>
-              {decodeHtmlEntities(event.title?.rendered ?? '')}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+  const today = new Date().toISOString().slice(0, 10);
 
-function VenuesList() {
-  const { data: venues, isLoading, isError } = useGetVenues();
+  const upcoming = events
+    .filter((e) => e.event_data.event_date >= today)
+    .sort((a, b) => {
+      const dateCmp = a.event_data.event_date.localeCompare(b.event_data.event_date);
+      if (dateCmp !== 0) return dateCmp;
+      return a.event_data.time_start.localeCompare(b.event_data.time_start);
+    });
 
-  if (isLoading) return <div>Loading venues...</div>;
-  if (isError) return <div>Error loading venues.</div>;
-  if (!venues?.length) return null;
+  if (!upcoming.length) return null;
 
   return (
-    <div style={{ margin: '2rem 0' }}>
-      <h2>Venues</h2>
-      <ul>
-        {venues.map((venue) => (
-          <li key={venue.id}>
-            <Link to={`/venues/${venue.slug}`}>{decodeHtmlEntities(venue.title?.rendered ?? '')}</Link>
-          </li>
-        ))}
-      </ul>
+    <div className={styles.scheduleSection}>
+      <h2 className={styles.scheduleHeading}>Upcoming Events</h2>
+      <table className={styles.scheduleTable}>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Event</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {upcoming.map((event) => {
+            const { event_date, time_start, time_end, eventbrite_url } = event.event_data;
+            const timeStr = time_start
+              ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
+              : '';
+            return (
+              <tr key={event.id}>
+                <td className={styles.scheduleDate}>{event_date ? formatDate(event_date) : '—'}</td>
+                <td className={styles.scheduleTime}>{timeStr || '—'}</td>
+                <td className={styles.scheduleName}>
+                  <Link to={`/festival-events/${event.slug}`}>
+                    {decodeHtmlEntities(event.title?.rendered ?? '')}
+                  </Link>
+                </td>
+                <td className={styles.scheduleTickets}>
+                  {eventbrite_url && (
+                    <a
+                      href={eventbrite_url}
+                      className={styles.ticketButton}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Buy tickets
+                    </a>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -156,7 +212,7 @@ function BooksList() {
 
   return (
     <div style={{ margin: '2rem 0' }}>
-      <h2>Books</h2>
+      <h2>What we're reading</h2>
       <ul>
         {books.map((book) => (
           <li key={book.id}>
@@ -171,10 +227,10 @@ function BooksList() {
 export function HomePage() {
   return (
     <main id="main-content" className={styles.homeMain}>
-      <FestivalEventsList />
+      <EventSchedule />
       <InterviewsList />
-      <PeopleList />
-      <VenuesList />
+      <AuthorsList />
+      <KidsAuthorsList />
       <BooksList />
     </main>
   );

@@ -6,6 +6,7 @@ export const FESTIVAL_EVENTS_PATH = 'festival_events';
 export const FESTIVAL_EVENTS_URL = `${BASE_URL}/${FESTIVAL_EVENTS_PATH}`;
 
 export interface EventData {
+  summary: string;
   event_date: string;
   time_start: string;
   time_end: string;
@@ -17,10 +18,7 @@ export interface EventData {
   venue: VenueData | null;
   online_url: string;
   eventbrite_url: string;
-  ticket_tier: string[];
-  ticket_price: string[];
-  online_ticket_tier: string[];
-  online_ticket_price: string[];
+  tickets: { type: string; tier: string; price: string }[];
   authors: PersonData[];
   moderator: PersonData[];
   curator: PersonData[];

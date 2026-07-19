@@ -1,14 +1,12 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useGetBook } from '../api/books/useGetBook.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
 import type { PersonData } from '../api/people/peopleTypes.ts';
 import styles from './Book.module.css';
 
 function AuthorName({ person }: { person: PersonData }) {
-  if (person.website_url) {
-    return <a href={person.website_url} className={styles.authorLink}>{person.name}</a>;
-  }
-  return <span>{person.name}</span>;
+  if (!person.slug) return <span>{person.name}</span>;
+  return <Link to={`/people/${person.slug}`} className={styles.authorLink}>{person.name}</Link>;
 }
 
 export default function BookPage() {
