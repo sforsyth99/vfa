@@ -46,7 +46,7 @@ export default function InterviewPage() {
           {interviewer_name && (
             <p className={styles.interviewer}>Interviewed by {interviewer_name}</p>
           )}
-          {intro && <p className={styles.intro}>{intro}</p>}
+          {intro && <div className={styles.intro} dangerouslySetInnerHTML={{ __html: intro }} />}
           {author?.slug && (
             <Link to={`/people/${author.slug}`} className={styles.bioLink}>
               Read author bio →
@@ -94,14 +94,14 @@ export default function InterviewPage() {
           const img = question_image?.[i];
           return (
             <div key={i} className={styles.pair}>
-              <p className={styles.question}>
-                <span className={styles.qMark} aria-hidden="true">{interviewerInitials} </span>
-                {q}
-              </p>
-              <p className={styles.answer}>
-                <span className={styles.aMark} aria-hidden="true">{authorInitials} </span>
-                {answer[i]}
-              </p>
+              <div className={styles.question}>
+                <span className={styles.qMark} aria-hidden="true">{interviewerInitials}</span>
+                <div className={styles.qText} dangerouslySetInnerHTML={{ __html: q }} />
+              </div>
+              <div className={styles.answer}>
+                <span className={styles.aMark} aria-hidden="true">{authorInitials}</span>
+                <div className={styles.aText} dangerouslySetInnerHTML={{ __html: answer[i] }} />
+              </div>
               {img && (
                 <img src={img[0]} alt="" className={styles.pairImage} />
               )}

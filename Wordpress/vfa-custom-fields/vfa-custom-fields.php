@@ -192,15 +192,18 @@ add_action('rest_api_init', function() {
             $id = $post['id'];
             $author_ids = get_post_meta($id, 'authors', false);
             return [
-                'is_kidfest'  => (bool) get_post_meta($id, 'is_kidfest', true),
+                'is_kidfest'   => (bool) get_post_meta($id, 'is_kidfest', true),
+                'event_type'   => get_post_meta($id, 'event_type', true) ?: 'conversation',
+                'hosts'        => array_values(array_filter(array_map(
+                                      'vfa_get_person_data', get_post_meta($id, 'hosts', false)
+                                  ))),
+                'hosted_by'    => get_post_meta($id, 'hosted_by', true),
                 'age_range'   => get_post_meta($id, 'age_range', true),
                 'extra_info'  => get_post_meta($id, 'extra_info', true),
                 'summary'     => get_post_meta($id, 'summary', true),
                 'event_date'  => get_post_meta($id, 'event_date', true),
                 'time_start'       => get_post_meta($id, 'time_start', true),
                 'time_end'         => get_post_meta($id, 'time_end', true),
-                'has_online_option' => (bool) get_post_meta($id, 'has_online_option', true),
-                'timezone'         => get_post_meta($id, 'timezone', true),
                 'event_image' => wp_get_attachment_image_src(
                                      get_post_meta($id, 'event_image', true),
                                      'large'

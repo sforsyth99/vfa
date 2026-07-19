@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
+
+.page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+}
+
+.heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #1c1917;
+    margin: 0 0 2.5rem;
+}
+
+.state {
+    padding: 3rem 2rem;
+    color: #7a7580;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid #e8e4e0;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.15s ease;
+}
+
+.item:first-child {
+    border-top: 1px solid #e8e4e0;
+}
+
+.item:hover {
+    opacity: 0.75;
+}
+
+.cover {
+    width: 52px;
+    height: 74px;
+    object-fit: cover;
+    border-radius: 2px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.itemText {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.itemName {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #1c1917;
+    margin: 0;
+}
+
+.itemIntro {
+    font-size: 0.875rem;
+    color: #7a7580;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

@@ -209,6 +209,9 @@
 }
 
 .question {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45em;
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.125rem;
   font-style: italic;
@@ -221,9 +224,21 @@
   font-weight: 600;
   color: #1d3d2f;
   user-select: none;
+  flex-shrink: 0;
 }
 
+.qText {
+  flex: 1;
+  min-width: 0;
+}
+
+.qText p { margin: 0 0 0.5em; }
+.qText p:last-child { margin: 0; }
+
 .answer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45em;
   font-size: 1rem;
   line-height: 1.8;
   color: #3d3a3f;
@@ -236,4 +251,20 @@
   font-weight: 600;
   color: #7a7580;
   user-select: none;
+  flex-shrink: 0;
+}
+
+.aText {
+  flex: 1;
+  min-width: 0;
+}
+
+.aText p { margin: 0 0 0.75em; }
+.aText p:last-child { margin: 0; }
+
+.pairImage {
+  display: block;
+  max-width: 100%;
+  margin-top: 1.5rem;
+  border-radius: 2px;
 }

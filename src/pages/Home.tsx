@@ -67,11 +67,13 @@ function InterviewsList() {
   if (isError) return <div>Error loading interviews.</div>;
   if (!interviews?.length) return null;
 
+  const preview = interviews.slice(0, 4);
+
   return (
     <div style={{ margin: '2rem 0' }}>
       <h2>Interviews</h2>
       <ul className={styles.interviewList}>
-        {interviews.map((interview) => {
+        {preview.map((interview) => {
           const cover = interview.interview_data?.book_cover;
           return (
             <li key={interview.id} className={styles.interviewItem}>
@@ -85,6 +87,9 @@ function InterviewsList() {
           );
         })}
       </ul>
+      {interviews.length > 4 && (
+        <Link to="/interviews" className={styles.seeAll}>See all interviews →</Link>
+      )}
     </div>
   );
 }
@@ -199,8 +204,9 @@ function EventSchedule() {
     .filter((e) => e.event_data.event_date < today)
     .sort((a, b) => b.event_data.event_date.localeCompare(a.event_data.event_date));
 
-  const regular = upcoming.filter((e) => !e.event_data.is_kidfest);
+  const regular = upcoming.filter((e) => !e.event_data.is_kidfest && e.event_data.event_type !== 'workshop');
   const kidfest = upcoming.filter((e) => e.event_data.is_kidfest);
+  const workshops = upcoming.filter((e) => e.event_data.event_type === 'workshop' && !e.event_data.is_kidfest);
   const online = upcoming.filter((e) => e.event_data.tickets.some((t) => t.type === 'online'));
 
   if (!upcoming.length && !past.length) return null;
@@ -217,6 +223,12 @@ function EventSchedule() {
         <div className={styles.scheduleSection}>
           <h2 className={styles.scheduleHeading}>KidsFest Events</h2>
           <ScheduleTable events={kidfest} />
+        </div>
+      )}
+      {workshops.length > 0 && (
+        <div className={styles.scheduleSection}>
+          <h2 className={styles.scheduleHeading}>Workshops</h2>
+          <ScheduleTable events={workshops} />
         </div>
       )}
       {online.length > 0 && (

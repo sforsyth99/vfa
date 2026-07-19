@@ -23,6 +23,9 @@ export default function FestivalEventPage() {
 
   const {
     is_kidfest,
+    event_type,
+    hosts,
+    hosted_by,
     age_range,
     extra_info,
     event_date,
@@ -54,7 +57,13 @@ export default function FestivalEventPage() {
           className={styles.eventImage}
         />
       )}
-      <p className={styles.eyebrow}>{is_kidfest ? 'KidsFest Event' : 'Event'}</p>
+      <p className={styles.eyebrow}>
+        {(() => {
+          const typeLabels: Record<string, string> = { conversation: 'Conversation', walk: 'Walk', workshop: 'Workshop', author_fair: 'Author Fair' };
+          const label = (event_type && typeLabels[event_type]) ?? 'Event';
+          return is_kidfest ? `KidsFest ${label}` : label;
+        })()}
+      </p>
       <h1 className={styles.title}>{decodeHtmlEntities(event.title?.rendered ?? '')}</h1>
       {event_date && (
         <p className={styles.datetime}>
@@ -63,7 +72,7 @@ export default function FestivalEventPage() {
         </p>
       )}
       {age_range && <p className={styles.ageRange}>{age_range}</p>}
-      {description && <p className={styles.description}>{description}</p>}
+      {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
       {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
 
       {(venue || online_url) && (
@@ -111,7 +120,9 @@ export default function FestivalEventPage() {
       {(authors.length > 0 ||
         moderator.length > 0 ||
         curator.length > 0 ||
-        musician.length > 0) && (
+        musician.length > 0 ||
+        hosts.length > 0 ||
+        hosted_by) && (
         <div className={styles.section}>
           <p className={styles.sectionLabel}>People</p>
           {authors.length > 0 && (
@@ -159,6 +170,20 @@ export default function FestivalEventPage() {
                     {i < musician.length - 1 ? ', ' : ''}
                   </span>
                 ))}
+              </span>
+            </div>
+          )}
+          {(hosts.length > 0 || hosted_by) && (
+            <div className={styles.roleRow}>
+              <span className={styles.roleLabel}>Hosted by</span>
+              <span>
+                {hosts.map((p, i) => (
+                  <span key={p.id}>
+                    <PersonLink person={p} />
+                    {(i < hosts.length - 1 || hosted_by) ? ', ' : ''}
+                  </span>
+                ))}
+                {hosted_by}
               </span>
             </div>
           )}

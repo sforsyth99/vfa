@@ -41,7 +41,7 @@ export default function BookPage() {
           {illustrators && (
             <p className={styles.illustrators}>Illustrated by {illustrators}</p>
           )}
-          {description && <p className={styles.description}>{description}</p>}
+          {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
           {munros_url && (
             <a href={munros_url} className={styles.buyLink} target="_blank" rel="noopener noreferrer">
               Buy online →

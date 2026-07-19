@@ -199,6 +199,22 @@
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
 }
 
+.seeAll {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1d3d2f;
+    text-decoration: none;
+    border-bottom: 1px solid #1d3d2f;
+    padding-bottom: 1px;
+    transition: opacity 0.15s ease;
+}
+
+.seeAll:hover {
+    opacity: 0.65;
+}
+
 .interviewList {
     list-style: none;
     padding: 0;

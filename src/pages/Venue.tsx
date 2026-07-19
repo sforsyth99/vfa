@@ -24,7 +24,7 @@ export default function VenuePage() {
       {addressLine && <p className={styles.address}>{addressLine}</p>}
       {phone && <p className={styles.phone}>{phone}</p>}
       {website_url && <a href={website_url} className={styles.websiteLink}>Visit website →</a>}
-      {description && <p className={styles.description}>{description}</p>}
+      {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
     </main>
   );
 }
