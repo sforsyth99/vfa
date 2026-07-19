@@ -6,6 +6,7 @@ export const FESTIVAL_EVENTS_PATH = 'festival_events';
 export const FESTIVAL_EVENTS_URL = `${BASE_URL}/${FESTIVAL_EVENTS_PATH}`;
 
 export interface EventData {
+  summary: string;
   event_date: string;
   time_start: string;
   time_end: string;

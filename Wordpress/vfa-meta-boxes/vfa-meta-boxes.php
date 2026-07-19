@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Meta Boxes
  * Description: Custom meta box UI for VFA post types. No third-party dependencies.
- * Version: 1.0.1
+ * Version: 1.0.5
  */
 
 if (!defined('ABSPATH')) exit;
@@ -45,12 +45,6 @@ function vfa_mb_config(): array {
                 ['id' => 'alternate_name', 'name' => 'Alternate Name', 'type' => 'text'],
                 ['id' => 'photo',          'name' => 'Photo',          'type' => 'image_advanced'],
                 [
-                    'id'   => 'is_kidfest',
-                    'name' => 'Kidfest Author',
-                    'type' => 'checkbox',
-                    'desc' => 'Check if this author is participating in Kidfest.',
-                ],
-                [
                     'id'   => 'kidfest_photo',
                     'name' => 'Kidfest Photo',
                     'type' => 'image_advanced',
@@ -58,6 +52,11 @@ function vfa_mb_config(): array {
                 ],
                 ['id' => 'bio',         'name' => 'Bio',         'type' => 'textarea'],
                 ['id' => 'website_url', 'name' => 'Website URL', 'type' => 'url'],
+                ['id' => 'author_years',    'name' => 'Author Years',    'type' => 'number', 'clone' => true, 'min' => 2020],
+                ['id' => 'moderator_years', 'name' => 'Moderator Years', 'type' => 'number', 'clone' => true, 'min' => 2020],
+                ['id' => 'curator_years',   'name' => 'Curator Years',   'type' => 'number', 'clone' => true, 'min' => 2020],
+                ['id' => 'musician_years',  'name' => 'Musician Years',  'type' => 'number', 'clone' => true, 'min' => 2020],
+                ['id' => 'kidfest_years',   'name' => 'Kidfest Years',   'type' => 'number', 'clone' => true, 'min' => 2020],
             ],
         ],
         [
@@ -111,6 +110,8 @@ function vfa_mb_config(): array {
                 ['id' => 'title',            'name' => 'Event Name',                    'type' => 'text',           'required' => true],
                 ['id' => 'event_image',      'name' => 'Event Image',                   'type' => 'image_advanced'],
                 ['id' => 'eventbrite_image', 'name' => 'Eventbrite Waiting Room Image', 'type' => 'image_advanced'],
+                ['id' => 'summary',          'name' => 'Summary',                       'type' => 'text',
+                 'desc' => 'One-line description for listings and schedules.'],
                 ['id' => 'description',      'name' => 'Description',                   'type' => 'textarea'],
                 ['id' => 'event_date',       'name' => 'Date',                          'type' => 'date'],
                 ['id' => 'time_start',       'name' => 'Start Time',                    'type' => 'time'],
@@ -341,12 +342,24 @@ function vfa_mb_render_field(array $field, WP_Post $post): void {
             echo '<select id="' . esc_attr($id) . '" name="' . $name . '" class="vfa-post-select"' . $multiple_attr . '>';
             if (!$multiple) echo '<option value="">— Select —</option>';
             foreach ($related as $p) {
-                $sel = in_array($p->ID, $current_ids) ? ' selected' : '';
-                echo '<option value="' . esc_attr($p->ID) . '"' . $sel . '>' . esc_html($p->post_title) . '</option>';
+                $sel   = in_array($p->ID, $current_ids) ? ' selected' : '';
+                $label = vfa_mb_post_option_label($p, $post_types);
+                echo '<option value="' . esc_attr($p->ID) . '"' . $sel . '>' . esc_html($label) . '</option>';
             }
             echo '</select>';
             break;
     }
+}
+
+function vfa_mb_post_option_label(WP_Post $p, array $post_types): string {
+    $label = $p->post_title;
+    if (in_array('venues', $post_types)) {
+        $building = get_post_meta($p->ID, 'building', true);
+        $room     = get_post_meta($p->ID, 'room', true);
+        $parts    = array_filter([$building, $room]);
+        if ($parts) $label .= ' – ' . implode(', ', $parts);
+    }
+    return $label;
 }
 
 function vfa_mb_render_image(string $field_id, $attachment_id, string $input_name): void {
@@ -374,7 +387,7 @@ function vfa_mb_render_clone(array $field, WP_Post $post): void {
     echo '<div class="vfa-clone-rows">';
     foreach ($values as $val) {
         echo '<div class="vfa-clone-row">';
-        vfa_mb_render_clone_input($type, $id, $val);
+        vfa_mb_render_clone_input($field, $val);
         echo '<button type="button" class="button vfa-clone-remove" title="Remove">&#x2715;</button>';
         echo '</div>';
     }
@@ -382,7 +395,7 @@ function vfa_mb_render_clone(array $field, WP_Post $post): void {
 
     echo '<template>';
     echo '<div class="vfa-clone-row">';
-    vfa_mb_render_clone_input($type, $id, '');
+    vfa_mb_render_clone_input($field, '');
     echo '<button type="button" class="button vfa-clone-remove" title="Remove">&#x2715;</button>';
     echo '</div>';
     echo '</template>';
@@ -395,11 +408,17 @@ function vfa_mb_render_clone(array $field, WP_Post $post): void {
     }
 }
 
-function vfa_mb_render_clone_input(string $type, string $id, $value): void {
+function vfa_mb_render_clone_input(array $field, $value): void {
+    $id   = $field['id'];
+    $type = $field['type'];
     switch ($type) {
         case 'text':
         case 'url':
             echo '<input type="' . ($type === 'url' ? 'url' : 'text') . '" name="' . esc_attr($id) . '[]" value="' . esc_attr($value) . '" class="regular-text">';
+            break;
+        case 'number':
+            $min = isset($field['min']) ? ' min="' . (int)$field['min'] . '"' : '';
+            echo '<input type="number" name="' . esc_attr($id) . '[]" value="' . esc_attr($value) . '" class="small-text"' . $min . '>';
             break;
         case 'textarea':
             echo '<textarea name="' . esc_attr($id) . '[]" rows="3" class="large-text">' . esc_textarea($value) . '</textarea>';

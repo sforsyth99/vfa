@@ -11,7 +11,11 @@ export interface PersonData {
   bio: string;
   website_url: string;
   photo: [string, number, number, boolean] | false;
-  is_kidfest: boolean;
+  author_years: number[];
+  moderator_years: number[];
+  curator_years: number[];
+  musician_years: number[];
+  kidfest_years: number[];
   kidfest_photo: [string, number, number, boolean] | false;
 }
 

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Custom Fields
  * Description: Custom fields for interviews, people, venues, and events.
- * Version: 1.5.8
+ * Version: 1.6.1
  */
 
 add_action('init', function() {
@@ -74,7 +74,11 @@ add_action('rest_api_init', function() {
                                     get_post_meta($post_id, 'photo', true),
                                     'medium'
                                 ),
-            'is_kidfest'     => (bool) get_post_meta($post_id, 'is_kidfest', true),
+            'author_years'    => array_map('intval', get_post_meta($post_id, 'author_years', false)),
+            'moderator_years' => array_map('intval', get_post_meta($post_id, 'moderator_years', false)),
+            'curator_years'   => array_map('intval', get_post_meta($post_id, 'curator_years', false)),
+            'musician_years'  => array_map('intval', get_post_meta($post_id, 'musician_years', false)),
+            'kidfest_years'   => array_map('intval', get_post_meta($post_id, 'kidfest_years', false)),
             'kidfest_photo'  => wp_get_attachment_image_src(
                                     get_post_meta($post_id, 'kidfest_photo', true),
                                     'medium'
@@ -161,6 +165,7 @@ add_action('rest_api_init', function() {
             $id = $post['id'];
             $author_ids = get_post_meta($id, 'authors', false);
             return [
+                'summary'     => get_post_meta($id, 'summary', true),
                 'event_date'  => get_post_meta($id, 'event_date', true),
                 'time_start'       => get_post_meta($id, 'time_start', true),
                 'time_end'         => get_post_meta($id, 'time_end', true),
@@ -209,16 +214,38 @@ add_action('rest_api_init', function() {
         'schema' => null,
     ]);
 
+    register_rest_route('vfa/v1', '/people/authors', [
+        'methods'             => 'GET',
+        'permission_callback' => '__return_true',
+        'callback'            => function($request) {
+            $year = $request->get_param('year') ? (int) $request->get_param('year') : (int) date('Y');
+            $people = get_posts([
+                'post_type'      => 'people',
+                'posts_per_page' => -1,
+                'post_status'    => 'publish',
+                'orderby'        => 'title',
+                'order'          => 'ASC',
+                'meta_query'     => [
+                    ['key' => 'author_years', 'value' => $year, 'compare' => '=', 'type' => 'NUMERIC'],
+                ],
+            ]);
+            return array_map(function($person) {
+                return vfa_get_person_data($person->ID);
+            }, $people);
+        },
+    ]);
+
     register_rest_route('vfa/v1', '/people/kidfest', [
         'methods'             => 'GET',
         'permission_callback' => '__return_true',
-        'callback'            => function() {
+        'callback'            => function($request) {
+            $year = $request->get_param('year') ? (int) $request->get_param('year') : (int) date('Y');
             $people = get_posts([
                 'post_type'      => 'people',
                 'posts_per_page' => -1,
                 'post_status'    => 'publish',
                 'meta_query'     => [
-                    ['key' => 'is_kidfest', 'value' => '1', 'compare' => '='],
+                    ['key' => 'kidfest_years', 'value' => $year, 'compare' => '=', 'type' => 'NUMERIC'],
                 ],
             ]);
             return array_map(function($person) {

@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useGetFestivalEvent } from '../api/festivalEvents/useGetFestivalEvent.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
 import type { PersonData } from '../api/people/peopleTypes.ts';
+import VenueMap from '../components/VenueMap.tsx';
 import styles from './FestivalEvent.module.css';
 
 function PersonLink({ person }: { person: PersonData }) {
@@ -103,6 +104,7 @@ export default function FestivalEventPage() {
               )}
             </>
           )}
+          {venue?.street_address && <VenueMap venue={venue} />}
           {online_url && (
             <a href={online_url} className={styles.onlineLink}>
               Join online →
