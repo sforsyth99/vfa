@@ -5,7 +5,7 @@ export const PEOPLE_URL = `${BASE_URL}/${PEOPLE_PATH}`;
 
 export interface PersonData {
   id: number;
-  slug: string;
+  slug?: string;
   name: string;
   alternate_name: string;
   bio: string;
