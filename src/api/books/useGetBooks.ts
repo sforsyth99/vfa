@@ -6,7 +6,7 @@ export function useGetBooks() {
   return useQuery<Book[]>({
     queryKey: [VFA_BOOKS_PATH],
     queryFn: async () => {
-      return wretch(VFA_BOOKS_URL).get().json();
+      return wretch(`${VFA_BOOKS_URL}?per_page=100`).get().json();
     },
     refetchOnWindowFocus: false,
   });

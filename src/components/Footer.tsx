@@ -61,13 +61,13 @@ function Footer() {
 
   return (
     <footer className={styles.footer}>
+      <NewsletterSignup />
+      <SocialIcons />
       {menuItems && menuItems.length > 0 && (
-        <nav style={{ marginBottom: '1.5em' }} aria-label="Footer menu">
+        <nav className={styles.footerNav} aria-label="Footer menu">
           {renderMenuItems(menuItems, pages)}
         </nav>
       )}
-      <NewsletterSignup />
-      <SocialIcons />
       <div className={styles.sponsorsContainer}>
         <div className={styles.titleSponsorRow}>
           <p className={styles.titleSponsorLabel}>Title Sponsor</p>
@@ -81,8 +81,8 @@ function Footer() {
           </div>
         )}
       </div>
-      <p style={{ marginBottom: '1em', fontSize: '0.95em' }}>{landAcknowledgement}</p>
-      <p>&copy; {new Date().getFullYear()} Author Festival. All rights reserved.</p>
+      <p className={styles.footerText}>{landAcknowledgement}</p>
+      <p className={styles.footerText}>&copy; {new Date().getFullYear()} Author Festival. All rights reserved.</p>
     </footer>
   );
 }

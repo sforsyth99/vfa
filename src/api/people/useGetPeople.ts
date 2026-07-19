@@ -6,7 +6,7 @@ export function useGetPeople() {
   return useQuery<Person[]>({
     queryKey: [PEOPLE_PATH],
     queryFn: async () => {
-      return wretch(PEOPLE_URL).get().json();
+      return wretch(`${PEOPLE_URL}?per_page=100`).get().json();
     },
     refetchOnWindowFocus: false,
   });

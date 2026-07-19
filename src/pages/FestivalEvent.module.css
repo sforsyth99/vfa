@@ -51,12 +51,28 @@
   margin: 0 0 0.4rem;
 }
 
+.ageRange {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b8f7e;
+  margin: 0.5rem 0 0;
+}
+
 .description {
   font-size: 1rem;
   line-height: 1.75;
   color: #3d3a3f;
   margin: 1.5rem 0 0;
   white-space: pre-line;
+}
+
+.extraInfo {
+  font-size: 0.875rem;
+  color: #7a7580;
+  font-style: italic;
+  margin: 1rem 0 0;
 }
 
 /* ── Sections ────────────────────────────────────────── */

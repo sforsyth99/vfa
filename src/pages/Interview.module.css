@@ -110,6 +110,88 @@
   text-decoration: none;
 }
 
+.bookCover {
+  display: block;
+  width: 120px;
+  margin-top: 1.5rem;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Event Cards ────────────────────────────────────── */
+
+.eventCards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+}
+
+.eventCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  background: #eef3ef;
+  border: 1px solid #d4e0d6;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.eventCardText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.eventCardEyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1d3d2f;
+  margin: 0;
+}
+
+.eventCardTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.eventCardTitle a {
+  color: #1c1917;
+  text-decoration: none;
+}
+
+.eventCardTitle a:hover {
+  text-decoration: underline;
+}
+
+.eventCardDate {
+  font-size: 0.875rem;
+  color: #5a5560;
+  margin: 0;
+}
+
+.eventCardButton {
+  display: inline-block;
+  padding: 0.55em 1.4em;
+  background: #1d3d2f;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.eventCardButton:hover {
+  background: #153028;
+}
+
 /* ── Q&A Pairs ──────────────────────────────────────── */
 
 .qa {
@@ -127,41 +209,62 @@
 }
 
 .question {
-  display: grid;
-  grid-template-columns: 2.5rem 1fr;
-  gap: 0.5rem;
-  align-items: start;
-  margin-bottom: 1.25rem;
-}
-
-.qMark {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.75rem;
-  font-style: italic;
-  font-weight: 600;
-  color: #1d3d2f;
-  line-height: 1.2;
-  user-select: none;
-  padding-top: 0.05rem;
-}
-
-.questionText {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45em;
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.125rem;
   font-style: italic;
   line-height: 1.55;
   color: #1c1917;
-  margin: 0;
-  padding-top: 0.2rem;
+  margin: 0 0 1.25rem;
 }
+
+.qMark {
+  font-weight: 600;
+  color: #1d3d2f;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.qText {
+  flex: 1;
+  min-width: 0;
+}
+
+.qText p { margin: 0 0 0.5em; }
+.qText p:last-child { margin: 0; }
 
 .answer {
-  padding-left: 3rem;
-}
-
-.answerText {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45em;
   font-size: 1rem;
   line-height: 1.8;
   color: #3d3a3f;
   margin: 0;
+}
+
+.aMark {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  color: #7a7580;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.aText {
+  flex: 1;
+  min-width: 0;
+}
+
+.aText p { margin: 0 0 0.75em; }
+.aText p:last-child { margin: 0; }
+
+.pairImage {
+  display: block;
+  max-width: 100%;
+  margin-top: 1.5rem;
+  border-radius: 2px;
 }

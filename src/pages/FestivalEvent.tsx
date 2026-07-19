@@ -22,10 +22,15 @@ export default function FestivalEventPage() {
   if (error || !event) return <div>Event not found</div>;
 
   const {
+    is_kidfest,
+    event_type,
+    hosts,
+    hosted_by,
+    age_range,
+    extra_info,
     event_date,
     time_start,
     time_end,
-    timezone,
     event_image,
     eventbrite_image,
     description,
@@ -39,17 +44,8 @@ export default function FestivalEventPage() {
     musician,
   } = event.event_data;
 
-  const TIMEZONE_LABELS: Record<string, string> = {
-    'America/Vancouver': 'PT',
-    'America/Edmonton': 'MT',
-    'America/Winnipeg': 'CT',
-    'America/Toronto': 'ET',
-    'America/Halifax': 'AT',
-    'America/St_Johns': 'NT',
-  };
-
   const timeRange = time_start
-    ? `${time_start}${time_end ? ` – ${time_end}` : ''}${timezone ? ` ${TIMEZONE_LABELS[timezone] ?? timezone}` : ''}`
+    ? `${time_start}${time_end ? ` – ${time_end}` : ''} PT`
     : null;
 
   return (
@@ -61,7 +57,13 @@ export default function FestivalEventPage() {
           className={styles.eventImage}
         />
       )}
-      <p className={styles.eyebrow}>Event</p>
+      <p className={styles.eyebrow}>
+        {(() => {
+          const typeLabels: Record<string, string> = { conversation: 'Conversation', walk: 'Walk', workshop: 'Workshop', author_fair: 'Author Fair' };
+          const label = (event_type && typeLabels[event_type]) ?? 'Event';
+          return is_kidfest ? `KidsFest ${label}` : label;
+        })()}
+      </p>
       <h1 className={styles.title}>{decodeHtmlEntities(event.title?.rendered ?? '')}</h1>
       {event_date && (
         <p className={styles.datetime}>
@@ -69,7 +71,9 @@ export default function FestivalEventPage() {
           {timeRange ? ` · ${timeRange}` : ''}
         </p>
       )}
-      {description && <p className={styles.description}>{description}</p>}
+      {age_range && <p className={styles.ageRange}>{age_range}</p>}
+      {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
+      {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
 
       {(venue || online_url) && (
         <div className={styles.section}>
@@ -116,7 +120,9 @@ export default function FestivalEventPage() {
       {(authors.length > 0 ||
         moderator.length > 0 ||
         curator.length > 0 ||
-        musician.length > 0) && (
+        musician.length > 0 ||
+        hosts.length > 0 ||
+        hosted_by) && (
         <div className={styles.section}>
           <p className={styles.sectionLabel}>People</p>
           {authors.length > 0 && (
@@ -164,6 +170,20 @@ export default function FestivalEventPage() {
                     {i < musician.length - 1 ? ', ' : ''}
                   </span>
                 ))}
+              </span>
+            </div>
+          )}
+          {(hosts.length > 0 || hosted_by) && (
+            <div className={styles.roleRow}>
+              <span className={styles.roleLabel}>Hosted by</span>
+              <span>
+                {hosts.map((p, i) => (
+                  <span key={p.id}>
+                    <PersonLink person={p} />
+                    {(i < hosts.length - 1 || hosted_by) ? ', ' : ''}
+                  </span>
+                ))}
+                {hosted_by}
               </span>
             </div>
           )}

@@ -16,7 +16,7 @@ export default function BookPage() {
   if (isLoading) return <div>Loading...</div>;
   if (error || !book) return <div>Book not found</div>;
 
-  const { authors, cover_image, description, munros_url } = book.book_data;
+  const { authors, illustrators, cover_image, description, munros_url } = book.book_data;
   const title = decodeHtmlEntities(book.title?.rendered ?? '');
 
   return (
@@ -38,7 +38,10 @@ export default function BookPage() {
               ))}
             </p>
           )}
-          {description && <p className={styles.description}>{description}</p>}
+          {illustrators && (
+            <p className={styles.illustrators}>Illustrated by {illustrators}</p>
+          )}
+          {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
           {munros_url && (
             <a href={munros_url} className={styles.buyLink} target="_blank" rel="noopener noreferrer">
               Buy online →

@@ -58,6 +58,7 @@ export const VFA_BOOKS_URL = `${BASE_URL}/${VFA_BOOKS_PATH}`;
 
 export interface BookData {
   authors: PersonData[];
+  illustrators: string;
   cover_image: [string, number, number, boolean] | false;
   description: string;
   munros_url: string;

@@ -30,7 +30,7 @@ export default function PersonPage() {
           <h1 className={styles.name}>{name}</h1>
           {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
 
-          {bio && <p className={styles.bio}>{bio}</p>}
+          {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />}
           {website_url && (
             <a href={website_url} className={styles.websiteLink}>
               Visit website →

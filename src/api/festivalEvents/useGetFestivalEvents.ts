@@ -6,7 +6,7 @@ export function useGetFestivalEvents() {
   return useQuery<FestivalEvent[]>({
     queryKey: [FESTIVAL_EVENTS_PATH],
     queryFn: async () => {
-      return wretch(FESTIVAL_EVENTS_URL).get().json();
+      return wretch(`${FESTIVAL_EVENTS_URL}?per_page=100`).get().json();
     },
     refetchOnWindowFocus: false,
   });

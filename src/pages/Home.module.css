@@ -1,7 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
+
 .homeMain {
-    padding: 2rem;
+    padding: 0 0 2rem;
     max-width: 900px;
     margin: 0 auto;
+}
+
+.hero {
+    padding: 4rem 2rem 3rem;
+    border-bottom: 1px solid #e8e4e0;
+    margin-bottom: 2rem;
+}
+
+.heroEyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1d3d2f;
+    margin: 0 0 1rem;
+}
+
+.heroTitle {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1.1;
+    color: #1c1917;
+    margin: 0 0 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+@media (max-width: 640px) {
+    .heroTitle {
+        font-size: 2.2rem;
+    }
+}
+
+.heroSubtitle {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #3d3a3f;
+    max-width: 600px;
+    margin: 0 0 1rem;
+}
+
+.heroKidfest {
+    font-size: 0.9rem;
+    color: #1d3d2f;
+    font-weight: 500;
+    margin: 0;
 }
 
 .homeMain h1,
@@ -69,23 +117,124 @@
     text-decoration: underline;
 }
 
-.scheduleTickets {
-    white-space: nowrap;
-    text-align: right;
+.scheduleLocation {
+    font-size: 0.875rem;
+    color: #555;
 }
 
-.ticketButton {
+.scheduleIntro {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0 0 1rem;
+}
+
+.authorGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.authorPhoto {
+    display: block;
+    flex-shrink: 0;
+}
+
+.authorPhoto img {
+    display: block;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.authorPhoto:hover img {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+}
+
+.kidsAuthorPhoto {
+    display: block;
+    flex-shrink: 0;
+}
+
+.kidsAuthorPhoto img {
+    display: block;
+    height: 120px;
+    width: auto;
+    border-radius: 2px;
+    transition: transform 0.15s ease;
+}
+
+.kidsAuthorPhoto:hover img {
+    transform: translateY(-2px);
+}
+
+.bookGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.bookCover {
+    display: block;
+    flex-shrink: 0;
+}
+
+.bookCover img {
+    display: block;
+    height: 160px;
+    width: auto;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bookCover:hover img {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+}
+
+.seeAll {
     display: inline-block;
-    padding: 4px 12px;
-    border: 1px solid currentColor;
-    border-radius: 4px;
-    font-size: 0.82rem;
-    font-weight: 600;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1d3d2f;
     text-decoration: none;
-    white-space: nowrap;
-    opacity: 0.85;
+    border-bottom: 1px solid #1d3d2f;
+    padding-bottom: 1px;
+    transition: opacity 0.15s ease;
 }
 
-.ticketButton:hover {
-    opacity: 1;
+.seeAll:hover {
+    opacity: 0.65;
+}
+
+.interviewList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.interviewItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.interviewCover {
+    width: 36px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 2px;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }

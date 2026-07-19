@@ -6,7 +6,7 @@ export function useGetInterviews() {
   return useQuery<Interview[]>({
     queryKey: [INTERVIEWS_PATH],
     queryFn: async () => {
-      return wretch(INTERVIEWS_URL).get().json();
+      return wretch(`${INTERVIEWS_URL}?per_page=100`).get().json();
     },
     refetchOnWindowFocus: false,
   });

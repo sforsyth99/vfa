@@ -6,12 +6,16 @@ export const FESTIVAL_EVENTS_PATH = 'festival_events';
 export const FESTIVAL_EVENTS_URL = `${BASE_URL}/${FESTIVAL_EVENTS_PATH}`;
 
 export interface EventData {
+  is_kidfest: boolean;
+  event_type: string;
+  hosts: PersonData[];
+  hosted_by: string;
+  age_range: string;
+  extra_info: string;
   summary: string;
   event_date: string;
   time_start: string;
   time_end: string;
-  has_online_option: boolean;
-  timezone: string;
   event_image: [string, number, number, boolean] | false;
   eventbrite_image: [string, number, number, boolean] | false;
   description: string;
