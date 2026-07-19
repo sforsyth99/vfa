@@ -20,24 +20,34 @@ export default function FestivalEventPage() {
   if (error || !event) return <div>Event not found</div>;
 
   const {
-    event_date, time_start, time_end,
-    event_image, description,
+    event_date, time_start, time_end, timezone,
+    event_image, eventbrite_image, description,
     venue, online_url, eventbrite_url,
     ticket_tier, ticket_price,
+    online_ticket_tier, online_ticket_price,
     authors, moderator, curator, musician,
   } = event.event_data;
 
+  const TIMEZONE_LABELS: Record<string, string> = {
+    'America/Vancouver': 'PT',
+    'America/Edmonton':  'MT',
+    'America/Winnipeg':  'CT',
+    'America/Toronto':   'ET',
+    'America/Halifax':   'AT',
+    'America/St_Johns':  'NT',
+  };
+
   const timeRange = time_start
-    ? `${time_start}${time_end ? ` – ${time_end}` : ''}`
+    ? `${time_start}${time_end ? ` – ${time_end}` : ''}${timezone ? ` ${TIMEZONE_LABELS[timezone] ?? timezone}` : ''}`
     : null;
 
   return (
     <main className={styles.page}>
       {event_image && (
-        <img src={event_image[0]} alt={decodeHtmlEntities(event.title.rendered)} className={styles.eventImage} />
+        <img src={event_image[0]} alt={decodeHtmlEntities(event.title?.rendered ?? '')} className={styles.eventImage} />
       )}
       <p className={styles.eyebrow}>Event</p>
-      <h1 className={styles.title}>{decodeHtmlEntities(event.title.rendered)}</h1>
+      <h1 className={styles.title}>{decodeHtmlEntities(event.title?.rendered ?? '')}</h1>
       {event_date && <p className={styles.datetime}>{event_date}{timeRange ? ` · ${timeRange}` : ''}</p>}
       {description && <p className={styles.description}>{description}</p>}
 
@@ -48,7 +58,16 @@ export default function FestivalEventPage() {
             <>
               <Link to={`/venues/${venue.slug}`} className={styles.venueName}>{venue.name}</Link>
               {venue.alternate_name && <p className={styles.venueIndigenous}>{venue.alternate_name}</p>}
-              {venue.address && <p className={styles.venueAddress}>{venue.address}</p>}
+              {[venue.building, venue.room].filter(Boolean).join(', ') && (
+                <p className={styles.venueBuilding}>
+                  {[venue.building, venue.room].filter(Boolean).join(', ')}
+                </p>
+              )}
+              {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country].filter(Boolean).join(', ') && (
+                <p className={styles.venueAddress}>
+                  {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country].filter(Boolean).join(', ')}
+                </p>
+              )}
             </>
           )}
           {online_url && (
@@ -94,18 +113,37 @@ export default function FestivalEventPage() {
         </div>
       )}
 
-      {(ticket_tier.length > 0 || eventbrite_url) && (
+      {(ticket_tier.length > 0 || online_ticket_tier.length > 0 || eventbrite_url) && (
         <div className={styles.section}>
           <p className={styles.sectionLabel}>Tickets</p>
           {ticket_tier.length > 0 && (
-            <ul className={styles.ticketList}>
-              {ticket_tier.map((tier, i) => (
-                <li key={i} className={styles.ticketRow}>
-                  <span className={styles.ticketTier}>{tier}</span>
-                  <span className={styles.ticketPrice}>{ticket_price[i]}</span>
-                </li>
-              ))}
-            </ul>
+            <>
+              {online_ticket_tier.length > 0 && <p className={styles.ticketCategory}>In-Person</p>}
+              <ul className={styles.ticketList}>
+                {ticket_tier.map((tier, i) => (
+                  <li key={i} className={styles.ticketRow}>
+                    <span className={styles.ticketTier}>{tier}</span>
+                    <span className={styles.ticketPrice}>{ticket_price[i]}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {online_ticket_tier.length > 0 && (
+            <>
+              {ticket_tier.length > 0 && <p className={styles.ticketCategory}>Online</p>}
+              <ul className={styles.ticketList}>
+                {online_ticket_tier.map((tier, i) => (
+                  <li key={i} className={styles.ticketRow}>
+                    <span className={styles.ticketTier}>{tier}</span>
+                    <span className={styles.ticketPrice}>{online_ticket_price[i]}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {eventbrite_image && (
+            <img src={eventbrite_image[0]} alt="Eventbrite waiting room" className={styles.eventbriteImage} />
           )}
           {eventbrite_url && (
             <a href={eventbrite_url} className={styles.eventbriteLink} target="_blank" rel="noopener noreferrer">

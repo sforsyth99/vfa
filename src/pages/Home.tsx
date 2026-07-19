@@ -73,7 +73,7 @@ function InterviewsList() {
         {interviews.map((interview) => (
           <li key={interview.id}>
             <Link to={`/interviews/${interview.slug}`}>
-              {decodeHtmlEntities(interview.title.rendered)}
+              {decodeHtmlEntities(interview.title?.rendered ?? '')}
             </Link>
           </li>
         ))}
@@ -95,7 +95,7 @@ function PeopleList() {
       <ul>
         {people.map((person) => (
           <li key={person.id}>
-            <Link to={`/people/${person.slug}`}>{decodeHtmlEntities(person.title.rendered)}</Link>
+            <Link to={`/people/${person.slug}`}>{decodeHtmlEntities(person.title?.rendered ?? '')}</Link>
           </li>
         ))}
       </ul>
@@ -117,7 +117,7 @@ function FestivalEventsList() {
         {events.map((event) => (
           <li key={event.id}>
             <Link to={`/festival-events/${event.slug}`}>
-              {decodeHtmlEntities(event.title.rendered)}
+              {decodeHtmlEntities(event.title?.rendered ?? '')}
             </Link>
           </li>
         ))}
@@ -139,7 +139,7 @@ function VenuesList() {
       <ul>
         {venues.map((venue) => (
           <li key={venue.id}>
-            <Link to={`/venues/${venue.slug}`}>{decodeHtmlEntities(venue.title.rendered)}</Link>
+            <Link to={`/venues/${venue.slug}`}>{decodeHtmlEntities(venue.title?.rendered ?? '')}</Link>
           </li>
         ))}
       </ul>
@@ -160,7 +160,7 @@ function BooksList() {
       <ul>
         {books.map((book) => (
           <li key={book.id}>
-            <Link to={`/books/${book.slug}`}>{decodeHtmlEntities(book.title.rendered)}</Link>
+            <Link to={`/books/${book.slug}`}>{decodeHtmlEntities(book.title?.rendered ?? '')}</Link>
           </li>
         ))}
       </ul>
