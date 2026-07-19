@@ -19,7 +19,7 @@ export default function BookPage() {
   if (error || !book) return <div>Book not found</div>;
 
   const { authors, cover_image, description, munros_url } = book.book_data;
-  const title = decodeHtmlEntities(book.title.rendered);
+  const title = decodeHtmlEntities(book.title?.rendered ?? '');
 
   return (
     <main className={styles.page}>
@@ -43,7 +43,7 @@ export default function BookPage() {
           {description && <p className={styles.description}>{description}</p>}
           {munros_url && (
             <a href={munros_url} className={styles.buyLink} target="_blank" rel="noopener noreferrer">
-              Buy at Munro's Books →
+              Buy online →
             </a>
           )}
         </div>

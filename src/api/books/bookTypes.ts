@@ -61,12 +61,13 @@ export interface BookData {
   cover_image: [string, number, number, boolean] | false;
   description: string;
   munros_url: string;
+  festival_year: number | null;
 }
 
 export interface Book {
   id: number;
   slug: string;
-  title: {
+  title?: {
     rendered: string;
   };
   book_data: BookData;

@@ -9,13 +9,18 @@ export interface EventData {
   event_date: string;
   time_start: string;
   time_end: string;
+  has_online_option: boolean;
+  timezone: string;
   event_image: [string, number, number, boolean] | false;
+  eventbrite_image: [string, number, number, boolean] | false;
   description: string;
   venue: VenueData | null;
   online_url: string;
   eventbrite_url: string;
   ticket_tier: string[];
   ticket_price: string[];
+  online_ticket_tier: string[];
+  online_ticket_price: string[];
   authors: PersonData[];
   moderator: PersonData[];
   curator: PersonData[];
@@ -25,7 +30,7 @@ export interface EventData {
 export interface FestivalEvent {
   id: number;
   slug: string;
-  title: {
+  title?: {
     rendered: string;
   };
   event_data: EventData;

@@ -1,16 +1,16 @@
 import { BASE_URL } from '../commonTypes.ts';
+import type { PersonData } from '../people/peopleTypes.ts';
 
 export const INTERVIEWS_PATH = 'interviews';
 export const INTERVIEWS_URL = `${BASE_URL}/${INTERVIEWS_PATH}`;
 
 export interface InterviewData {
-  author_name: string;
+  author: PersonData | null;
   interviewer_name: string;
-  author_bio_url: string;
   intro: string;
-  author_photo: [string, number, number, boolean] | false;
   question: string[];
   answer: string[];
+  question_image: ([string, number, number, boolean] | null)[];
 }
 
 export interface Interview {
@@ -18,7 +18,7 @@ export interface Interview {
   date: string;
   slug: string;
   status: string;
-  title: {
+  title?: {
     rendered: string;
   };
   interview_data: InterviewData;
