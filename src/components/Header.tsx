@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
+import logo from '../assets/VFA_Logo.png';
 import { useGetPrimaryMenu } from '../api/menus/useGetPrimaryMenu';
 import { useGetMenuItems } from '../api/menus/useGetMenuItems';
 import { useGetPages } from '../api/pages/useGetPages';
@@ -52,6 +53,9 @@ function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.headerInner}>
+        <Link to="/" className={styles.logoLink}>
+          <img src={logo} alt="Victoria Festival of Authors" className={styles.logo} />
+        </Link>
         <nav className={styles.nav}>
           {(loadingMenu || loadingItems || loadingPages) ? (
             <div>Loading menu...</div>

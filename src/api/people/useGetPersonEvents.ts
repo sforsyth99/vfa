@@ -8,6 +8,9 @@ export interface PersonEvent {
   slug: string;
   title: string;
   event_date: string;
+  time_start: string;
+  time_end: string;
+  eventbrite_url: string;
   year: number | null;
   roles: string[];
 }

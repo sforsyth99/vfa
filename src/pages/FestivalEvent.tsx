@@ -22,10 +22,12 @@ export default function FestivalEventPage() {
   if (error || !event) return <div>Event not found</div>;
 
   const {
+    is_kidfest,
+    age_range,
+    extra_info,
     event_date,
     time_start,
     time_end,
-    timezone,
     event_image,
     eventbrite_image,
     description,
@@ -39,17 +41,8 @@ export default function FestivalEventPage() {
     musician,
   } = event.event_data;
 
-  const TIMEZONE_LABELS: Record<string, string> = {
-    'America/Vancouver': 'PT',
-    'America/Edmonton': 'MT',
-    'America/Winnipeg': 'CT',
-    'America/Toronto': 'ET',
-    'America/Halifax': 'AT',
-    'America/St_Johns': 'NT',
-  };
-
   const timeRange = time_start
-    ? `${time_start}${time_end ? ` – ${time_end}` : ''}${timezone ? ` ${TIMEZONE_LABELS[timezone] ?? timezone}` : ''}`
+    ? `${time_start}${time_end ? ` – ${time_end}` : ''} PT`
     : null;
 
   return (
@@ -61,7 +54,7 @@ export default function FestivalEventPage() {
           className={styles.eventImage}
         />
       )}
-      <p className={styles.eyebrow}>Event</p>
+      <p className={styles.eyebrow}>{is_kidfest ? 'KidsFest Event' : 'Event'}</p>
       <h1 className={styles.title}>{decodeHtmlEntities(event.title?.rendered ?? '')}</h1>
       {event_date && (
         <p className={styles.datetime}>
@@ -69,7 +62,9 @@ export default function FestivalEventPage() {
           {timeRange ? ` · ${timeRange}` : ''}
         </p>
       )}
+      {age_range && <p className={styles.ageRange}>{age_range}</p>}
       {description && <p className={styles.description}>{description}</p>}
+      {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
 
       {(venue || online_url) && (
         <div className={styles.section}>

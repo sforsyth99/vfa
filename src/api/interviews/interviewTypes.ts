@@ -8,6 +8,7 @@ export interface InterviewData {
   author: PersonData | null;
   interviewer_name: string;
   intro: string;
+  book_cover: [string, number, number, boolean] | null;
   question: string[];
   answer: string[];
   question_image: ([string, number, number, boolean] | null)[];

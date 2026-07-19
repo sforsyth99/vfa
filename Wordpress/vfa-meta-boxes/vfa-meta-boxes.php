@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Meta Boxes
  * Description: Custom meta box UI for VFA post types. No third-party dependencies.
- * Version: 1.0.5
+ * Version: 1.1.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -52,11 +52,11 @@ function vfa_mb_config(): array {
                 ],
                 ['id' => 'bio',         'name' => 'Bio',         'type' => 'textarea'],
                 ['id' => 'website_url', 'name' => 'Website URL', 'type' => 'url'],
-                ['id' => 'author_years',    'name' => 'Author Years',    'type' => 'number', 'clone' => true, 'min' => 2020],
-                ['id' => 'moderator_years', 'name' => 'Moderator Years', 'type' => 'number', 'clone' => true, 'min' => 2020],
-                ['id' => 'curator_years',   'name' => 'Curator Years',   'type' => 'number', 'clone' => true, 'min' => 2020],
-                ['id' => 'musician_years',  'name' => 'Musician Years',  'type' => 'number', 'clone' => true, 'min' => 2020],
-                ['id' => 'kidfest_years',   'name' => 'Kidfest Years',   'type' => 'number', 'clone' => true, 'min' => 2020],
+                ['id' => 'author_years',    'name' => 'Author Years',    'type' => 'number', 'clone' => true, 'min' => 2020, 'max' => 2099],
+                ['id' => 'moderator_years', 'name' => 'Moderator Years', 'type' => 'number', 'clone' => true, 'min' => 2020, 'max' => 2099],
+                ['id' => 'curator_years',   'name' => 'Curator Years',   'type' => 'number', 'clone' => true, 'min' => 2020, 'max' => 2099],
+                ['id' => 'musician_years',  'name' => 'Musician Years',  'type' => 'number', 'clone' => true, 'min' => 2020, 'max' => 2099],
+                ['id' => 'kidfest_years',   'name' => 'Kidfest Years',   'type' => 'number', 'clone' => true, 'min' => 2020, 'max' => 2099],
             ],
         ],
         [
@@ -110,6 +110,16 @@ function vfa_mb_config(): array {
                 ['id' => 'title',            'name' => 'Event Name',                    'type' => 'text',           'required' => true],
                 ['id' => 'event_image',      'name' => 'Event Image',                   'type' => 'image_advanced'],
                 ['id' => 'eventbrite_image', 'name' => 'Eventbrite Waiting Room Image', 'type' => 'image_advanced'],
+                [
+                    'id'   => 'is_kidfest',
+                    'name' => 'KidsFest Event',
+                    'type' => 'checkbox',
+                    'desc' => 'Check if this is a KidsFest event.',
+                ],
+                ['id' => 'age_range',  'name' => 'Age Range',        'type' => 'text',
+                 'desc' => 'e.g. "Ages 5–8", "Ages 8+", or "All ages". For KidsFest events only.'],
+                ['id' => 'extra_info', 'name' => 'Extra Information', 'type' => 'text',
+                 'desc' => 'e.g. "No latecomers" or "Refreshments will be provided".'],
                 ['id' => 'summary',          'name' => 'Summary',                       'type' => 'text',
                  'desc' => 'One-line description for listings and schedules.'],
                 ['id' => 'description',      'name' => 'Description',                   'type' => 'textarea'],
@@ -121,21 +131,6 @@ function vfa_mb_config(): array {
                     'name' => 'Available Online',
                     'type' => 'checkbox',
                     'desc' => 'Check if this event can be attended online.',
-                ],
-                [
-                    'id'      => 'timezone',
-                    'name'    => 'Timezone',
-                    'type'    => 'select',
-                    'options' => [
-                        ''                  => '— Select timezone —',
-                        'America/Vancouver'  => 'Pacific Time (PT)',
-                        'America/Edmonton'   => 'Mountain Time (MT)',
-                        'America/Winnipeg'   => 'Central Time (CT)',
-                        'America/Toronto'    => 'Eastern Time (ET)',
-                        'America/Halifax'    => 'Atlantic Time (AT)',
-                        'America/St_Johns'   => 'Newfoundland Time (NT)',
-                    ],
-                    'desc' => "Set for online events. In-person events are assumed to be in the venue's local time.",
                 ],
                 ['id' => 'venue',          'name' => 'Venue',          'type' => 'post', 'post_type' => ['venues']],
                 ['id' => 'eventbrite_url', 'name' => 'Eventbrite URL', 'type' => 'url'],
@@ -185,7 +180,7 @@ function vfa_mb_config(): array {
             'post_types' => ['books'],
             'fields'     => [
                 ['id' => 'title',         'name' => 'Title',          'type' => 'text',    'required' => true],
-                ['id' => 'festival_year', 'name' => 'Festival Year',  'type' => 'number',  'std' => date('Y'), 'min' => 2020],
+                ['id' => 'festival_year', 'name' => 'Festival Year',  'type' => 'number',  'std' => date('Y'), 'min' => 2020, 'max' => 2099],
                 [
                     'id'        => 'authors',
                     'name'      => 'Authors',
@@ -194,6 +189,7 @@ function vfa_mb_config(): array {
                     'multiple'  => true,
                     'desc'      => 'Select all authors of this book.',
                 ],
+                ['id' => 'illustrators', 'name' => 'Illustrated By', 'type' => 'text'],
                 ['id' => 'cover_image',  'name' => 'Cover Image',    'type' => 'image_advanced'],
                 ['id' => 'description',  'name' => 'Description',    'type' => 'textarea'],
                 ['id' => 'munros_url',   'name' => 'Buy Online URL', 'type' => 'url'],
@@ -280,7 +276,8 @@ function vfa_mb_render_field(array $field, WP_Post $post): void {
         case 'number':
             $value = vfa_mb_get_value($field, $post);
             $min   = isset($field['min']) ? ' min="' . (int)$field['min'] . '"' : '';
-            echo '<input type="number" id="' . esc_attr($id) . '" name="' . esc_attr($id) . '" value="' . esc_attr($value) . '" class="small-text"' . $min . '>';
+            $max   = isset($field['max']) ? ' max="' . (int)$field['max'] . '"' : '';
+            echo '<input type="number" id="' . esc_attr($id) . '" name="' . esc_attr($id) . '" value="' . esc_attr($value) . '" class="small-text"' . $min . $max . '>';
             break;
 
         case 'textarea':
@@ -418,7 +415,8 @@ function vfa_mb_render_clone_input(array $field, $value): void {
             break;
         case 'number':
             $min = isset($field['min']) ? ' min="' . (int)$field['min'] . '"' : '';
-            echo '<input type="number" name="' . esc_attr($id) . '[]" value="' . esc_attr($value) . '" class="small-text"' . $min . '>';
+            $max = isset($field['max']) ? ' max="' . (int)$field['max'] . '"' : '';
+            echo '<input type="number" name="' . esc_attr($id) . '[]" value="' . esc_attr($value) . '" class="small-text"' . $min . $max . '>';
             break;
         case 'textarea':
             echo '<textarea name="' . esc_attr($id) . '[]" rows="3" class="large-text">' . esc_textarea($value) . '</textarea>';

@@ -6,7 +6,7 @@ export function useGetVenues() {
   return useQuery<Venue[]>({
     queryKey: [VENUES_PATH],
     queryFn: async () => {
-      return wretch(VENUES_URL).get().json();
+      return wretch(`${VENUES_URL}?per_page=100`).get().json();
     },
     refetchOnWindowFocus: false,
   });

@@ -32,9 +32,9 @@ export default function VenueMap({ venue }: { venue: VenueData }) {
 
     const controller = new AbortController();
 
-    const params = new URLSearchParams({ q: geocodingQuery, limit: '1', lang: 'en' });
+    const params = new URLSearchParams({ addressString: geocodingQuery, maxResults: '1', outputSRS: '4326' });
 
-    fetch(`https://photon.komoot.io/api/?${params}`, { signal: controller.signal })
+    fetch(`https://geocoder.api.gov.bc.ca/addresses.json?${params}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((geojson) => {
         const feature = geojson?.features?.[0];

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Custom Fields
  * Description: Custom fields for interviews, people, venues, and events.
- * Version: 1.6.1
+ * Version: 1.6.8
  */
 
 add_action('init', function() {
@@ -70,10 +70,16 @@ add_action('rest_api_init', function() {
             'alternate_name' => get_post_meta($post_id, 'alternate_name', true),
             'bio'            => get_post_meta($post_id, 'bio', true),
             'website_url'    => get_post_meta($post_id, 'website_url', true),
-            'photo'          => wp_get_attachment_image_src(
-                                    get_post_meta($post_id, 'photo', true),
-                                    'medium'
-                                ),
+            'photo'          => (function() use ($post_id) {
+                                    $kidfest_years = get_post_meta($post_id, 'kidfest_years', false);
+                                    if (!empty($kidfest_years)) {
+                                        $kidfest_photo_id = get_post_meta($post_id, 'kidfest_photo', true);
+                                        if ($kidfest_photo_id) {
+                                            return wp_get_attachment_image_src((int)$kidfest_photo_id, 'medium');
+                                        }
+                                    }
+                                    return wp_get_attachment_image_src(get_post_meta($post_id, 'photo', true), 'medium');
+                                })(),
             'author_years'    => array_map('intval', get_post_meta($post_id, 'author_years', false)),
             'moderator_years' => array_map('intval', get_post_meta($post_id, 'moderator_years', false)),
             'curator_years'   => array_map('intval', get_post_meta($post_id, 'curator_years', false)),
@@ -110,13 +116,33 @@ add_action('rest_api_init', function() {
 
     register_rest_field('interviews', 'interview_data', [
         'get_callback' => function($post) {
+            $author_id  = get_post_meta($post['id'], 'author', true);
+            $book_cover = null;
+            if ($author_id) {
+                $books = get_posts([
+                    'post_type'      => 'books',
+                    'posts_per_page' => 1,
+                    'post_status'    => 'publish',
+                    'meta_query'     => [
+                        ['key' => 'authors',      'value' => $author_id, 'compare' => '=',  'type' => 'NUMERIC'],
+                        ['key' => 'festival_year','value' => date('Y'),  'compare' => '=',  'type' => 'NUMERIC'],
+                    ],
+                ]);
+                if ($books) {
+                    $book_cover = wp_get_attachment_image_src(
+                        get_post_meta($books[0]->ID, 'cover_image', true),
+                        'large'
+                    );
+                }
+            }
             return [
-                'author'           => vfa_get_person_data(get_post_meta($post['id'], 'author', true)),
+                'author'           => vfa_get_person_data($author_id),
                 'interviewer_name' => get_post_meta($post['id'], 'interviewer_name', true),
                 'intro'            => get_post_meta($post['id'], 'intro', true),
-                'question'       => get_post_meta($post['id'], 'question'),
-                'answer'         => get_post_meta($post['id'], 'answer'),
-                'question_image' => array_map(function($attachment_id) {
+                'book_cover'       => $book_cover ?: null,
+                'question'         => get_post_meta($post['id'], 'question'),
+                'answer'           => get_post_meta($post['id'], 'answer'),
+                'question_image'   => array_map(function($attachment_id) {
                     return $attachment_id
                         ? wp_get_attachment_image_src((int) $attachment_id, 'large')
                         : null;
@@ -138,9 +164,10 @@ add_action('rest_api_init', function() {
             $id = $post['id'];
             $author_ids = get_post_meta($id, 'authors', false);
             return [
-                'authors'     => array_values(array_filter(array_map(
+                'authors'      => array_values(array_filter(array_map(
                                      'vfa_get_person_data', $author_ids
                                  ))),
+                'illustrators' => get_post_meta($id, 'illustrators', true),
                 'cover_image' => wp_get_attachment_image_src(
                                      get_post_meta($id, 'cover_image', true),
                                      'large'
@@ -165,6 +192,9 @@ add_action('rest_api_init', function() {
             $id = $post['id'];
             $author_ids = get_post_meta($id, 'authors', false);
             return [
+                'is_kidfest'  => (bool) get_post_meta($id, 'is_kidfest', true),
+                'age_range'   => get_post_meta($id, 'age_range', true),
+                'extra_info'  => get_post_meta($id, 'extra_info', true),
                 'summary'     => get_post_meta($id, 'summary', true),
                 'event_date'  => get_post_meta($id, 'event_date', true),
                 'time_start'       => get_post_meta($id, 'time_start', true),
@@ -284,12 +314,15 @@ add_action('rest_api_init', function() {
                 $year       = $event_date ? (int) substr($event_date, 0, 4) : null;
 
                 return [
-                    'id'         => $id,
-                    'slug'       => $event->post_name,
-                    'title'      => $event->post_title,
-                    'event_date' => $event_date,
-                    'year'       => $year,
-                    'roles'      => $roles,
+                    'id'             => $id,
+                    'slug'           => $event->post_name,
+                    'title'          => $event->post_title,
+                    'event_date'     => $event_date,
+                    'time_start'     => get_post_meta($id, 'time_start', true),
+                    'time_end'       => get_post_meta($id, 'time_end', true),
+                    'eventbrite_url' => get_post_meta($id, 'eventbrite_url', true),
+                    'year'           => $year,
+                    'roles'          => $roles,
                 ];
             }, $events);
         },

@@ -1,19 +1,36 @@
 import { useParams, Link } from 'react-router-dom';
 import { useGetInterview } from '../api/interviews/useGetInterview.ts';
+import { useGetPersonEvents } from '../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
 import styles from './Interview.module.css';
+
+function getInitials(name: string): string {
+  return name
+    .trim()
+    .split(/\s+/)
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase();
+}
 
 export default function InterviewPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data: interview, isLoading, error } = useGetInterview({ slug: slug! });
+  const author = interview?.interview_data?.author;
+  const { data: personEvents } = useGetPersonEvents(author?.id);
 
   if (isLoading) return <div>Loading...</div>;
   if (error || !interview) return <div>Interview not found</div>;
 
-  const { author, interviewer_name, intro, question, answer, question_image } =
+  const { interviewer_name, intro, book_cover, question, answer, question_image } =
     interview.interview_data;
 
   const displayName = author?.name || decodeHtmlEntities(interview.title?.rendered ?? '');
+  const authorInitials = getInitials(displayName);
+  const interviewerInitials = interviewer_name ? getInitials(interviewer_name) : 'Q';
+
+  const today = new Date().toISOString().slice(0, 10);
+  const upcomingEvents = personEvents?.filter((e) => e.event_date >= today) ?? [];
 
   return (
     <main className={styles.page}>
@@ -35,21 +52,56 @@ export default function InterviewPage() {
               Read author bio →
             </Link>
           )}
+          {book_cover && (
+            <img src={book_cover[0]} alt="Book cover" className={styles.bookCover} />
+          )}
         </div>
       </header>
+
+      {upcomingEvents.length > 0 && (
+        <div className={styles.eventCards}>
+          {upcomingEvents.map((event) => (
+            <div key={event.id} className={styles.eventCard}>
+              <div className={styles.eventCardText}>
+                <p className={styles.eventCardEyebrow}>See {displayName.split(' ')[0]} live</p>
+                <p className={styles.eventCardTitle}>
+                  <Link to={`/festival-events/${event.slug}`}>{event.title}</Link>
+                </p>
+                {event.event_date && (
+                  <p className={styles.eventCardDate}>
+                    {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric' })}
+                    {event.time_start && ` · ${event.time_start} PT`}
+                  </p>
+                )}
+              </div>
+              {event.eventbrite_url && (
+                <a
+                  href={event.eventbrite_url}
+                  className={styles.eventCardButton}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get tickets
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className={styles.qa}>
         {question.map((q, i) => {
           const img = question_image?.[i];
           return (
             <div key={i} className={styles.pair}>
-              <div className={styles.question}>
-                <span className={styles.qMark} aria-hidden="true">Q</span>
-                <p className={styles.questionText}>{q}</p>
-              </div>
-              <div className={styles.answer}>
-                <p className={styles.answerText}>{answer[i]}</p>
-              </div>
+              <p className={styles.question}>
+                <span className={styles.qMark} aria-hidden="true">{interviewerInitials} </span>
+                {q}
+              </p>
+              <p className={styles.answer}>
+                <span className={styles.aMark} aria-hidden="true">{authorInitials} </span>
+                {answer[i]}
+              </p>
               {img && (
                 <img src={img[0]} alt="" className={styles.pairImage} />
               )}
