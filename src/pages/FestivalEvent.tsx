@@ -31,10 +31,7 @@ export default function FestivalEventPage() {
     venue,
     online_url,
     eventbrite_url,
-    ticket_tier,
-    ticket_price,
-    online_ticket_tier,
-    online_ticket_price,
+    tickets,
     authors,
     moderator,
     curator,
@@ -171,35 +168,31 @@ export default function FestivalEventPage() {
         </div>
       )}
 
-      {(ticket_tier.length > 0 || online_ticket_tier.length > 0 || eventbrite_url) && (
+      {(tickets.length > 0 || eventbrite_url) && (
         <div className={styles.section}>
           <p className={styles.sectionLabel}>Tickets</p>
-          {ticket_tier.length > 0 && (
-            <>
-              {online_ticket_tier.length > 0 && <p className={styles.ticketCategory}>In-Person</p>}
-              <ul className={styles.ticketList}>
-                {ticket_tier.map((tier, i) => (
-                  <li key={i} className={styles.ticketRow}>
-                    <span className={styles.ticketTier}>{tier}</span>
-                    <span className={styles.ticketPrice}>{ticket_price[i]}</span>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-          {online_ticket_tier.length > 0 && (
-            <>
-              {ticket_tier.length > 0 && <p className={styles.ticketCategory}>Online</p>}
-              <ul className={styles.ticketList}>
-                {online_ticket_tier.map((tier, i) => (
-                  <li key={i} className={styles.ticketRow}>
-                    <span className={styles.ticketTier}>{tier}</span>
-                    <span className={styles.ticketPrice}>{online_ticket_price[i]}</span>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
+          {(['in_person', 'online'] as const).map((type) => {
+            const group = tickets.filter((t) => t.type === type);
+            if (group.length === 0) return null;
+            const hasOtherType = tickets.some((t) => t.type !== type);
+            return (
+              <div key={type}>
+                {hasOtherType && (
+                  <p className={styles.ticketCategory}>
+                    {type === 'in_person' ? 'In-Person' : 'Online'}
+                  </p>
+                )}
+                <ul className={styles.ticketList}>
+                  {group.map((ticket, i) => (
+                    <li key={i} className={styles.ticketRow}>
+                      <span className={styles.ticketTier}>{ticket.tier}</span>
+                      <span className={styles.ticketPrice}>{ticket.price}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
           {eventbrite_image && (
             <img
               src={eventbrite_image[0]}

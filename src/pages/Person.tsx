@@ -18,9 +18,6 @@ export default function PersonPage() {
   const { alternate_name, bio, website_url, photo } = person.person_data;
   const name = decodeHtmlEntities(person.title?.rendered ?? '');
 
-  const festivalYears = events
-    ? [...new Set(events.map(e => e.year).filter((y): y is number => y !== null && y >= 2020))].sort()
-    : [];
 
   return (
     <main className={styles.page}>
@@ -32,11 +29,7 @@ export default function PersonPage() {
           <p className={styles.eyebrow}>Author</p>
           <h1 className={styles.name}>{name}</h1>
           {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
-          {festivalYears.length > 0 && (
-            <p className={styles.festivalYears}>
-              VFA participant: {festivalYears.join(', ')}
-            </p>
-          )}
+
           {bio && <p className={styles.bio}>{bio}</p>}
           {website_url && (
             <a href={website_url} className={styles.websiteLink}>

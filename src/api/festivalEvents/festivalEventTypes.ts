@@ -17,10 +17,7 @@ export interface EventData {
   venue: VenueData | null;
   online_url: string;
   eventbrite_url: string;
-  ticket_tier: string[];
-  ticket_price: string[];
-  online_ticket_tier: string[];
-  online_ticket_price: string[];
+  tickets: { type: string; tier: string; price: string }[];
   authors: PersonData[];
   moderator: PersonData[];
   curator: PersonData[];
