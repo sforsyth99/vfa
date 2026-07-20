@@ -67,8 +67,9 @@ add_action('rest_api_init', function() {
             'id'             => (int) $post_id,
             'slug'           => $post->post_name,
             'name'           => $post->post_title,
-            'alternate_name' => get_post_meta($post_id, 'alternate_name', true),
-            'bio'            => get_post_meta($post_id, 'bio', true),
+            'alternate_name'    => get_post_meta($post_id, 'alternate_name', true),
+            'name_pronunciation' => get_post_meta($post_id, 'name_pronunciation', true),
+            'bio'               => get_post_meta($post_id, 'bio', true),
             'website_url'    => get_post_meta($post_id, 'website_url', true),
             'photo'          => (function() use ($post_id) {
                                     $kidfest_years = get_post_meta($post_id, 'kidfest_years', false);
@@ -100,8 +101,9 @@ add_action('rest_api_init', function() {
             'id'             => (int) $post_id,
             'slug'           => $post->post_name,
             'name'           => $post->post_title,
-            'alternate_name' => get_post_meta($post_id, 'alternate_name', true),
-            'building'       => get_post_meta($post_id, 'building', true),
+            'alternate_name'    => get_post_meta($post_id, 'alternate_name', true),
+            'name_pronunciation' => get_post_meta($post_id, 'name_pronunciation', true),
+            'building'          => get_post_meta($post_id, 'building', true),
             'room'           => get_post_meta($post_id, 'room', true),
             'street_address' => get_post_meta($post_id, 'street_address', true),
             'city'           => get_post_meta($post_id, 'city', true),
@@ -167,7 +169,12 @@ add_action('rest_api_init', function() {
                 'authors'      => array_values(array_filter(array_map(
                                      'vfa_get_person_data', $author_ids
                                  ))),
+                'subtitle'     => get_post_meta($id, 'subtitle', true),
+                'additional_authors' => get_post_meta($id, 'additional_authors', true),
                 'illustrators' => get_post_meta($id, 'illustrators', true),
+                'categories'   => get_post_meta($id, 'categories', false),
+                'age_min'      => get_post_meta($id, 'age_min', true) !== '' ? (int) get_post_meta($id, 'age_min', true) : null,
+                'age_max'      => get_post_meta($id, 'age_max', true) !== '' ? (int) get_post_meta($id, 'age_max', true) : null,
                 'cover_image' => wp_get_attachment_image_src(
                                      get_post_meta($id, 'cover_image', true),
                                      'large'
@@ -302,6 +309,7 @@ add_action('rest_api_init', function() {
                     ['key' => 'moderator', 'value' => $person_id, 'compare' => '=', 'type' => 'NUMERIC'],
                     ['key' => 'curator',   'value' => $person_id, 'compare' => '=', 'type' => 'NUMERIC'],
                     ['key' => 'musician',  'value' => $person_id, 'compare' => '=', 'type' => 'NUMERIC'],
+                    ['key' => 'hosts',     'value' => $person_id, 'compare' => '=', 'type' => 'NUMERIC'],
                 ],
             ]);
 
@@ -312,6 +320,7 @@ add_action('rest_api_init', function() {
                 if (in_array((string) $person_id, get_post_meta($id, 'moderator', false))) $roles[] = 'moderator';
                 if (in_array((string) $person_id, get_post_meta($id, 'curator',   false))) $roles[] = 'curator';
                 if (in_array((string) $person_id, get_post_meta($id, 'musician',  false))) $roles[] = 'musician';
+                if (in_array((string) $person_id, get_post_meta($id, 'hosts',     false))) $roles[] = 'host';
 
                 $event_date = get_post_meta($id, 'event_date', true);
                 $year       = $event_date ? (int) substr($event_date, 0, 4) : null;
@@ -365,6 +374,7 @@ add_action('rest_api_init', function() {
                                        ),
                     'description'   => get_post_meta($id, 'description', true),
                     'munros_url'    => get_post_meta($id, 'munros_url', true),
+                    'categories'    => get_post_meta($id, 'categories', false),
                 ];
             }, $books);
         },

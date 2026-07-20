@@ -11,6 +11,7 @@ export interface PersonBook {
   cover_image: [string, number, number, boolean] | false;
   description: string;
   munros_url: string;
+  categories: string[];
 }
 
 export function useGetPersonBooks(personId: number | undefined, year?: number) {

@@ -1,16 +1,80 @@
 import { Link, useParams } from 'react-router-dom';
+import { useQueries } from '@tanstack/react-query';
 import { useGetFestivalEvent } from '../api/festivalEvents/useGetFestivalEvent.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
 import type { PersonData } from '../api/people/peopleTypes.ts';
+import type { PersonBook } from '../api/people/useGetPersonBooks.ts';
+import wretch from '../api/wretch.ts';
 import VenueMap from '../components/VenueMap.tsx';
 import styles from './FestivalEvent.module.css';
 
-function PersonLink({ person }: { person: PersonData }) {
-  if (!person.slug) return <span>{person.name}</span>;
+const VFA_API_BASE = 'https://api.victoriafestivalofauthors.ca/wp-json/vfa/v1';
+
+function AuthorBooks({ authors }: { authors: PersonData[] }) {
+  const results = useQueries({
+    queries: authors.map((a) => ({
+      queryKey: ['person-books', a.id],
+      queryFn: () => wretch(`${VFA_API_BASE}/people/${a.id}/books`).get().json<PersonBook[]>(),
+      enabled: authors.length > 0,
+      refetchOnWindowFocus: false,
+    })),
+  });
+
+  const seen = new Set<number>();
+  const books = results.flatMap((r) => r.data ?? []).filter((b) => {
+    if (seen.has(b.id)) return false;
+    seen.add(b.id);
+    return true;
+  });
+
+  if (!books.length) return null;
+
   return (
-    <Link to={`/people/${person.slug}`} className={styles.personLink}>
-      {person.name}
-    </Link>
+    <div className={styles.section}>
+      <p className={styles.sectionLabel}>Books</p>
+      <div className={styles.bookGrid}>
+        {books.map((book) => (
+          <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCard}>
+            {book.cover_image
+              ? <img src={book.cover_image[0]} alt={book.title} className={styles.bookCover} />
+              : <div className={styles.bookCoverPlaceholder} />
+            }
+            <p className={styles.bookTitle}>{book.title}</p>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PersonCard({ person }: { person: PersonData }) {
+  const isKidfest = person.kidfest_years?.length > 0;
+  const card = (
+    <>
+      {person.photo
+        ? <img
+            src={person.photo[0]}
+            alt={person.name}
+            className={isKidfest ? styles.personPhotoContain : styles.personPhoto}
+          />
+        : <div className={styles.personPhotoPlaceholder} />
+      }
+      <span className={styles.personCardName}>{person.name}</span>
+    </>
+  );
+  if (!person.slug) return <div className={styles.personCard}>{card}</div>;
+  return <Link to={`/people/${person.slug}`} className={styles.personCard}>{card}</Link>;
+}
+
+function PersonGroup({ people, label }: { people: PersonData[]; label: string }) {
+  if (!people.length) return null;
+  return (
+    <div className={styles.personGroup}>
+      <p className={styles.personGroupLabel}>{label}</p>
+      <div className={styles.personCardGrid}>
+        {people.map(p => <PersonCard key={p.id} person={p} />)}
+      </div>
+    </div>
   );
 }
 
@@ -83,8 +147,11 @@ export default function FestivalEventPage() {
               <Link to={`/venues/${venue.slug}`} className={styles.venueName}>
                 {venue.name}
               </Link>
+              {venue.name_pronunciation && (
+                <p className={styles.venuePronunciation}>{venue.name_pronunciation}</p>
+              )}
               {venue.alternate_name && (
-                <p className={styles.venueIndigenous}>{venue.alternate_name}</p>
+                <p className={styles.venueIndigenous}>(formerly {venue.alternate_name})</p>
               )}
               {[venue.building, venue.room].filter(Boolean).join(', ') && (
                 <p className={styles.venueBuilding}>
@@ -125,70 +192,25 @@ export default function FestivalEventPage() {
         hosted_by) && (
         <div className={styles.section}>
           <p className={styles.sectionLabel}>People</p>
-          {authors.length > 0 && (
-            <ul className={styles.authorList}>
-              {authors.map((a) => (
-                <li key={a.id}>
-                  <PersonLink person={a} />
-                </li>
-              ))}
-            </ul>
-          )}
-          {moderator.length > 0 && (
-            <div className={styles.roleRow}>
-              <span className={styles.roleLabel}>Moderator</span>
-              <span>
-                {moderator.map((p, i) => (
-                  <span key={p.id}>
-                    <PersonLink person={p} />
-                    {i < moderator.length - 1 ? ', ' : ''}
-                  </span>
-                ))}
-              </span>
-            </div>
-          )}
-          {curator.length > 0 && (
-            <div className={styles.roleRow}>
-              <span className={styles.roleLabel}>Curator</span>
-              <span>
-                {curator.map((p, i) => (
-                  <span key={p.id}>
-                    <PersonLink person={p} />
-                    {i < curator.length - 1 ? ', ' : ''}
-                  </span>
-                ))}
-              </span>
-            </div>
-          )}
-          {musician.length > 0 && (
-            <div className={styles.roleRow}>
-              <span className={styles.roleLabel}>Musician</span>
-              <span>
-                {musician.map((p, i) => (
-                  <span key={p.id}>
-                    <PersonLink person={p} />
-                    {i < musician.length - 1 ? ', ' : ''}
-                  </span>
-                ))}
-              </span>
-            </div>
-          )}
+          <PersonGroup people={authors} label="Authors" />
+          <PersonGroup people={moderator} label="Moderator" />
+          <PersonGroup people={curator} label="Curator" />
+          <PersonGroup people={musician} label="Musician" />
           {(hosts.length > 0 || hosted_by) && (
-            <div className={styles.roleRow}>
-              <span className={styles.roleLabel}>Hosted by</span>
-              <span>
-                {hosts.map((p, i) => (
-                  <span key={p.id}>
-                    <PersonLink person={p} />
-                    {(i < hosts.length - 1 || hosted_by) ? ', ' : ''}
-                  </span>
-                ))}
-                {hosted_by}
-              </span>
+            <div className={styles.personGroup}>
+              <p className={styles.personGroupLabel}>Hosted by</p>
+              {hosts.length > 0 && (
+                <div className={styles.personCardGrid}>
+                  {hosts.map(p => <PersonCard key={p.id} person={p} />)}
+                </div>
+              )}
+              {hosted_by && <p className={styles.hostedByText}>{hosted_by}</p>}
             </div>
           )}
         </div>
       )}
+
+      {authors.length > 0 && <AuthorBooks authors={authors} />}
 
       {(tickets.length > 0 || eventbrite_url) && (
         <div className={styles.section}>

@@ -41,8 +41,10 @@ function vfa_mb_config(): array {
             'title'      => 'Person Fields',
             'post_types' => ['people'],
             'fields'     => [
-                ['id' => 'title',          'name' => 'Name',           'type' => 'text',           'required' => true],
-                ['id' => 'alternate_name', 'name' => 'Alternate Name', 'type' => 'text'],
+                ['id' => 'title',              'name' => 'Name',              'type' => 'text', 'required' => true],
+                ['id' => 'alternate_name',    'name' => 'Alternate Name',    'type' => 'text'],
+                ['id' => 'name_pronunciation', 'name' => 'Name Pronunciation', 'type' => 'text',
+                 'desc' => 'Optional phonetic guide, e.g. "SAHN-dra"'],
                 ['id' => 'photo',          'name' => 'Photo',          'type' => 'image_advanced'],
                 [
                     'id'   => 'kidfest_photo',
@@ -64,8 +66,10 @@ function vfa_mb_config(): array {
             'title'      => 'Venue Fields',
             'post_types' => ['venues'],
             'fields'     => [
-                ['id' => 'title',          'name' => 'Name',           'type' => 'text', 'required' => true],
-                ['id' => 'alternate_name', 'name' => 'Alternate Name', 'type' => 'text'],
+                ['id' => 'title',              'name' => 'Name',              'type' => 'text', 'required' => true],
+                ['id' => 'alternate_name',    'name' => 'Former Name',       'type' => 'text'],
+                ['id' => 'name_pronunciation', 'name' => 'Name Pronunciation', 'type' => 'text',
+                 'desc' => 'Optional phonetic guide, e.g. "kwuh-KWUH-tlum"'],
                 [
                     'id'   => 'building',
                     'name' => 'Building',
@@ -199,8 +203,9 @@ function vfa_mb_config(): array {
             'title'      => 'Book Fields',
             'post_types' => ['books'],
             'fields'     => [
-                ['id' => 'title',         'name' => 'Title',          'type' => 'text',    'required' => true],
-                ['id' => 'festival_year', 'name' => 'Festival Year',  'type' => 'number',  'std' => date('Y'), 'min' => 2020, 'max' => 2099],
+                ['id' => 'title',         'name' => 'Title',         'type' => 'text',   'required' => true],
+                ['id' => 'subtitle',      'name' => 'Subtitle',      'type' => 'text'],
+                ['id' => 'festival_year', 'name' => 'Festival Year', 'type' => 'number', 'std' => date('Y'), 'min' => 2020, 'max' => 2099],
                 [
                     'id'        => 'authors',
                     'name'      => 'Authors',
@@ -209,7 +214,30 @@ function vfa_mb_config(): array {
                     'multiple'  => true,
                     'desc'      => 'Select all authors of this book.',
                 ],
+                ['id' => 'additional_authors', 'name' => 'Additional Authors', 'type' => 'text', 'desc' => 'Names of authors without a person entry, e.g. "Jane Smith, John Doe"'],
                 ['id' => 'illustrators', 'name' => 'Illustrated By', 'type' => 'text'],
+                [
+                    'id'       => 'categories',
+                    'name'     => 'Categories',
+                    'type'     => 'select',
+                    'multiple' => true,
+                    'options'  => [
+                        'children'   => 'Children',
+                        'immigrant'  => 'Immigrant',
+                        'lgbt'       => 'LGBT',
+                        'indigenous' => 'Indigenous',
+                        'romance'    => 'Romance',
+                        'comedy'     => 'Comedy',
+                        'illustrated' => 'Illustrated',
+                        'mystery'    => 'Mystery',
+                        'nature'     => 'Nature',
+                        'poetry'     => 'Poetry',
+                    ],
+                ],
+                ['id' => 'age_min', 'name' => 'Min Age', 'type' => 'number', 'min' => 0, 'max' => 99,
+                 'desc' => 'Minimum recommended age. For children\'s books only.'],
+                ['id' => 'age_max', 'name' => 'Max Age', 'type' => 'number', 'min' => 0, 'max' => 99,
+                 'desc' => 'Maximum recommended age. Leave blank for "X+".'],
                 ['id' => 'cover_image',  'name' => 'Cover Image',    'type' => 'image_advanced'],
                 ['id' => 'description',  'name' => 'Description',    'type' => 'wysiwyg'],
                 ['id' => 'munros_url',   'name' => 'Buy Online URL', 'type' => 'url'],
@@ -327,13 +355,23 @@ function vfa_mb_render_field(array $field, WP_Post $post): void {
             break;
 
         case 'select':
-            $value = vfa_mb_get_value($field, $post);
-            echo '<select id="' . esc_attr($id) . '" name="' . esc_attr($id) . '">';
-            foreach ($field['options'] as $opt_val => $opt_label) {
-                $sel = $value === (string)$opt_val ? ' selected' : '';
-                echo '<option value="' . esc_attr($opt_val) . '"' . $sel . '>' . esc_html($opt_label) . '</option>';
+            if (!empty($field['multiple'])) {
+                $values = array_map('strval', get_post_meta($post->ID, $id, false));
+                echo '<select id="' . esc_attr($id) . '" name="' . esc_attr($id) . '[]" class="vfa-multi-select" multiple>';
+                foreach ($field['options'] as $opt_val => $opt_label) {
+                    $sel = in_array((string)$opt_val, $values) ? ' selected' : '';
+                    echo '<option value="' . esc_attr($opt_val) . '"' . $sel . '>' . esc_html($opt_label) . '</option>';
+                }
+                echo '</select>';
+            } else {
+                $value = vfa_mb_get_value($field, $post);
+                echo '<select id="' . esc_attr($id) . '" name="' . esc_attr($id) . '">';
+                foreach ($field['options'] as $opt_val => $opt_label) {
+                    $sel = $value === (string)$opt_val ? ' selected' : '';
+                    echo '<option value="' . esc_attr($opt_val) . '"' . $sel . '>' . esc_html($opt_label) . '</option>';
+                }
+                echo '</select>';
             }
-            echo '</select>';
             break;
 
         case 'date':
@@ -601,7 +639,7 @@ function vfa_mb_save_fields(array $fields, int $post_id): void {
 function vfa_mb_save_field(array $field, int $post_id): void {
     $id       = $field['id'];
     $type     = $field['type'];
-    $is_multi = !empty($field['clone']) || (!empty($field['multiple']) && $type === 'post');
+    $is_multi = !empty($field['clone']) || (!empty($field['multiple']) && in_array($type, ['post', 'select']));
 
     if ($is_multi) {
         delete_post_meta($post_id, $id);
@@ -834,6 +872,15 @@ function vfa_mb_js(): string {
             create: false,
             allowEmptyOption: !el.multiple,
             placeholder: "Search...",
+            maxOptions: null,
+        });
+    });
+
+    // Multi-select for option fields (e.g. categories)
+    document.querySelectorAll(".vfa-multi-select").forEach(function(el) {
+        new TomSelect(el, {
+            plugins: ["remove_button"],
+            create: false,
             maxOptions: null,
         });
     });

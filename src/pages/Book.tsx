@@ -16,7 +16,10 @@ export default function BookPage() {
   if (isLoading) return <div>Loading...</div>;
   if (error || !book) return <div>Book not found</div>;
 
-  const { authors, illustrators, cover_image, description, munros_url } = book.book_data;
+  const { authors, additional_authors, subtitle, illustrators, age_min, age_max, cover_image, description, munros_url } = book.book_data;
+  const ageLabel = age_min != null
+    ? age_max != null ? `Ages ${age_min}–${age_max}` : `Ages ${age_min}+`
+    : null;
   const title = decodeHtmlEntities(book.title?.rendered ?? '');
 
   return (
@@ -28,19 +31,22 @@ export default function BookPage() {
         <div className={styles.meta}>
           <p className={styles.eyebrow}>Book</p>
           <h1 className={styles.title}>{title}</h1>
-          {authors.length > 0 && (
+          {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+          {(authors.length > 0 || additional_authors) && (
             <p className={styles.authors}>
               {authors.map((a, i) => (
                 <span key={a.id}>
                   <AuthorName person={a} />
-                  {i < authors.length - 1 ? ', ' : ''}
+                  {(i < authors.length - 1 || additional_authors) ? ', ' : ''}
                 </span>
               ))}
+              {additional_authors}
             </p>
           )}
           {illustrators && (
             <p className={styles.illustrators}>Illustrated by {illustrators}</p>
           )}
+          {ageLabel && <p className={styles.ageRange}>{ageLabel}</p>}
           {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
           {munros_url && (
             <a href={munros_url} className={styles.buyLink} target="_blank" rel="noopener noreferrer">

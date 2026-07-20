@@ -32,6 +32,15 @@
   border-radius: 2px;
 }
 
+.kidfestPhoto {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  object-position: top center;
+  border-radius: 2px;
+}
+
 @media (max-width: 640px) {
   .photo {
     height: 220px;
@@ -69,6 +78,13 @@
   }
 }
 
+.pronunciation {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #6b8f7e;
+  margin: -1rem 0 1rem;
+}
+
 .alternateName {
   font-size: 1.125rem;
   font-style: italic;
@@ -82,6 +98,51 @@
   color: #3d3a3f;
   margin: 0 0 1.75rem;
   white-space: pre-line;
+}
+
+.bookGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.bookCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: opacity 0.15s ease;
+}
+
+.bookCard:hover {
+  opacity: 0.8;
+}
+
+.bookCover {
+  display: block;
+  height: 200px;
+  width: auto;
+  border-radius: 2px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.bookCoverPlaceholder {
+  width: 140px;
+  height: 200px;
+  background: #eef3ef;
+  border-radius: 2px;
+  border: 1px solid #d4e0d6;
+}
+
+.bookTitle {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #1c1917;
+  line-height: 1.35;
+  margin: 0;
 }
 
 .websiteLink {

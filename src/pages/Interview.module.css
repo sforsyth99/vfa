@@ -40,6 +40,15 @@
   border-radius: 2px;
 }
 
+.photoContain {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  object-position: top center;
+  border-radius: 2px;
+}
+
 @media (max-width: 640px) {
   .photo {
     height: 220px;

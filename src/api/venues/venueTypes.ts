@@ -8,6 +8,7 @@ export interface VenueData {
   slug: string;
   name: string;
   alternate_name: string;
+  name_pronunciation: string;
   building: string;
   room: string;
   street_address: string;

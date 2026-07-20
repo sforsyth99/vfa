@@ -10,7 +10,7 @@ export default function VenuePage() {
   if (isLoading) return <div>Loading...</div>;
   if (error || !venue) return <div>Venue not found</div>;
 
-  const { alternate_name, building, room, street_address, city, province, postal_code, country, phone, website_url, description } = venue.venue_data;
+  const { alternate_name, name_pronunciation, building, room, street_address, city, province, postal_code, country, phone, website_url, description } = venue.venue_data;
 
   const buildingLine = [building, room].filter(Boolean).join(', ');
   const addressLine = [street_address, city, province, postal_code, country].filter(Boolean).join(', ');
@@ -19,7 +19,8 @@ export default function VenuePage() {
     <main className={styles.page}>
       <p className={styles.eyebrow}>Venue</p>
       <h1 className={styles.name}>{decodeHtmlEntities(venue.title?.rendered ?? '')}</h1>
-      {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
+      {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
+      {alternate_name && <p className={styles.alternateName}>(formerly {alternate_name})</p>}
       {buildingLine && <p className={styles.building}>{buildingLine}</p>}
       {addressLine && <p className={styles.address}>{addressLine}</p>}
       {phone && <p className={styles.phone}>{phone}</p>}
