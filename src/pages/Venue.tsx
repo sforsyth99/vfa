@@ -1,11 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { useGetVenue } from '../api/venues/useGetVenue.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
+import { usePageTitle } from '../utils/usePageTitle.ts';
 import styles from './Venue.module.css';
 
 export default function VenuePage() {
   const { slug } = useParams<{ slug: string }>();
   const { data: venue, isLoading, error } = useGetVenue({ slug: slug! });
+  usePageTitle(venue ? decodeHtmlEntities(venue.title?.rendered ?? '') : null);
 
   if (isLoading) return <div>Loading...</div>;
   if (error || !venue) return <div>Venue not found</div>;
