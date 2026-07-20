@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useGetInterview } from '../api/interviews/useGetInterview.ts';
 import { useGetPersonEvents } from '../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
+import { usePageTitle } from '../utils/usePageTitle.ts';
 import styles from './Interview.module.css';
 
 function getInitials(name: string): string {
@@ -18,6 +19,7 @@ export default function InterviewPage() {
   const { data: interview, isLoading, error } = useGetInterview({ slug: slug! });
   const author = interview?.interview_data?.author;
   const { data: personEvents } = useGetPersonEvents(author?.id);
+  usePageTitle(author?.name ? `Interview with ${author.name}` : null);
 
   if (isLoading) return <div>Loading...</div>;
   if (error || !interview) return <div>Interview not found</div>;

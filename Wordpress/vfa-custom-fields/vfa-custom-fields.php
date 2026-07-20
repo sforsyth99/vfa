@@ -340,6 +340,29 @@ add_action('rest_api_init', function() {
         },
     ]);
 
+    register_rest_route('vfa/v1', '/people/(?P<id>\d+)/interview', [
+        'methods'             => 'GET',
+        'permission_callback' => '__return_true',
+        'callback'            => function($request) {
+            $person_id = (int) $request['id'];
+            $interviews = get_posts([
+                'post_type'      => 'interviews',
+                'posts_per_page' => 1,
+                'post_status'    => 'publish',
+                'meta_query'     => [
+                    ['key' => 'author', 'value' => $person_id, 'compare' => '=', 'type' => 'NUMERIC'],
+                ],
+            ]);
+            if (empty($interviews)) return null;
+            $post = $interviews[0];
+            return [
+                'id'    => $post->ID,
+                'slug'  => $post->post_name,
+                'title' => $post->post_title,
+            ];
+        },
+    ]);
+
     register_rest_route('vfa/v1', '/people/(?P<id>\d+)/books', [
         'methods'             => 'GET',
         'permission_callback' => '__return_true',

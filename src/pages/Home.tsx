@@ -1,4 +1,5 @@
 import styles from './Home.module.css';
+import { usePageTitle } from '../utils/usePageTitle';
 // import { useGetCategories } from '../api/categories/useGetCategories';
 import { useGetInterviews } from '../api/interviews/useGetInterviews';
 import { useGetAuthors } from '../api/people/useGetAuthors';
@@ -373,6 +374,7 @@ function Hero() {
 }
 
 export function HomePage() {
+  usePageTitle();
   return (
     <main id="main-content" className={styles.homeMain}>
       <Hero />

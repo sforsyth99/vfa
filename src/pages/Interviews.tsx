@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useGetInterviews } from '../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
+import { usePageTitle } from '../utils/usePageTitle';
 import styles from './Interviews.module.css';
 
 export default function InterviewsPage() {
+  usePageTitle('Interviews');
   const { data: interviews, isLoading, isError } = useGetInterviews();
 
   if (isLoading) return <div className={styles.state}>Loading interviews...</div>;

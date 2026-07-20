@@ -6,6 +6,7 @@ import type { PersonData } from '../api/people/peopleTypes.ts';
 import type { PersonBook } from '../api/people/useGetPersonBooks.ts';
 import wretch from '../api/wretch.ts';
 import VenueMap from '../components/VenueMap.tsx';
+import { usePageTitle } from '../utils/usePageTitle.ts';
 import styles from './FestivalEvent.module.css';
 
 const VFA_API_BASE = 'https://api.victoriafestivalofauthors.ca/wp-json/vfa/v1';
@@ -81,6 +82,7 @@ function PersonGroup({ people, label }: { people: PersonData[]; label: string })
 export default function FestivalEventPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data: event, isLoading, error } = useGetFestivalEvent({ slug: slug! });
+  usePageTitle(event ? decodeHtmlEntities(event.title?.rendered ?? '') : null);
 
   if (isLoading) return <div>Loading...</div>;
   if (error || !event) return <div>Event not found</div>;

@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { useGetPerson } from '../api/people/useGetPerson.ts';
 import { useGetPersonEvents } from '../api/people/useGetPersonEvents.ts';
 import { useGetPersonBooks } from '../api/people/useGetPersonBooks.ts';
+import { useGetPersonInterview } from '../api/people/useGetPersonInterview.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
+import { usePageTitle } from '../utils/usePageTitle.ts';
 import styles from './Person.module.css';
 
 export default function PersonPage() {
@@ -11,13 +13,16 @@ export default function PersonPage() {
   const { data: person, isLoading, error } = useGetPerson({ slug: slug! });
   const { data: events } = useGetPersonEvents(person?.id);
   const { data: books } = useGetPersonBooks(person?.id);
+  const { data: interview } = useGetPersonInterview(person?.id);
+
+  const name = decodeHtmlEntities(person?.title?.rendered ?? '');
+  usePageTitle(person ? name : null);
 
   if (isLoading) return <div>Loading...</div>;
   if (error || !person) return <div>Person not found</div>;
 
   const { alternate_name, name_pronunciation, bio, website_url, photo, kidfest_years } = person.person_data;
   const isKidfest = kidfest_years?.length > 0;
-  const name = decodeHtmlEntities(person.title?.rendered ?? '');
 
 
   return (
@@ -37,6 +42,11 @@ export default function PersonPage() {
             <a href={website_url} className={styles.websiteLink}>
               Visit website →
             </a>
+          )}
+          {interview && (
+            <Link to={`/interviews/${interview.slug}`} className={styles.websiteLink}>
+              Read interview →
+            </Link>
           )}
         </div>
       </div>
