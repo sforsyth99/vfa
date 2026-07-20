@@ -32,6 +32,13 @@
   }
 }
 
+.pronunciation {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #6b8f7e;
+  margin: -0.25rem 0 0.75rem;
+}
+
 .alternateName {
   font-size: 1.125rem;
   font-style: italic;

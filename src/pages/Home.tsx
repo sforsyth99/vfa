@@ -6,6 +6,7 @@ import { useGetKidfestAuthors } from '../api/people/useGetKidfestAuthors';
 import { useGetFestivalEvents } from '../api/festivalEvents/useGetFestivalEvents';
 import type { FestivalEvent } from '../api/festivalEvents/festivalEventTypes';
 import { useGetBooks } from '../api/books/useGetBooks';
+import type { Book } from '../api/books/bookTypes';
 // import { useMemo } from 'react';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 import { Link } from 'react-router-dom';
@@ -94,16 +95,26 @@ function InterviewsList() {
   );
 }
 
+function bySurname(a: { name: string }, b: { name: string }): number {
+  const surname = (name: string) => {
+    const parts = name.trim().split(/\s+/);
+    return parts[parts.length - 1].toLowerCase();
+  };
+  return surname(a.name).localeCompare(surname(b.name));
+}
+
 function AuthorPhotoGrid({ heading, authors, kids = false }: { heading: string; authors: { id: number; slug?: string; name: string; photo: [string, number, number, boolean] | false | null }[]; kids?: boolean }) {
+  const sorted = [...authors].sort(bySurname);
   return (
     <div style={{ margin: '2rem 0' }}>
       <h2>{heading}</h2>
       <div className={styles.authorGrid}>
-        {authors.map((author) => {
+        {sorted.map((author) => {
           if (!author.photo) return null;
           return (
             <Link key={author.id} to={`/people/${author.slug}`} className={kids ? styles.kidsAuthorPhoto : styles.authorPhoto}>
-              <img src={author.photo[0]} alt={author.name} title={author.name} />
+              <img src={author.photo[0]} alt={author.name} />
+              <span className={styles.authorName}>{author.name}</span>
             </Link>
           );
         })}
@@ -144,7 +155,7 @@ function formatTime(t: string): string {
   return `${h % 12 || 12}:${m.toString().padStart(2, '0')} ${period}`;
 }
 
-function ScheduleTable({ events }: { events: FestivalEvent[] }) {
+function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; showHost?: boolean }) {
   return (
     <table className={styles.scheduleTable}>
       <thead>
@@ -153,11 +164,12 @@ function ScheduleTable({ events }: { events: FestivalEvent[] }) {
           <th>Time</th>
           <th>Event</th>
           <th>Location</th>
+          {showHost && <th>Hosted by</th>}
         </tr>
       </thead>
       <tbody>
         {events.map((event) => {
-          const { event_date, time_start, time_end, venue, tickets } = event.event_data;
+          const { event_date, time_start, time_end, venue, tickets, hosts, hosted_by } = event.event_data;
           const timeStr = time_start
             ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
             : '';
@@ -165,6 +177,14 @@ function ScheduleTable({ events }: { events: FestivalEvent[] }) {
           const location = venue?.name
             ? hasOnline ? `${venue.name} and online` : venue.name
             : hasOnline ? 'Online' : '—';
+          const hostParts: React.ReactNode[] = [
+            ...(hosts ?? []).map((h) =>
+              h.slug
+                ? <Link key={h.id} to={`/people/${h.slug}`}>{h.name}</Link>
+                : <span key={h.id}>{h.name}</span>
+            ),
+            ...(hosted_by ? [<span key="text">{hosted_by}</span>] : []),
+          ];
           return (
             <tr key={event.id}>
               <td className={styles.scheduleDate}>{event_date ? formatDate(event_date) : '—'}</td>
@@ -175,6 +195,13 @@ function ScheduleTable({ events }: { events: FestivalEvent[] }) {
                 </Link>
               </td>
               <td className={styles.scheduleLocation}>{location}</td>
+              {showHost && (
+                <td className={styles.scheduleLocation}>
+                  {hostParts.length > 0
+                    ? hostParts.reduce<React.ReactNode[]>((acc, el, i) => i === 0 ? [el] : [...acc, ', ', el], [])
+                    : '—'}
+                </td>
+              )}
             </tr>
           );
         })}
@@ -204,7 +231,7 @@ function EventSchedule() {
     .filter((e) => e.event_data.event_date < today)
     .sort((a, b) => b.event_data.event_date.localeCompare(a.event_data.event_date));
 
-  const regular = upcoming.filter((e) => !e.event_data.is_kidfest && e.event_data.event_type !== 'workshop');
+  const regular = upcoming.filter((e) => !e.event_data.is_kidfest);
   const kidfest = upcoming.filter((e) => e.event_data.is_kidfest);
   const workshops = upcoming.filter((e) => e.event_data.event_type === 'workshop' && !e.event_data.is_kidfest);
   const online = upcoming.filter((e) => e.event_data.tickets.some((t) => t.type === 'online'));
@@ -228,7 +255,7 @@ function EventSchedule() {
       {workshops.length > 0 && (
         <div className={styles.scheduleSection}>
           <h2 className={styles.scheduleHeading}>Workshops</h2>
-          <ScheduleTable events={workshops} />
+          <ScheduleTable events={workshops} showHost />
         </div>
       )}
       {online.length > 0 && (
@@ -275,31 +302,56 @@ function EventSchedule() {
   );
 }
 
-function BooksList() {
+function BookCoverGrid({ books }: { books: Book[] }) {
+  return (
+    <div className={styles.bookGrid}>
+      {books.map((book) => {
+        const cover = book.book_data?.cover_image;
+        if (!cover) return null;
+        return (
+          <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCover}>
+            <img
+              src={cover[0]}
+              alt={decodeHtmlEntities(book.title?.rendered ?? '')}
+              title={decodeHtmlEntities(book.title?.rendered ?? '')}
+            />
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+function RegularBooksList() {
   const { data: books, isLoading, isError } = useGetBooks();
 
   if (isLoading) return <div>Loading books...</div>;
   if (isError) return <div>Error loading books.</div>;
-  if (!books?.length) return null;
+
+  const filtered = (books ?? []).filter((b) => !b.book_data?.categories?.includes('children'));
+  if (!filtered.length) return null;
 
   return (
     <div style={{ margin: '2rem 0' }}>
       <h2>What we're reading</h2>
-      <div className={styles.bookGrid}>
-        {books.map((book) => {
-          const cover = book.book_data?.cover_image;
-          if (!cover) return null;
-          return (
-            <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCover}>
-              <img
-                src={cover[0]}
-                alt={decodeHtmlEntities(book.title?.rendered ?? '')}
-                title={decodeHtmlEntities(book.title?.rendered ?? '')}
-              />
-            </Link>
-          );
-        })}
-      </div>
+      <BookCoverGrid books={filtered} />
+    </div>
+  );
+}
+
+function KidsBooksList() {
+  const { data: books, isLoading, isError } = useGetBooks();
+
+  if (isLoading) return null;
+  if (isError) return null;
+
+  const filtered = (books ?? []).filter((b) => b.book_data?.categories?.includes('children'));
+  if (!filtered.length) return null;
+
+  return (
+    <div style={{ margin: '2rem 0' }}>
+      <h2>Kids' Books</h2>
+      <BookCoverGrid books={filtered} />
     </div>
   );
 }
@@ -327,8 +379,9 @@ export function HomePage() {
       <EventSchedule />
       <InterviewsList />
       <AuthorsList />
+      <RegularBooksList />
       <KidsAuthorsList />
-      <BooksList />
+      <KidsBooksList />
     </main>
   );
 }

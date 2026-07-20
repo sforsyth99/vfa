@@ -59,6 +59,13 @@
   }
 }
 
+.subtitle {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #5a5560;
+  margin: -0.5rem 0 1rem;
+}
+
 .authors {
   font-size: 1.05rem;
   color: #5a5560;
@@ -80,6 +87,34 @@
   font-size: 0.9rem;
   color: #7a7580;
   margin: -1rem 0 1.5rem;
+}
+
+.ageRange {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b8f7e;
+  margin: -1rem 0 1.5rem;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1.5rem;
+}
+
+.categoryTag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1d3d2f;
+  background: #eef3ef;
+  border: 1px solid #d4e0d6;
+  border-radius: 3px;
+  padding: 0.2em 0.6em;
 }
 
 .description {

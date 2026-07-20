@@ -9,6 +9,7 @@ import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 import type { MenuItem } from '../api/menus/menuTypes';
 import type { Page } from '../api/pages/pageTypes';
 import titleSponsorSrc from '../assets/titleSponsor/MunrosBooks.jpg';
+import calfStampSrc from '../assets/CALF-Member_Stamp_Primary.png';
 import SocialIcons from './SocialIcons';
 import NewsletterSignup from './NewsletterSignup';
 
@@ -80,6 +81,9 @@ function Footer() {
             ))}
           </div>
         )}
+      </div>
+      <div className={styles.calfRow}>
+        <img src={calfStampSrc} alt="CALF Member" className={styles.calfStamp} />
       </div>
       <p className={styles.footerText}>{landAcknowledgement}</p>
       <p className={styles.footerText}>&copy; {new Date().getFullYear()} Author Festival. All rights reserved.</p>

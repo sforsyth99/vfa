@@ -8,6 +8,7 @@ export interface PersonData {
   slug?: string;
   name: string;
   alternate_name: string;
+  name_pronunciation: string;
   bio: string;
   website_url: string;
   photo: [string, number, number, boolean] | false;

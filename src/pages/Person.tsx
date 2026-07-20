@@ -15,7 +15,8 @@ export default function PersonPage() {
   if (isLoading) return <div>Loading...</div>;
   if (error || !person) return <div>Person not found</div>;
 
-  const { alternate_name, bio, website_url, photo } = person.person_data;
+  const { alternate_name, name_pronunciation, bio, website_url, photo, kidfest_years } = person.person_data;
+  const isKidfest = kidfest_years?.length > 0;
   const name = decodeHtmlEntities(person.title?.rendered ?? '');
 
 
@@ -23,11 +24,12 @@ export default function PersonPage() {
     <main className={styles.page}>
       <div className={styles.profile}>
         {photo && (
-          <img src={photo[0]} alt={name} className={styles.photo} />
+          <img src={photo[0]} alt={name} className={isKidfest ? styles.kidfestPhoto : styles.photo} />
         )}
         <div className={styles.meta}>
           <p className={styles.eyebrow}>Author</p>
           <h1 className={styles.name}>{name}</h1>
+          {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
           {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
 
           {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />}
@@ -39,18 +41,46 @@ export default function PersonPage() {
         </div>
       </div>
 
-      {books && books.length > 0 && (
-        <section className={styles.section}>
-          <h2 className={styles.sectionHeading}>Books</h2>
-          <ul className={styles.bookList}>
-            {books.map(book => (
-              <li key={book.id}>
-                <Link to={`/books/${book.slug}`}>{book.title}</Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      {books && books.length > 0 && (() => {
+        const regularBooks = books.filter(b => !b.categories?.includes('children'));
+        const kidsBooks = books.filter(b => b.categories?.includes('children'));
+        return (
+          <>
+            {regularBooks.length > 0 && (
+              <section className={styles.section}>
+                <h2 className={styles.sectionHeading}>Books</h2>
+                <div className={styles.bookGrid}>
+                  {regularBooks.map(book => (
+                    <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCard}>
+                      {book.cover_image
+                        ? <img src={book.cover_image[0]} alt={book.title} className={styles.bookCover} />
+                        : <div className={styles.bookCoverPlaceholder} />
+                      }
+                      <p className={styles.bookTitle}>{book.title}</p>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+            {kidsBooks.length > 0 && (
+              <section className={styles.section}>
+                <h2 className={styles.sectionHeading}>Children's Books</h2>
+                <div className={styles.bookGrid}>
+                  {kidsBooks.map(book => (
+                    <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCard}>
+                      {book.cover_image
+                        ? <img src={book.cover_image[0]} alt={book.title} className={styles.bookCover} />
+                        : <div className={styles.bookCoverPlaceholder} />
+                      }
+                      <p className={styles.bookTitle}>{book.title}</p>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
+        );
+      })()}
 
       {events && events.length > 0 && (
         <section className={styles.section}>

@@ -37,7 +37,11 @@ export default function InterviewPage() {
       <header className={styles.header}>
         {author?.photo && (
           <div className={styles.photoWrap}>
-            <img src={author.photo[0]} alt={displayName} className={styles.photo} />
+            <img
+              src={author.photo[0]}
+              alt={displayName}
+              className={author.kidfest_years?.length > 0 ? styles.photoContain : styles.photo}
+            />
           </div>
         )}
         <div className={styles.meta}>
