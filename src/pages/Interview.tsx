@@ -3,6 +3,7 @@ import { useGetInterview } from '../api/interviews/useGetInterview.ts';
 import { useGetPersonEvents } from '../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../utils/usePageTitle.ts';
+import { BlurImageCard } from '../components/BlurImageCard.tsx';
 import styles from './Interview.module.css';
 
 function getInitials(name: string): string {
@@ -39,60 +40,61 @@ export default function InterviewPage() {
   return (
     <main id="main-content" className={styles.page}>
       <header className={styles.header}>
-        <div className={styles.imageGroup}>
-          {primaryAuthor?.photo && (
-            <div className={styles.photoWrap}>
-              <img
-                src={primaryAuthor.photo[0]}
-                alt={displayName}
-                className={primaryAuthor.kidfest_years?.length > 0 ? styles.photoContain : styles.photo}
-              />
-            </div>
-          )}
-          {book_cover && (
-            <div className={styles.bookWrap}>
-              <img src={book_cover[0]} alt="Book cover" className={styles.bookCover} />
-            </div>
-          )}
-        </div>
-
-        <div className={styles.meta}>
+        <div className={styles.titleBlock}>
           <p className={styles.eyebrow}>Q&amp;A</p>
           <h1 className={styles.authorName}>{displayName}</h1>
           {interviewer_name && (
             <p className={styles.interviewer}>Interviewed by {interviewer_name}</p>
           )}
-          {upcomingEvents.length > 0 && (
-            <div className={styles.eventCards}>
-              {upcomingEvents.map((event) => (
-                <div key={event.id} className={styles.eventCard}>
-                  <div className={styles.eventCardText}>
-                    <p className={styles.eventCardEyebrow}>See {displayName.split(' ')[0]} live</p>
-                    <p className={styles.eventCardTitle}>
-                      <Link to={`/festival-events/${event.slug}`}>{event.title}</Link>
-                    </p>
-                    {event.event_date && (
-                      <p className={styles.eventCardDate}>
-                        {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric' })}
-                        {event.time_start && ` · ${event.time_start} PT`}
-                      </p>
-                    )}
-                  </div>
-                  {event.eventbrite_url && (
-                    <a
-                      href={event.eventbrite_url}
-                      className={styles.eventCardButton}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Get tickets
-                    </a>
-                  )}
-                </div>
-              ))}
+        </div>
+
+        <div className={styles.imageGroup}>
+          {primaryAuthor?.photo && (
+            <div className={styles.photoWrap}>
+              <BlurImageCard
+                src={primaryAuthor.photo[0]}
+                alt={displayName}
+                contain
+              />
+            </div>
+          )}
+          {book_cover && (
+            <div className={styles.bookWrap}>
+              <BlurImageCard src={book_cover[0]} alt="Book cover" contain />
             </div>
           )}
         </div>
+
+        {upcomingEvents.length > 0 && (
+          <div className={styles.eventCards}>
+            {upcomingEvents.map((event) => (
+              <div key={event.id} className={styles.eventCard}>
+                <div className={styles.eventCardText}>
+                  <p className={styles.eventCardEyebrow}>See {displayName.split(' ')[0]} live</p>
+                  <p className={styles.eventCardTitle}>
+                    <Link to={`/festival-events/${event.slug}`}>{event.title}</Link>
+                  </p>
+                  {event.event_date && (
+                    <p className={styles.eventCardDate}>
+                      {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric' })}
+                      {event.time_start && ` · ${event.time_start} PT`}
+                    </p>
+                  )}
+                </div>
+                {event.eventbrite_url && (
+                  <a
+                    href={event.eventbrite_url}
+                    className={styles.eventCardButton}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Get tickets
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </header>
 
       {intro && <div className={styles.intro} dangerouslySetInnerHTML={{ __html: intro }} />}
