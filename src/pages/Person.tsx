@@ -21,9 +21,7 @@ export default function PersonPage() {
   if (isLoading) return <div>Loading...</div>;
   if (error || !person) return <div>Person not found</div>;
 
-  const { alternate_name, name_pronunciation, bio, website_url, photo, kidfest_years } =
-    person.person_data;
-  const isKidfest = kidfest_years?.length > 0;
+  const { alternate_name, name_pronunciation, bio, website_url, photo } = person.person_data;
 
   const firstBook = books?.[0];
 
