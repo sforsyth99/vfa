@@ -27,7 +27,7 @@ function Events() {
   const { data: events, isLoading, error } = useGetTribeEvents();
 
   return (
-    <main className={styles.eventsMain}>
+    <main id="main-content" className={styles.eventsMain}>
       <h1>Events</h1>
       {isLoading && <p>Loading events...</p>}
       {error && <p>Error loading events.</p>}

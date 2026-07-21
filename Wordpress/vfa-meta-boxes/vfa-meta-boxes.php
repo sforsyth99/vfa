@@ -10,21 +10,31 @@ if (!defined('ABSPATH')) exit;
 // ─── Configuration ───────────────────────────────────────────────────────────
 
 function vfa_mb_config(): array {
+    $year_opts = array_combine(
+        array_map('strval', range(2020, 2040)),
+        array_map('strval', range(2020, 2040))
+    );
+    $cur_year = (string) date('Y');
+    $year_select = function(string $id, string $name) use ($year_opts): array {
+        return ['id' => $id, 'name' => $name, 'type' => 'select', 'multiple' => true, 'year_select' => true, 'options' => $year_opts];
+    };
     return [
         [
             'id'         => 'interview_fields',
             'title'      => 'Interview Fields',
             'post_types' => ['interviews'],
             'fields'     => [
-                ['id' => 'title',            'name' => 'Title',       'type' => 'text',     'required' => true],
-                ['id' => 'author',           'name' => 'Author',      'type' => 'post',     'post_type' => ['people']],
-                ['id' => 'interviewer_name', 'name' => 'Interviewer', 'type' => 'text'],
+                ['id' => 'title',            'name' => 'Title',        'type' => 'text',   'required' => true],
+                ['id' => 'festival_year',   'name' => 'Festival Year', 'type' => 'number', 'std' => date('Y'), 'min' => 2020, 'max' => 2099],
+                ['id' => 'author', 'name' => 'Author(s)', 'type' => 'post', 'post_type' => ['people'], 'multiple' => true],
+                ['id' => 'book',   'name' => 'Book',      'type' => 'post', 'post_type' => ['books']],
+                ['id' => 'interviewer_name', 'name' => 'Interviewer',  'type' => 'text'],
                 ['id' => 'intro',            'name' => 'Intro',       'type' => 'wysiwyg'],
                 [
                     'type'   => 'clone_group',
                     'name'   => 'Q&A',
                     'fields' => [
-                        ['id' => 'question',       'name' => 'Question', 'type' => 'wysiwyg'],
+                        ['id' => 'question', 'name' => 'Question', 'type' => 'wysiwyg', 'height' => 100],
                         ['id' => 'answer',         'name' => 'Answer',   'type' => 'wysiwyg'],
                         [
                             'id'   => 'question_image',
@@ -45,6 +55,23 @@ function vfa_mb_config(): array {
                 ['id' => 'alternate_name',    'name' => 'Alternate Name',    'type' => 'text'],
                 ['id' => 'name_pronunciation', 'name' => 'Name Pronunciation', 'type' => 'text',
                  'desc' => 'Optional phonetic guide, e.g. "SAHN-dra"'],
+                [
+                    'id'      => 'pronouns',
+                    'name'    => 'Pronouns',
+                    'type'    => 'select',
+                    'options' => [
+                        ''          => '— Select —',
+                        'she_her'   => 'She/Her',
+                        'he_him'    => 'He/Him',
+                        'they_them' => 'They/Them',
+                        'she_they'  => 'She/They',
+                        'he_they'   => 'He/They',
+                        'ze_zir'    => 'Ze/Zir',
+                        'other'     => 'Other',
+                    ],
+                ],
+                ['id' => 'pronouns_other', 'name' => 'Custom Pronouns', 'type' => 'text',
+                 'desc' => 'Required if "Other" selected above.'],
                 ['id' => 'photo',          'name' => 'Photo',          'type' => 'image_advanced'],
                 [
                     'id'   => 'kidfest_photo',
@@ -54,11 +81,11 @@ function vfa_mb_config(): array {
                 ],
                 ['id' => 'bio',         'name' => 'Bio',         'type' => 'wysiwyg'],
                 ['id' => 'website_url', 'name' => 'Website URL', 'type' => 'url'],
-                ['id' => 'author_years',    'name' => 'Author Years',    'type' => 'number', 'clone' => true, 'min' => 2020, 'max' => 2099],
-                ['id' => 'moderator_years', 'name' => 'Moderator Years', 'type' => 'number', 'clone' => true, 'min' => 2020, 'max' => 2099],
-                ['id' => 'curator_years',   'name' => 'Curator Years',   'type' => 'number', 'clone' => true, 'min' => 2020, 'max' => 2099],
-                ['id' => 'musician_years',  'name' => 'Musician Years',  'type' => 'number', 'clone' => true, 'min' => 2020, 'max' => 2099],
-                ['id' => 'kidfest_years',   'name' => 'Kidfest Years',   'type' => 'number', 'clone' => true, 'min' => 2020, 'max' => 2099],
+                $year_select('author_years',    'Author Years'),
+                $year_select('kidfest_years',   'Kidfest Years'),
+                $year_select('moderator_years', 'Moderator Years'),
+                $year_select('curator_years',   'Curator Years'),
+                $year_select('musician_years',  'Musician Years'),
             ],
         ],
         [
@@ -67,7 +94,8 @@ function vfa_mb_config(): array {
             'post_types' => ['venues'],
             'fields'     => [
                 ['id' => 'title',              'name' => 'Name',              'type' => 'text', 'required' => true],
-                ['id' => 'alternate_name',    'name' => 'Former Name',       'type' => 'text'],
+                ['id' => 'alternate_name', 'name' => 'Former Name', 'type' => 'text',
+                 'desc' => 'e.g. "Mary Lake" or "Mount Doug"'],
                 ['id' => 'name_pronunciation', 'name' => 'Name Pronunciation', 'type' => 'text',
                  'desc' => 'Optional phonetic guide, e.g. "kwuh-KWUH-tlum"'],
                 [
@@ -111,15 +139,76 @@ function vfa_mb_config(): array {
             'title'      => 'Festival Event Fields',
             'post_types' => ['festival_events'],
             'fields'     => [
-                ['id' => 'title',            'name' => 'Event Name',                    'type' => 'text',           'required' => true],
-                ['id' => 'event_image',      'name' => 'Event Image',                   'type' => 'image_advanced'],
-                ['id' => 'eventbrite_image', 'name' => 'Eventbrite Waiting Room Image', 'type' => 'image_advanced'],
+                // ── Key information ──────────────────────────────────────────
+                ['id' => 'title', 'name' => 'Event Name', 'type' => 'text', 'required' => true],
+                ['id' => 'event_date', 'name' => 'Date', 'type' => 'date'],
+                [
+                    'type'   => 'inline_fields',
+                    'name'   => 'Time',
+                    'fields' => [
+                        ['id' => 'time_start', 'name' => 'Start', 'type' => 'time'],
+                        ['id' => 'time_end',   'name' => 'End',   'type' => 'time'],
+                    ],
+                ],
+                ['id' => 'venue',          'name' => 'Venue',          'type' => 'post', 'post_type' => ['venues']],
+                ['id' => 'eventbrite_url', 'name' => 'Eventbrite URL', 'type' => 'url'],
+                [
+                    'type'   => 'inline_fields',
+                    'name'   => 'Images',
+                    'fields' => [
+                        ['id' => 'event_image',      'name' => 'Event Image',      'type' => 'image_advanced'],
+                        ['id' => 'eventbrite_image', 'name' => 'Eventbrite Image', 'type' => 'image_advanced'],
+                    ],
+                ],
+
+                // ── People ───────────────────────────────────────────────────
+                ['type' => 'section', 'name' => 'People'],
+                [
+                    'id'        => 'authors',
+                    'name'      => 'Authors',
+                    'type'      => 'post',
+                    'post_type' => ['people'],
+                    'multiple'  => true,
+                    'desc'      => 'Select all participating authors.',
+                ],
+                [
+                    'type'   => 'inline_fields',
+                    'name'   => 'Support Roles',
+                    'fields' => [
+                        ['id' => 'moderator', 'name' => 'Moderators', 'type' => 'post', 'post_type' => ['people'], 'multiple' => true],
+                        ['id' => 'curator',   'name' => 'Curators',   'type' => 'post', 'post_type' => ['people'], 'multiple' => true],
+                        ['id' => 'musician',  'name' => 'Musicians',  'type' => 'post', 'post_type' => ['people'], 'multiple' => true],
+                    ],
+                ],
+                [
+                    'type'   => 'inline_fields',
+                    'name'   => 'Hosted By',
+                    'desc'   => 'Use free text for people or organizations without a profile page.',
+                    'fields' => [
+                        ['id' => 'hosts',     'name' => 'People',    'type' => 'post', 'post_type' => ['people'], 'multiple' => true],
+                        ['id' => 'hosted_by', 'name' => 'Free Text', 'type' => 'text'],
+                    ],
+                ],
+
+                // ── Description ──────────────────────────────────────────────
+                ['type' => 'section', 'name' => 'Description'],
+                ['id' => 'summary', 'name' => 'Summary', 'type' => 'text',
+                 'desc' => 'One-line description for listings and schedules.'],
+                ['id' => 'description', 'name' => 'Description', 'type' => 'wysiwyg'],
+
+                // ── KidsFest ─────────────────────────────────────────────────
+                ['type' => 'section', 'name' => 'KidsFest'],
                 [
                     'id'   => 'is_kidfest',
                     'name' => 'KidsFest Event',
                     'type' => 'checkbox',
                     'desc' => 'Check if this is a KidsFest event.',
                 ],
+                ['id' => 'age_range', 'name' => 'Age Range', 'type' => 'text',
+                 'desc' => 'e.g. "Ages 5–8", "Ages 8+", or "All ages".'],
+
+                // ── Additional details ────────────────────────────────────────
+                ['type' => 'section', 'name' => 'Additional Details'],
                 [
                     'id'      => 'event_type',
                     'name'    => 'Event Type',
@@ -132,43 +221,9 @@ function vfa_mb_config(): array {
                         'author_fair'  => 'Author Fair',
                     ],
                 ],
-                ['id' => 'age_range',  'name' => 'Age Range',        'type' => 'text',
-                 'desc' => 'e.g. "Ages 5–8", "Ages 8+", or "All ages". For KidsFest events only.'],
                 ['id' => 'extra_info', 'name' => 'Extra Information', 'type' => 'text',
                  'desc' => 'e.g. "No latecomers" or "Refreshments will be provided".'],
-                ['id' => 'summary',          'name' => 'Summary',                       'type' => 'text',
-                 'desc' => 'One-line description for listings and schedules.'],
-                ['id' => 'description',      'name' => 'Description',                   'type' => 'wysiwyg'],
-                ['id' => 'event_date',       'name' => 'Date',                          'type' => 'date'],
-                ['id' => 'time_start',       'name' => 'Start Time',                    'type' => 'time'],
-                ['id' => 'time_end',         'name' => 'End Time',                      'type' => 'time'],
-                ['id' => 'venue',          'name' => 'Venue',          'type' => 'post', 'post_type' => ['venues']],
-                ['id' => 'eventbrite_url', 'name' => 'Eventbrite URL', 'type' => 'url'],
-                [
-                    'id'        => 'authors',
-                    'name'      => 'Authors',
-                    'type'      => 'post',
-                    'post_type' => ['people'],
-                    'multiple'  => true,
-                    'desc'      => 'Select all participating authors.',
-                ],
-                ['id' => 'moderator', 'name' => 'Moderator', 'type' => 'post', 'post_type' => ['people'], 'multiple' => true],
-                ['id' => 'curator',   'name' => 'Curator',   'type' => 'post', 'post_type' => ['people'], 'multiple' => true],
-                ['id' => 'musician',  'name' => 'Musician',  'type' => 'post', 'post_type' => ['people'], 'multiple' => true],
-                [
-                    'id'        => 'hosts',
-                    'name'      => 'Hosted By (People)',
-                    'type'      => 'post',
-                    'post_type' => ['people'],
-                    'multiple'  => true,
-                    'desc'      => 'Select people with profile pages.',
-                ],
-                [
-                    'id'   => 'hosted_by',
-                    'name' => 'Hosted By (Text)',
-                    'type' => 'text',
-                    'desc' => 'e.g. "VFA Board Members". Shown alongside any people selected above.',
-                ],
+                ['type' => 'section', 'name' => 'Tickets'],
                 [
                     'type'   => 'clone_group',
                     'name'   => 'Ticket Tier',
@@ -203,9 +258,8 @@ function vfa_mb_config(): array {
             'title'      => 'Book Fields',
             'post_types' => ['books'],
             'fields'     => [
-                ['id' => 'title',         'name' => 'Title',         'type' => 'text',   'required' => true],
-                ['id' => 'subtitle',      'name' => 'Subtitle',      'type' => 'text'],
-                ['id' => 'festival_year', 'name' => 'Festival Year', 'type' => 'number', 'std' => date('Y'), 'min' => 2020, 'max' => 2099],
+                ['id' => 'title',    'name' => 'Title',    'type' => 'text', 'required' => true],
+                ['id' => 'subtitle', 'name' => 'Subtitle', 'type' => 'text'],
                 [
                     'id'        => 'authors',
                     'name'      => 'Authors',
@@ -214,33 +268,41 @@ function vfa_mb_config(): array {
                     'multiple'  => true,
                     'desc'      => 'Select all authors of this book.',
                 ],
-                ['id' => 'additional_authors', 'name' => 'Additional Authors', 'type' => 'text', 'desc' => 'Names of authors without a person entry, e.g. "Jane Smith, John Doe"'],
-                ['id' => 'illustrators', 'name' => 'Illustrated By', 'type' => 'text'],
+                ['id' => 'munros_url', 'name' => 'Buy Online URL', 'type' => 'url'],
+                ['id' => 'cover_image', 'name' => 'Cover Image', 'type' => 'image_advanced'],
+                ['id' => 'festival_year', 'name' => 'Festival Year', 'type' => 'number', 'std' => date('Y'), 'min' => 2020, 'max' => 2099],
+                ['id' => 'description', 'name' => 'Description', 'type' => 'wysiwyg'],
                 [
                     'id'       => 'categories',
                     'name'     => 'Categories',
                     'type'     => 'select',
                     'multiple' => true,
                     'options'  => [
-                        'children'   => 'Children',
-                        'immigrant'  => 'Immigrant',
-                        'lgbt'       => 'LGBT',
-                        'indigenous' => 'Indigenous',
-                        'romance'    => 'Romance',
-                        'comedy'     => 'Comedy',
-                        'illustrated' => 'Illustrated',
-                        'mystery'    => 'Mystery',
-                        'nature'     => 'Nature',
-                        'poetry'     => 'Poetry',
+                        'children'       => 'Children',
+                        'immigrant'      => 'Immigration',
+                        'lgbt'           => 'LGBT',
+                        'indigenous'     => 'Indigenous',
+                        'romance'        => 'Romance',
+                        'comedy'         => 'Comedy',
+                        'illustrated'    => 'Illustrated',
+                        'mystery'        => 'Mystery',
+                        'nature'         => 'Nature',
+                        'poetry'         => 'Poetry',
+                        'social_justice' => 'Social Justice',
                     ],
                 ],
-                ['id' => 'age_min', 'name' => 'Min Age', 'type' => 'number', 'min' => 0, 'max' => 99,
-                 'desc' => 'Minimum recommended age. For children\'s books only.'],
-                ['id' => 'age_max', 'name' => 'Max Age', 'type' => 'number', 'min' => 0, 'max' => 99,
-                 'desc' => 'Maximum recommended age. Leave blank for "X+".'],
-                ['id' => 'cover_image',  'name' => 'Cover Image',    'type' => 'image_advanced'],
-                ['id' => 'description',  'name' => 'Description',    'type' => 'wysiwyg'],
-                ['id' => 'munros_url',   'name' => 'Buy Online URL', 'type' => 'url'],
+                ['id' => 'additional_authors', 'name' => 'Additional Authors', 'type' => 'text',
+                 'desc' => 'Names of authors without a person entry, e.g. "Jane Smith, John Doe"'],
+                ['id' => 'illustrators', 'name' => 'Illustrated By', 'type' => 'text'],
+                [
+                    'type'   => 'inline_fields',
+                    'name'   => 'Age Range',
+                    'desc'   => 'For children\'s books only. Leave Max blank for "X+".',
+                    'fields' => [
+                        ['id' => 'age_min', 'name' => 'Min', 'type' => 'number', 'min' => 0, 'max' => 99],
+                        ['id' => 'age_max', 'name' => 'Max', 'type' => 'number', 'min' => 0, 'max' => 99],
+                    ],
+                ],
             ],
         ],
     ];
@@ -276,20 +338,43 @@ function vfa_mb_render(WP_Post $post, array $mb): void {
 
 function vfa_mb_render_fields(array $fields, WP_Post $post): void {
     foreach ($fields as $field) {
-        if (($field['type'] ?? '') === 'clone_group') {
+        $type = $field['type'] ?? '';
+        if ($type === 'clone_group') {
             vfa_mb_render_clone_group($field, $post);
+        } elseif ($type === 'inline_fields') {
+            vfa_mb_render_inline_fields($field, $post);
+        } elseif ($type === 'section') {
+            echo '<div class="vfa-section"><h3 class="vfa-section-title">' . esc_html($field['name']) . '</h3></div>';
         } else {
             vfa_mb_render_row($field, $post);
         }
     }
 }
 
+function vfa_mb_render_inline_fields(array $config, WP_Post $post): void {
+    echo '<div class="vfa-row">';
+    echo '<div class="vfa-label">' . esc_html($config['name']) . '</div>';
+    echo '<div class="vfa-input"><div class="vfa-inline">';
+    foreach ($config['fields'] as $sub) {
+        echo '<div class="vfa-inline-item">';
+        echo '<label class="vfa-inline-label" for="' . esc_attr($sub['id']) . '">' . esc_html($sub['name']) . '</label>';
+        vfa_mb_render_field($sub, $post);
+        echo '</div>';
+    }
+    echo '</div>';
+    if (!empty($config['desc'])) {
+        echo '<p class="description">' . esc_html($config['desc']) . '</p>';
+    }
+    echo '</div></div>';
+}
+
 function vfa_mb_render_row(array $field, WP_Post $post): void {
     $is_checkbox = $field['type'] === 'checkbox';
     $required    = !empty($field['required']);
     $label       = esc_html($field['name']) . ($required ? ' <span class="required">*</span>' : '');
+    $row_class   = in_array($field['type'], ['wysiwyg', 'image_advanced']) ? 'vfa-row vfa-row--full' : 'vfa-row';
 
-    echo '<div class="vfa-row">';
+    echo '<div class="' . $row_class . '">';
     echo '<div class="vfa-label"><label for="' . esc_attr($field['id']) . '">' . $label . '</label></div>';
     echo '<div class="vfa-input">';
     vfa_mb_render_field($field, $post);
@@ -313,9 +398,10 @@ function vfa_mb_render_field(array $field, WP_Post $post): void {
         case 'text':
         case 'url':
             $value = vfa_mb_get_value($field, $post);
-            $attrs = sprintf('type="%s" id="%s" name="%s" value="%s" class="regular-text"',
+            $attrs = sprintf('type="%s" id="%s" name="%s" value="%s" class="regular-text"%s',
                 $type === 'url' ? 'url' : 'text',
-                esc_attr($id), esc_attr($id), esc_attr($value)
+                esc_attr($id), esc_attr($id), esc_attr($value),
+                $type === 'url' ? ' placeholder="https://"' : ''
             );
             if (!empty($field['required'])) $attrs .= ' required';
             echo '<input ' . $attrs . '>';
@@ -340,7 +426,7 @@ function vfa_mb_render_field(array $field, WP_Post $post): void {
                 'textarea_name' => $id,
                 'media_buttons' => false,
                 'teeny'         => true,
-                'editor_height' => 200,
+                'editor_height' => $field['height'] ?? 200,
                 'quicktags'     => true,
             ]);
             break;
@@ -357,7 +443,8 @@ function vfa_mb_render_field(array $field, WP_Post $post): void {
         case 'select':
             if (!empty($field['multiple'])) {
                 $values = array_map('strval', get_post_meta($post->ID, $id, false));
-                echo '<select id="' . esc_attr($id) . '" name="' . esc_attr($id) . '[]" class="vfa-multi-select" multiple>';
+                $class  = !empty($field['year_select']) ? 'vfa-multi-select vfa-year-select' : 'vfa-multi-select';
+                echo '<select id="' . esc_attr($id) . '" name="' . esc_attr($id) . '[]" class="' . $class . '" multiple>';
                 foreach ($field['options'] as $opt_val => $opt_label) {
                     $sel = in_array((string)$opt_val, $values) ? ' selected' : '';
                     echo '<option value="' . esc_attr($opt_val) . '"' . $sel . '>' . esc_html($opt_label) . '</option>';
@@ -481,7 +568,8 @@ function vfa_mb_render_clone_input(array $field, $value): void {
     switch ($type) {
         case 'text':
         case 'url':
-            echo '<input type="' . ($type === 'url' ? 'url' : 'text') . '" name="' . esc_attr($id) . '[]" value="' . esc_attr($value) . '" class="regular-text">';
+            $placeholder = $type === 'url' ? ' placeholder="https://"' : '';
+            echo '<input type="' . ($type === 'url' ? 'url' : 'text') . '" name="' . esc_attr($id) . '[]" value="' . esc_attr($value) . '" class="regular-text"' . $placeholder . '>';
             break;
         case 'number':
             $min = isset($field['min']) ? ' min="' . (int)$field['min'] . '"' : '';
@@ -544,7 +632,8 @@ function vfa_mb_render_clone_group(array $cg, WP_Post $post): void {
 }
 
 function vfa_mb_render_cg_sub_field(array $field, $value, bool $is_template = false, int $index = 0): void {
-    echo '<div class="vfa-row">';
+    $row_class = $field['type'] === 'wysiwyg' ? 'vfa-row vfa-row--full' : 'vfa-row';
+    echo '<div class="' . $row_class . '">';
     echo '<div class="vfa-label"><label>' . esc_html($field['name']) . '</label></div>';
     echo '<div class="vfa-input">';
     switch ($field['type']) {
@@ -555,16 +644,16 @@ function vfa_mb_render_cg_sub_field(array $field, $value, bool $is_template = fa
             echo '<textarea name="' . esc_attr($field['id']) . '[]" rows="4" class="large-text">' . esc_textarea($value) . '</textarea>';
             break;
         case 'wysiwyg':
+            $h = $field['height'] ?? 200;
             if ($is_template) {
-                // Plain textarea in template — JS will initialize TinyMCE after cloning
-                echo '<textarea name="' . esc_attr($field['id']) . '[]" class="vfa-wysiwyg-init large-text" rows="4"></textarea>';
+                echo '<textarea name="' . esc_attr($field['id']) . '[]" class="vfa-wysiwyg-init large-text" rows="4" data-height="' . (int)$h . '"></textarea>';
             } else {
                 $editor_id = 'vfa' . preg_replace('/[^a-z0-9]/', '', strtolower($field['id'])) . $index;
                 wp_editor((string)$value, $editor_id, [
                     'textarea_name' => $field['id'] . '[]',
                     'media_buttons' => false,
                     'teeny'         => true,
-                    'editor_height' => 200,
+                    'editor_height' => $h,
                     'quicktags'     => true,
                 ]);
             }
@@ -625,11 +714,16 @@ function vfa_mb_save_fields(array $fields, int $post_id): void {
     foreach ($fields as $field) {
         $type = $field['type'] ?? '';
         if ($type === 'clone_group') {
-            // Each sub-field saves as a multiple-value meta (same as clone)
             foreach ($field['fields'] as $sub) {
                 $sub['clone'] = true;
                 vfa_mb_save_field($sub, $post_id);
             }
+        } elseif ($type === 'inline_fields') {
+            foreach ($field['fields'] as $sub) {
+                vfa_mb_save_field($sub, $post_id);
+            }
+        } elseif ($type === 'section') {
+            // nothing to save
         } else {
             vfa_mb_save_field($field, $post_id);
         }
@@ -663,7 +757,7 @@ function vfa_mb_sanitize(string $type, $value): string {
         case 'text':         return sanitize_text_field($value);
         case 'textarea':     return sanitize_textarea_field($value);
         case 'wysiwyg':      return wp_kses_post($value);
-        case 'url':          return esc_url_raw($value);
+        case 'url':          return (filter_var($value, FILTER_VALIDATE_URL) !== false) ? esc_url_raw($value) : '';
         case 'number':       return is_numeric($value) ? (string)(int)$value : '';
         case 'checkbox':     return $value === '1' ? '1' : '0';
         case 'select':       return sanitize_text_field($value);
@@ -727,6 +821,21 @@ function vfa_mb_css(): string {
     align-items: flex-start;
 }
 
+/* Stacked layout for wysiwyg fields so editors use full width */
+.vfa-row--full {
+    flex-direction: column;
+    gap: 4px;
+}
+
+.vfa-row--full .vfa-label {
+    width: auto;
+    padding-top: 0;
+}
+
+.vfa-row--full .vfa-input {
+    width: 100%;
+}
+
 .vfa-label {
     width: 160px;
     flex-shrink: 0;
@@ -739,6 +848,77 @@ function vfa_mb_css(): string {
 .vfa-input { flex: 1; min-width: 0; }
 
 .vfa-input .description { margin-top: 4px; }
+
+/* Make text/url inputs fill their column instead of using WP fixed widths */
+.vfa-input input[type="text"],
+.vfa-input input[type="url"] {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Keep number/date/time inputs from overflowing but sized to content */
+.vfa-mb input[type="number"],
+.vfa-mb input[type="date"],
+.vfa-mb input[type="time"] {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Tom Select fills its column */
+.vfa-input .ts-wrapper {
+    max-width: 100%;
+}
+
+/* Section dividers */
+.vfa-section {
+    margin: 20px 0 12px;
+    padding-top: 16px;
+    border-top: 2px solid #dcdcde;
+}
+
+.vfa-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: #50575e;
+    margin: 0;
+}
+
+/* Inline side-by-side fields (e.g. Min / Max age) */
+.vfa-inline {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.vfa-inline-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+}
+
+.vfa-inline-item .ts-wrapper {
+    max-width: none;
+    width: 100%;
+}
+
+.vfa-inline-item input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.vfa-inline-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: #50575e;
+}
 
 /* Clone group (repeating rows of multiple fields) */
 .vfa-cg-rows { margin-bottom: 8px; }
@@ -876,13 +1056,22 @@ function vfa_mb_js(): string {
         });
     });
 
-    // Multi-select for option fields (e.g. categories)
+    // Multi-select for option fields (e.g. categories and year selects)
+    var currentYear = new Date().getFullYear().toString();
     document.querySelectorAll(".vfa-multi-select").forEach(function(el) {
-        new TomSelect(el, {
+        var isYear = el.classList.contains("vfa-year-select");
+        var config = {
             plugins: ["remove_button"],
             create: false,
             maxOptions: null,
-        });
+        };
+        if (isYear) {
+            config.onDropdownOpen = function() {
+                var opt = this.getOption(currentYear);
+                if (opt) this.setActiveOption(opt);
+            };
+        }
+        new TomSelect(el, config);
     });
 
     // Image picker
@@ -948,8 +1137,9 @@ function vfa_mb_js(): string {
                 el.id = uid;
                 el.classList.remove("vfa-wysiwyg-init");
                 if (window.wp && wp.editor) {
+                    var h = parseInt(el.dataset.height) || 200;
                     wp.editor.initialize(uid, {
-                        tinymce: { wpautop: true, height: 200, toolbar1: "bold italic | link unlink | bullist numlist | undo redo", plugins: "lists,link" },
+                        tinymce: { wpautop: true, height: h, toolbar1: "bold italic | link unlink | bullist numlist | undo redo", plugins: "lists,link" },
                         quicktags: true,
                         mediaButtons: false,
                     });

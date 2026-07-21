@@ -5,7 +5,9 @@ export const INTERVIEWS_PATH = 'interviews';
 export const INTERVIEWS_URL = `${BASE_URL}/${INTERVIEWS_PATH}`;
 
 export interface InterviewData {
-  author: PersonData | null;
+  authors: PersonData[];
+  festival_year: number | null;
+  book_title: string | null;
   interviewer_name: string;
   intro: string;
   book_cover: [string, number, number, boolean] | null;

@@ -7,12 +7,14 @@ export interface PersonInterview {
   id: number;
   slug: string;
   title: string;
+  festival_year: number | null;
+  book_title: string | null;
 }
 
-export function useGetPersonInterview(personId: number | undefined) {
-  return useQuery<PersonInterview | null>({
-    queryKey: ['person-interview', personId],
-    queryFn: () => wretch(`${VFA_API_BASE}/people/${personId}/interview`).get().json<PersonInterview | null>(),
+export function useGetPersonInterviews(personId: number | undefined) {
+  return useQuery<PersonInterview[]>({
+    queryKey: ['person-interviews', personId],
+    queryFn: () => wretch(`${VFA_API_BASE}/people/${personId}/interviews`).get().json<PersonInterview[]>(),
     enabled: !!personId,
     refetchOnWindowFocus: false,
   });

@@ -25,7 +25,7 @@ export default function BookPage() {
     : null;
 
   return (
-    <main className={styles.page}>
+    <main id="main-content" className={styles.page}>
       <div className={styles.bookLayout}>
         {cover_image && (
           <img src={cover_image[0]} alt={title} className={styles.coverImage} />

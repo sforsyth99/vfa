@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { SkipToContent } from './components/SkipToContent';
+import { ScrollToTop } from './components/ScrollToTop';
 import ErrorBoundary from './components/ErrorBoundary';
 import HomePage from './pages/Home';
 import Events from './pages/Events';
@@ -16,6 +17,7 @@ import BookPage from './pages/Book';
 function App() {
   return (
     <>
+      <ScrollToTop />
       <Header />
       <SkipToContent />
       <ErrorBoundary>

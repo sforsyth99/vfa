@@ -69,6 +69,8 @@ add_action('rest_api_init', function() {
             'name'           => $post->post_title,
             'alternate_name'    => get_post_meta($post_id, 'alternate_name', true),
             'name_pronunciation' => get_post_meta($post_id, 'name_pronunciation', true),
+            'pronouns'          => get_post_meta($post_id, 'pronouns', true),
+            'pronouns_other'    => get_post_meta($post_id, 'pronouns_other', true),
             'bio'               => get_post_meta($post_id, 'bio', true),
             'website_url'    => get_post_meta($post_id, 'website_url', true),
             'photo'          => (function() use ($post_id) {
@@ -118,27 +120,17 @@ add_action('rest_api_init', function() {
 
     register_rest_field('interviews', 'interview_data', [
         'get_callback' => function($post) {
-            $author_id  = get_post_meta($post['id'], 'author', true);
-            $book_cover = null;
-            if ($author_id) {
-                $books = get_posts([
-                    'post_type'      => 'books',
-                    'posts_per_page' => 1,
-                    'post_status'    => 'publish',
-                    'meta_query'     => [
-                        ['key' => 'authors',      'value' => $author_id, 'compare' => '=',  'type' => 'NUMERIC'],
-                        ['key' => 'festival_year','value' => date('Y'),  'compare' => '=',  'type' => 'NUMERIC'],
-                    ],
-                ]);
-                if ($books) {
-                    $book_cover = wp_get_attachment_image_src(
-                        get_post_meta($books[0]->ID, 'cover_image', true),
-                        'large'
-                    );
-                }
-            }
+            $author_ids    = get_post_meta($post['id'], 'author', false);
+            $festival_year = (int) get_post_meta($post['id'], 'festival_year', true) ?: null;
+            $book_id       = (int) get_post_meta($post['id'], 'book', true) ?: null;
+            $book_title    = $book_id ? get_the_title($book_id) : null;
+            $book_cover    = $book_id
+                ? wp_get_attachment_image_src(get_post_meta($book_id, 'cover_image', true), 'large') ?: null
+                : null;
             return [
-                'author'           => vfa_get_person_data($author_id),
+                'authors'          => array_values(array_filter(array_map('vfa_get_person_data', $author_ids))),
+                'festival_year'    => $festival_year,
+                'book_title'       => $book_title,
                 'interviewer_name' => get_post_meta($post['id'], 'interviewer_name', true),
                 'intro'            => get_post_meta($post['id'], 'intro', true),
                 'book_cover'       => $book_cover ?: null,
@@ -340,26 +332,32 @@ add_action('rest_api_init', function() {
         },
     ]);
 
-    register_rest_route('vfa/v1', '/people/(?P<id>\d+)/interview', [
+    register_rest_route('vfa/v1', '/people/(?P<id>\d+)/interviews', [
         'methods'             => 'GET',
         'permission_callback' => '__return_true',
         'callback'            => function($request) {
-            $person_id = (int) $request['id'];
+            $person_id  = (int) $request['id'];
             $interviews = get_posts([
                 'post_type'      => 'interviews',
-                'posts_per_page' => 1,
+                'posts_per_page' => -1,
                 'post_status'    => 'publish',
+                'orderby'        => 'meta_value_num',
+                'meta_key'       => 'festival_year',
+                'order'          => 'DESC',
                 'meta_query'     => [
                     ['key' => 'author', 'value' => $person_id, 'compare' => '=', 'type' => 'NUMERIC'],
                 ],
             ]);
-            if (empty($interviews)) return null;
-            $post = $interviews[0];
-            return [
-                'id'    => $post->ID,
-                'slug'  => $post->post_name,
-                'title' => $post->post_title,
-            ];
+            return array_map(function($post) {
+                $book_id = (int) get_post_meta($post->ID, 'book', true) ?: null;
+                return [
+                    'id'           => $post->ID,
+                    'slug'         => $post->post_name,
+                    'title'        => $post->post_title,
+                    'festival_year' => (int) get_post_meta($post->ID, 'festival_year', true) ?: null,
+                    'book_title'   => $book_id ? get_the_title($book_id) : null,
+                ];
+            }, $interviews);
         },
     ]);
 
