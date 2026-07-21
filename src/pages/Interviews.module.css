@@ -77,3 +77,32 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+.yearFilter {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.yearButton,
+.yearButtonActive {
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid #c8c2bc;
+    background: transparent;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    color: #1c1917;
+}
+
+.yearButton:hover {
+    background: #f0ece8;
+}
+
+.yearButtonActive {
+    background: #1c1917;
+    color: #fff;
+    border-color: #1c1917;
+}

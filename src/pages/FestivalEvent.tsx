@@ -115,7 +115,7 @@ export default function FestivalEventPage() {
     : null;
 
   return (
-    <main className={styles.page}>
+    <main id="main-content" className={styles.page}>
       {event_image && (
         <img
           src={event_image[0]}

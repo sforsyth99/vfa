@@ -9,6 +9,8 @@ export interface PersonData {
   name: string;
   alternate_name: string;
   name_pronunciation: string;
+  pronouns: string;
+  pronouns_other: string;
   bio: string;
   website_url: string;
   photo: [string, number, number, boolean] | false;

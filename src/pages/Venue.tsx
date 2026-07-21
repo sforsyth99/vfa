@@ -18,7 +18,7 @@ export default function VenuePage() {
   const addressLine = [street_address, city, province, postal_code, country].filter(Boolean).join(', ');
 
   return (
-    <main className={styles.page}>
+    <main id="main-content" className={styles.page}>
       <p className={styles.eyebrow}>Venue</p>
       <h1 className={styles.name}>{decodeHtmlEntities(venue.title?.rendered ?? '')}</h1>
       {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
