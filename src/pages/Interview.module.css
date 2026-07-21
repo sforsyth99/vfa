@@ -10,10 +10,9 @@
 /* ── Header ─────────────────────────────────────────── */
 
 .header {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    gap: 2.5rem;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
     padding-bottom: 3.5rem;
     margin-bottom: 3.5rem;
     border-bottom: 1px solid #d9d4ce;
@@ -21,11 +20,16 @@
 
 @media (max-width: 640px) {
     .header {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1.25rem;
         padding-bottom: 2.5rem;
         margin-bottom: 2.5rem;
     }
+}
+
+.titleBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
 .imageGroup {
@@ -35,52 +39,23 @@
 }
 
 .photoWrap {
-    flex: 1;
+    flex: 0 0 65%;
     min-width: 0;
+    height: 300px;
 }
 
 .bookWrap {
-    flex: 0 0 38%;
+    flex: 1;
     min-width: 0;
-}
-
-.photo {
-    display: block;
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-    object-position: top center;
-    border-radius: 2px;
-}
-
-.photoContain {
-    display: block;
-    width: 100%;
-    height: 260px;
-    object-fit: contain;
-    object-position: top center;
-    border-radius: 2px;
-}
-
-.bookCover {
-    display: block;
-    width: 100%;
-    border-radius: 2px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    height: 300px;
 }
 
 @media (max-width: 640px) {
-    .photo, .photoContain {
-        height: 180px;
+    .photoWrap, .bookWrap {
+        height: 200px;
     }
 }
 
-.meta {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 0;
-}
 
 .eyebrow {
     font-size: 0.7rem;
