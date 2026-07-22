@@ -56,6 +56,10 @@ function bySurname(a: { name: string }, b: { name: string }): number {
   return surname(a.name).localeCompare(surname(b.name));
 }
 
+function nameInitials(name: string): string {
+  return name.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+}
+
 function AuthorPhotoGrid({
   headingId,
   authors,
@@ -70,15 +74,17 @@ function AuthorPhotoGrid({
     <div className={styles.section}>
       <h2><FormattedMessage id={headingId} /></h2>
       <div className={styles.authorGrid}>
-        {sorted.map((author) => {
-          if (!author.photo) return null;
-          return (
-            <Link key={author.id} to={`/people/${author.slug}`} className={kids ? styles.kidsAuthorPhoto : styles.authorPhoto}>
-              <img src={author.photo[0]} alt={author.name} />
-              <span className={styles.authorName}>{author.name}</span>
-            </Link>
-          );
-        })}
+        {sorted.map((author) => (
+          <Link key={author.id} to={`/people/${author.slug}`} className={kids ? styles.kidsAuthorPhoto : styles.authorPhoto}>
+            {author.photo
+              ? <img src={author.photo[0]} alt={author.name} />
+              : <div className={kids ? styles.kidsAuthorPhotoPlaceholder : styles.authorPhotoPlaceholder} aria-hidden="true">
+                  {nameInitials(author.name)}
+                </div>
+            }
+            <span className={styles.authorName}>{author.name}</span>
+          </Link>
+        ))}
       </div>
     </div>
   );
@@ -279,14 +285,14 @@ function BookCoverGrid({ books }: { books: Book[] }) {
     <div className={styles.bookGrid}>
       {books.map((book) => {
         const cover = book.book_data?.cover_image;
-        if (!cover) return null;
+        const title = decodeHtmlEntities(book.title?.rendered ?? '');
         return (
           <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCover}>
-            <img
-              src={cover[0]}
-              alt={decodeHtmlEntities(book.title?.rendered ?? '')}
-              title={decodeHtmlEntities(book.title?.rendered ?? '')}
-            />
+            {cover
+              ? <img src={cover[0]} alt={title} />
+              : <div className={styles.bookCoverPlaceholder} aria-hidden="true" />
+            }
+            <p className={styles.bookCoverTitle}>{title}</p>
           </Link>
         );
       })}
@@ -328,6 +334,28 @@ function KidsBooksList() {
   );
 }
 
+function HostsAndModerators() {
+  const intl = useIntl();
+  const { data: events, isLoading } = useGetFestivalEvents();
+
+  if (isLoading) {
+    return <div>{intl.formatMessage({ id: 'home.hostsAndModerators.loading' })}</div>;
+  }
+
+  const seen = new Set<number>();
+  const people: { id: number; slug?: string; name: string; photo: [string, number, number, boolean] | false | null }[] = [];
+
+  for (const event of (events ?? [])) {
+    for (const person of [...event.event_data.hosts, ...event.event_data.moderator]) {
+      if (!seen.has(person.id)) { seen.add(person.id); people.push(person); }
+    }
+  }
+
+  if (!people.length) return null;
+
+  return <AuthorPhotoGrid headingId="home.hostsAndModerators.heading" authors={people} />;
+}
+
 function Hero() {
   return (
     <div className={styles.hero}>
@@ -347,8 +375,9 @@ export function HomePage() {
       <EventSchedule />
       <InterviewsList />
       <AuthorsList />
-      <RegularBooksList />
       <KidsAuthorsList />
+      <HostsAndModerators />
+      <RegularBooksList />
       <KidsBooksList />
     </main>
   );

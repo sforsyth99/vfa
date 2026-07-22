@@ -57,6 +57,8 @@
   "home.kidsAuthors.heading": "Kids Authors",
   "home.kidsAuthors.loading": "Loading kids authors…",
   "home.kidsAuthors.error": "Error loading kids authors.",
+  "home.hostsAndModerators.heading": "Hosts & Moderators",
+  "home.hostsAndModerators.loading": "Loading…",
   "home.books.heading": "What we're reading",
   "home.books.loading": "Loading books…",
   "home.kidsBooks.heading": "Kids' Books",
