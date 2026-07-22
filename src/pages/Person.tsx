@@ -23,24 +23,34 @@ export default function PersonPage() {
   const { alternate_name, name_pronunciation, bio, website_url, photo } = person.person_data;
 
   const firstBook = books?.[0];
+  const photoSrc = photo ? photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
 
   return (
     <main id="main-content" className={styles.page}>
-
-
       {events && events.length > 0 && (
         <div className={styles.eventFeatureCards}>
           {events.map((event) => (
-            <Link key={event.id} to={`/festival-events/${event.slug}`} className={styles.eventFeatureCard}>
+            <Link
+              key={event.id}
+              to={`/festival-events/${event.slug}`}
+              className={styles.eventFeatureCard}
+            >
               <div className={styles.eventFeatureCardPhoto}>
                 {photo && (
                   <div className={styles.eventFeatureCardPhotoLeft}>
-                    <img src={photo[0]} alt="" aria-hidden="true" className={styles.eventFeatureCardBlurBg} />
-                    <img src={photo[0]} alt={name} className={styles.eventFeatureCardAuthorPhoto} />
+                    <img
+                      src={photoSrc!}
+                      alt={name}
+                      className={styles.eventFeatureCardAuthorPhoto}
+                    />
                   </div>
                 )}
                 {firstBook?.cover_image && (
-                  <img src={firstBook.cover_image[0]} alt={firstBook.title} className={styles.eventFeatureCardBookCover} />
+                  <img
+                    src={firstBook.cover_image[0]}
+                    alt={firstBook.title}
+                    className={styles.eventFeatureCardBookCover}
+                  />
                 )}
               </div>
               <div className={styles.eventFeatureCardInfo}>
