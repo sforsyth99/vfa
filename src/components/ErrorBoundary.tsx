@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import type { ReactNode } from 'react';
+import styles from './ErrorBoundary.module.css';
 
 interface Props {
   children: ReactNode;
@@ -19,7 +20,7 @@ class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <main style={{ padding: '4rem 2rem', textAlign: 'center' }}>
+        <main className={styles.errorPage}>
           <h1>Oops — something went wrong.</h1>
           <p>
             Try refreshing the page. If the problem persists, please{' '}

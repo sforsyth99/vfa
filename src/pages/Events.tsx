@@ -8,7 +8,7 @@ const renderEventDetail = (key: string, value: unknown): React.ReactNode => {
       return <span dangerouslySetInnerHTML={{ __html: (value as { rendered: string }).rendered }} />;
     }
     return (
-      <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+      <pre className={styles.eventPre}>
         {JSON.stringify(value, null, 2)}
       </pre>
     );
@@ -29,9 +29,9 @@ function Events() {
       {events && (
         <ul>
           {events.map(event => (
-            <li key={event.id} style={{ marginBottom: '2rem', border: '1px solid #ccc', padding: '1rem' }}>
+            <li key={event.id} className={styles.eventItem}>
               {Object.entries(event).map(([key, value]) => (
-                <div key={key} style={{ marginBottom: '0.5rem' }}>
+                <div key={key} className={styles.eventField}>
                   <strong>{key}:</strong> {renderEventDetail(key, value)}
                 </div>
               ))}

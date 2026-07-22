@@ -42,7 +42,7 @@ function NewsletterSignup() {
       <p className={styles.title}>{intl.formatMessage({ id: 'newsletter.title' })}</p>
       <form onSubmit={handleSubmit} className={styles.form} noValidate>
         {/* Mailchimp honeypot — must stay empty */}
-        <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
+        <div className={styles.honeypot} aria-hidden="true">
           <input
             type="text"
             name="b_fbfc40b39233dc1e19afef78d_e836a773c9"

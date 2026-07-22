@@ -22,7 +22,7 @@ function InterviewsList() {
   const preview = interviews.slice(0, 4);
 
   return (
-    <div style={{ margin: '2rem 0' }}>
+    <div className={styles.section}>
       <h2><FormattedMessage id="home.interviews.heading" /></h2>
       <ul className={styles.interviewList}>
         {preview.map((interview) => {
@@ -67,7 +67,7 @@ function AuthorPhotoGrid({
 }) {
   const sorted = [...authors].sort(bySurname);
   return (
-    <div style={{ margin: '2rem 0' }}>
+    <div className={styles.section}>
       <h2><FormattedMessage id={headingId} /></h2>
       <div className={styles.authorGrid}>
         {sorted.map((author) => {
@@ -305,7 +305,7 @@ function RegularBooksList() {
   if (!filtered.length) return null;
 
   return (
-    <div style={{ margin: '2rem 0' }}>
+    <div className={styles.section}>
       <h2><FormattedMessage id="home.books.heading" /></h2>
       <BookCoverGrid books={filtered} />
     </div>
@@ -321,7 +321,7 @@ function KidsBooksList() {
   if (!filtered.length) return null;
 
   return (
-    <div style={{ margin: '2rem 0' }}>
+    <div className={styles.section}>
       <h2><FormattedMessage id="home.kidsBooks.heading" /></h2>
       <BookCoverGrid books={filtered} />
     </div>
