@@ -4,7 +4,7 @@
     max-width: 780px;
     margin: 0 auto;
     padding: 4rem 2rem 6rem;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
 }
 
 .hero {
@@ -141,7 +141,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: #4a6dcc;
+    background: var(--vfa-event-blue);
     clip-path: polygon(70% 0%, 100% 0%, 100% 100%, 63% 100%);
     z-index: 2;
 }
@@ -199,14 +199,14 @@
 }
 
 .eventFeatureCardInfo {
-    background: #4a6dcc;
+    background: var(--vfa-event-blue);
     padding: 1.75rem 1.75rem 1.5rem;
 }
 
 .eventFeatureCardTitle {
     font-size: 1.6rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--vfa-color-text-light);
     margin: 0 0 1rem;
     line-height: 1.2;
 }
@@ -220,13 +220,13 @@
 .eventFeatureCardDate {
     font-size: 1rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--vfa-color-text-light);
     margin: 0;
 }
 
 .profile {
     padding-bottom: 4rem;
-    border-bottom: 1px solid #d9d4ce;
+    border-bottom: 1px solid var(--vfa-warm-border);
 }
 
 .meta {
@@ -239,7 +239,7 @@
     font-size: 0.7rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #6b8f7e;
+    color: var(--vfa-forest-mid);
     font-weight: 600;
     margin: 0 0 0.9rem;
 }
@@ -249,7 +249,7 @@
     font-size: 2.4rem;
     font-weight: 600;
     line-height: 1.15;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     margin: 0 0 1.5rem;
     letter-spacing: -0.01em;
 }
@@ -263,21 +263,21 @@
 .pronunciation {
     font-size: 0.9rem;
     font-style: italic;
-    color: #6b8f7e;
+    color: var(--vfa-forest-mid);
     margin: -1rem 0 1rem;
 }
 
 .alternateName {
     font-size: 1.125rem;
     font-style: italic;
-    color: #7a7580;
+    color: var(--vfa-ink-light);
     margin: 0 0 1rem;
 }
 
 .bio {
     font-size: 1rem;
     line-height: 1.75;
-    color: #3d3a3f;
+    color: var(--vfa-ink-dark);
     margin: 0 0 1.75rem;
     white-space: pre-line;
 }
@@ -314,15 +314,15 @@
 .bookCoverPlaceholder {
     width: 140px;
     height: 200px;
-    background: #eef3ef;
+    background: var(--vfa-forest-bg);
     border-radius: 2px;
-    border: 1px solid #d4e0d6;
+    border: 1px solid var(--vfa-forest-pale);
 }
 
 .bookTitle {
     font-size: 0.8rem;
     font-weight: 500;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     line-height: 1.35;
     margin: 0;
 }
@@ -331,9 +331,9 @@
     display: inline-block;
     font-size: 0.8125rem;
     font-weight: 500;
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     text-decoration: none;
-    border-bottom: 1px solid #1d3d2f;
+    border-bottom: 1px solid var(--vfa-forest-dark);
     padding-bottom: 1px;
     letter-spacing: 0.01em;
     transition: opacity 0.15s ease;

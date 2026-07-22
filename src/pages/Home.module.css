@@ -8,7 +8,7 @@
 
 .hero {
     padding: 4rem 2rem 3rem;
-    border-bottom: 1px solid #e8e4e0;
+    border-bottom: 1px solid var(--vfa-warm-border-light);
     margin-bottom: 2rem;
 }
 
@@ -17,7 +17,7 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     margin: 0 0 1rem;
 }
 
@@ -26,7 +26,7 @@
     font-size: 3rem;
     font-weight: 600;
     line-height: 1.1;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     margin: 0 0 1.25rem;
     letter-spacing: -0.02em;
 }
@@ -40,14 +40,14 @@
 .heroSubtitle {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: #3d3a3f;
+    color: var(--vfa-ink-dark);
     max-width: 600px;
     margin: 0 0 1rem;
 }
 
 .heroKidfest {
     font-size: 0.9rem;
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     font-weight: 500;
     margin: 0;
 }
@@ -119,12 +119,12 @@
 
 .scheduleLocation {
     font-size: 0.875rem;
-    color: #555;
+    color: var(--vfa-text-ui);
 }
 
 .scheduleIntro {
     font-size: 0.95rem;
-    color: #555;
+    color: var(--vfa-text-ui);
     margin: 0 0 1rem;
 }
 
@@ -185,7 +185,7 @@
 .authorName {
     font-size: 0.75rem;
     font-weight: 500;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     text-align: center;
     line-height: 1.3;
 }
@@ -221,9 +221,9 @@
     margin-top: 0.75rem;
     font-size: 0.875rem;
     font-weight: 500;
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     text-decoration: none;
-    border-bottom: 1px solid #1d3d2f;
+    border-bottom: 1px solid var(--vfa-forest-dark);
     padding-bottom: 1px;
     transition: opacity 0.15s ease;
 }

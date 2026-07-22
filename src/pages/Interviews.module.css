@@ -10,13 +10,13 @@
     font-family: 'Playfair Display', Georgia, serif;
     font-size: 2.4rem;
     font-weight: 600;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     margin: 0 0 2.5rem;
 }
 
 .state {
     padding: 3rem 2rem;
-    color: #7a7580;
+    color: var(--vfa-ink-light);
 }
 
 .list {
@@ -32,14 +32,14 @@
     align-items: center;
     gap: 1.25rem;
     padding: 1.25rem 0;
-    border-bottom: 1px solid #e8e4e0;
+    border-bottom: 1px solid var(--vfa-warm-border-light);
     text-decoration: none;
     color: inherit;
     transition: opacity 0.15s ease;
 }
 
 .item:first-child {
-    border-top: 1px solid #e8e4e0;
+    border-top: 1px solid var(--vfa-warm-border-light);
 }
 
 .item:hover {
@@ -64,13 +64,13 @@
 .itemName {
     font-size: 1.05rem;
     font-weight: 600;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     margin: 0;
 }
 
 .itemIntro {
     font-size: 0.875rem;
-    color: #7a7580;
+    color: var(--vfa-ink-light);
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -89,20 +89,20 @@
 .yearButtonActive {
     padding: 0.35rem 0.9rem;
     border-radius: 999px;
-    border: 1px solid #c8c2bc;
+    border: 1px solid var(--vfa-warm-border-mid);
     background: transparent;
     font-size: 0.875rem;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, border-color 0.15s;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
 }
 
 .yearButton:hover {
-    background: #f0ece8;
+    background: var(--vfa-warm-bg);
 }
 
 .yearButtonActive {
-    background: #1c1917;
-    color: #fff;
-    border-color: #1c1917;
+    background: var(--vfa-ink-darkest);
+    color: var(--vfa-color-text-light);
+    border-color: var(--vfa-ink-darkest);
 }

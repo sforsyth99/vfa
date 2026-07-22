@@ -6,15 +6,15 @@ html, body {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Inter', Arial, sans-serif;
-  background: #f8f8f8;
-  color: #333;
+  background: var(--vfa-bg-page);
+  color: var(--vfa-text-body);
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
 a {
-  color: #1a5cff;
+  color: var(--vfa-color-link);
   text-decoration: none;
 }
 a:hover {
@@ -26,11 +26,11 @@ button {
   font-size: 1rem;
   padding: 0.5em 1em;
   border-radius: 4px;
-  border: 1px solid #ccc;
-  background: #fff;
+  border: 1px solid var(--vfa-color-border);
+  background: var(--vfa-color-surface);
   cursor: pointer;
   transition: background 0.2s;
 }
 button:hover {
-  background: #f0f0f0;
+  background: var(--vfa-bg-hover);
 }

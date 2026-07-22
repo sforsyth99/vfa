@@ -1,4 +1,5 @@
 :root {
+    /* ── Existing primary tokens ──────────────────────── */
     --vfa-color-primary: #1a5cff;
     --vfa-color-primary-dark: #174bb3;
     --vfa-color-secondary: #f8f8f8;
@@ -12,4 +13,46 @@
     --vfa-color-accent: #ffe066;
     --vfa-color-error: #e53935;
     --vfa-color-success: #43a047;
+
+    /* ── Ink scale ────────────────────────────────────── */
+    --vfa-ink-darkest: #1c1917;     /* main headings, page text */
+    --vfa-ink-dark: #3d3a3f;        /* body text, descriptions */
+    --vfa-ink-mid: #5a5560;         /* secondary text, dates */
+    --vfa-ink-light: #7a7580;       /* muted text, labels */
+    --vfa-ink-placeholder: #999;    /* input placeholder */
+
+    /* ── Forest green — brand ─────────────────────────── */
+    --vfa-forest-darkest: #153028;  /* button hover */
+    --vfa-forest-dark: #1d3d2f;     /* buttons, links, CTAs */
+    --vfa-forest-mid: #6b8f7e;      /* eyebrows, category labels */
+    --vfa-forest-light: #b8cebb;    /* light borders */
+    --vfa-forest-pale: #d4e0d6;     /* tag borders, card borders */
+    --vfa-forest-bg: #eef3ef;       /* footer, card backgrounds */
+
+    /* ── Event card ───────────────────────────────────── */
+    --vfa-event-blue: #4a6dcc;
+
+    /* ── Warm neutrals ────────────────────────────────── */
+    --vfa-warm-border: #d9d4ce;         /* section dividers */
+    --vfa-warm-border-light: #e8e4e0;   /* header, list borders */
+    --vfa-warm-border-mid: #c8c2bc;     /* filter button borders */
+    --vfa-warm-border-faint: #c4bfc8;   /* bio link border */
+    --vfa-warm-bg: #f0ece8;             /* hover backgrounds */
+    --vfa-warm-card-bg: #d6d0c8;        /* BlurImageCard background */
+
+    /* ── UI surfaces & misc ───────────────────────────── */
+    --vfa-bg-page: #f8f8f8;
+    --vfa-bg-hover: #f0f0f0;        /* button hover */
+    --vfa-border-light: #ddd;
+    --vfa-border-faint: #eee;
+    --vfa-border-sponsor: #e5e5e5;
+    --vfa-text-ui: #555;
+    --vfa-text-footer: #888;
+    --vfa-text-body: #333;
+    --vfa-text-heading: #1a1a1a;
+    --vfa-hr: #e0e0e0;
+    --vfa-table-header: #f5f5f5;
+    --vfa-social-icon-bg: #444;
+    --vfa-accent-gold: #ffd700;
+    --vfa-error-dark: #c0392b;
 }

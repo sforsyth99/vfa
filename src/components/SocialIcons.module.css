@@ -12,15 +12,15 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #444;
-    color: #fff;
+    background: var(--vfa-social-icon-bg);
+    color: var(--vfa-color-text-light);
     transition: background 0.2s, transform 0.15s;
 }
 
 .socialLink:hover,
 .socialLink:focus {
-    background: #ffd700;
-    color: #222;
+    background: var(--vfa-accent-gold);
+    color: var(--vfa-color-text);
     transform: translateY(-2px);
     outline: none;
 }

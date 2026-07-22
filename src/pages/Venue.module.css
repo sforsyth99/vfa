@@ -4,14 +4,14 @@
   max-width: 780px;
   margin: 0 auto;
   padding: 4rem 2rem 6rem;
-  color: #1c1917;
+  color: var(--vfa-ink-darkest);
 }
 
 .eyebrow {
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #6b8f7e;
+  color: var(--vfa-forest-mid);
   font-weight: 600;
   margin: 0 0 0.9rem;
 }
@@ -21,7 +21,7 @@
   font-size: 2.4rem;
   font-weight: 600;
   line-height: 1.15;
-  color: #1c1917;
+  color: var(--vfa-ink-darkest);
   margin: 0 0 0.5rem;
   letter-spacing: -0.01em;
 }
@@ -35,20 +35,20 @@
 .pronunciation {
   font-size: 0.9rem;
   font-style: italic;
-  color: #6b8f7e;
+  color: var(--vfa-forest-mid);
   margin: -0.25rem 0 0.75rem;
 }
 
 .alternateName {
   font-size: 1.125rem;
   font-style: italic;
-  color: #7a7580;
+  color: var(--vfa-ink-light);
   margin: 0 0 0.75rem;
 }
 
 .address {
   font-size: 1rem;
-  color: #3d3a3f;
+  color: var(--vfa-ink-dark);
   margin: 0 0 1rem;
 }
 
@@ -56,9 +56,9 @@
   display: inline-block;
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #1d3d2f;
+  color: var(--vfa-forest-dark);
   text-decoration: none;
-  border-bottom: 1px solid #1d3d2f;
+  border-bottom: 1px solid var(--vfa-forest-dark);
   padding-bottom: 1px;
   transition: opacity 0.15s ease;
   margin-bottom: 1.5rem;
@@ -72,9 +72,9 @@
 .description {
   font-size: 1rem;
   line-height: 1.75;
-  color: #3d3a3f;
+  color: var(--vfa-ink-dark);
   margin: 1.5rem 0 0;
   padding-top: 1.5rem;
-  border-top: 1px solid #d9d4ce;
+  border-top: 1px solid var(--vfa-warm-border);
   white-space: pre-line;
 }

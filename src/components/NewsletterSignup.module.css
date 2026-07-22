@@ -4,7 +4,7 @@
 }
 
 .title {
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     font-size: 1em;
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -22,10 +22,10 @@
 
 .input {
     padding: 0.55em 1em;
-    border: 1px solid #b8cebb;
+    border: 1px solid var(--vfa-forest-light);
     border-radius: 4px;
-    background: #fff;
-    color: #1c1917;
+    background: var(--vfa-color-surface);
+    color: var(--vfa-ink-darkest);
     font-size: 0.95em;
     width: 260px;
     outline: none;
@@ -33,11 +33,11 @@
 }
 
 .input::placeholder {
-    color: #999;
+    color: var(--vfa-ink-placeholder);
 }
 
 .input:focus {
-    border-color: #1d3d2f;
+    border-color: var(--vfa-forest-dark);
 }
 
 .input:disabled {
@@ -47,8 +47,8 @@
 
 .button {
     padding: 0.55em 1.4em;
-    background: #1d3d2f;
-    color: #fff;
+    background: var(--vfa-forest-dark);
+    color: var(--vfa-color-text-light);
     border: none;
     border-radius: 4px;
     font-size: 0.95em;
@@ -59,7 +59,7 @@
 }
 
 .button:hover:not(:disabled) {
-    background: #153028;
+    background: var(--vfa-forest-darkest);
 }
 
 .button:disabled {
@@ -68,13 +68,13 @@
 }
 
 .success {
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     margin: 0.6em 0 0;
     font-size: 0.9em;
 }
 
 .error {
-    color: #c0392b;
+    color: var(--vfa-error-dark);
     margin: 0.6em 0 0;
     font-size: 0.9em;
 }

@@ -4,7 +4,7 @@
   max-width: 780px;
   margin: 0 auto;
   padding: 4rem 2rem 6rem;
-  color: #1c1917;
+  color: var(--vfa-ink-darkest);
 }
 
 .bookLayout {
@@ -38,7 +38,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #6b8f7e;
+  color: var(--vfa-forest-mid);
   font-weight: 600;
   margin: 0 0 0.9rem;
 }
@@ -48,7 +48,7 @@
   font-size: 2.4rem;
   font-weight: 600;
   line-height: 1.15;
-  color: #1c1917;
+  color: var(--vfa-ink-darkest);
   margin: 0 0 0.75rem;
   letter-spacing: -0.01em;
 }
@@ -62,30 +62,30 @@
 .subtitle {
   font-size: 1.2rem;
   font-style: italic;
-  color: #5a5560;
+  color: var(--vfa-ink-mid);
   margin: -0.5rem 0 1rem;
 }
 
 .authors {
   font-size: 1.05rem;
-  color: #5a5560;
+  color: var(--vfa-ink-mid);
   margin: 0 0 1.5rem;
 }
 
 .authorLink {
-  color: #1d3d2f;
+  color: var(--vfa-forest-dark);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.15s ease;
 }
 
 .authorLink:hover {
-  border-bottom-color: #1d3d2f;
+  border-bottom-color: var(--vfa-forest-dark);
 }
 
 .illustrators {
   font-size: 0.9rem;
-  color: #7a7580;
+  color: var(--vfa-ink-light);
   margin: -1rem 0 1.5rem;
 }
 
@@ -94,7 +94,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #6b8f7e;
+  color: var(--vfa-forest-mid);
   margin: -1rem 0 1.5rem;
 }
 
@@ -110,9 +110,9 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #1d3d2f;
-  background: #eef3ef;
-  border: 1px solid #d4e0d6;
+  color: var(--vfa-forest-dark);
+  background: var(--vfa-forest-bg);
+  border: 1px solid var(--vfa-forest-pale);
   border-radius: 3px;
   padding: 0.2em 0.6em;
 }
@@ -120,7 +120,7 @@
 .description {
   font-size: 1rem;
   line-height: 1.75;
-  color: #3d3a3f;
+  color: var(--vfa-ink-dark);
   margin: 0 0 2rem;
   white-space: pre-line;
 }
@@ -129,8 +129,8 @@
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #fff;
-  background: #1d3d2f;
+  color: var(--vfa-color-text-light);
+  background: var(--vfa-forest-dark);
   text-decoration: none;
   padding: 0.65rem 1.25rem;
   border-radius: 2px;

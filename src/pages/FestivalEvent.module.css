@@ -4,7 +4,7 @@
   max-width: 780px;
   margin: 0 auto;
   padding: 4rem 2rem 6rem;
-  color: #1c1917;
+  color: var(--vfa-ink-darkest);
 }
 
 /* ── Event image ─────────────────────────────────────── */
@@ -24,7 +24,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #6b8f7e;
+  color: var(--vfa-forest-mid);
   font-weight: 600;
   margin: 0 0 0.9rem;
 }
@@ -34,7 +34,7 @@
   font-size: 2.4rem;
   font-weight: 600;
   line-height: 1.15;
-  color: #1c1917;
+  color: var(--vfa-ink-darkest);
   margin: 0 0 1.5rem;
   letter-spacing: -0.01em;
 }
@@ -47,7 +47,7 @@
 
 .datetime {
   font-size: 1rem;
-  color: #3d3a3f;
+  color: var(--vfa-ink-dark);
   margin: 0 0 0.4rem;
 }
 
@@ -56,21 +56,21 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #6b8f7e;
+  color: var(--vfa-forest-mid);
   margin: 0.5rem 0 0;
 }
 
 .description {
   font-size: 1rem;
   line-height: 1.75;
-  color: #3d3a3f;
+  color: var(--vfa-ink-dark);
   margin: 1.5rem 0 0;
   white-space: pre-line;
 }
 
 .extraInfo {
   font-size: 0.875rem;
-  color: #7a7580;
+  color: var(--vfa-ink-light);
   font-style: italic;
   margin: 1rem 0 0;
 }
@@ -79,14 +79,14 @@
 
 .section {
   padding: 2.5rem 0;
-  border-top: 1px solid #d9d4ce;
+  border-top: 1px solid var(--vfa-warm-border);
 }
 
 .sectionLabel {
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #6b8f7e;
+  color: var(--vfa-forest-mid);
   font-weight: 600;
   margin: 0 0 1rem;
 }
@@ -97,27 +97,27 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1c1917;
+  color: var(--vfa-ink-darkest);
   margin: 0 0 0.25rem;
 }
 
 .venuePronunciation {
   font-size: 0.875rem;
   font-style: italic;
-  color: #6b8f7e;
+  color: var(--vfa-forest-mid);
   margin: 0.1rem 0 0.25rem;
 }
 
 .venueIndigenous {
   font-size: 0.9375rem;
   font-style: italic;
-  color: #7a7580;
+  color: var(--vfa-ink-light);
   margin: 0 0 0.5rem;
 }
 
 .venueAddress {
   font-size: 0.9375rem;
-  color: #3d3a3f;
+  color: var(--vfa-ink-dark);
   margin: 0 0 0.75rem;
 }
 
@@ -125,9 +125,9 @@
   display: inline-block;
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #1d3d2f;
+  color: var(--vfa-forest-dark);
   text-decoration: none;
-  border-bottom: 1px solid #1d3d2f;
+  border-bottom: 1px solid var(--vfa-forest-dark);
   padding-bottom: 1px;
   transition: opacity 0.15s ease;
 }
@@ -152,7 +152,7 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 600;
-  color: #7a7580;
+  color: var(--vfa-ink-light);
   margin: 0 0 0.75rem;
 }
 
@@ -197,28 +197,28 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: #eef3ef;
-  border: 1px solid #d4e0d6;
+  background: var(--vfa-forest-bg);
+  border: 1px solid var(--vfa-forest-pale);
 }
 
 .personCardName {
   font-size: 0.8rem;
   font-weight: 500;
-  color: #1c1917;
+  color: var(--vfa-ink-darkest);
   text-align: center;
   line-height: 1.3;
 }
 
 .hostedByText {
   font-size: 0.9375rem;
-  color: #3d3a3f;
+  color: var(--vfa-ink-dark);
   margin: 0.5rem 0 0;
 }
 
 .personLink {
-  color: #1d3d2f;
+  color: var(--vfa-forest-dark);
   text-decoration: none;
-  border-bottom: 1px solid #1d3d2f;
+  border-bottom: 1px solid var(--vfa-forest-dark);
   padding-bottom: 1px;
   transition: opacity 0.15s ease;
 }
@@ -261,15 +261,15 @@
 .bookCoverPlaceholder {
   width: 140px;
   height: 200px;
-  background: #eef3ef;
+  background: var(--vfa-forest-bg);
   border-radius: 2px;
-  border: 1px solid #d4e0d6;
+  border: 1px solid var(--vfa-forest-pale);
 }
 
 .bookTitle {
   font-size: 0.8rem;
   font-weight: 500;
-  color: #1c1917;
+  color: var(--vfa-ink-darkest);
   line-height: 1.35;
   margin: 0;
 }
@@ -291,17 +291,17 @@
   align-items: baseline;
   font-size: 0.9375rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px dotted #d9d4ce;
+  border-bottom: 1px dotted var(--vfa-warm-border);
   max-width: 320px;
 }
 
 .ticketTier {
-  color: #3d3a3f;
+  color: var(--vfa-ink-dark);
 }
 
 .ticketPrice {
   font-weight: 600;
-  color: #1c1917;
+  color: var(--vfa-ink-darkest);
   font-family: 'Playfair Display', Georgia, serif;
 }
 
@@ -310,8 +310,8 @@
   margin-top: 1rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #fff;
-  background: #1d3d2f;
+  color: var(--vfa-color-text-light);
+  background: var(--vfa-forest-dark);
   text-decoration: none;
   padding: 0.65rem 1.25rem;
   border-radius: 2px;
