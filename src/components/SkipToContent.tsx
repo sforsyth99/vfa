@@ -1,5 +1,7 @@
-// src/components/SkipToContent.tsx
+import { useIntl } from 'react-intl';
+
 export function SkipToContent() {
+  const intl = useIntl();
   return (
     <a
       href="#main-content"
@@ -18,7 +20,7 @@ export function SkipToContent() {
       onBlur={e => (e.currentTarget.style.transform = 'translateY(-120%)')}
       className="skip-to-content"
     >
-      Skip to main content
+      {intl.formatMessage({ id: 'accessibility.skipToContent' })}
     </a>
   );
 }

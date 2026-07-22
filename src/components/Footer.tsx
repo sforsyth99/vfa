@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetMenus } from '../api/menus/useGetMenus';
 import { useGetMenuItems } from '../api/menus/useGetMenuItems';
 import { useGetPages } from '../api/pages/useGetPages';
 import styles from './Footer.module.css';
-import en from '../locales/en.json';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 import type { MenuItem } from '../api/menus/menuTypes';
 import type { Page } from '../api/pages/pageTypes';
@@ -51,9 +51,9 @@ const sponsorImages = import.meta.glob('../assets/sponsors/*.{png,jpg,jpeg,svg}'
 const sponsorLogos: string[] = Object.values(sponsorImages) as string[];
 
 function Footer() {
-  // Use the localized land acknowledgement
-  const landAcknowledgement = useMemo(() => en['footer.landAcknowledgement'], []);
-  // Get all menus and find the footer menu by slug
+  const intl = useIntl();
+  const year = useMemo(() => new Date().getFullYear(), []);
+
   const { data: menus } = useGetMenus();
   const footerMenu = menus?.find(menu => menu.slug === 'footer');
   const footerMenuId = footerMenu?.id;
@@ -65,28 +65,47 @@ function Footer() {
       <NewsletterSignup />
       <SocialIcons />
       {menuItems && menuItems.length > 0 && (
-        <nav className={styles.footerNav} aria-label="Footer menu">
+        <nav className={styles.footerNav} aria-label={intl.formatMessage({ id: 'footer.menu.label' })}>
           {renderMenuItems(menuItems, pages)}
         </nav>
       )}
       <div className={styles.sponsorsContainer}>
         <div className={styles.titleSponsorRow}>
-          <p className={styles.titleSponsorLabel}>Title Sponsor</p>
-          <img src={titleSponsorSrc} alt="Munro's Books – Title Sponsor" className={styles.titleSponsorLogo} />
+          <p className={styles.titleSponsorLabel}>
+            {intl.formatMessage({ id: 'footer.sponsor.titleLabel' })}
+          </p>
+          <img
+            src={titleSponsorSrc}
+            alt={intl.formatMessage({ id: 'footer.sponsor.titleAlt' })}
+            className={styles.titleSponsorLogo}
+          />
         </div>
         {sponsorLogos.length > 0 && (
           <div className={styles.sponsorRow}>
             {sponsorLogos.map((src: string, idx: number) => (
-              <img key={idx} src={src} alt="Sponsor logo" className={styles.sponsorLogo} />
+              <img
+                key={idx}
+                src={src}
+                alt={intl.formatMessage({ id: 'footer.sponsor.logoAlt' })}
+                className={styles.sponsorLogo}
+              />
             ))}
           </div>
         )}
       </div>
       <div className={styles.calfRow}>
-        <img src={calfStampSrc} alt="CALF Member" className={styles.calfStamp} />
+        <img
+          src={calfStampSrc}
+          alt={intl.formatMessage({ id: 'footer.calf.alt' })}
+          className={styles.calfStamp}
+        />
       </div>
-      <p className={styles.footerText}>{landAcknowledgement}</p>
-      <p className={styles.footerText}>&copy; {new Date().getFullYear()} Author Festival. All rights reserved.</p>
+      <p className={styles.footerText}>
+        <FormattedMessage id="footer.landAcknowledgement" />
+      </p>
+      <p className={styles.footerText}>
+        <FormattedMessage id="footer.copyright" values={{ year }} />
+      </p>
     </footer>
   );
 }

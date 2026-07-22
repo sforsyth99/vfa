@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetPerson } from '../api/people/useGetPerson.ts';
 import { useGetPersonEvents } from '../api/people/useGetPersonEvents.ts';
 import { useGetPersonBooks } from '../api/people/useGetPersonBooks.ts';
@@ -8,6 +9,7 @@ import { usePageTitle } from '../utils/usePageTitle.ts';
 import styles from './Person.module.css';
 
 export default function PersonPage() {
+  const intl = useIntl();
   const { slug } = useParams<{ slug: string }>();
   const { data: person, isLoading, error } = useGetPerson({ slug: slug! });
   const { data: events } = useGetPersonEvents(person?.id);
@@ -17,13 +19,14 @@ export default function PersonPage() {
   const name = decodeHtmlEntities(person?.title?.rendered ?? '');
   usePageTitle(person ? name : null);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !person) return <div>Person not found</div>;
+  if (isLoading) return <div><FormattedMessage id="person.loading" /></div>;
+  if (error || !person) return <div><FormattedMessage id="person.notFound" /></div>;
 
   const { alternate_name, name_pronunciation, bio, website_url, photo } = person.person_data;
 
   const firstBook = books?.[0];
   const photoSrc = photo ? photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
+  const firstName = name.split(' ')[0];
 
   return (
     <main id="main-content" className={styles.page}>
@@ -73,7 +76,7 @@ export default function PersonPage() {
 
       <div className={styles.profile}>
         <div className={styles.meta}>
-          <p className={styles.eyebrow}>Author</p>
+          <p className={styles.eyebrow}><FormattedMessage id="person.eyebrow" /></p>
           <h1 className={styles.name}>{name}</h1>
           {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
           {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
@@ -81,7 +84,7 @@ export default function PersonPage() {
           {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />}
           {website_url && (
             <a href={website_url} className={styles.websiteLink}>
-              Visit website →
+              <FormattedMessage id="person.websiteLink" />
             </a>
           )}
           {interviews &&
@@ -93,11 +96,14 @@ export default function PersonPage() {
                 className={styles.websiteLink}
               >
                 {interview.book_title ? (
-                  <>
-                    Read {name.split(' ')[0]} talk about <em>{interview.book_title}</em> →
-                  </>
+                  <FormattedMessage
+                    id="person.interviewLink.withBook"
+                    values={{ firstName, bookTitle: <em>{interview.book_title}</em> }}
+                  />
+                ) : interview.festival_year ? (
+                  intl.formatMessage({ id: 'person.interviewLink.withYear' }, { year: interview.festival_year })
                 ) : (
-                  `Read ${interview.festival_year ? `${interview.festival_year} ` : ''}interview →`
+                  intl.formatMessage({ id: 'person.interviewLink.generic' })
                 )}
               </Link>
             ))}
@@ -109,7 +115,7 @@ export default function PersonPage() {
                 to={`/festival-events/${event.slug}`}
                 className={styles.websiteLink}
               >
-                See {name.split(' ')[0]} at <em>{event.title}</em> →
+                {intl.formatMessage({ id: 'person.eventLink' }, { firstName, eventTitle: event.title })}
               </Link>
             ))}
         </div>
@@ -124,7 +130,9 @@ export default function PersonPage() {
             <>
               {regularBooks.length > 0 && (
                 <section className={styles.section}>
-                  <h2 className={styles.sectionHeading}>Books</h2>
+                  <h2 className={styles.sectionHeading}>
+                    <FormattedMessage id="person.section.books" />
+                  </h2>
                   <div className={styles.bookGrid}>
                     {regularBooks.map((book) => (
                       <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCard}>
@@ -145,7 +153,9 @@ export default function PersonPage() {
               )}
               {kidsBooks.length > 0 && (
                 <section className={styles.section}>
-                  <h2 className={styles.sectionHeading}>Children's Books</h2>
+                  <h2 className={styles.sectionHeading}>
+                    <FormattedMessage id="person.section.kidsBooks" />
+                  </h2>
                   <div className={styles.bookGrid}>
                     {kidsBooks.map((book) => (
                       <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCard}>

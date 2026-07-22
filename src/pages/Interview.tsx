@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetInterview } from '../api/interviews/useGetInterview.ts';
 import { useGetPersonEvents } from '../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
@@ -16,16 +17,21 @@ function getInitials(name: string): string {
 }
 
 export default function InterviewPage() {
+  const intl = useIntl();
   const { slug } = useParams<{ slug: string }>();
   const { data: interview, isLoading, error } = useGetInterview({ slug: slug! });
   const authors = interview?.interview_data?.authors ?? [];
   const primaryAuthor = authors[0];
   const { data: personEvents } = useGetPersonEvents(primaryAuthor?.id);
   const authorNames = authors.map(a => a.name).join(' & ') || decodeHtmlEntities(interview?.title?.rendered ?? '');
-  usePageTitle(authorNames ? `Interview with ${authorNames}` : null);
+  usePageTitle(
+    authorNames
+      ? intl.formatMessage({ id: 'interview.pageTitle' }, { name: authorNames })
+      : null,
+  );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !interview) return <div>Interview not found</div>;
+  if (isLoading) return <div><FormattedMessage id="interview.loading" /></div>;
+  if (error || !interview) return <div><FormattedMessage id="interview.notFound" /></div>;
 
   const { interviewer_name, intro, book_cover, question, answer, question_image } =
     interview.interview_data;
@@ -33,6 +39,7 @@ export default function InterviewPage() {
   const displayName = authorNames;
   const authorInitials = getInitials(primaryAuthor?.name || displayName);
   const interviewerInitials = interviewer_name ? getInitials(interviewer_name) : 'Q';
+  const firstName = displayName.split(' ')[0];
 
   const today = new Date().toISOString().slice(0, 10);
   const upcomingEvents = personEvents?.filter((e) => e.event_date >= today) ?? [];
@@ -41,10 +48,12 @@ export default function InterviewPage() {
     <main id="main-content" className={styles.page}>
       <header className={styles.header}>
         <div className={styles.titleBlock}>
-          <p className={styles.eyebrow}>Q&amp;A</p>
+          <p className={styles.eyebrow}><FormattedMessage id="interview.eyebrow" /></p>
           <h1 className={styles.authorName}>{displayName}</h1>
           {interviewer_name && (
-            <p className={styles.interviewer}>Interviewed by {interviewer_name}</p>
+            <p className={styles.interviewer}>
+              {intl.formatMessage({ id: 'interview.interviewedBy' }, { name: interviewer_name })}
+            </p>
           )}
         </div>
 
@@ -60,7 +69,7 @@ export default function InterviewPage() {
           )}
           {book_cover && (
             <div className={styles.bookWrap}>
-              <BlurImageCard src={book_cover[0]} alt="Book cover" contain />
+              <BlurImageCard src={book_cover[0]} alt={intl.formatMessage({ id: 'book.eyebrow' })} contain />
             </div>
           )}
         </div>
@@ -70,13 +79,19 @@ export default function InterviewPage() {
             {upcomingEvents.map((event) => (
               <div key={event.id} className={styles.eventCard}>
                 <div className={styles.eventCardText}>
-                  <p className={styles.eventCardEyebrow}>See {displayName.split(' ')[0]} live</p>
+                  <p className={styles.eventCardEyebrow}>
+                    {intl.formatMessage({ id: 'interview.seeLive' }, { firstName })}
+                  </p>
                   <p className={styles.eventCardTitle}>
                     <Link to={`/festival-events/${event.slug}`}>{event.title}</Link>
                   </p>
                   {event.event_date && (
                     <p className={styles.eventCardDate}>
-                      {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric' })}
+                      {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
+                        weekday: 'long',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
                       {event.time_start && ` · ${event.time_start} PT`}
                     </p>
                   )}
@@ -88,7 +103,7 @@ export default function InterviewPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Get tickets
+                    <FormattedMessage id="interview.getTickets" />
                   </a>
                 )}
               </div>
@@ -124,7 +139,7 @@ export default function InterviewPage() {
         <div className={styles.bioLinks}>
           {authors.map(a => (
             <Link key={a.id} to={`/people/${a.slug}`} className={styles.bioLink}>
-              Read {a.name}'s bio →
+              {intl.formatMessage({ id: 'interview.readBio' }, { name: a.name })}
             </Link>
           ))}
         </div>

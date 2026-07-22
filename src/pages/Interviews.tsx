@@ -1,12 +1,14 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetInterviews } from '../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 import { usePageTitle } from '../utils/usePageTitle';
 import styles from './Interviews.module.css';
 
 export default function InterviewsPage() {
-  usePageTitle('Interviews');
+  const intl = useIntl();
+  usePageTitle(intl.formatMessage({ id: 'interviews.heading' }));
   const { data: interviews, isLoading, isError } = useGetInterviews();
 
   const years = useMemo(() => {
@@ -26,13 +28,13 @@ export default function InterviewsPage() {
     return interviews.filter(i => i.interview_data?.festival_year === activeYear);
   }, [interviews, activeYear]);
 
-  if (isLoading) return <div className={styles.state}>Loading interviews...</div>;
-  if (isError) return <div className={styles.state}>Error loading interviews.</div>;
-  if (!interviews?.length) return <div className={styles.state}>No interviews yet.</div>;
+  if (isLoading) return <div className={styles.state}><FormattedMessage id="interviews.loading" /></div>;
+  if (isError) return <div className={styles.state}><FormattedMessage id="interviews.error" /></div>;
+  if (!interviews?.length) return <div className={styles.state}><FormattedMessage id="interviews.empty" /></div>;
 
   return (
     <main id="main-content" className={styles.page}>
-      <h1 className={styles.heading}>Interviews</h1>
+      <h1 className={styles.heading}><FormattedMessage id="interviews.heading" /></h1>
 
       {years.length > 1 && (
         <div className={styles.yearFilter}>
@@ -49,7 +51,9 @@ export default function InterviewsPage() {
       )}
 
       {filtered.length === 0 ? (
-        <div className={styles.state}>No interviews for {activeYear}.</div>
+        <div className={styles.state}>
+          <FormattedMessage id="interviews.emptyYear" values={{ year: activeYear }} />
+        </div>
       ) : (
         <ul className={styles.list}>
           {filtered.map((interview) => {
