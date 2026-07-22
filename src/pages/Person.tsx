@@ -5,7 +5,6 @@ import { useGetPersonBooks } from '../api/people/useGetPersonBooks.ts';
 import { useGetPersonInterviews } from '../api/people/useGetPersonInterview.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../utils/usePageTitle.ts';
-import { BlurImageCard } from '../components/BlurImageCard.tsx';
 import styles from './Person.module.css';
 
 export default function PersonPage() {
@@ -27,18 +26,38 @@ export default function PersonPage() {
 
   return (
     <main id="main-content" className={styles.page}>
-      {(photo || firstBook?.cover_image) && (
-        <div className={styles.hero}>
-          {photo && (
-            <div className={styles.heroCard}>
-              <BlurImageCard src={photo[0]} alt={name} contain />
-            </div>
-          )}
-          {firstBook?.cover_image && (
-            <div className={styles.heroCard}>
-              <BlurImageCard src={firstBook.cover_image[0]} alt={firstBook.title} contain />
-            </div>
-          )}
+
+
+      {events && events.length > 0 && (
+        <div className={styles.eventFeatureCards}>
+          {events.map((event) => (
+            <Link key={event.id} to={`/festival-events/${event.slug}`} className={styles.eventFeatureCard}>
+              <div className={styles.eventFeatureCardPhoto}>
+                {photo && (
+                  <div className={styles.eventFeatureCardPhotoLeft}>
+                    <img src={photo[0]} alt="" aria-hidden="true" className={styles.eventFeatureCardBlurBg} />
+                    <img src={photo[0]} alt={name} className={styles.eventFeatureCardAuthorPhoto} />
+                  </div>
+                )}
+                {firstBook?.cover_image && (
+                  <img src={firstBook.cover_image[0]} alt={firstBook.title} className={styles.eventFeatureCardBookCover} />
+                )}
+              </div>
+              <div className={styles.eventFeatureCardInfo}>
+                <h2 className={styles.eventFeatureCardTitle}>{event.title}</h2>
+                {event.event_date && (
+                  <p className={styles.eventFeatureCardDate}>
+                    {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
+                      weekday: 'short',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                  </p>
+                )}
+              </div>
+            </Link>
+          ))}
         </div>
       )}
 
