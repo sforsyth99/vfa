@@ -8,7 +8,7 @@
 
 .hero {
     padding: 4rem 2rem 3rem;
-    border-bottom: 1px solid #e8e4e0;
+    border-bottom: 1px solid var(--vfa-warm-border-light);
     margin-bottom: 2rem;
 }
 
@@ -17,7 +17,7 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     margin: 0 0 1rem;
 }
 
@@ -26,7 +26,7 @@
     font-size: 3rem;
     font-weight: 600;
     line-height: 1.1;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     margin: 0 0 1.25rem;
     letter-spacing: -0.02em;
 }
@@ -40,14 +40,14 @@
 .heroSubtitle {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: #3d3a3f;
+    color: var(--vfa-ink-dark);
     max-width: 600px;
     margin: 0 0 1rem;
 }
 
 .heroKidfest {
     font-size: 0.9rem;
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     font-weight: 500;
     margin: 0;
 }
@@ -119,12 +119,12 @@
 
 .scheduleLocation {
     font-size: 0.875rem;
-    color: #555;
+    color: var(--vfa-text-ui);
 }
 
 .scheduleIntro {
     font-size: 0.95rem;
-    color: #555;
+    color: var(--vfa-text-ui);
     margin: 0 0 1rem;
 }
 
@@ -178,6 +178,35 @@
     transition: transform 0.15s ease;
 }
 
+.authorPhotoPlaceholder {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--vfa-forest-pale);
+    color: var(--vfa-forest-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+}
+
+.kidsAuthorPhotoPlaceholder {
+    width: 80px;
+    height: 120px;
+    border-radius: 2px;
+    background: var(--vfa-forest-pale);
+    color: var(--vfa-forest-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
 .kidsAuthorPhoto:hover img {
     transform: translateY(-2px);
 }
@@ -185,7 +214,7 @@
 .authorName {
     font-size: 0.75rem;
     font-weight: 500;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     text-align: center;
     line-height: 1.3;
 }
@@ -198,8 +227,12 @@
 }
 
 .bookCover {
-    display: block;
+    display: flex;
+    flex-direction: column;
     flex-shrink: 0;
+    text-decoration: none;
+    gap: 0.4rem;
+    max-width: 130px;
 }
 
 .bookCover img {
@@ -211,9 +244,28 @@
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.bookCover:hover img {
+.bookCover:hover img,
+.bookCover:hover .bookCoverPlaceholder {
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+}
+
+.bookCoverPlaceholder {
+    height: 160px;
+    width: 107px;
+    border-radius: 2px;
+    background: var(--vfa-forest-pale);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    flex-shrink: 0;
+}
+
+.bookCoverTitle {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--vfa-ink-darkest);
+    line-height: 1.3;
+    margin: 0;
 }
 
 .seeAll {
@@ -221,15 +273,19 @@
     margin-top: 0.75rem;
     font-size: 0.875rem;
     font-weight: 500;
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     text-decoration: none;
-    border-bottom: 1px solid #1d3d2f;
+    border-bottom: 1px solid var(--vfa-forest-dark);
     padding-bottom: 1px;
     transition: opacity 0.15s ease;
 }
 
 .seeAll:hover {
     opacity: 0.65;
+}
+
+.section {
+    margin: 2rem 0;
 }
 
 .interviewList {

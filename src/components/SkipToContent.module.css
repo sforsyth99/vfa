@@ -1,0 +1,15 @@
+.skipLink {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--vfa-color-surface);
+    color: var(--vfa-color-text);
+    padding: 0.5em 1em;
+    z-index: 1000;
+    transform: translateY(-120%);
+    transition: transform 0.2s;
+}
+
+.skipLink:focus {
+    transform: translateY(0);
+}

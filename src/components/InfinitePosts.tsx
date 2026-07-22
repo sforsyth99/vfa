@@ -1,6 +1,7 @@
 import { useInfinitePosts } from '../api/posts/useGetPosts';
 import type { Post } from '../api/posts/postTypes';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
+import styles from './InfinitePosts.module.css';
 
 const POSTS_PER_PAGE = 3;
 
@@ -32,11 +33,11 @@ function InfinitePosts() {
         ))}
       </ul>
       {hasNextPage && (
-        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} style={{ marginTop: 16 }}>
+        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} className={styles.spacedTop}>
           {isFetchingNextPage ? 'Loading...' : 'Load more'}
         </button>
       )}
-      {!hasNextPage && <div style={{ marginTop: 16 }}>No more posts.</div>}
+      {!hasNextPage && <div className={styles.spacedTop}>No more posts.</div>}
     </div>
   );
 }

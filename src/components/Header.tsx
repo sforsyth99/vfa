@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import styles from './Header.module.css';
 import logo from '../assets/VFA_Logo.png';
 import { useGetPrimaryMenu } from '../api/menus/useGetPrimaryMenu';
@@ -45,6 +46,7 @@ function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0
 }
 
 function Header() {
+  const intl = useIntl();
   const { data: menuLocation, isLoading: loadingMenu, error: menuError } = useGetPrimaryMenu();
   const menuId = menuLocation?.menu;
   const { data: menuItems, isLoading: loadingItems, error: itemsError } = useGetMenuItems(menuId ?? 0);
@@ -54,13 +56,13 @@ function Header() {
     <header className={styles.header}>
       <div className={styles.headerInner}>
         <Link to="/" className={styles.logoLink}>
-          <img src={logo} alt="Victoria Festival of Authors" className={styles.logo} />
+          <img src={logo} alt={intl.formatMessage({ id: 'app.title' })} className={styles.logo} />
         </Link>
         <nav className={styles.nav}>
           {(loadingMenu || loadingItems || loadingPages) ? (
-            <div>Loading menu...</div>
+            <div>{intl.formatMessage({ id: 'nav.loading' })}</div>
           ) : menuError || itemsError || pagesError ? (
-            <div>Error loading menu</div>
+            <div>{intl.formatMessage({ id: 'nav.error' })}</div>
           ) : (
             <>
               {menuItems && renderMenuItems(menuItems, pages)}
@@ -73,7 +75,7 @@ function Header() {
           rel="noopener noreferrer"
           className={styles.donateButton}
         >
-          Donate
+          {intl.formatMessage({ id: 'nav.donate' })}
         </a>
       </div>
     </header>

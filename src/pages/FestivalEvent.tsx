@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvent } from '../api/festivalEvents/useGetFestivalEvent.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
 import type { PersonData } from '../api/people/peopleTypes.ts';
@@ -12,6 +13,7 @@ import styles from './FestivalEvent.module.css';
 const VFA_API_BASE = 'https://api.victoriafestivalofauthors.ca/wp-json/vfa/v1';
 
 function AuthorBooks({ authors }: { authors: PersonData[] }) {
+  const intl = useIntl();
   const results = useQueries({
     queries: authors.map((a) => ({
       queryKey: ['person-books', a.id],
@@ -32,7 +34,7 @@ function AuthorBooks({ authors }: { authors: PersonData[] }) {
 
   return (
     <div className={styles.section}>
-      <p className={styles.sectionLabel}>Books</p>
+      <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.books' })}</p>
       <div className={styles.bookGrid}>
         {books.map((book) => (
           <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCard}>
@@ -79,13 +81,21 @@ function PersonGroup({ people, label }: { people: PersonData[]; label: string })
   );
 }
 
+const EVENT_TYPE_KEYS: Record<string, string> = {
+  conversation: 'festivalEvent.type.conversation',
+  walk: 'festivalEvent.type.walk',
+  workshop: 'festivalEvent.type.workshop',
+  author_fair: 'festivalEvent.type.authorFair',
+};
+
 export default function FestivalEventPage() {
+  const intl = useIntl();
   const { slug } = useParams<{ slug: string }>();
   const { data: event, isLoading, error } = useGetFestivalEvent({ slug: slug! });
   usePageTitle(event ? decodeHtmlEntities(event.title?.rendered ?? '') : null);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !event) return <div>Event not found</div>;
+  if (isLoading) return <div><FormattedMessage id="festivalEvent.loading" /></div>;
+  if (error || !event) return <div><FormattedMessage id="festivalEvent.notFound" /></div>;
 
   const {
     is_kidfest,
@@ -114,6 +124,12 @@ export default function FestivalEventPage() {
     ? `${time_start}${time_end ? ` – ${time_end}` : ''} PT`
     : null;
 
+  const typeKey = (event_type && EVENT_TYPE_KEYS[event_type]) ?? 'festivalEvent.type.default';
+  const typeLabel = intl.formatMessage({ id: typeKey });
+  const eyebrowLabel = is_kidfest
+    ? intl.formatMessage({ id: 'festivalEvent.type.kidfest' }, { label: typeLabel })
+    : typeLabel;
+
   return (
     <main id="main-content" className={styles.page}>
       {event_image && (
@@ -123,13 +139,7 @@ export default function FestivalEventPage() {
           className={styles.eventImage}
         />
       )}
-      <p className={styles.eyebrow}>
-        {(() => {
-          const typeLabels: Record<string, string> = { conversation: 'Conversation', walk: 'Walk', workshop: 'Workshop', author_fair: 'Author Fair' };
-          const label = (event_type && typeLabels[event_type]) ?? 'Event';
-          return is_kidfest ? `KidsFest ${label}` : label;
-        })()}
-      </p>
+      <p className={styles.eyebrow}>{eyebrowLabel}</p>
       <h1 className={styles.title}>{decodeHtmlEntities(event.title?.rendered ?? '')}</h1>
       {event_date && (
         <p className={styles.datetime}>
@@ -143,7 +153,7 @@ export default function FestivalEventPage() {
 
       {(venue || online_url) && (
         <div className={styles.section}>
-          <p className={styles.sectionLabel}>Venue</p>
+          <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.venue' })}</p>
           {venue && (
             <>
               <Link to={`/venues/${venue.slug}`} className={styles.venueName}>
@@ -153,7 +163,9 @@ export default function FestivalEventPage() {
                 <p className={styles.venuePronunciation}>{venue.name_pronunciation}</p>
               )}
               {venue.alternate_name && (
-                <p className={styles.venueIndigenous}>(formerly {venue.alternate_name})</p>
+                <p className={styles.venueIndigenous}>
+                  ({intl.formatMessage({ id: 'festivalEvent.venueFormerly' }, { name: venue.alternate_name })})
+                </p>
               )}
               {[venue.building, venue.room].filter(Boolean).join(', ') && (
                 <p className={styles.venueBuilding}>
@@ -164,13 +176,7 @@ export default function FestivalEventPage() {
                 .filter(Boolean)
                 .join(', ') && (
                 <p className={styles.venueAddress}>
-                  {[
-                    venue.street_address,
-                    venue.city,
-                    venue.province,
-                    venue.postal_code,
-                    venue.country,
-                  ]
+                  {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
                     .filter(Boolean)
                     .join(', ')}
                 </p>
@@ -180,7 +186,7 @@ export default function FestivalEventPage() {
           {venue?.street_address && <VenueMap venue={venue} />}
           {online_url && (
             <a href={online_url} className={styles.onlineLink}>
-              Join online →
+              <FormattedMessage id="festivalEvent.joinOnline" />
             </a>
           )}
         </div>
@@ -193,14 +199,14 @@ export default function FestivalEventPage() {
         hosts.length > 0 ||
         hosted_by) && (
         <div className={styles.section}>
-          <p className={styles.sectionLabel}>People</p>
-          <PersonGroup people={authors} label="Authors" />
-          <PersonGroup people={moderator} label="Moderator" />
-          <PersonGroup people={curator} label="Curator" />
-          <PersonGroup people={musician} label="Musician" />
+          <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.people' })}</p>
+          <PersonGroup people={authors} label={intl.formatMessage({ id: 'festivalEvent.people.authors' })} />
+          <PersonGroup people={moderator} label={intl.formatMessage({ id: 'festivalEvent.people.moderator' })} />
+          <PersonGroup people={curator} label={intl.formatMessage({ id: 'festivalEvent.people.curator' })} />
+          <PersonGroup people={musician} label={intl.formatMessage({ id: 'festivalEvent.people.musician' })} />
           {(hosts.length > 0 || hosted_by) && (
             <div className={styles.personGroup}>
-              <p className={styles.personGroupLabel}>Hosted by</p>
+              <p className={styles.personGroupLabel}>{intl.formatMessage({ id: 'festivalEvent.people.hostedBy' })}</p>
               {hosts.length > 0 && (
                 <div className={styles.personCardGrid}>
                   {hosts.map(p => <PersonCard key={p.id} person={p} />)}
@@ -216,7 +222,7 @@ export default function FestivalEventPage() {
 
       {(tickets.length > 0 || eventbrite_url) && (
         <div className={styles.section}>
-          <p className={styles.sectionLabel}>Tickets</p>
+          <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.tickets' })}</p>
           {(['in_person', 'online'] as const).map((type) => {
             const group = tickets.filter((t) => t.type === type);
             if (group.length === 0) return null;
@@ -225,7 +231,9 @@ export default function FestivalEventPage() {
               <div key={type}>
                 {hasOtherType && (
                   <p className={styles.ticketCategory}>
-                    {type === 'in_person' ? 'In-Person' : 'Online'}
+                    {type === 'in_person'
+                      ? intl.formatMessage({ id: 'festivalEvent.tickets.inPerson' })
+                      : intl.formatMessage({ id: 'festivalEvent.tickets.online' })}
                   </p>
                 )}
                 <ul className={styles.ticketList}>
@@ -242,7 +250,7 @@ export default function FestivalEventPage() {
           {eventbrite_image && (
             <img
               src={eventbrite_image[0]}
-              alt="Eventbrite waiting room"
+              alt={intl.formatMessage({ id: 'festivalEvent.eventbriteImageAlt' })}
               className={styles.eventbriteImage}
             />
           )}
@@ -253,7 +261,7 @@ export default function FestivalEventPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Buy tickets on Eventbrite →
+              <FormattedMessage id="festivalEvent.buyTickets" />
             </a>
           )}
         </div>

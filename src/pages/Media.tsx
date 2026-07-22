@@ -1,5 +1,6 @@
 import { useGetMedia } from '../api/media/useGetMedia';
 import type { Media } from '../api/media/mediaTypes.ts';
+import styles from './Media.module.css';
 
 function MediaPage() {
   const { data, isLoading, error } = useGetMedia();
@@ -13,13 +14,13 @@ function MediaPage() {
       <h1>Media</h1>
       <ul>
         {data.slice(0, 5).map((media: Media) => (
-          <li key={media.id} style={{ marginBottom: 24 }}>
+          <li key={media.id} className={styles.mediaItem}>
             <strong>{media.title.rendered}</strong>
             <div>
               <img
                 src={media.source_url}
                 alt={media.alt_text || media.title.rendered}
-                style={{ maxWidth: 200, height: 'auto' }}
+                className={styles.mediaImg}
               />
             </div>
             <div>{media.caption.rendered && <span dangerouslySetInnerHTML={{ __html: media.caption.rendered }} />}</div>

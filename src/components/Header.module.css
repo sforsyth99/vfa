@@ -1,8 +1,8 @@
 .header {
-    background: #fff;
-    color: #1c1917;
+    background: var(--vfa-color-surface);
+    color: var(--vfa-ink-darkest);
     padding: 0.75rem 1.5rem;
-    border-bottom: 1px solid #e8e4e0;
+    border-bottom: 1px solid var(--vfa-warm-border-light);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -43,21 +43,21 @@
 }
 
 .navList a {
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s;
 }
 
 .navList a:hover {
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
 }
 
 .donateButton {
     display: inline-block;
     padding: 0.45em 1.2em;
-    background: #1d3d2f;
-    color: #fff;
+    background: var(--vfa-forest-dark);
+    color: var(--vfa-color-text-light);
     font-weight: 700;
     font-size: 0.95em;
     border-radius: 4px;
@@ -69,6 +69,6 @@
 
 .donateButton:hover,
 .donateButton:focus {
-    background: #153028;
-    color: #fff;
+    background: var(--vfa-forest-darkest);
+    color: var(--vfa-color-text-light);
 }

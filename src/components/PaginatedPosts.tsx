@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGetPaginatedPosts } from '../api/posts/useGetPosts';
 import type { Post } from '../api/posts/postTypes.ts';
+import styles from './PaginatedPosts.module.css';
 
 const POSTS_PER_PAGE = 3;
 
@@ -45,7 +46,7 @@ function PaginatedPosts() {
         ))}
       </ul>
       {hasMore && (
-        <button onClick={handleLoadMore} disabled={isLoadingMore} style={{ marginTop: 16 }}>
+        <button onClick={handleLoadMore} disabled={isLoadingMore} className={styles.loadMore}>
           {isLoadingMore ? 'Loading...' : 'Load more'}
         </button>
       )}

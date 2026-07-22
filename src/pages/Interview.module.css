@@ -4,7 +4,7 @@
     max-width: 780px;
     margin: 0 auto;
     padding: 4rem 2rem 6rem;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
 }
 
 /* ── Header ─────────────────────────────────────────── */
@@ -15,7 +15,7 @@
     gap: 1.5rem;
     padding-bottom: 3.5rem;
     margin-bottom: 3.5rem;
-    border-bottom: 1px solid #d9d4ce;
+    border-bottom: 1px solid var(--vfa-warm-border);
 }
 
 @media (max-width: 640px) {
@@ -69,7 +69,7 @@
     font-size: 0.7rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #6b8f7e;
+    color: var(--vfa-forest-mid);
     font-weight: 600;
     margin: 0 0 0.9rem;
 }
@@ -79,7 +79,7 @@
     font-size: 2.4rem;
     font-weight: 600;
     line-height: 1.15;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     margin: 0 0 0.5rem;
     letter-spacing: -0.01em;
 }
@@ -93,14 +93,14 @@
 .interviewer {
     font-size: 0.875rem;
     font-style: italic;
-    color: #7a7580;
+    color: var(--vfa-ink-light);
     margin: 0 0 1.75rem;
 }
 
 .intro {
     font-size: 1rem;
     line-height: 1.75;
-    color: #3d3a3f;
+    color: var(--vfa-ink-dark);
     margin: 0 0 3rem;
 }
 
@@ -110,16 +110,16 @@
     gap: 1rem;
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid #d9d4ce;
+    border-top: 1px solid var(--vfa-warm-border);
 }
 
 .bioLink {
     display: inline-block;
     font-size: 0.8125rem;
     font-weight: 500;
-    color: #7a7580;
+    color: var(--vfa-ink-light);
     text-decoration: none;
-    border-bottom: 1px solid #c4bfc8;
+    border-bottom: 1px solid var(--vfa-warm-border-faint);
     padding-bottom: 1px;
     letter-spacing: 0.01em;
     transition: opacity 0.15s ease;
@@ -146,8 +146,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    background: #eef3ef;
-    border: 1px solid #d4e0d6;
+    background: var(--vfa-forest-bg);
+    border: 1px solid var(--vfa-forest-pale);
     border-radius: 8px;
     padding: 1.25rem 1.5rem;
 }
@@ -163,7 +163,7 @@
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     margin: 0;
 }
 
@@ -174,7 +174,7 @@
 }
 
 .eventCardTitle a {
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     text-decoration: none;
 }
 
@@ -184,15 +184,15 @@
 
 .eventCardDate {
     font-size: 0.875rem;
-    color: #5a5560;
+    color: var(--vfa-ink-mid);
     margin: 0;
 }
 
 .eventCardButton {
     display: inline-block;
     padding: 0.55em 1.4em;
-    background: #1d3d2f;
-    color: #fff;
+    background: var(--vfa-forest-dark);
+    color: var(--vfa-color-text-light);
     font-size: 0.9rem;
     font-weight: 600;
     border-radius: 4px;
@@ -203,7 +203,7 @@
 }
 
 .eventCardButton:hover {
-    background: #153028;
+    background: var(--vfa-forest-darkest);
 }
 
 /* ── Q&A Pairs ──────────────────────────────────────── */
@@ -215,7 +215,7 @@
 
 .pair {
     padding: 2.75rem 0;
-    border-bottom: 1px solid #d9d4ce;
+    border-bottom: 1px solid var(--vfa-warm-border);
 }
 
 .pair:first-child {
@@ -230,13 +230,13 @@
     font-size: 1.125rem;
     font-style: italic;
     line-height: 1.55;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     margin: 0 0 1.25rem;
 }
 
 .qMark {
     font-weight: 600;
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     user-select: none;
     flex-shrink: 0;
 }
@@ -260,7 +260,7 @@
     gap: 0.45em;
     font-size: 1rem;
     line-height: 1.8;
-    color: #3d3a3f;
+    color: var(--vfa-ink-dark);
     margin: 0;
 }
 
@@ -268,7 +268,7 @@
     font-family: 'Playfair Display', Georgia, serif;
     font-style: italic;
     font-weight: 600;
-    color: #7a7580;
+    color: var(--vfa-ink-light);
     user-select: none;
     flex-shrink: 0;
 }

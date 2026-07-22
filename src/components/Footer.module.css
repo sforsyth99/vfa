@@ -1,12 +1,12 @@
 .footer {
-    background: #eef3ef;
-    color: #1c1917;
+    background: var(--vfa-forest-bg);
+    color: var(--vfa-ink-darkest);
     text-align: center;
     padding: 1rem 0;
     left: 0;
     bottom: 0;
     width: 100%;
-    border-top: 1px solid #d4e0d6;
+    border-top: 1px solid var(--vfa-forest-pale);
 }
 
 .footerNav {
@@ -30,14 +30,14 @@
 .footerSubMenu {
     list-style: disc;
     margin-left: 2em;
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     padding-left: 1.5em;
     display: block;
     text-align: left;
 }
 
 .footerNavLink {
-    color: #1c1917;
+    color: var(--vfa-ink-darkest);
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s;
@@ -45,7 +45,7 @@
 
 .footerNavLink:hover,
 .footerNavLink:focus {
-    color: #1d3d2f;
+    color: var(--vfa-forest-dark);
     text-decoration: underline;
 }
 
@@ -53,7 +53,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background: white;
+    background: var(--vfa-color-surface);
     margin-bottom: 1.5em;
     padding: 20px 28px;
     gap: 28px;
@@ -66,13 +66,13 @@
     gap: 0.6em;
     flex-shrink: 0;
     padding-right: 28px;
-    border-right: 1px solid #e5e5e5;
+    border-right: 1px solid var(--vfa-border-sponsor);
     align-self: stretch;
     justify-content: center;
 }
 
 .titleSponsorLabel {
-    color: #555;
+    color: var(--vfa-text-ui);
     font-size: 0.7em;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -116,7 +116,7 @@
     height: 40px;
     max-width: 120px;
     object-fit: contain;
-    background: #fff;
+    background: var(--vfa-color-surface);
     border-radius: 4px;
     padding: 2px 6px;
     /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);*/

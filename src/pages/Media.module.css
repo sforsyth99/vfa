@@ -1,0 +1,8 @@
+.mediaItem {
+    margin-bottom: 1.5rem;
+}
+
+.mediaImg {
+    max-width: 200px;
+    height: auto;
+}

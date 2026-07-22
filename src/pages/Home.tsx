@@ -1,6 +1,6 @@
+import { useIntl, FormattedMessage } from 'react-intl';
 import styles from './Home.module.css';
 import { usePageTitle } from '../utils/usePageTitle';
-// import { useGetCategories } from '../api/categories/useGetCategories';
 import { useGetInterviews } from '../api/interviews/useGetInterviews';
 import { useGetAuthors } from '../api/people/useGetAuthors';
 import { useGetKidfestAuthors } from '../api/people/useGetKidfestAuthors';
@@ -8,72 +8,22 @@ import { useGetFestivalEvents } from '../api/festivalEvents/useGetFestivalEvents
 import type { FestivalEvent } from '../api/festivalEvents/festivalEventTypes';
 import { useGetBooks } from '../api/books/useGetBooks';
 import type { Book } from '../api/books/bookTypes';
-// import { useMemo } from 'react';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 import { Link } from 'react-router-dom';
-//
-// function QandA2024Posts() {
-//   // Get all categories and find the Q&A 2024 category id by slug
-//   const { data: categories, isLoading: catLoading, isError: catError } = useGetCategories();
-//   const QNA_2024_SLUG = 'qa-2024';
-//   const qnaCategory = useMemo(
-//     () => categories?.find((cat) => cat.slug === QNA_2024_SLUG),
-//     [categories],
-//   );
-
-// const categoryId = qnaCategory?.id;
-
-// Only call the hook if categoryId is defined
-// const { data,, isError, fetchNextPage, hasNextPage, isFetchingNextPage, error } =
-//   useGetPostsByCategory(categoryId ?? -1, 10); // Use -1 as a dummy value if undefined
-
-// if (catLoading || (categoryId && isLoading)) return <div>Loading Q&amp;A 2024 posts...</div>;
-// if (catError) return <div>Error loading categories.</div>;
-// if (!categoryId) return <div>Q&amp;A 2024 category not found.</div>;
-// if (isError)
-//   return (
-//     <div>Error loading posts: {error instanceof Error ? error.message : 'Unknown error'}</div>
-//   );
-//
-// const allPosts = data ? data.pages.flat() : [];
-// if (!allPosts.length) return <div>No Q&amp;A 2024 posts found.</div>;
-//
-//   return (
-//     <div style={{ margin: '2rem 0' }}>
-//       <h2>Q&amp;A 2024</h2>
-//       <ul>
-//         {allPosts.map((post) => (
-//           <li key={post.id}>
-//             <Link to={`/interviews/${post.slug}`}>{decodeHtmlEntities(post.title.rendered)}</Link>
-//           </li>
-//         ))}
-//       </ul>
-//       {hasNextPage && (
-//         <button
-//           onClick={() => fetchNextPage()}
-//           disabled={isFetchingNextPage}
-//           style={{ marginTop: 16 }}
-//         >
-//           {isFetchingNextPage ? 'Loading...' : 'Load more'}
-//         </button>
-//       )}
-//       {!hasNextPage && <div style={{ marginTop: 16 }}>No more posts.</div>}
-//     </div>
-//   );
-// }
 
 function InterviewsList() {
+  const intl = useIntl();
   const { data: interviews, isLoading, isError } = useGetInterviews();
 
-  if (isLoading) return <div>Loading interviews...</div>;
-  if (isError) return <div>Error loading interviews.</div>;
+  if (isLoading) return <div>{intl.formatMessage({ id: 'home.interviews.loading' })}</div>;
+  if (isError) return <div>{intl.formatMessage({ id: 'home.interviews.error' })}</div>;
   if (!interviews?.length) return null;
 
   const preview = interviews.slice(0, 4);
 
   return (
-    <div style={{ margin: '2rem 0' }}>
-      <h2>Interviews</h2>
+    <div className={styles.section}>
+      <h2><FormattedMessage id="home.interviews.heading" /></h2>
       <ul className={styles.interviewList}>
         {preview.map((interview) => {
           const cover = interview.interview_data?.book_cover;
@@ -90,7 +40,9 @@ function InterviewsList() {
         })}
       </ul>
       {interviews.length > 4 && (
-        <Link to="/interviews" className={styles.seeAll}>See all interviews →</Link>
+        <Link to="/interviews" className={styles.seeAll}>
+          <FormattedMessage id="home.interviews.seeAll" />
+        </Link>
       )}
     </div>
   );
@@ -104,49 +56,60 @@ function bySurname(a: { name: string }, b: { name: string }): number {
   return surname(a.name).localeCompare(surname(b.name));
 }
 
-function AuthorPhotoGrid({ heading, authors, kids = false }: { heading: string; authors: { id: number; slug?: string; name: string; photo: [string, number, number, boolean] | false | null }[]; kids?: boolean }) {
+function nameInitials(name: string): string {
+  return name.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+}
+
+function AuthorPhotoGrid({
+  headingId,
+  authors,
+  kids = false,
+}: {
+  headingId: string;
+  authors: { id: number; slug?: string; name: string; photo: [string, number, number, boolean] | false | null }[];
+  kids?: boolean;
+}) {
   const sorted = [...authors].sort(bySurname);
   return (
-    <div style={{ margin: '2rem 0' }}>
-      <h2>{heading}</h2>
+    <div className={styles.section}>
+      <h2><FormattedMessage id={headingId} /></h2>
       <div className={styles.authorGrid}>
-        {sorted.map((author) => {
-          if (!author.photo) return null;
-          return (
-            <Link key={author.id} to={`/people/${author.slug}`} className={kids ? styles.kidsAuthorPhoto : styles.authorPhoto}>
-              <img src={author.photo[0]} alt={author.name} />
-              <span className={styles.authorName}>{author.name}</span>
-            </Link>
-          );
-        })}
+        {sorted.map((author) => (
+          <Link key={author.id} to={`/people/${author.slug}`} className={kids ? styles.kidsAuthorPhoto : styles.authorPhoto}>
+            {author.photo
+              ? <img src={author.photo[0]} alt={author.name} />
+              : <div className={kids ? styles.kidsAuthorPhotoPlaceholder : styles.authorPhotoPlaceholder} aria-hidden="true">
+                  {nameInitials(author.name)}
+                </div>
+            }
+            <span className={styles.authorName}>{author.name}</span>
+          </Link>
+        ))}
       </div>
     </div>
   );
 }
 
 function AuthorsList() {
+  const intl = useIntl();
   const { data: authors, isLoading, isError } = useGetAuthors(2026);
 
-  if (isLoading) return <div>Loading authors...</div>;
-  if (isError) return <div>Error loading authors.</div>;
+  if (isLoading) return <div>{intl.formatMessage({ id: 'home.authors.loading' })}</div>;
+  if (isError) return <div>{intl.formatMessage({ id: 'home.authors.error' })}</div>;
   if (!authors?.length) return null;
 
-  return <AuthorPhotoGrid heading="Authors" authors={authors} />;
+  return <AuthorPhotoGrid headingId="home.authors.heading" authors={authors} />;
 }
 
 function KidsAuthorsList() {
+  const intl = useIntl();
   const { data: authors, isLoading, isError } = useGetKidfestAuthors(2026);
 
-  if (isLoading) return <div>Loading kids authors...</div>;
-  if (isError) return <div>Error loading kids authors.</div>;
+  if (isLoading) return <div>{intl.formatMessage({ id: 'home.kidsAuthors.loading' })}</div>;
+  if (isError) return <div>{intl.formatMessage({ id: 'home.kidsAuthors.error' })}</div>;
   if (!authors?.length) return null;
 
-  return <AuthorPhotoGrid heading="Kids Authors" authors={authors} kids />;
-}
-
-function formatDate(iso: string): string {
-  const d = new Date(iso + 'T00:00:00');
-  return d.toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' });
+  return <AuthorPhotoGrid headingId="home.kidsAuthors.heading" authors={authors} kids />;
 }
 
 function formatTime(t: string): string {
@@ -157,15 +120,16 @@ function formatTime(t: string): string {
 }
 
 function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; showHost?: boolean }) {
+  const intl = useIntl();
   return (
     <table className={styles.scheduleTable}>
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Event</th>
-          <th>Location</th>
-          {showHost && <th>Hosted by</th>}
+          <th>{intl.formatMessage({ id: 'home.schedule.date' })}</th>
+          <th>{intl.formatMessage({ id: 'home.schedule.time' })}</th>
+          <th>{intl.formatMessage({ id: 'home.schedule.event' })}</th>
+          <th>{intl.formatMessage({ id: 'home.schedule.location' })}</th>
+          {showHost && <th>{intl.formatMessage({ id: 'home.schedule.hostedBy' })}</th>}
         </tr>
       </thead>
       <tbody>
@@ -176,8 +140,12 @@ function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; 
             : '';
           const hasOnline = tickets.some((t) => t.type === 'online');
           const location = venue?.name
-            ? hasOnline ? `${venue.name} and online` : venue.name
-            : hasOnline ? 'Online' : '—';
+            ? hasOnline
+              ? intl.formatMessage({ id: 'home.schedule.locationAndOnline' }, { venue: venue.name })
+              : venue.name
+            : hasOnline
+              ? intl.formatMessage({ id: 'home.schedule.locationOnline' })
+              : '—';
           const hostParts: React.ReactNode[] = [
             ...(hosts ?? []).map((h) =>
               h.slug
@@ -188,7 +156,11 @@ function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; 
           ];
           return (
             <tr key={event.id}>
-              <td className={styles.scheduleDate}>{event_date ? formatDate(event_date) : '—'}</td>
+              <td className={styles.scheduleDate}>
+                {event_date
+                  ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
+                  : '—'}
+              </td>
               <td className={styles.scheduleTime}>{timeStr || '—'}</td>
               <td className={styles.scheduleName}>
                 <Link to={`/festival-events/${event.slug}`}>
@@ -212,10 +184,11 @@ function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; 
 }
 
 function EventSchedule() {
+  const intl = useIntl();
   const { data: events, isLoading, isError } = useGetFestivalEvents();
 
-  if (isLoading) return <div>Loading events...</div>;
-  if (isError) return <div>Error loading events.</div>;
+  if (isLoading) return <div>{intl.formatMessage({ id: 'home.events.loading' })}</div>;
+  if (isError) return <div>{intl.formatMessage({ id: 'home.events.error' })}</div>;
   if (!events?.length) return null;
 
   const today = new Date().toISOString().slice(0, 10);
@@ -243,32 +216,32 @@ function EventSchedule() {
     <>
       {regular.length > 0 && (
         <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}>Upcoming Events</h2>
+          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.upcoming" /></h2>
           <ScheduleTable events={regular} />
         </div>
       )}
       {kidfest.length > 0 && (
         <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}>KidsFest Events</h2>
+          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.kidfest" /></h2>
           <ScheduleTable events={kidfest} />
         </div>
       )}
       {workshops.length > 0 && (
         <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}>Workshops</h2>
+          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.workshops" /></h2>
           <ScheduleTable events={workshops} showHost />
         </div>
       )}
       {online.length > 0 && (
         <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}>Online Events</h2>
-          <p className={styles.scheduleIntro}>Can't make it in person? Join us online for select events.</p>
+          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.onlineEvents" /></h2>
+          <p className={styles.scheduleIntro}><FormattedMessage id="home.schedule.onlineIntro" /></p>
           <table className={styles.scheduleTable}>
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Event</th>
+                <th>{intl.formatMessage({ id: 'home.schedule.date' })}</th>
+                <th>{intl.formatMessage({ id: 'home.schedule.time' })}</th>
+                <th>{intl.formatMessage({ id: 'home.schedule.event' })}</th>
               </tr>
             </thead>
             <tbody>
@@ -279,7 +252,11 @@ function EventSchedule() {
                   : '';
                 return (
                   <tr key={event.id}>
-                    <td className={styles.scheduleDate}>{event_date ? formatDate(event_date) : '—'}</td>
+                    <td className={styles.scheduleDate}>
+                      {event_date
+                        ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
+                        : '—'}
+                    </td>
                     <td className={styles.scheduleTime}>{timeStr || '—'}</td>
                     <td className={styles.scheduleName}>
                       <Link to={`/festival-events/${event.slug}`}>
@@ -295,7 +272,7 @@ function EventSchedule() {
       )}
       {past.length > 0 && (
         <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}>Past Events</h2>
+          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.past" /></h2>
           <ScheduleTable events={past} />
         </div>
       )}
@@ -308,14 +285,14 @@ function BookCoverGrid({ books }: { books: Book[] }) {
     <div className={styles.bookGrid}>
       {books.map((book) => {
         const cover = book.book_data?.cover_image;
-        if (!cover) return null;
+        const title = decodeHtmlEntities(book.title?.rendered ?? '');
         return (
           <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCover}>
-            <img
-              src={cover[0]}
-              alt={decodeHtmlEntities(book.title?.rendered ?? '')}
-              title={decodeHtmlEntities(book.title?.rendered ?? '')}
-            />
+            {cover
+              ? <img src={cover[0]} alt={title} />
+              : <div className={styles.bookCoverPlaceholder} aria-hidden="true" />
+            }
+            <p className={styles.bookCoverTitle}>{title}</p>
           </Link>
         );
       })}
@@ -324,17 +301,18 @@ function BookCoverGrid({ books }: { books: Book[] }) {
 }
 
 function RegularBooksList() {
+  const intl = useIntl();
   const { data: books, isLoading, isError } = useGetBooks();
 
-  if (isLoading) return <div>Loading books...</div>;
-  if (isError) return <div>Error loading books.</div>;
+  if (isLoading) return <div>{intl.formatMessage({ id: 'home.books.loading' })}</div>;
+  if (isError) return null;
 
   const filtered = (books ?? []).filter((b) => !b.book_data?.categories?.includes('children'));
   if (!filtered.length) return null;
 
   return (
-    <div style={{ margin: '2rem 0' }}>
-      <h2>What we're reading</h2>
+    <div className={styles.section}>
+      <h2><FormattedMessage id="home.books.heading" /></h2>
       <BookCoverGrid books={filtered} />
     </div>
   );
@@ -343,32 +321,48 @@ function RegularBooksList() {
 function KidsBooksList() {
   const { data: books, isLoading, isError } = useGetBooks();
 
-  if (isLoading) return null;
-  if (isError) return null;
+  if (isLoading || isError) return null;
 
   const filtered = (books ?? []).filter((b) => b.book_data?.categories?.includes('children'));
   if (!filtered.length) return null;
 
   return (
-    <div style={{ margin: '2rem 0' }}>
-      <h2>Kids' Books</h2>
+    <div className={styles.section}>
+      <h2><FormattedMessage id="home.kidsBooks.heading" /></h2>
       <BookCoverGrid books={filtered} />
     </div>
   );
 }
 
+function HostsAndModerators() {
+  const intl = useIntl();
+  const { data: events, isLoading } = useGetFestivalEvents();
+
+  if (isLoading) {
+    return <div>{intl.formatMessage({ id: 'home.hostsAndModerators.loading' })}</div>;
+  }
+
+  const seen = new Set<number>();
+  const people: { id: number; slug?: string; name: string; photo: [string, number, number, boolean] | false | null }[] = [];
+
+  for (const event of (events ?? [])) {
+    for (const person of [...event.event_data.hosts, ...event.event_data.moderator]) {
+      if (!seen.has(person.id)) { seen.add(person.id); people.push(person); }
+    }
+  }
+
+  if (!people.length) return null;
+
+  return <AuthorPhotoGrid headingId="home.hostsAndModerators.heading" authors={people} />;
+}
+
 function Hero() {
   return (
     <div className={styles.hero}>
-      <p className={styles.heroEyebrow}>Victoria, BC · October 12–18, 2026</p>
-      <h1 className={styles.heroTitle}>Victoria Festival of Authors</h1>
-      <p className={styles.heroSubtitle}>
-        A week-long celebration of storytelling, ideas, and the writers who shape our world.
-        Join us for readings, conversations, and events across Victoria.
-      </p>
-      <p className={styles.heroKidfest}>
-        ✦ KidsFest on October 17th — a special day of stories and imagination for young readers.
-      </p>
+      <p className={styles.heroEyebrow}><FormattedMessage id="home.hero.eyebrow" /></p>
+      <h1 className={styles.heroTitle}><FormattedMessage id="home.hero.title" /></h1>
+      <p className={styles.heroSubtitle}><FormattedMessage id="home.hero.subtitle" /></p>
+      <p className={styles.heroKidfest}><FormattedMessage id="home.hero.kidfest" /></p>
     </div>
   );
 }
@@ -381,8 +375,9 @@ export function HomePage() {
       <EventSchedule />
       <InterviewsList />
       <AuthorsList />
-      <RegularBooksList />
       <KidsAuthorsList />
+      <HostsAndModerators />
+      <RegularBooksList />
       <KidsBooksList />
     </main>
   );

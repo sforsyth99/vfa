@@ -12,3 +12,18 @@
     font-size: 1.1rem;
     color: var(--vfa-color-text);
 }
+
+.eventItem {
+    margin-bottom: 2rem;
+    border: 1px solid var(--vfa-color-border);
+    padding: 1rem;
+}
+
+.eventField {
+    margin-bottom: 0.5rem;
+}
+
+.eventPre {
+    white-space: pre-wrap;
+    word-break: break-word;
+}

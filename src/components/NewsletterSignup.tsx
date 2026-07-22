@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
 import styles from './NewsletterSignup.module.css';
 
 const MAILCHIMP_URL =
   'https://victoriafestivalofauthors.us9.list-manage.com/subscribe/post-json?u=fbfc40b39233dc1e19afef78d&id=e836a773c9&f_id=0076e8e3f0';
 
 function NewsletterSignup() {
+  const intl = useIntl();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -19,12 +21,11 @@ function NewsletterSignup() {
     (window as unknown as Record<string, unknown>)[callbackName] = (data: { result: string; msg: string }) => {
       if (data.result === 'success') {
         setStatus('success');
-        setMessage('Thanks for subscribing!');
+        setMessage(intl.formatMessage({ id: 'newsletter.success' }));
         setEmail('');
       } else {
         setStatus('error');
-        // Mailchimp error messages sometimes start with a number + " - "
-        setMessage(data.msg?.replace(/^\d+ - /, '') || 'Something went wrong. Please try again.');
+        setMessage(data.msg?.replace(/^\d+ - /, '') || intl.formatMessage({ id: 'newsletter.errorFallback' }));
       }
       delete (window as unknown as Record<string, unknown>)[callbackName];
       document.getElementById(callbackName)?.remove();
@@ -38,10 +39,10 @@ function NewsletterSignup() {
 
   return (
     <div className={styles.newsletter}>
-      <p className={styles.title}>Stay in the loop</p>
+      <p className={styles.title}>{intl.formatMessage({ id: 'newsletter.title' })}</p>
       <form onSubmit={handleSubmit} className={styles.form} noValidate>
         {/* Mailchimp honeypot — must stay empty */}
-        <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
+        <div className={styles.honeypot} aria-hidden="true">
           <input
             type="text"
             name="b_fbfc40b39233dc1e19afef78d_e836a773c9"
@@ -54,18 +55,20 @@ function NewsletterSignup() {
           name="EMAIL"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Your email address"
+          placeholder={intl.formatMessage({ id: 'newsletter.emailPlaceholder' })}
           required
           className={styles.input}
           disabled={status === 'loading' || status === 'success'}
-          aria-label="Email address"
+          aria-label={intl.formatMessage({ id: 'newsletter.emailLabel' })}
         />
         <button
           type="submit"
           className={styles.button}
           disabled={status === 'loading' || status === 'success'}
         >
-          {status === 'loading' ? 'Subscribing…' : 'Subscribe'}
+          {status === 'loading'
+            ? intl.formatMessage({ id: 'newsletter.submitting' })
+            : intl.formatMessage({ id: 'newsletter.submit' })}
         </button>
       </form>
       {status === 'success' && <p className={styles.success}>{message}</p>}
