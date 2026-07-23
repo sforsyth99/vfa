@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Custom Fields
  * Description: Custom fields for interviews, people, venues, and events.
- * Version: 1.6.8
+ * Version: 1.7.0
  */
 
 add_action('init', function() {
@@ -132,6 +132,10 @@ add_action('rest_api_init', function() {
                 'festival_year'    => $festival_year,
                 'book_title'       => $book_title,
                 'interviewer_name' => get_post_meta($post['id'], 'interviewer_name', true),
+                'interviewer_bio'  => get_post_meta($post['id'], 'interviewer_bio', true),
+                'interviewer_age'  => get_post_meta($post['id'], 'interviewer_age', true) !== ''
+                                        ? (int) get_post_meta($post['id'], 'interviewer_age', true)
+                                        : null,
                 'intro'            => get_post_meta($post['id'], 'intro', true),
                 'book_cover'       => $book_cover ?: null,
                 'question'         => get_post_meta($post['id'], 'question'),

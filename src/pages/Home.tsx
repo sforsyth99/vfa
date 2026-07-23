@@ -6,6 +6,7 @@ import { useGetAuthors } from '../api/people/useGetAuthors';
 import { useGetKidfestAuthors } from '../api/people/useGetKidfestAuthors';
 import { useGetFestivalEvents } from '../api/festivalEvents/useGetFestivalEvents';
 import type { FestivalEvent } from '../api/festivalEvents/festivalEventTypes';
+import type { PersonData } from '../api/people/peopleTypes';
 import { useGetBooks } from '../api/books/useGetBooks';
 import type { Book } from '../api/books/bookTypes';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
@@ -26,14 +27,37 @@ function InterviewsList() {
       <h2><FormattedMessage id="home.interviews.heading" /></h2>
       <ul className={styles.interviewList}>
         {preview.map((interview) => {
-          const cover = interview.interview_data?.book_cover;
+          const data = interview.interview_data;
+          const cover = data?.book_cover;
+          const authors = data?.authors ?? [];
+          const primaryAuthor = authors[0];
+          const authorLabel = authors.length > 0
+            ? authors.map(a => a.name).join(' & ')
+            : decodeHtmlEntities(interview.title?.rendered ?? '');
+          const initials = authorLabel.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+          const rawText = (data?.intro || data?.question?.[0] || '').replace(/<[^>]+>/g, '').trim();
+          const snippet = rawText.slice(0, 55);
+          const isMissing = !snippet;
+
           return (
-            <li key={interview.id} className={styles.interviewItem}>
-              {cover && (
-                <img src={cover[0]} alt="" className={styles.interviewCover} />
-              )}
-              <Link to={`/interviews/${interview.slug}`}>
-                {decodeHtmlEntities(interview.title?.rendered ?? '')}
+            <li key={interview.id}>
+              <Link to={`/interviews/${interview.slug}`} className={styles.interviewItem}>
+                <div className={styles.interviewAuthorPhoto}>
+                  {primaryAuthor?.photo
+                    ? <img src={primaryAuthor.photo[0]} alt={authorLabel} />
+                    : <div className={styles.interviewAuthorPlaceholder} aria-hidden="true">{initials}</div>
+                  }
+                </div>
+                {cover
+                  ? <img src={cover[0]} alt="" className={styles.interviewCover} />
+                  : <div className={styles.interviewCoverPlaceholder} />
+                }
+                <div className={styles.interviewItemText}>
+                  <span className={styles.interviewItemName}>{authorLabel}</span>
+                  <span className={isMissing ? styles.interviewItemMissing : styles.interviewItemSnippet}>
+                    {isMissing ? 'No content yet.' : <>{snippet}{rawText.length > 55 ? '…' : ''}</>}
+                  </span>
+                </div>
               </Link>
             </li>
           );
@@ -356,6 +380,123 @@ function HostsAndModerators() {
   return <AuthorPhotoGrid headingId="home.hostsAndModerators.heading" authors={people} />;
 }
 
+type SupportRole = 'moderator' | 'curator' | 'musician' | 'host';
+
+interface SupportingPerson {
+  id: number;
+  slug?: string;
+  name: string;
+  bio: string;
+  roles: SupportRole[];
+}
+
+function SupportingPersonBioSnippets() {
+  const intl = useIntl();
+  const { data: events, isLoading, isError } = useGetFestivalEvents();
+
+  if (isLoading) return <div>{intl.formatMessage({ id: 'home.supportingBios.loading' })}</div>;
+  if (isError) return <div>{intl.formatMessage({ id: 'home.supportingBios.error' })}</div>;
+
+  const seen = new Map<number, SupportingPerson>();
+
+  const addPerson = (person: PersonData, role: SupportRole) => {
+    const existing = seen.get(person.id);
+    if (existing) {
+      if (!existing.roles.includes(role)) existing.roles.push(role);
+    } else {
+      seen.set(person.id, { id: person.id, slug: person.slug, name: person.name, bio: person.bio, roles: [role] });
+    }
+  };
+
+  for (const event of (events ?? [])) {
+    event.event_data.moderator.forEach((p) => addPerson(p, 'moderator'));
+    event.event_data.curator.forEach((p) => addPerson(p, 'curator'));
+    event.event_data.musician.forEach((p) => addPerson(p, 'musician'));
+    event.event_data.hosts.forEach((p) => addPerson(p, 'host'));
+  }
+
+  const people = [...seen.values()].sort(bySurname);
+  if (!people.length) return null;
+
+  const roleLabel: Record<SupportRole, string> = {
+    moderator: intl.formatMessage({ id: 'home.supportingBios.role.moderator' }),
+    curator:   intl.formatMessage({ id: 'home.supportingBios.role.curator' }),
+    musician:  intl.formatMessage({ id: 'home.supportingBios.role.musician' }),
+    host:      intl.formatMessage({ id: 'home.supportingBios.role.host' }),
+  };
+
+  return (
+    <div className={styles.section}>
+      <h2><FormattedMessage id="home.supportingBios.heading" /></h2>
+      <table className={styles.authorBioTable}>
+        <tbody>
+          {people.map((person) => {
+            const plainBio = person.bio ? person.bio.replace(/<[^>]*>/g, '').trim() : '';
+            const snippet = plainBio.slice(0, 50);
+            return (
+              <tr key={person.id}>
+                <td className={styles.authorBioName}>
+                  {person.slug
+                    ? <Link to={`/people/${person.slug}`}>{person.name}</Link>
+                    : person.name
+                  }
+                  <span className={styles.authorBioRoles}>
+                    {person.roles.map((r) => roleLabel[r]).join(', ')}
+                  </span>
+                </td>
+                <td className={styles.authorBioSnippet}>
+                  {snippet
+                    ? <>{snippet}{plainBio.length > 50 ? '…' : ''}</>
+                    : <span className={styles.authorBioMissing}><FormattedMessage id="home.supportingBios.noBio" /></span>
+                  }
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function AuthorBioSnippets() {
+  const intl = useIntl();
+  const { data: authors, isLoading, isError } = useGetAuthors(2026);
+
+  if (isLoading) return <div>{intl.formatMessage({ id: 'home.authorBios.loading' })}</div>;
+  if (isError) return <div>{intl.formatMessage({ id: 'home.authorBios.error' })}</div>;
+  if (!authors?.length) return null;
+
+  const sorted = [...authors].sort(bySurname);
+
+  return (
+    <div className={styles.section}>
+      <h2><FormattedMessage id="home.authorBios.heading" /></h2>
+      <table className={styles.authorBioTable}>
+        <tbody>
+          {sorted.map((author) => {
+            const plainBio = author.bio ? author.bio.replace(/<[^>]*>/g, '').trim() : '';
+            const snippet = plainBio.slice(0, 50);
+            return (
+              <tr key={author.id}>
+                <td className={styles.authorBioName}>
+                  <Link to={`/people/${author.slug}`}>{author.name}</Link>
+                </td>
+                <td className={styles.authorBioSnippet}>
+                  {snippet
+                    ? <>{snippet}{plainBio.length > 50 ? '…' : ''}</>
+                    : <span className={styles.authorBioMissing}><FormattedMessage id="home.authorBios.noBio" /></span>
+                  }
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <div className={styles.hero}>
@@ -377,6 +518,8 @@ export function HomePage() {
       <AuthorsList />
       <KidsAuthorsList />
       <HostsAndModerators />
+      <AuthorBioSnippets />
+      <SupportingPersonBioSnippets />
       <RegularBooksList />
       <KidsBooksList />
     </main>

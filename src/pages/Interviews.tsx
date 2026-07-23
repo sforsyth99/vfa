@@ -57,22 +57,38 @@ export default function InterviewsPage() {
       ) : (
         <ul className={styles.list}>
           {filtered.map((interview) => {
-            const cover = interview.interview_data?.book_cover;
-            const authors = interview.interview_data?.authors ?? [];
+            const data = interview.interview_data;
+            const cover = data?.book_cover;
+            const authors = data?.authors ?? [];
+            const primaryAuthor = authors[0];
             const authorLabel = authors.length > 0
               ? authors.map(a => a.name).join(' & ')
               : decodeHtmlEntities(interview.title?.rendered ?? '');
+
+            const rawText = (data?.intro || data?.question?.[0] || '').replace(/<[^>]+>/g, '').trim();
+            const snippet = rawText.slice(0, 55);
+            const isMissing = !snippet;
+
+            const initials = authorLabel.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
             return (
               <li key={interview.id}>
                 <Link to={`/interviews/${interview.slug}`} className={styles.item}>
-                  {cover && <img src={cover[0]} alt="" className={styles.cover} />}
+                  <div className={styles.authorPhoto}>
+                    {primaryAuthor?.photo
+                      ? <img src={primaryAuthor.photo[0]} alt={authorLabel} />
+                      : <div className={styles.authorPhotoPlaceholder} aria-hidden="true">{initials}</div>
+                    }
+                  </div>
+                  {cover
+                    ? <img src={cover[0]} alt="" className={styles.cover} />
+                    : <div className={styles.coverPlaceholder} />
+                  }
                   <div className={styles.itemText}>
                     <p className={styles.itemName}>{authorLabel}</p>
-                    {interview.interview_data?.intro && (
-                      <p className={styles.itemIntro}>
-                        {interview.interview_data.intro.replace(/<[^>]+>/g, '')}
-                      </p>
-                    )}
+                    <p className={isMissing ? styles.itemMissing : styles.itemIntro}>
+                      {isMissing ? 'No content yet.' : <>{snippet}{rawText.length > 55 ? '…' : ''}</>}
+                    </p>
                   </div>
                 </Link>
               </li>

@@ -174,7 +174,8 @@
     display: block;
     height: 120px;
     width: auto;
-    border-radius: 2px;
+    border-radius: 0;
+    object-fit: contain;
     transition: transform 0.15s ease;
 }
 
@@ -232,13 +233,15 @@
     flex-shrink: 0;
     text-decoration: none;
     gap: 0.4rem;
-    max-width: 130px;
+    width: 130px;
 }
 
 .bookCover img {
     display: block;
+    width: 130px;
     height: 160px;
-    width: auto;
+    object-fit: contain;
+    object-position: center;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -268,6 +271,60 @@
     margin: 0;
 }
 
+.authorBioTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+}
+
+.authorBioTable tr {
+    border-bottom: 1px solid var(--vfa-warm-border-light);
+}
+
+.authorBioTable tr:last-child {
+    border-bottom: none;
+}
+
+.authorBioName {
+    font-weight: 600;
+    padding: 6px 16px 6px 0;
+    white-space: nowrap;
+    width: 180px;
+    vertical-align: top;
+}
+
+.authorBioName a {
+    text-decoration: none;
+    color: var(--vfa-forest-dark);
+}
+
+.authorBioName a:hover {
+    text-decoration: underline;
+}
+
+.authorBioRoles {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--vfa-ink-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+}
+
+.authorBioSnippet {
+    padding: 6px 0;
+    color: var(--vfa-ink-dark);
+    font-size: 0.875rem;
+    vertical-align: top;
+}
+
+.authorBioMissing {
+    color: var(--vfa-color-error);
+    font-style: italic;
+}
+
 .seeAll {
     display: inline-block;
     margin-top: 0.75rem;
@@ -294,20 +351,90 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
 }
 
 .interviewItem {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--vfa-warm-border-light);
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.15s ease;
+}
+
+.interviewItem:first-of-type {
+    border-top: 1px solid var(--vfa-warm-border-light);
+}
+
+.interviewItem:hover {
+    opacity: 0.75;
+}
+
+.interviewAuthorPhoto {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+}
+
+.interviewAuthorPhoto img {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.interviewAuthorPlaceholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 4px;
+    background: var(--vfa-forest-pale);
+    color: var(--vfa-forest-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .interviewCover {
-    width: 36px;
-    height: 52px;
+    width: 34px;
+    height: 48px;
     object-fit: cover;
     border-radius: 2px;
     flex-shrink: 0;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.interviewCoverPlaceholder {
+    width: 34px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.interviewItemText {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.interviewItemName {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--vfa-ink-darkest);
+}
+
+.interviewItemSnippet {
+    font-size: 0.8rem;
+    color: var(--vfa-ink-light);
+}
+
+.interviewItemMissing {
+    font-size: 0.8rem;
+    color: var(--vfa-color-error);
+    font-style: italic;
 }

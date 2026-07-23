@@ -9,6 +9,8 @@ export interface InterviewData {
   festival_year: number | null;
   book_title: string | null;
   interviewer_name: string;
+  interviewer_bio: string;
+  interviewer_age: number | null;
   intro: string;
   book_cover: [string, number, number, boolean] | null;
   question: string[];
