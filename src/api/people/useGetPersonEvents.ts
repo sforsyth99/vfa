@@ -11,6 +11,7 @@ export interface PersonEvent {
   time_start: string;
   time_end: string;
   eventbrite_url: string;
+  venue_name: string | null;
   year: number | null;
   roles: string[];
 }

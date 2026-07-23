@@ -1,0 +1,100 @@
+.card {
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+}
+
+.photoSection {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--vfa-forest-bg);
+}
+
+.photoSection::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--vfa-event-blue);
+    clip-path: polygon(70% 0%, 100% 0%, 100% 100%, 63% 100%);
+    z-index: 2;
+}
+
+.photoSection::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.25) 100%);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.photoLeft {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 70%;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
+    z-index: 1;
+}
+
+.authorPhoto {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: right center;
+    z-index: 1;
+}
+
+.authorPhotoContain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    z-index: 1;
+}
+
+.bookCover {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    height: 55%;
+    width: auto;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+    border-radius: 3px;
+    z-index: 4;
+}
+
+.banner {
+    background: var(--vfa-event-blue);
+    padding: 1.75rem 1.75rem 1.5rem;
+}
+
+.title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--vfa-color-text-light);
+    margin: 0 0 0.3rem;
+    line-height: 1.25;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--vfa-color-text-light);
+    margin: 0.1rem 0 0;
+    line-height: 1.3;
+}

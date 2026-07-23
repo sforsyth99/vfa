@@ -4,7 +4,6 @@ import { useGetInterview } from '../api/interviews/useGetInterview.ts';
 import { useGetPersonEvents } from '../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../utils/usePageTitle.ts';
-import { BlurImageCard } from '../components/BlurImageCard.tsx';
 import styles from './Interview.module.css';
 
 function getInitials(name: string): string {
@@ -72,50 +71,45 @@ export default function InterviewPage() {
           {interviewer_name && (
             <p className={styles.interviewer}>
               {intl.formatMessage({ id: 'interview.interviewedBy' }, { name: interviewer_name })}
+              {interviewer_age != null && `, age ${interviewer_age}`}
             </p>
           )}
         </div>
 
-        <div className={styles.imageGroup}>
-          {primaryAuthor?.photo && (
-            <div className={styles.photoWrap}>
-              <BlurImageCard src={primaryAuthor.photo[0]} alt={displayName} contain />
-            </div>
-          )}
-          {book_cover && (
-            <div className={styles.bookWrap}>
-              <BlurImageCard
-                src={book_cover[0]}
-                alt={intl.formatMessage({ id: 'book.eyebrow' })}
-                contain
-              />
-            </div>
-          )}
-        </div>
+        <div className={styles.visualRow}>
+          <div className={styles.imageGroup}>
+            {primaryAuthor?.photo && (
+              <img src={primaryAuthor.photo[0]} alt={displayName} className={styles.headerImg} />
+            )}
+            {book_cover && (
+              <img src={book_cover[0]} alt={intl.formatMessage({ id: 'book.eyebrow' })} className={styles.headerImg} />
+            )}
+          </div>
 
-        {upcomingEvents.length > 0 && (
+          {upcomingEvents.length > 0 && (
           <div className={styles.eventCards}>
             {upcomingEvents.map((event) => (
               <div key={event.id} className={styles.eventCard}>
-                <div className={styles.eventCardText}>
-                  <p className={styles.eventCardEyebrow}>
-                    {intl.formatMessage({ id: 'interview.seeLive' }, { firstName })}
+                <p className={styles.eventCardEyebrow}>
+                  {intl.formatMessage({ id: 'interview.seeLive' }, { firstName })}
+                </p>
+                <p className={styles.eventCardTitle}>
+                  <Link to={`/festival-events/${event.slug}`}>{event.title}</Link>
+                </p>
+                {event.event_date && (
+                  <p className={styles.eventCardDate}>
+                    {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
+                      weekday: 'long',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                    {event.time_start && ` · ${event.time_start} PT`}
                   </p>
-                  <p className={styles.eventCardTitle}>
-                    <Link to={`/festival-events/${event.slug}`}>{event.title}</Link>
-                  </p>
-                  {event.event_date && (
-                    <p className={styles.eventCardDate}>
-                      {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
-                        weekday: 'long',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                      {event.time_start && ` · ${event.time_start} PT`}
-                    </p>
-                  )}
-                </div>
-                {event.eventbrite_url && (
+                )}
+                {event.venue_name && (
+                  <p className={styles.eventCardVenue}>{event.venue_name}</p>
+                )}
+                {event.eventbrite_url ? (
                   <a
                     href={event.eventbrite_url}
                     className={styles.eventCardButton}
@@ -124,11 +118,16 @@ export default function InterviewPage() {
                   >
                     <FormattedMessage id="interview.getTickets" />
                   </a>
+                ) : (
+                  <Link to={`/festival-events/${event.slug}`} className={styles.eventCardButton}>
+                    <FormattedMessage id="interview.learnMore" />
+                  </Link>
                 )}
               </div>
             ))}
           </div>
-        )}
+          )}
+        </div>
       </header>
 
       {intro && <div className={styles.intro} dangerouslySetInnerHTML={{ __html: intro }} />}
@@ -140,13 +139,15 @@ export default function InterviewPage() {
             <div key={i} className={styles.pair}>
               <div className={styles.question}>
                 <span className={styles.qMark} aria-hidden="true">
-                  {interviewerInitials}
+                  {i === 0 && interviewer_name
+                    ? `${interviewer_name} (${interviewerInitials}):`
+                    : `${interviewerInitials}:`}
                 </span>
                 <div className={styles.qText} dangerouslySetInnerHTML={{ __html: q }} />
               </div>
               <div className={styles.answer}>
                 <span className={styles.aMark} aria-hidden="true">
-                  {authorInitials}
+                  {i === 0 ? `${displayName} (${authorInitials}):` : `${authorInitials}:`}
                 </span>
                 <div className={styles.aText} dangerouslySetInnerHTML={{ __html: answer[i] }} />
               </div>

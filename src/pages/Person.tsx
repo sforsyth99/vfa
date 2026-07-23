@@ -6,6 +6,8 @@ import { useGetPersonBooks } from '../api/people/useGetPersonBooks.ts';
 import { useGetPersonInterviews } from '../api/people/useGetPersonInterview.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../utils/usePageTitle.ts';
+import { AuthorFeatureCard } from '../components/AuthorFeatureCard.tsx';
+import { BookLink } from '../components/BookLink.tsx';
 import styles from './Person.module.css';
 
 export default function PersonPage() {
@@ -22,55 +24,47 @@ export default function PersonPage() {
   if (isLoading) return <div><FormattedMessage id="person.loading" /></div>;
   if (error || !person) return <div><FormattedMessage id="person.notFound" /></div>;
 
-  const { alternate_name, name_pronunciation, bio, website_url, photo } = person.person_data;
+  const { alternate_name, name_pronunciation, bio, website_url, photo, kidfest_years, kidfest_photo } = person.person_data;
 
+  const isKidfest = kidfest_years?.length > 0;
   const firstBook = books?.[0];
+  const kidsBook = books?.find(b => b.categories?.includes('children')) ?? firstBook;
   const photoSrc = photo ? photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
+  const kidfestPhotoSrc = kidfest_photo ? kidfest_photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
   const firstName = name.split(' ')[0];
 
   return (
     <main id="main-content" className={styles.page}>
-      {events && events.length > 0 && (
+      {events && events.length > 0 && !isKidfest && (
         <div className={styles.eventFeatureCards}>
           {events.map((event) => (
-            <Link
+            <AuthorFeatureCard
               key={event.id}
+              photoSrc={photoSrc}
+              photoAlt={name}
+              bookCoverSrc={firstBook?.cover_image ? firstBook.cover_image[0] : null}
+              bookCoverAlt={firstBook?.title}
+              title={event.title}
+              subtitleLines={event.event_date ? [
+                new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
+                  weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
+                }),
+              ] : []}
               to={`/festival-events/${event.slug}`}
               className={styles.eventFeatureCard}
-            >
-              <div className={styles.eventFeatureCardPhoto}>
-                {photo && (
-                  <div className={styles.eventFeatureCardPhotoLeft}>
-                    <img
-                      src={photoSrc!}
-                      alt={name}
-                      className={styles.eventFeatureCardAuthorPhoto}
-                    />
-                  </div>
-                )}
-                {firstBook?.cover_image && (
-                  <img
-                    src={firstBook.cover_image[0]}
-                    alt={firstBook.title}
-                    className={styles.eventFeatureCardBookCover}
-                  />
-                )}
-              </div>
-              <div className={styles.eventFeatureCardInfo}>
-                <h2 className={styles.eventFeatureCardTitle}>{event.title}</h2>
-                {event.event_date && (
-                  <p className={styles.eventFeatureCardDate}>
-                    {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
-                      weekday: 'short',
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </p>
-                )}
-              </div>
-            </Link>
+            />
           ))}
+        </div>
+      )}
+
+      {isKidfest && (kidfestPhotoSrc || kidsBook?.cover_image) && (
+        <div className={styles.kidsHero}>
+          {kidfestPhotoSrc && (
+            <img src={kidfestPhotoSrc} alt={name} className={styles.kidsHeroImg} />
+          )}
+          {kidsBook?.cover_image && (
+            <img src={kidsBook.cover_image[0]} alt={kidsBook.title} className={styles.kidsHeroImg} />
+          )}
         </div>
       )}
 
@@ -135,7 +129,7 @@ export default function PersonPage() {
                   </h2>
                   <div className={styles.bookGrid}>
                     {regularBooks.map((book) => (
-                      <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCard}>
+                      <BookLink key={book.id} slug={book.slug} munrosUrl={book.munros_url} className={styles.bookCard}>
                         {book.cover_image ? (
                           <img
                             src={book.cover_image[0]}
@@ -146,7 +140,7 @@ export default function PersonPage() {
                           <div className={styles.bookCoverPlaceholder} />
                         )}
                         <p className={styles.bookTitle}>{book.title}</p>
-                      </Link>
+                      </BookLink>
                     ))}
                   </div>
                 </section>
@@ -158,7 +152,7 @@ export default function PersonPage() {
                   </h2>
                   <div className={styles.bookGrid}>
                     {kidsBooks.map((book) => (
-                      <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCard}>
+                      <BookLink key={book.id} slug={book.slug} munrosUrl={book.munros_url} className={styles.bookCard}>
                         {book.cover_image ? (
                           <img
                             src={book.cover_image[0]}
@@ -169,7 +163,7 @@ export default function PersonPage() {
                           <div className={styles.bookCoverPlaceholder} />
                         )}
                         <p className={styles.bookTitle}>{book.title}</p>
-                      </Link>
+                      </BookLink>
                     ))}
                   </div>
                 </section>
