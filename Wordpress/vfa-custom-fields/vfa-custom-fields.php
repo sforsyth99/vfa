@@ -329,6 +329,10 @@ add_action('rest_api_init', function() {
                     'time_start'     => get_post_meta($id, 'time_start', true),
                     'time_end'       => get_post_meta($id, 'time_end', true),
                     'eventbrite_url' => get_post_meta($id, 'eventbrite_url', true),
+                    'venue_name'     => (function() use ($id) {
+                                            $venue_id = get_post_meta($id, 'venue', true);
+                                            return $venue_id ? get_the_title((int) $venue_id) : null;
+                                        })(),
                     'year'           => $year,
                     'roles'          => $roles,
                 ];

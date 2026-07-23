@@ -11,6 +11,7 @@ import { useGetBooks } from '../api/books/useGetBooks';
 import type { Book } from '../api/books/bookTypes';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 import { Link } from 'react-router-dom';
+import { BookLink } from '../components/BookLink.tsx';
 
 function InterviewsList() {
   const intl = useIntl();
@@ -311,13 +312,13 @@ function BookCoverGrid({ books }: { books: Book[] }) {
         const cover = book.book_data?.cover_image;
         const title = decodeHtmlEntities(book.title?.rendered ?? '');
         return (
-          <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCover}>
+          <BookLink key={book.id} slug={book.slug} munrosUrl={book.book_data?.munros_url} className={styles.bookCover}>
             {cover
               ? <img src={cover[0]} alt={title} />
               : <div className={styles.bookCoverPlaceholder} aria-hidden="true" />
             }
             <p className={styles.bookCoverTitle}>{title}</p>
-          </Link>
+          </BookLink>
         );
       })}
     </div>

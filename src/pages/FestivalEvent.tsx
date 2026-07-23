@@ -1,81 +1,66 @@
 import { Link, useParams } from 'react-router-dom';
-import { useQueries } from '@tanstack/react-query';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvent } from '../api/festivalEvents/useGetFestivalEvent.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
 import type { PersonData } from '../api/people/peopleTypes.ts';
-import type { PersonBook } from '../api/people/useGetPersonBooks.ts';
-import wretch from '../api/wretch.ts';
+import { useGetPersonBooks } from '../api/people/useGetPersonBooks.ts';
+import { AuthorFeatureCard } from '../components/AuthorFeatureCard.tsx';
 import VenueMap from '../components/VenueMap.tsx';
 import { usePageTitle } from '../utils/usePageTitle.ts';
 import styles from './FestivalEvent.module.css';
 
-const VFA_API_BASE = 'https://api.victoriafestivalofauthors.ca/wp-json/vfa/v1';
-
-function AuthorBooks({ authors }: { authors: PersonData[] }) {
-  const intl = useIntl();
-  const results = useQueries({
-    queries: authors.map((a) => ({
-      queryKey: ['person-books', a.id],
-      queryFn: () => wretch(`${VFA_API_BASE}/people/${a.id}/books`).get().json<PersonBook[]>(),
-      enabled: authors.length > 0,
-      refetchOnWindowFocus: false,
-    })),
-  });
-
-  const seen = new Set<number>();
-  const books = results.flatMap((r) => r.data ?? []).filter((b) => {
-    if (seen.has(b.id)) return false;
-    seen.add(b.id);
-    return true;
-  });
-
-  if (!books.length) return null;
+function AuthorCard({ person }: { person: PersonData }) {
+  const isKidfest = person.kidfest_years?.length > 0;
+  const photo = isKidfest ? (person.kidfest_photo || person.photo) : person.photo;
+  const { data: books = [] } = useGetPersonBooks(person.id);
+  const firstCover = books.find((b) => b.cover_image)?.cover_image;
 
   return (
-    <div className={styles.section}>
-      <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.books' })}</p>
-      <div className={styles.bookGrid}>
-        {books.map((book) => (
-          <Link key={book.id} to={`/books/${book.slug}`} className={styles.bookCard}>
-            {book.cover_image
-              ? <img src={book.cover_image[0]} alt={book.title} className={styles.bookCover} />
-              : <div className={styles.bookCoverPlaceholder} />
-            }
-            <p className={styles.bookTitle}>{book.title}</p>
-          </Link>
-        ))}
+    <AuthorFeatureCard
+      photoSrc={photo ? photo[0] : null}
+      photoAlt={person.name}
+      bookCoverSrc={firstCover ? firstCover[0] : null}
+      title={person.name}
+      subtitleLines={books.map((b) => b.title)}
+      to={person.slug ? `/people/${person.slug}` : undefined}
+      contain={isKidfest}
+      className={styles.authorCard}
+    />
+  );
+}
+
+function AuthorCardGroup({ authors, label }: { authors: PersonData[]; label: string }) {
+  if (!authors.length) return null;
+  return (
+    <div className={styles.personGroup}>
+      <p className={styles.personGroupLabel}>{label}</p>
+      <div className={styles.authorCardGrid}>
+        {authors.map((a) => <AuthorCard key={a.id} person={a} />)}
       </div>
     </div>
   );
 }
 
-function PersonCard({ person }: { person: PersonData }) {
-  const isKidfest = person.kidfest_years?.length > 0;
-  const card = (
-    <>
-      {person.photo
-        ? <img
-            src={person.photo[0]}
-            alt={person.name}
-            className={isKidfest ? styles.personPhotoContain : styles.personPhoto}
-          />
-        : <div className={styles.personPhotoPlaceholder} />
-      }
-      <span className={styles.personCardName}>{person.name}</span>
-    </>
+function StaffCard({ person }: { person: PersonData }) {
+  return (
+    <AuthorFeatureCard
+      photoSrc={person.photo ? person.photo[0] : null}
+      photoAlt={person.name}
+      bookCoverSrc={null}
+      title={person.name}
+      to={person.slug ? `/people/${person.slug}` : undefined}
+      className={styles.authorCard}
+    />
   );
-  if (!person.slug) return <div className={styles.personCard}>{card}</div>;
-  return <Link to={`/people/${person.slug}`} className={styles.personCard}>{card}</Link>;
 }
 
-function PersonGroup({ people, label }: { people: PersonData[]; label: string }) {
+function StaffCardGroup({ people, label }: { people: PersonData[]; label: string }) {
   if (!people.length) return null;
   return (
     <div className={styles.personGroup}>
       <p className={styles.personGroupLabel}>{label}</p>
-      <div className={styles.personCardGrid}>
-        {people.map(p => <PersonCard key={p.id} person={p} />)}
+      <div className={styles.authorCardGrid}>
+        {people.map((p) => <StaffCard key={p.id} person={p} />)}
       </div>
     </div>
   );
@@ -108,7 +93,6 @@ export default function FestivalEventPage() {
     time_start,
     time_end,
     event_image,
-    eventbrite_image,
     description,
     venue,
     online_url,
@@ -151,6 +135,71 @@ export default function FestivalEventPage() {
       {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
       {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
 
+      {(tickets.length > 0 || eventbrite_url) && (
+        <div className={styles.section}>
+          <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.tickets' })}</p>
+          {(['in_person', 'online'] as const).map((type) => {
+            const group = tickets.filter((t) => t.type === type);
+            if (group.length === 0) return null;
+            const hasOtherType = tickets.some((t) => t.type !== type);
+            return (
+              <div key={type}>
+                {hasOtherType && (
+                  <p className={styles.ticketCategory}>
+                    {type === 'in_person'
+                      ? intl.formatMessage({ id: 'festivalEvent.tickets.inPerson' })
+                      : intl.formatMessage({ id: 'festivalEvent.tickets.online' })}
+                  </p>
+                )}
+                <ul className={styles.ticketList}>
+                  {group.map((ticket, i) => (
+                    <li key={i} className={styles.ticketRow}>
+                      <span className={styles.ticketTier}>{ticket.tier}</span>
+                      <span className={styles.ticketPrice}>{ticket.price}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+          {eventbrite_url && (
+            <a
+              href={eventbrite_url}
+              className={styles.eventbriteLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FormattedMessage id="festivalEvent.buyTickets" />
+            </a>
+          )}
+        </div>
+      )}
+
+      {(authors.length > 0 ||
+        moderator.length > 0 ||
+        curator.length > 0 ||
+        musician.length > 0 ||
+        hosts.length > 0 ||
+        hosted_by) && (
+        <div className={styles.section}>
+          <AuthorCardGroup authors={authors} label={intl.formatMessage({ id: 'festivalEvent.people.authors' })} />
+          <StaffCardGroup people={moderator} label={intl.formatMessage({ id: 'festivalEvent.people.moderator' })} />
+          <StaffCardGroup people={curator} label={intl.formatMessage({ id: 'festivalEvent.people.curator' })} />
+          <StaffCardGroup people={musician} label={intl.formatMessage({ id: 'festivalEvent.people.musician' })} />
+          {(hosts.length > 0 || hosted_by) && (
+            <div className={styles.personGroup}>
+              <p className={styles.personGroupLabel}>{intl.formatMessage({ id: 'festivalEvent.people.hostedBy' })}</p>
+              {hosts.length > 0 && (
+                <div className={styles.authorCardGrid}>
+                  {hosts.map(p => <StaffCard key={p.id} person={p} />)}
+                </div>
+              )}
+              {hosted_by && <p className={styles.hostedByText}>{hosted_by}</p>}
+            </div>
+          )}
+        </div>
+      )}
+
       {(venue || online_url) && (
         <div className={styles.section}>
           <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.venue' })}</p>
@@ -192,80 +241,6 @@ export default function FestivalEventPage() {
         </div>
       )}
 
-      {(authors.length > 0 ||
-        moderator.length > 0 ||
-        curator.length > 0 ||
-        musician.length > 0 ||
-        hosts.length > 0 ||
-        hosted_by) && (
-        <div className={styles.section}>
-          <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.people' })}</p>
-          <PersonGroup people={authors} label={intl.formatMessage({ id: 'festivalEvent.people.authors' })} />
-          <PersonGroup people={moderator} label={intl.formatMessage({ id: 'festivalEvent.people.moderator' })} />
-          <PersonGroup people={curator} label={intl.formatMessage({ id: 'festivalEvent.people.curator' })} />
-          <PersonGroup people={musician} label={intl.formatMessage({ id: 'festivalEvent.people.musician' })} />
-          {(hosts.length > 0 || hosted_by) && (
-            <div className={styles.personGroup}>
-              <p className={styles.personGroupLabel}>{intl.formatMessage({ id: 'festivalEvent.people.hostedBy' })}</p>
-              {hosts.length > 0 && (
-                <div className={styles.personCardGrid}>
-                  {hosts.map(p => <PersonCard key={p.id} person={p} />)}
-                </div>
-              )}
-              {hosted_by && <p className={styles.hostedByText}>{hosted_by}</p>}
-            </div>
-          )}
-        </div>
-      )}
-
-      {authors.length > 0 && <AuthorBooks authors={authors} />}
-
-      {(tickets.length > 0 || eventbrite_url) && (
-        <div className={styles.section}>
-          <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.tickets' })}</p>
-          {(['in_person', 'online'] as const).map((type) => {
-            const group = tickets.filter((t) => t.type === type);
-            if (group.length === 0) return null;
-            const hasOtherType = tickets.some((t) => t.type !== type);
-            return (
-              <div key={type}>
-                {hasOtherType && (
-                  <p className={styles.ticketCategory}>
-                    {type === 'in_person'
-                      ? intl.formatMessage({ id: 'festivalEvent.tickets.inPerson' })
-                      : intl.formatMessage({ id: 'festivalEvent.tickets.online' })}
-                  </p>
-                )}
-                <ul className={styles.ticketList}>
-                  {group.map((ticket, i) => (
-                    <li key={i} className={styles.ticketRow}>
-                      <span className={styles.ticketTier}>{ticket.tier}</span>
-                      <span className={styles.ticketPrice}>{ticket.price}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-          {eventbrite_image && (
-            <img
-              src={eventbrite_image[0]}
-              alt={intl.formatMessage({ id: 'festivalEvent.eventbriteImageAlt' })}
-              className={styles.eventbriteImage}
-            />
-          )}
-          {eventbrite_url && (
-            <a
-              href={eventbrite_url}
-              className={styles.eventbriteLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FormattedMessage id="festivalEvent.buyTickets" />
-            </a>
-          )}
-        </div>
-      )}
     </main>
   );
 }
