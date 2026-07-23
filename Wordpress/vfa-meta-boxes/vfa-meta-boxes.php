@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Meta Boxes
  * Description: Custom meta box UI for VFA post types. No third-party dependencies.
- * Version: 1.5.1
+ * Version: 1.6.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -24,18 +24,19 @@ function vfa_mb_config(): array {
             'title'      => 'Interview Fields',
             'post_types' => ['interviews'],
             'fields'     => [
-                ['id' => 'title',            'name' => 'Title',        'type' => 'text',   'required' => true],
-                ['id' => 'festival_year',   'name' => 'Festival Year', 'type' => 'number', 'std' => date('Y'), 'min' => 2020, 'max' => 2099],
-                ['id' => 'author', 'name' => 'Author(s)', 'type' => 'post', 'post_type' => ['people'], 'multiple' => true],
-                ['id' => 'book',   'name' => 'Book',      'type' => 'post', 'post_type' => ['books']],
-                ['id' => 'interviewer_name', 'name' => 'Interviewer',  'type' => 'text'],
-                ['id' => 'intro',            'name' => 'Intro',       'type' => 'wysiwyg'],
+                ['type' => 'section', 'name' => 'Details'],
+                ['id' => 'title',          'name' => 'Title',         'type' => 'text',   'required' => true],
+                ['id' => 'festival_year',  'name' => 'Festival Year', 'type' => 'number', 'std' => date('Y'), 'min' => 2020, 'max' => 2099],
+                ['id' => 'author',         'name' => 'Author(s)',     'type' => 'post',   'post_type' => ['people'], 'multiple' => true],
+                ['id' => 'book',           'name' => 'Book',          'type' => 'post',   'post_type' => ['books']],
+                ['type' => 'section', 'name' => 'Content'],
+                ['id' => 'intro',          'name' => 'Intro',         'type' => 'wysiwyg'],
                 [
                     'type'   => 'clone_group',
                     'name'   => 'Q&A',
                     'fields' => [
-                        ['id' => 'question', 'name' => 'Question', 'type' => 'wysiwyg', 'height' => 100],
-                        ['id' => 'answer',         'name' => 'Answer',   'type' => 'wysiwyg'],
+                        ['id' => 'question',       'name' => 'Question', 'type' => 'wysiwyg', 'height' => 100],
+                        ['id' => 'answer',         'name' => 'Answer',   'type' => 'wysiwyg', 'height' => 100],
                         [
                             'id'   => 'question_image',
                             'name' => 'Image',
@@ -44,6 +45,11 @@ function vfa_mb_config(): array {
                         ],
                     ],
                 ],
+                ['type' => 'section', 'name' => 'Interviewer'],
+                ['id' => 'interviewer_name', 'name' => 'Name', 'type' => 'text'],
+                ['id' => 'interviewer_age',  'name' => 'Age',  'type' => 'number', 'min' => 0, 'max' => 99,
+                 'desc' => 'For child interviewers only.'],
+                ['id' => 'interviewer_bio',  'name' => 'Bio',  'type' => 'wysiwyg'],
             ],
         ],
         [
@@ -426,7 +432,7 @@ function vfa_mb_render_field(array $field, WP_Post $post): void {
                 'textarea_name' => $id,
                 'media_buttons' => false,
                 'teeny'         => true,
-                'editor_height' => $field['height'] ?? 200,
+                'editor_height' => $field['height'] ?? 100,
                 'quicktags'     => true,
             ]);
             break;
@@ -644,7 +650,7 @@ function vfa_mb_render_cg_sub_field(array $field, $value, bool $is_template = fa
             echo '<textarea name="' . esc_attr($field['id']) . '[]" rows="4" class="large-text">' . esc_textarea($value) . '</textarea>';
             break;
         case 'wysiwyg':
-            $h = $field['height'] ?? 200;
+            $h = $field['height'] ?? 100;
             if ($is_template) {
                 echo '<textarea name="' . esc_attr($field['id']) . '[]" class="vfa-wysiwyg-init large-text" rows="4" data-height="' . (int)$h . '"></textarea>';
             } else {
@@ -1137,7 +1143,7 @@ function vfa_mb_js(): string {
                 el.id = uid;
                 el.classList.remove("vfa-wysiwyg-init");
                 if (window.wp && wp.editor) {
-                    var h = parseInt(el.dataset.height) || 200;
+                    var h = parseInt(el.dataset.height) || 100;
                     wp.editor.initialize(uid, {
                         tinymce: { wpautop: true, height: h, toolbar1: "bold italic | link unlink | bullist numlist | undo redo", plugins: "lists,link" },
                         quicktags: true,

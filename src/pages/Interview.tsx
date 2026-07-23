@@ -1,5 +1,5 @@
-import { useParams, Link } from 'react-router-dom';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { Link, useParams } from 'react-router-dom';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterview } from '../api/interviews/useGetInterview.ts';
 import { useGetPersonEvents } from '../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
@@ -23,18 +23,35 @@ export default function InterviewPage() {
   const authors = interview?.interview_data?.authors ?? [];
   const primaryAuthor = authors[0];
   const { data: personEvents } = useGetPersonEvents(primaryAuthor?.id);
-  const authorNames = authors.map(a => a.name).join(' & ') || decodeHtmlEntities(interview?.title?.rendered ?? '');
+  const authorNames =
+    authors.map((a) => a.name).join(' & ') || decodeHtmlEntities(interview?.title?.rendered ?? '');
   usePageTitle(
-    authorNames
-      ? intl.formatMessage({ id: 'interview.pageTitle' }, { name: authorNames })
-      : null,
+    authorNames ? intl.formatMessage({ id: 'interview.pageTitle' }, { name: authorNames }) : null,
   );
 
-  if (isLoading) return <div><FormattedMessage id="interview.loading" /></div>;
-  if (error || !interview) return <div><FormattedMessage id="interview.notFound" /></div>;
+  if (isLoading)
+    return (
+      <div>
+        <FormattedMessage id="interview.loading" />
+      </div>
+    );
+  if (error || !interview)
+    return (
+      <div>
+        <FormattedMessage id="interview.notFound" />
+      </div>
+    );
 
-  const { interviewer_name, intro, book_cover, question, answer, question_image } =
-    interview.interview_data;
+  const {
+    interviewer_name,
+    interviewer_bio,
+    intro,
+    book_cover,
+    question,
+    answer,
+    question_image,
+    interviewer_age,
+  } = interview.interview_data;
 
   const displayName = authorNames;
   const authorInitials = getInitials(primaryAuthor?.name || displayName);
@@ -48,7 +65,9 @@ export default function InterviewPage() {
     <main id="main-content" className={styles.page}>
       <header className={styles.header}>
         <div className={styles.titleBlock}>
-          <p className={styles.eyebrow}><FormattedMessage id="interview.eyebrow" /></p>
+          <p className={styles.eyebrow}>
+            <FormattedMessage id="interview.eyebrow" />
+          </p>
           <h1 className={styles.authorName}>{displayName}</h1>
           {interviewer_name && (
             <p className={styles.interviewer}>
@@ -60,16 +79,16 @@ export default function InterviewPage() {
         <div className={styles.imageGroup}>
           {primaryAuthor?.photo && (
             <div className={styles.photoWrap}>
-              <BlurImageCard
-                src={primaryAuthor.photo[0]}
-                alt={displayName}
-                contain
-              />
+              <BlurImageCard src={primaryAuthor.photo[0]} alt={displayName} contain />
             </div>
           )}
           {book_cover && (
             <div className={styles.bookWrap}>
-              <BlurImageCard src={book_cover[0]} alt={intl.formatMessage({ id: 'book.eyebrow' })} contain />
+              <BlurImageCard
+                src={book_cover[0]}
+                alt={intl.formatMessage({ id: 'book.eyebrow' })}
+                contain
+              />
             </div>
           )}
         </div>
@@ -120,24 +139,36 @@ export default function InterviewPage() {
           return (
             <div key={i} className={styles.pair}>
               <div className={styles.question}>
-                <span className={styles.qMark} aria-hidden="true">{interviewerInitials}</span>
+                <span className={styles.qMark} aria-hidden="true">
+                  {interviewerInitials}
+                </span>
                 <div className={styles.qText} dangerouslySetInnerHTML={{ __html: q }} />
               </div>
               <div className={styles.answer}>
-                <span className={styles.aMark} aria-hidden="true">{authorInitials}</span>
+                <span className={styles.aMark} aria-hidden="true">
+                  {authorInitials}
+                </span>
                 <div className={styles.aText} dangerouslySetInnerHTML={{ __html: answer[i] }} />
               </div>
-              {img && (
-                <img src={img[0]} alt="" className={styles.pairImage} />
-              )}
+              {img && <img src={img[0]} alt="" className={styles.pairImage} />}
             </div>
           );
         })}
       </div>
 
+      {interviewer_bio && (
+        <div className={styles.interviewerBio}>
+          <p className={styles.interviewerBioLabel}>
+            <FormattedMessage id="interview.interviewerBio" />
+            {interviewer_name && `: ${interviewer_name}`}{interviewer_age != null && `, age ${interviewer_age}`}
+          </p>
+          <div dangerouslySetInnerHTML={{ __html: interviewer_bio }} />
+        </div>
+      )}
+
       {authors.length > 0 && (
         <div className={styles.bioLinks}>
-          {authors.map(a => (
+          {authors.map((a) => (
             <Link key={a.id} to={`/people/${a.slug}`} className={styles.bioLink}>
               {intl.formatMessage({ id: 'interview.readBio' }, { name: a.name })}
             </Link>
