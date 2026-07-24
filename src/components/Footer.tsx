@@ -62,8 +62,10 @@ function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <NewsletterSignup />
-      <SocialIcons />
+      <div className={styles.newsletterSocialRow}>
+        <NewsletterSignup />
+        <SocialIcons />
+      </div>
       {menuItems && menuItems.length > 0 && (
         <nav className={styles.footerNav} aria-label={intl.formatMessage({ id: 'footer.menu.label' })}>
           {renderMenuItems(menuItems, pages)}

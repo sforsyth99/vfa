@@ -93,6 +93,23 @@
 
 /* ── Venue ───────────────────────────────────────────── */
 
+.venueRow {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.venueInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .venueRow {
+    flex-direction: column;
+  }
+}
+
 .venueName {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.25rem;
@@ -139,21 +156,33 @@
 
 /* ── People ──────────────────────────────────────────── */
 
-.personGroup {
-  margin-bottom: 1.5rem;
+.peopleFlow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
 }
 
-.personGroup:last-child {
-  margin-bottom: 0;
+.labelledCard {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  flex-shrink: 0;
 }
 
-.personGroupLabel {
+@media (max-width: 640px) {
+  .labelledCard {
+    width: 100%;
+  }
+}
+
+.cardRoleLabel {
   font-size: 0.7rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 600;
   color: var(--vfa-ink-light);
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.5rem;
 }
 
 .personCardGrid {
@@ -211,22 +240,8 @@
 
 /* ── Author Cards ────────────────────────────────────── */
 
-.authorCardGrid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  align-items: flex-start;
-}
-
 .authorCard {
-  width: 240px;
-  flex-shrink: 0;
-}
-
-@media (max-width: 640px) {
-  .authorCard {
-    width: 100%;
-  }
+  width: 100%;
 }
 
 .hostedByText {
