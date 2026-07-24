@@ -1,9 +1,9 @@
 .wrap {
-  margin-top: 12px;
+  flex-shrink: 0;
 }
 
 .map {
-  width: 100%;
+  width: 280px;
   height: 280px;
   border: 1px solid var(--vfa-border-light);
   border-radius: 6px;

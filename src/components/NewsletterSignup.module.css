@@ -1,6 +1,5 @@
 .newsletter {
-    padding: 1.5em 1em;
-    text-align: center;
+    text-align: left;
 }
 
 .title {
@@ -14,7 +13,7 @@
 
 .form {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.5em;
     flex-wrap: wrap;
     position: relative;

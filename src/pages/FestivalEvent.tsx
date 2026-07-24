@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvent } from '../api/festivalEvents/useGetFestivalEvent.ts';
@@ -29,18 +30,6 @@ function AuthorCard({ person }: { person: PersonData }) {
   );
 }
 
-function AuthorCardGroup({ authors, label }: { authors: PersonData[]; label: string }) {
-  if (!authors.length) return null;
-  return (
-    <div className={styles.personGroup}>
-      <p className={styles.personGroupLabel}>{label}</p>
-      <div className={styles.authorCardGrid}>
-        {authors.map((a) => <AuthorCard key={a.id} person={a} />)}
-      </div>
-    </div>
-  );
-}
-
 function StaffCard({ person }: { person: PersonData }) {
   return (
     <AuthorFeatureCard
@@ -54,14 +43,11 @@ function StaffCard({ person }: { person: PersonData }) {
   );
 }
 
-function StaffCardGroup({ people, label }: { people: PersonData[]; label: string }) {
-  if (!people.length) return null;
+function LabelledCard({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className={styles.personGroup}>
-      <p className={styles.personGroupLabel}>{label}</p>
-      <div className={styles.authorCardGrid}>
-        {people.map((p) => <StaffCard key={p.id} person={p} />)}
-      </div>
+    <div className={styles.labelledCard}>
+      <p className={styles.cardRoleLabel}>{label}</p>
+      {children}
     </div>
   );
 }
@@ -182,21 +168,34 @@ export default function FestivalEventPage() {
         hosts.length > 0 ||
         hosted_by) && (
         <div className={styles.section}>
-          <AuthorCardGroup authors={authors} label={intl.formatMessage({ id: 'festivalEvent.people.authors' })} />
-          <StaffCardGroup people={moderator} label={intl.formatMessage({ id: 'festivalEvent.people.moderator' })} />
-          <StaffCardGroup people={curator} label={intl.formatMessage({ id: 'festivalEvent.people.curator' })} />
-          <StaffCardGroup people={musician} label={intl.formatMessage({ id: 'festivalEvent.people.musician' })} />
-          {(hosts.length > 0 || hosted_by) && (
-            <div className={styles.personGroup}>
-              <p className={styles.personGroupLabel}>{intl.formatMessage({ id: 'festivalEvent.people.hostedBy' })}</p>
-              {hosts.length > 0 && (
-                <div className={styles.authorCardGrid}>
-                  {hosts.map(p => <StaffCard key={p.id} person={p} />)}
-                </div>
-              )}
-              {hosted_by && <p className={styles.hostedByText}>{hosted_by}</p>}
-            </div>
-          )}
+          <div className={styles.peopleFlow}>
+            {authors.map((a) => (
+              <LabelledCard key={a.id} label={intl.formatMessage({ id: 'festivalEvent.people.author' })}>
+                <AuthorCard person={a} />
+              </LabelledCard>
+            ))}
+            {moderator.map((p) => (
+              <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.moderator' })}>
+                <StaffCard person={p} />
+              </LabelledCard>
+            ))}
+            {curator.map((p) => (
+              <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.curator' })}>
+                <StaffCard person={p} />
+              </LabelledCard>
+            ))}
+            {musician.map((p) => (
+              <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.musician' })}>
+                <StaffCard person={p} />
+              </LabelledCard>
+            ))}
+            {hosts.map((p) => (
+              <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.hostedBy' })}>
+                <StaffCard person={p} />
+              </LabelledCard>
+            ))}
+          </div>
+          {hosted_by && <p className={styles.hostedByText}>{hosted_by}</p>}
         </div>
       )}
 
@@ -204,35 +203,37 @@ export default function FestivalEventPage() {
         <div className={styles.section}>
           <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.venue' })}</p>
           {venue && (
-            <>
-              <Link to={`/venues/${venue.slug}`} className={styles.venueName}>
-                {venue.name}
-              </Link>
-              {venue.name_pronunciation && (
-                <p className={styles.venuePronunciation}>{venue.name_pronunciation}</p>
-              )}
-              {venue.alternate_name && (
-                <p className={styles.venueIndigenous}>
-                  ({intl.formatMessage({ id: 'festivalEvent.venueFormerly' }, { name: venue.alternate_name })})
-                </p>
-              )}
-              {[venue.building, venue.room].filter(Boolean).join(', ') && (
-                <p className={styles.venueBuilding}>
-                  {[venue.building, venue.room].filter(Boolean).join(', ')}
-                </p>
-              )}
-              {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
-                .filter(Boolean)
-                .join(', ') && (
-                <p className={styles.venueAddress}>
-                  {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
-                    .filter(Boolean)
-                    .join(', ')}
-                </p>
-              )}
-            </>
+            <div className={styles.venueRow}>
+              <div className={styles.venueInfo}>
+                <Link to={`/venues/${venue.slug}`} className={styles.venueName}>
+                  {venue.name}
+                </Link>
+                {venue.name_pronunciation && (
+                  <p className={styles.venuePronunciation}>{venue.name_pronunciation}</p>
+                )}
+                {venue.alternate_name && (
+                  <p className={styles.venueIndigenous}>
+                    ({intl.formatMessage({ id: 'festivalEvent.venueFormerly' }, { name: venue.alternate_name })})
+                  </p>
+                )}
+                {[venue.building, venue.room].filter(Boolean).join(', ') && (
+                  <p className={styles.venueBuilding}>
+                    {[venue.building, venue.room].filter(Boolean).join(', ')}
+                  </p>
+                )}
+                {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
+                  .filter(Boolean)
+                  .join(', ') && (
+                  <p className={styles.venueAddress}>
+                    {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
+                      .filter(Boolean)
+                      .join(', ')}
+                  </p>
+                )}
+              </div>
+              {venue.street_address && <VenueMap venue={venue} />}
+            </div>
           )}
-          {venue?.street_address && <VenueMap venue={venue} />}
           {online_url && (
             <a href={online_url} className={styles.onlineLink}>
               <FormattedMessage id="festivalEvent.joinOnline" />

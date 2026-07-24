@@ -9,22 +9,42 @@
     border-top: 1px solid var(--vfa-forest-pale);
 }
 
+.newsletterSocialRow {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid var(--vfa-forest-pale);
+}
+
+@media (max-width: 640px) {
+    .newsletterSocialRow {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1.5rem 1rem;
+    }
+}
+
 .footerNav {
     max-width: 1200px;
     margin: 0 auto 1.5em;
-    padding: 0 1.5rem;
-    text-align: left;
+    padding: 2rem 1.5rem 0;
+    text-align: center;
 }
 
 .footerNavList {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5em 1.5em;
-    justify-content: flex-start;
+    justify-content: center;
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 .footerSubMenu {
