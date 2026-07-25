@@ -801,7 +801,6 @@ add_action('admin_enqueue_scripts', function(string $hook) {
         true
     );
 
-    // Runs after tom-select.js is printed in the footer
     wp_add_inline_script('tom-select', vfa_mb_js());
 });
 
@@ -1101,6 +1100,33 @@ function vfa_mb_js(): string {
         frame.open();
     }
 
+    // Initialize TinyMCE on a textarea by cloning WordPress\'s own mceInit settings.
+    // tinyMCEPreInit.mceInit is set by _WP_Editors::editor_js() before footer scripts run,
+    // so it contains the correct content_css, language, plugins, etc. for this WP install.
+    function initWysiwyg(el, uid) {
+        uid = uid || el.id;
+        if (!uid || !window.tinymce || !window.tinyMCEPreInit) return;
+        el.id = uid;
+        el.classList.remove("vfa-wysiwyg-preload");
+        el.classList.remove("vfa-wysiwyg-init");
+
+        var mceInit = tinyMCEPreInit.mceInit;
+        var baseKey = Object.keys(mceInit)[0];
+        if (!baseKey) return;
+
+        var settings = Object.assign({}, mceInit[baseKey], {
+            selector:       "#" + uid,
+            height:         parseInt(el.dataset.height) || 100,
+            toolbar1:       "bold italic | link unlink | bullist numlist | undo redo",
+            toolbar2:       "",
+            textarea_name:  el.getAttribute("name") || uid,
+        });
+        // Avoid wiring this editor to a different quicktags instance via the base setup callback
+        delete settings.setup;
+
+        tinymce.init(settings);
+    }
+
     // Update "Q&A 1", "Q&A 2", etc. after add/remove
     function updateCgNums(cg) {
         var name = cg.dataset.name || "";
@@ -1140,16 +1166,7 @@ function vfa_mb_js(): string {
             var newRow = rows.lastElementChild;
             newRow.querySelectorAll(".vfa-wysiwyg-init").forEach(function(el) {
                 var uid = "vfacg" + Date.now() + Math.random().toString(36).substr(2, 5);
-                el.id = uid;
-                el.classList.remove("vfa-wysiwyg-init");
-                if (window.wp && wp.editor) {
-                    var h = parseInt(el.dataset.height) || 100;
-                    wp.editor.initialize(uid, {
-                        tinymce: { wpautop: true, height: h, toolbar1: "bold italic | link unlink | bullist numlist | undo redo", plugins: "lists,link" },
-                        quicktags: true,
-                        mediaButtons: false,
-                    });
-                }
+                initWysiwyg(el, uid);
             });
             return;
         }
@@ -1162,19 +1179,20 @@ function vfa_mb_js(): string {
             var cg   = cgRem.closest(".vfa-cg");
             var rows = cg.querySelector(".vfa-cg-rows");
             if (rows.querySelectorAll(".vfa-cg-row").length > 1) {
-                // Clean up TinyMCE instances before removing from DOM
-                row.querySelectorAll("textarea.wp-editor-area").forEach(function(el) {
-                    if (el.id && window.wp && wp.editor) wp.editor.remove(el.id);
+                // Clean up any TinyMCE instances before removing the row
+                row.querySelectorAll("textarea").forEach(function(el) {
+                    var inst = el.id && window.tinymce && tinymce.get(el.id);
+                    if (inst) inst.remove();
                 });
                 row.remove();
             } else {
                 // Last row — clear content rather than remove
-                row.querySelectorAll("textarea.wp-editor-area").forEach(function(el) {
-                    if (el.id && window.tinymce && tinymce.get(el.id)) tinymce.get(el.id).setContent("");
+                row.querySelectorAll("textarea").forEach(function(el) {
+                    var inst = el.id && window.tinymce && tinymce.get(el.id);
+                    if (inst) inst.setContent("");
                     el.value = "";
                 });
-                row.querySelectorAll("input:not([type=\'hidden\']), textarea:not(.wp-editor-area)").forEach(function(el) { el.value = ""; });
-                row.querySelectorAll("input[type=\'hidden\']").forEach(function(el) { el.value = ""; });
+                row.querySelectorAll("input").forEach(function(el) { el.value = ""; });
                 row.querySelectorAll(".vfa-img-preview").forEach(function(el) { el.style.display = "none"; el.querySelector("img").src = ""; });
             }
             updateCgNums(cg);
