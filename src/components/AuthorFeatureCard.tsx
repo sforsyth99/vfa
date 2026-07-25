@@ -1,14 +1,23 @@
 import { Link } from 'react-router-dom';
 import styles from './AuthorFeatureCard.module.css';
 
+export interface CardEvent {
+  title: string;
+  subtitleLines?: string[];
+  to: string;
+}
+
 interface Props {
   photoSrc: string | null;
   photoAlt: string;
   bookCoverSrc: string | null;
   bookCoverAlt?: string;
-  title: string;
+  // Single-event / legacy props (used by FestivalEvent.tsx)
+  title?: string;
   subtitleLines?: string[];
   to?: string;
+  // Multi-event prop (used by Person.tsx)
+  events?: CardEvent[];
   contain?: boolean;
   className?: string;
 }
@@ -21,10 +30,32 @@ export function AuthorFeatureCard({
   title,
   subtitleLines = [],
   to,
+  events,
   contain = false,
   className,
 }: Props) {
-  const rootClass = [styles.card, className].filter(Boolean).join(' ');
+  const isMultiEvent = events && events.length > 1;
+  const rootClass = [styles.card, isMultiEvent && styles.cardMulti, className].filter(Boolean).join(' ');
+
+  const bannerContent = isMultiEvent ? (
+    <div className={styles.eventList}>
+      {events.map((event, i) => (
+        <Link key={i} to={event.to} className={styles.eventEntry}>
+          <p className={styles.title}>{event.title}</p>
+          {event.subtitleLines?.map((line, j) => (
+            <p key={j} className={styles.subtitle}>{line}</p>
+          ))}
+        </Link>
+      ))}
+    </div>
+  ) : (
+    <>
+      <p className={styles.title}>{events?.[0]?.title ?? title}</p>
+      {(events?.[0]?.subtitleLines ?? subtitleLines).map((line, i) => (
+        <p key={i} className={styles.subtitle}>{line}</p>
+      ))}
+    </>
+  );
 
   const inner = (
     <>
@@ -43,14 +74,14 @@ export function AuthorFeatureCard({
         )}
       </div>
       <div className={styles.banner}>
-        <p className={styles.title}>{title}</p>
-        {subtitleLines.map((line, i) => (
-          <p key={i} className={styles.subtitle}>{line}</p>
-        ))}
+        {bannerContent}
       </div>
     </>
   );
 
-  if (to) return <Link to={to} className={rootClass}>{inner}</Link>;
+  const singleTo = events?.[0]?.to ?? to;
+
+  if (isMultiEvent) return <div className={rootClass}>{inner}</div>;
+  if (singleTo) return <Link to={singleTo} className={rootClass}>{inner}</Link>;
   return <div className={rootClass}>{inner}</div>;
 }

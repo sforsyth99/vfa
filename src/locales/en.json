@@ -95,6 +95,7 @@
   "person.interviewLink.withYear": "Read {year} interview →",
   "person.interviewLink.generic": "Read interview →",
   "person.eventLink": "See {firstName} at {eventTitle} →",
+  "person.bookLink": "Read more about {bookTitle} →",
   "person.section.books": "Books",
   "person.section.kidsBooks": "Children's Books",
 
