@@ -5,7 +5,7 @@
 .map {
   width: 280px;
   height: 280px;
-  border: 1px solid var(--vfa-border-light);
+  border: 1px solid var(--vfa-color-border-light);
   border-radius: 6px;
   display: block;
 }

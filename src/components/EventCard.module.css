@@ -1,7 +1,7 @@
 .eventCard {
     background: var(--vfa-color-surface);
-    border: 1px solid var(--vfa-border-faint);
-    border-radius: 8px;
+    border: 1px solid var(--vfa-color-border-faint);
+    border-radius: var(--vfa-radius-lg);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     padding: 1.5rem;
     margin-bottom: 2rem;
@@ -22,7 +22,7 @@
     margin-top: 1rem;
     color: var(--vfa-color-link);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: var(--vfa-font-weight-medium);
 }
 
 .eventCard a:hover {
@@ -32,7 +32,7 @@
 .eventCard div {
     margin-top: 1rem;
     font-size: 0.95rem;
-    color: var(--vfa-text-ui);
+    color: var(--vfa-color-text-ui);
     display: flex;
     gap: 1.5rem;
 }

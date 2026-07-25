@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import { SkipToContent } from './components/SkipToContent';
 import { ScrollToTop } from './components/ScrollToTop';
 import ErrorBoundary from './components/ErrorBoundary';
+import AllContent2026Page from './pages/AllContent2026';
 import HomePage from './pages/Home';
 import Events from './pages/Events';
 import DynamicPage from './pages/DynamicPage';
@@ -23,6 +24,7 @@ function App() {
       <ErrorBoundary>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/2026-all" element={<AllContent2026Page />} />
           <Route path="/events" element={<Events />} />
           <Route path="/pages/:slug" element={<DynamicPage />} />
           <Route path="/interviews" element={<InterviewsPage />} />

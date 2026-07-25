@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
-
 .homeMain {
     padding: 0 0 2rem;
     max-width: 900px;
@@ -8,25 +6,25 @@
 
 .hero {
     padding: 4rem 2rem 3rem;
-    border-bottom: 1px solid var(--vfa-warm-border-light);
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
     margin-bottom: 2rem;
 }
 
 .heroEyebrow {
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--vfa-forest-dark);
+    color: var(--vfa-color-forest-dark);
     margin: 0 0 1rem;
 }
 
 .heroTitle {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 3rem;
-    font-weight: 600;
+    font-family: var(--vfa-font-display);
+    font-size: var(--vfa-font-size-hero);
+    font-weight: var(--vfa-font-weight-semibold);
     line-height: 1.1;
-    color: var(--vfa-ink-darkest);
+    color: var(--vfa-color-ink-darkest);
     margin: 0 0 1.25rem;
     letter-spacing: -0.02em;
 }
@@ -38,17 +36,17 @@
 }
 
 .heroSubtitle {
-    font-size: 1.1rem;
+    font-size: var(--vfa-font-size-lg);
     line-height: 1.7;
-    color: var(--vfa-ink-dark);
+    color: var(--vfa-color-ink-dark);
     max-width: 600px;
     margin: 0 0 1rem;
 }
 
 .heroKidfest {
     font-size: 0.9rem;
-    color: var(--vfa-forest-dark);
-    font-weight: 500;
+    color: var(--vfa-color-forest-dark);
+    font-weight: var(--vfa-font-weight-medium);
     margin: 0;
 }
 
@@ -58,7 +56,7 @@
 }
 
 .homeMain p {
-    font-size: 1.1rem;
+    font-size: var(--vfa-font-size-lg);
     color: var(--vfa-color-text);
 }
 
@@ -83,7 +81,7 @@
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    opacity: 0.6;
+    opacity: var(--vfa-opacity-hover-strong);
     white-space: nowrap;
 }
 
@@ -105,11 +103,11 @@
 .scheduleTime {
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    opacity: 0.75;
+    opacity: var(--vfa-opacity-hover);
 }
 
 .scheduleName a {
-    font-weight: 600;
+    font-weight: var(--vfa-font-weight-semibold);
     text-decoration: none;
 }
 
@@ -118,13 +116,13 @@
 }
 
 .scheduleLocation {
-    font-size: 0.875rem;
-    color: var(--vfa-text-ui);
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-text-ui);
 }
 
 .scheduleIntro {
     font-size: 0.95rem;
-    color: var(--vfa-text-ui);
+    color: var(--vfa-color-text-ui);
     margin: 0 0 1rem;
 }
 
@@ -151,9 +149,9 @@
     height: 100px;
     object-fit: cover;
     object-position: top center;
-    border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border-radius: var(--vfa-radius-circle);
+    box-shadow: var(--vfa-shadow-sm);
+    transition: transform var(--vfa-transition), box-shadow var(--vfa-transition);
 }
 
 .authorPhoto:hover img {
@@ -182,14 +180,14 @@
 .authorPhotoPlaceholder {
     width: 100px;
     height: 100px;
-    border-radius: 50%;
-    background: var(--vfa-forest-pale);
-    color: var(--vfa-forest-dark);
+    border-radius: var(--vfa-radius-circle);
+    background: var(--vfa-color-forest-pale);
+    color: var(--vfa-color-forest-dark);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.02em;
     flex-shrink: 0;
 }
@@ -197,14 +195,14 @@
 .kidsAuthorPhotoPlaceholder {
     width: 80px;
     height: 120px;
-    border-radius: 2px;
-    background: var(--vfa-forest-pale);
-    color: var(--vfa-forest-dark);
+    border-radius: var(--vfa-radius-sm);
+    background: var(--vfa-color-forest-pale);
+    color: var(--vfa-color-forest-dark);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.02em;
 }
 
@@ -214,10 +212,10 @@
 
 .authorName {
     font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--vfa-ink-darkest);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-ink-darkest);
     text-align: center;
-    line-height: 1.3;
+    line-height: var(--vfa-line-height-tight);
 }
 
 .bookGrid {
@@ -242,9 +240,9 @@
     height: 160px;
     object-fit: contain;
     object-position: center;
-    border-radius: 2px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border-radius: var(--vfa-radius-sm);
+    box-shadow: var(--vfa-shadow-md);
+    transition: transform var(--vfa-transition), box-shadow var(--vfa-transition);
 }
 
 .bookCover:hover img,
@@ -256,18 +254,18 @@
 .bookCoverPlaceholder {
     height: 160px;
     width: 107px;
-    border-radius: 2px;
-    background: var(--vfa-forest-pale);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border-radius: var(--vfa-radius-sm);
+    background: var(--vfa-color-forest-pale);
+    box-shadow: var(--vfa-shadow-md);
+    transition: transform var(--vfa-transition), box-shadow var(--vfa-transition);
     flex-shrink: 0;
 }
 
 .bookCoverTitle {
-    font-size: 0.7rem;
-    font-weight: 500;
-    color: var(--vfa-ink-darkest);
-    line-height: 1.3;
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-ink-darkest);
+    line-height: var(--vfa-line-height-tight);
     margin: 0;
 }
 
@@ -279,7 +277,7 @@
 }
 
 .authorBioTable tr {
-    border-bottom: 1px solid var(--vfa-warm-border-light);
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
 }
 
 .authorBioTable tr:last-child {
@@ -287,7 +285,7 @@
 }
 
 .authorBioName {
-    font-weight: 600;
+    font-weight: var(--vfa-font-weight-semibold);
     padding: 6px 16px 6px 0;
     white-space: nowrap;
     width: 180px;
@@ -296,7 +294,7 @@
 
 .authorBioName a {
     text-decoration: none;
-    color: var(--vfa-forest-dark);
+    color: var(--vfa-color-forest-dark);
 }
 
 .authorBioName a:hover {
@@ -305,9 +303,9 @@
 
 .authorBioRoles {
     display: block;
-    font-size: 0.7rem;
-    font-weight: 400;
-    color: var(--vfa-ink-light);
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-normal);
+    color: var(--vfa-color-ink-light);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-top: 2px;
@@ -315,8 +313,8 @@
 
 .authorBioSnippet {
     padding: 6px 0;
-    color: var(--vfa-ink-dark);
-    font-size: 0.875rem;
+    color: var(--vfa-color-ink-dark);
+    font-size: var(--vfa-font-size-sm);
     vertical-align: top;
 }
 
@@ -328,13 +326,13 @@
 .seeAll {
     display: inline-block;
     margin-top: 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--vfa-forest-dark);
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-forest-dark);
     text-decoration: none;
-    border-bottom: 1px solid var(--vfa-forest-dark);
+    border-bottom: 1px solid var(--vfa-color-forest-dark);
     padding-bottom: 1px;
-    transition: opacity 0.15s ease;
+    transition: opacity var(--vfa-transition);
 }
 
 .seeAll:hover {
@@ -358,18 +356,18 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 0;
-    border-bottom: 1px solid var(--vfa-warm-border-light);
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
     text-decoration: none;
     color: inherit;
-    transition: opacity 0.15s ease;
+    transition: opacity var(--vfa-transition);
 }
 
 .interviewItem:first-of-type {
-    border-top: 1px solid var(--vfa-warm-border-light);
+    border-top: 1px solid var(--vfa-color-warm-border-light);
 }
 
 .interviewItem:hover {
-    opacity: 0.75;
+    opacity: var(--vfa-opacity-hover);
 }
 
 .interviewAuthorPhoto {
@@ -383,28 +381,28 @@
     height: 44px;
     object-fit: cover;
     object-position: top center;
-    border-radius: 4px;
+    border-radius: var(--vfa-radius-md);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 .interviewAuthorPlaceholder {
     width: 44px;
     height: 44px;
-    border-radius: 4px;
-    background: var(--vfa-forest-pale);
-    color: var(--vfa-forest-dark);
+    border-radius: var(--vfa-radius-md);
+    background: var(--vfa-color-forest-pale);
+    color: var(--vfa-color-forest-dark);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: var(--vfa-font-weight-semibold);
 }
 
 .interviewCover {
     width: 34px;
     height: 48px;
     object-fit: cover;
-    border-radius: 2px;
+    border-radius: var(--vfa-radius-sm);
     flex-shrink: 0;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
@@ -424,13 +422,13 @@
 
 .interviewItemName {
     font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--vfa-ink-darkest);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-darkest);
 }
 
 .interviewItemSnippet {
     font-size: 0.8rem;
-    color: var(--vfa-ink-light);
+    color: var(--vfa-color-ink-light);
 }
 
 .interviewItemMissing {

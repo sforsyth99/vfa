@@ -1,10 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400;1,600&display=swap');
-
 .page {
-  max-width: 780px;
+  max-width: var(--vfa-width-content);
   margin: 0 auto;
-  padding: 4rem 2rem 6rem;
-  color: var(--vfa-ink-darkest);
+  padding: var(--vfa-padding-page);
+  color: var(--vfa-color-ink-darkest);
 }
 
 .bookLayout {
@@ -24,7 +22,7 @@
 .coverImage {
   display: block;
   width: 100%;
-  border-radius: 2px;
+  border-radius: var(--vfa-radius-sm);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -35,66 +33,66 @@
 }
 
 .eyebrow {
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
+  font-size: var(--vfa-font-size-eyebrow);
+  letter-spacing: var(--vfa-letter-spacing-eyebrow);
   text-transform: uppercase;
-  color: var(--vfa-forest-mid);
-  font-weight: 600;
+  color: var(--vfa-color-forest-mid);
+  font-weight: var(--vfa-font-weight-semibold);
   margin: 0 0 0.9rem;
 }
 
 .title {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 2.4rem;
-  font-weight: 600;
-  line-height: 1.15;
-  color: var(--vfa-ink-darkest);
+  font-family: var(--vfa-font-display);
+  font-size: var(--vfa-font-size-page-title);
+  font-weight: var(--vfa-font-weight-semibold);
+  line-height: var(--vfa-line-height-title);
+  color: var(--vfa-color-ink-darkest);
   margin: 0 0 0.75rem;
   letter-spacing: -0.01em;
 }
 
 @media (max-width: 640px) {
   .title {
-    font-size: 1.9rem;
+    font-size: var(--vfa-font-size-page-title-mobile);
   }
 }
 
 .subtitle {
   font-size: 1.2rem;
   font-style: italic;
-  color: var(--vfa-ink-mid);
+  color: var(--vfa-color-ink-mid);
   margin: -0.5rem 0 1rem;
 }
 
 .authors {
-  font-size: 1.05rem;
-  color: var(--vfa-ink-mid);
+  font-size: var(--vfa-font-size-md);
+  color: var(--vfa-color-ink-mid);
   margin: 0 0 1.5rem;
 }
 
 .authorLink {
-  color: var(--vfa-forest-dark);
+  color: var(--vfa-color-forest-dark);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.15s ease;
 }
 
 .authorLink:hover {
-  border-bottom-color: var(--vfa-forest-dark);
+  border-bottom-color: var(--vfa-color-forest-dark);
 }
 
 .illustrators {
   font-size: 0.9rem;
-  color: var(--vfa-ink-light);
+  color: var(--vfa-color-ink-light);
   margin: -1rem 0 1.5rem;
 }
 
 .ageRange {
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: var(--vfa-font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--vfa-forest-mid);
+  color: var(--vfa-color-forest-mid);
   margin: -1rem 0 1.5rem;
 }
 
@@ -106,36 +104,36 @@
 }
 
 .categoryTag {
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: var(--vfa-font-size-eyebrow);
+  font-weight: var(--vfa-font-weight-semibold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--vfa-forest-dark);
-  background: var(--vfa-forest-bg);
-  border: 1px solid var(--vfa-forest-pale);
+  color: var(--vfa-color-forest-dark);
+  background: var(--vfa-color-forest-bg);
+  border: 1px solid var(--vfa-color-forest-pale);
   border-radius: 3px;
   padding: 0.2em 0.6em;
 }
 
 .description {
-  font-size: 1rem;
-  line-height: 1.75;
-  color: var(--vfa-ink-dark);
+  font-size: var(--vfa-font-size-base);
+  line-height: var(--vfa-line-height-body);
+  color: var(--vfa-color-ink-dark);
   margin: 0 0 2rem;
   white-space: pre-line;
 }
 
 .buyLink {
   display: inline-block;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: var(--vfa-font-size-sm);
+  font-weight: var(--vfa-font-weight-semibold);
   color: var(--vfa-color-text-light);
-  background: var(--vfa-forest-dark);
+  background: var(--vfa-color-forest-dark);
   text-decoration: none;
   padding: 0.65rem 1.25rem;
-  border-radius: 2px;
+  border-radius: var(--vfa-radius-sm);
   letter-spacing: 0.02em;
-  transition: opacity 0.15s ease;
+  transition: opacity var(--vfa-transition);
 }
 
 .buyLink:hover {

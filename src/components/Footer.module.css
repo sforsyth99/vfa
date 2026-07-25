@@ -1,12 +1,12 @@
 .footer {
-    background: var(--vfa-forest-bg);
-    color: var(--vfa-ink-darkest);
+    background: var(--vfa-color-forest-bg);
+    color: var(--vfa-color-ink-darkest);
     text-align: center;
     padding: 1rem 0;
     left: 0;
     bottom: 0;
     width: 100%;
-    border-top: 1px solid var(--vfa-forest-pale);
+    border-top: 1px solid var(--vfa-color-forest-pale);
 }
 
 .newsletterSocialRow {
@@ -14,10 +14,10 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 2rem;
-    max-width: 1200px;
+    max-width: var(--vfa-width-site);
     margin: 0 auto;
     padding: 2rem 1.5rem;
-    border-bottom: 1px solid var(--vfa-forest-pale);
+    border-bottom: 1px solid var(--vfa-color-forest-pale);
 }
 
 @media (max-width: 640px) {
@@ -30,7 +30,7 @@
 }
 
 .footerNav {
-    max-width: 1200px;
+    max-width: var(--vfa-width-site);
     margin: 0 auto 1.5em;
     padding: 2rem 1.5rem 0;
     text-align: center;
@@ -44,28 +44,28 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size: 1rem;
+    font-size: var(--vfa-font-size-base);
 }
 
 .footerSubMenu {
     list-style: disc;
     margin-left: 2em;
-    color: var(--vfa-ink-darkest);
+    color: var(--vfa-color-ink-darkest);
     padding-left: 1.5em;
     display: block;
     text-align: left;
 }
 
 .footerNavLink {
-    color: var(--vfa-ink-darkest);
+    color: var(--vfa-color-ink-darkest);
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s;
+    font-weight: var(--vfa-font-weight-medium);
+    transition: color var(--vfa-transition-base);
 }
 
 .footerNavLink:hover,
 .footerNavLink:focus {
-    color: var(--vfa-forest-dark);
+    color: var(--vfa-color-forest-dark);
     text-decoration: underline;
 }
 
@@ -86,15 +86,15 @@
     gap: 0.6em;
     flex-shrink: 0;
     padding-right: 28px;
-    border-right: 1px solid var(--vfa-border-sponsor);
+    border-right: 1px solid var(--vfa-color-border-sponsor);
     align-self: stretch;
     justify-content: center;
 }
 
 .titleSponsorLabel {
-    color: var(--vfa-text-ui);
+    color: var(--vfa-color-text-ui);
     font-size: 0.7em;
-    font-weight: 600;
+    font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin: 0;
@@ -137,7 +137,7 @@
     max-width: 120px;
     object-fit: contain;
     background: var(--vfa-color-surface);
-    border-radius: 4px;
+    border-radius: var(--vfa-radius-md);
     padding: 2px 6px;
     /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);*/
 }

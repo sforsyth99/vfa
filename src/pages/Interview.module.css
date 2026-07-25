@@ -1,8 +1,8 @@
 .page {
-    max-width: 780px;
+    max-width: var(--vfa-width-content);
     margin: 0 auto;
-    padding: 4rem 2rem 6rem;
-    color: var(--vfa-ink-darkest);
+    padding: var(--vfa-padding-page);
+    color: var(--vfa-color-ink-darkest);
 }
 
 /* ── Header ─────────────────────────────────────────── */
@@ -13,7 +13,7 @@
     gap: 1.5rem;
     padding-bottom: 3.5rem;
     margin-bottom: 3.5rem;
-    border-bottom: 1px solid var(--vfa-warm-border);
+    border-bottom: 1px solid var(--vfa-color-warm-border);
 }
 
 @media (max-width: 640px) {
@@ -49,8 +49,8 @@
     height: 260px;
     width: auto;
     object-fit: contain;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border-radius: var(--vfa-radius-md);
+    box-shadow: var(--vfa-shadow-md);
 }
 
 @media (max-width: 640px) {
@@ -61,57 +61,57 @@
 
 
 .eyebrow {
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
+    font-size: var(--vfa-font-size-eyebrow);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
     text-transform: uppercase;
-    color: var(--vfa-forest-mid);
-    font-weight: 600;
+    color: var(--vfa-color-forest-mid);
+    font-weight: var(--vfa-font-weight-semibold);
     margin: 0 0 0.9rem;
 }
 
 .authorName {
-    font-size: 2.4rem;
-    font-weight: 700;
-    line-height: 1.15;
-    color: var(--vfa-ink-darkest);
+    font-size: var(--vfa-font-size-page-title);
+    font-weight: var(--vfa-font-weight-bold);
+    line-height: var(--vfa-line-height-title);
+    color: var(--vfa-color-ink-darkest);
     margin: 0 0 0.5rem;
     letter-spacing: -0.02em;
 }
 
 @media (max-width: 640px) {
     .authorName {
-        font-size: 1.9rem;
+        font-size: var(--vfa-font-size-page-title-mobile);
     }
 }
 
 .interviewer {
-    font-size: 0.875rem;
-    color: var(--vfa-ink-light);
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-light);
     margin: 0 0 1.75rem;
 }
 
 .intro {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--vfa-ink-dark);
+    font-size: var(--vfa-font-size-base);
+    line-height: var(--vfa-line-height-body);
+    color: var(--vfa-color-ink-dark);
     margin: 0 0 3rem;
 }
 
 .interviewerBio {
     margin-top: 2.5rem;
     padding-top: 2.5rem;
-    border-top: 1px solid var(--vfa-warm-border);
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--vfa-ink-dark);
+    border-top: 1px solid var(--vfa-color-warm-border);
+    font-size: var(--vfa-font-size-base);
+    line-height: var(--vfa-line-height-body);
+    color: var(--vfa-color-ink-dark);
 }
 
 .interviewerBioLabel {
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
+    font-size: var(--vfa-font-size-eyebrow);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
     text-transform: uppercase;
-    color: var(--vfa-forest-mid);
-    font-weight: 600;
+    color: var(--vfa-color-forest-mid);
+    font-weight: var(--vfa-font-weight-semibold);
     margin: 0 0 0.9rem;
 }
 
@@ -121,23 +121,23 @@
     gap: 1rem;
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid var(--vfa-warm-border);
+    border-top: 1px solid var(--vfa-color-warm-border);
 }
 
 .bioLink {
     display: inline-block;
     font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--vfa-ink-light);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-ink-light);
     text-decoration: none;
-    border-bottom: 1px solid var(--vfa-warm-border-faint);
+    border-bottom: 1px solid var(--vfa-color-warm-border-faint);
     padding-bottom: 1px;
     letter-spacing: 0.01em;
-    transition: opacity 0.15s ease;
+    transition: opacity var(--vfa-transition);
 }
 
 .bioLink:hover {
-    opacity: 0.6;
+    opacity: var(--vfa-opacity-hover-strong);
     text-decoration: none;
 }
 
@@ -156,29 +156,29 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    background: var(--vfa-forest-bg);
-    border: 1px solid var(--vfa-forest-pale);
-    border-radius: 8px;
+    background: var(--vfa-color-forest-bg);
+    border: 1px solid var(--vfa-color-forest-pale);
+    border-radius: var(--vfa-radius-lg);
     padding: 1.25rem 1.5rem;
 }
 
 .eventCardEyebrow {
     font-size: 0.72rem;
-    font-weight: 600;
+    font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--vfa-forest-dark);
+    color: var(--vfa-color-forest-dark);
     margin: 0;
 }
 
 .eventCardTitle {
-    font-size: 1.05rem;
-    font-weight: 600;
+    font-size: var(--vfa-font-size-md);
+    font-weight: var(--vfa-font-weight-semibold);
     margin: 0;
 }
 
 .eventCardTitle a {
-    color: var(--vfa-ink-darkest);
+    color: var(--vfa-color-ink-darkest);
     text-decoration: none;
 }
 
@@ -187,14 +187,14 @@
 }
 
 .eventCardDate {
-    font-size: 0.875rem;
-    color: var(--vfa-ink-mid);
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
     margin: 0;
 }
 
 .eventCardVenue {
-    font-size: 0.875rem;
-    color: var(--vfa-ink-mid);
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
     margin: 0;
 }
 
@@ -203,19 +203,19 @@
     margin-top: 0.75rem;
     display: inline-block;
     padding: 0.55em 1.4em;
-    background: var(--vfa-forest-dark);
+    background: var(--vfa-color-forest-dark);
     color: var(--vfa-color-text-light);
     font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 4px;
+    font-weight: var(--vfa-font-weight-semibold);
+    border-radius: var(--vfa-radius-md);
     text-decoration: none;
     white-space: nowrap;
     flex-shrink: 0;
-    transition: background 0.15s ease;
+    transition: background var(--vfa-transition);
 }
 
 .eventCardButton:hover {
-    background: var(--vfa-forest-darkest);
+    background: var(--vfa-color-forest-darkest);
 }
 
 /* ── Q&A Pairs ──────────────────────────────────────── */
@@ -227,7 +227,7 @@
 
 .pair {
     padding: 2.75rem 0;
-    border-bottom: 1px solid var(--vfa-warm-border);
+    border-bottom: 1px solid var(--vfa-color-warm-border);
 }
 
 .pair:first-child {
@@ -236,15 +236,15 @@
 
 .question {
     font-size: 1.125rem;
-    font-weight: 600;
-    line-height: 1.75;
-    color: var(--vfa-ink-darkest);
+    font-weight: var(--vfa-font-weight-semibold);
+    line-height: var(--vfa-line-height-body);
+    color: var(--vfa-color-ink-darkest);
     margin: 0 0 1.25rem;
 }
 
 .qMark {
-    font-weight: 700;
-    color: var(--vfa-forest-dark);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-forest-dark);
     user-select: none;
 }
 
@@ -262,15 +262,15 @@
 }
 
 .answer {
-    font-size: 1rem;
+    font-size: var(--vfa-font-size-base);
     line-height: 1.8;
-    color: var(--vfa-ink-dark);
+    color: var(--vfa-color-ink-dark);
     margin: 0;
 }
 
 .aMark {
-    font-weight: 700;
-    color: var(--vfa-ink-light);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-ink-light);
     user-select: none;
 }
 
@@ -291,5 +291,5 @@
     display: block;
     max-width: 100%;
     margin-top: 1.5rem;
-    border-radius: 2px;
+    border-radius: var(--vfa-radius-sm);
 }

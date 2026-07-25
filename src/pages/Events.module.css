@@ -9,7 +9,7 @@
 }
 
 .eventsMain p {
-    font-size: 1.1rem;
+    font-size: var(--vfa-font-size-lg);
     color: var(--vfa-color-text);
 }
 

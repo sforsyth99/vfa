@@ -11,15 +11,15 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    background: var(--vfa-social-icon-bg);
+    border-radius: var(--vfa-radius-circle);
+    background: var(--vfa-color-social-icon-bg);
     color: var(--vfa-color-text-light);
-    transition: background 0.2s, transform 0.15s;
+    transition: background var(--vfa-transition-base), transform 0.15s;
 }
 
 .socialLink:hover,
 .socialLink:focus {
-    background: var(--vfa-accent-gold);
+    background: var(--vfa-color-accent-gold);
     color: var(--vfa-color-text);
     transform: translateY(-2px);
     outline: none;

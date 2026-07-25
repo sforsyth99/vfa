@@ -2,16 +2,16 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: 'Inter', Arial, sans-serif;
-  background: var(--vfa-bg-page);
+  font-family: var(--vfa-font-body);
+  background: var(--vfa-color-bg-page);
 }
 
 .header {
   background: var(--vfa-color-surface);
-  border-bottom: 1px solid var(--vfa-border-faint);
+  border-bottom: 1px solid var(--vfa-color-border-faint);
   padding: 1rem 2rem;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: var(--vfa-font-weight-bold);
 }
 
 .main {
@@ -21,9 +21,9 @@
 
 .footer {
   background: var(--vfa-color-surface);
-  border-top: 1px solid var(--vfa-border-faint);
+  border-top: 1px solid var(--vfa-color-border-faint);
   padding: 1rem 2rem;
   text-align: center;
   font-size: 0.9rem;
-  color: var(--vfa-text-footer);
+  color: var(--vfa-color-text-footer);
 }

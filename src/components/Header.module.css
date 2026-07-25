@@ -1,18 +1,18 @@
 .header {
     background: var(--vfa-color-surface);
-    color: var(--vfa-ink-darkest);
+    color: var(--vfa-color-ink-darkest);
     padding: 0.75rem 1.5rem;
-    border-bottom: 1px solid var(--vfa-warm-border-light);
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: var(--vfa-z-header);
 }
 
 .headerInner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
+    max-width: var(--vfa-width-site);
     margin: 0 auto;
     gap: 2rem;
 }
@@ -43,32 +43,32 @@
 }
 
 .navList a {
-    color: var(--vfa-ink-darkest);
+    color: var(--vfa-color-ink-darkest);
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s;
+    font-weight: var(--vfa-font-weight-medium);
+    transition: color var(--vfa-transition-base);
 }
 
 .navList a:hover {
-    color: var(--vfa-forest-dark);
+    color: var(--vfa-color-forest-dark);
 }
 
 .donateButton {
     display: inline-block;
     padding: 0.45em 1.2em;
-    background: var(--vfa-forest-dark);
+    background: var(--vfa-color-forest-dark);
     color: var(--vfa-color-text-light);
-    font-weight: 700;
+    font-weight: var(--vfa-font-weight-bold);
     font-size: 0.95em;
-    border-radius: 4px;
+    border-radius: var(--vfa-radius-md);
     text-decoration: none;
     white-space: nowrap;
-    transition: background 0.2s;
+    transition: background var(--vfa-transition-base);
     flex-shrink: 0;
 }
 
 .donateButton:hover,
 .donateButton:focus {
-    background: var(--vfa-forest-darkest);
+    background: var(--vfa-color-forest-darkest);
     color: var(--vfa-color-text-light);
 }
