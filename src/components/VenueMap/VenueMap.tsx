@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { VenueData } from '../api/venues/venueTypes.ts';
+import type { VenueData } from '../../api/venues/venueTypes.ts';
 import styles from './VenueMap.module.css';
 
 interface Coords {

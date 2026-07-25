@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { useGetPages } from '../api/pages/useGetPages';
-import { useGetPage } from '../api/pages/useGetPage';
+import { useGetPages } from '../../api/pages/useGetPages';
+import { useGetPage } from '../../api/pages/useGetPage';
 import styles from './DynamicPage.module.css';
 
 export default function DynamicPage() {

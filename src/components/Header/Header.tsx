@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import styles from './Header.module.css';
-import logo from '../assets/VFA_Logo.png';
-import { useGetPrimaryMenu } from '../api/menus/useGetPrimaryMenu';
-import { useGetMenuItems } from '../api/menus/useGetMenuItems';
-import { useGetPages } from '../api/pages/useGetPages';
-import type { MenuItem } from '../api/menus/menuTypes.ts';
-import type { Page } from '../api/pages/pageTypes';
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
+import logo from '../../assets/VFA_Logo.png';
+import { useGetPrimaryMenu } from '../../api/menus/useGetPrimaryMenu';
+import { useGetMenuItems } from '../../api/menus/useGetMenuItems';
+import { useGetPages } from '../../api/pages/useGetPages';
+import type { MenuItem } from '../../api/menus/menuTypes.ts';
+import type { Page } from '../../api/pages/pageTypes';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 
 function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0): React.ReactNode {
   const items = menuItems

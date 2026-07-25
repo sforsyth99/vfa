@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useGetPaginatedPosts } from '../api/posts/useGetPosts';
-import type { Post } from '../api/posts/postTypes.ts';
+import { useGetPaginatedPosts } from '../../api/posts/useGetPosts';
+import type { Post } from '../../api/posts/postTypes.ts';
 import styles from './PaginatedPosts.module.css';
 
 const POSTS_PER_PAGE = 3;

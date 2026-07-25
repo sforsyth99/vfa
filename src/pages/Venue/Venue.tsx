@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import { useGetVenue } from '../api/venues/useGetVenue.ts';
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
-import { usePageTitle } from '../utils/usePageTitle.ts';
+import { useGetVenue } from '../../api/venues/useGetVenue.ts';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { usePageTitle } from '../../utils/usePageTitle.ts';
 import styles from './Venue.module.css';
 
 export default function VenuePage() {

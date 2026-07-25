@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl';
-import { useGetTribeEvents } from '../api/events/useGetTribeEvents.ts';
+import { useGetTribeEvents } from '../../api/events/useGetTribeEvents.ts';
 import styles from './Events.module.css';
 
 const renderEventDetail = (key: string, value: unknown): React.ReactNode => {

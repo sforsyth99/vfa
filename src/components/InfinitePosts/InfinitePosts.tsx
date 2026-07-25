@@ -1,6 +1,6 @@
-import { useInfinitePosts } from '../api/posts/useGetPosts';
-import type { Post } from '../api/posts/postTypes';
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
+import { useInfinitePosts } from '../../api/posts/useGetPosts';
+import type { Post } from '../../api/posts/postTypes';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import styles from './InfinitePosts.module.css';
 
 const POSTS_PER_PAGE = 3;

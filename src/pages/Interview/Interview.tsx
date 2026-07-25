@@ -1,9 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useGetInterview } from '../api/interviews/useGetInterview.ts';
-import { useGetPersonEvents } from '../api/people/useGetPersonEvents.ts';
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
-import { usePageTitle } from '../utils/usePageTitle.ts';
+import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
+import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { usePageTitle } from '../../utils/usePageTitle.ts';
 import styles from './Interview.module.css';
 
 function getInitials(name: string): string {

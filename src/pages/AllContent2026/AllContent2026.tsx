@@ -1,17 +1,17 @@
 import { useIntl, FormattedMessage } from 'react-intl';
 import styles from './AllContent2026.module.css';
-import { usePageTitle } from '../utils/usePageTitle';
-import { useGetInterviews } from '../api/interviews/useGetInterviews';
-import { useGetAuthors } from '../api/people/useGetAuthors';
-import { useGetKidfestAuthors } from '../api/people/useGetKidfestAuthors';
-import { useGetFestivalEvents } from '../api/festivalEvents/useGetFestivalEvents';
-import type { FestivalEvent } from '../api/festivalEvents/festivalEventTypes';
-import type { PersonData } from '../api/people/peopleTypes';
-import { useGetBooks } from '../api/books/useGetBooks';
-import type { Book } from '../api/books/bookTypes';
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
+import { usePageTitle } from '../../utils/usePageTitle';
+import { useGetInterviews } from '../../api/interviews/useGetInterviews';
+import { useGetAuthors } from '../../api/people/useGetAuthors';
+import { useGetKidfestAuthors } from '../../api/people/useGetKidfestAuthors';
+import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
+import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
+import type { PersonData } from '../../api/people/peopleTypes';
+import { useGetBooks } from '../../api/books/useGetBooks';
+import type { Book } from '../../api/books/bookTypes';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { Link } from 'react-router-dom';
-import { BookLink } from '../components/BookLink.tsx';
+import { BookLink } from '../../components/BookLink/BookLink.tsx';
 
 function InterviewsList() {
   const intl = useIntl();

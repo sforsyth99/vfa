@@ -1,9 +1,9 @@
 import { useParams, Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useGetBook } from '../api/books/useGetBook.ts';
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
-import { usePageTitle } from '../utils/usePageTitle.ts';
-import type { PersonData } from '../api/people/peopleTypes.ts';
+import { useGetBook } from '../../api/books/useGetBook.ts';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { usePageTitle } from '../../utils/usePageTitle.ts';
+import type { PersonData } from '../../api/people/peopleTypes.ts';
 import styles from './Book.module.css';
 
 function AuthorName({ person }: { person: PersonData }) {

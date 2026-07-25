@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useGetMenus } from '../api/menus/useGetMenus';
-import { useGetMenuItems } from '../api/menus/useGetMenuItems';
-import { useGetPages } from '../api/pages/useGetPages';
+import { useGetMenus } from '../../api/menus/useGetMenus';
+import { useGetMenuItems } from '../../api/menus/useGetMenuItems';
+import { useGetPages } from '../../api/pages/useGetPages';
 import styles from './Footer.module.css';
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
-import type { MenuItem } from '../api/menus/menuTypes';
-import type { Page } from '../api/pages/pageTypes';
-import titleSponsorSrc from '../assets/titleSponsor/MunrosBooks.jpg';
-import calfStampSrc from '../assets/CALF-Member_Stamp_Primary.png';
-import SocialIcons from './SocialIcons';
-import NewsletterSignup from './NewsletterSignup';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import type { MenuItem } from '../../api/menus/menuTypes';
+import type { Page } from '../../api/pages/pageTypes';
+import titleSponsorSrc from '../../assets/titleSponsor/MunrosBooks.jpg';
+import calfStampSrc from '../../assets/CALF-Member_Stamp_Primary.png';
+import SocialIcons from '../SocialIcons/SocialIcons';
+import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
 
 function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0): React.ReactNode {
   const items = menuItems.filter((item: MenuItem) => item.parent === parentId).sort((a: MenuItem, b: MenuItem) => a.menu_order - b.menu_order);

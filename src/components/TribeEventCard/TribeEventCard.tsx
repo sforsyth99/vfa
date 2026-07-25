@@ -1,6 +1,6 @@
-import { useGetTribeEvent } from '../api/events/useGetTribeEvent.ts';
-import { useGetTribeVenue } from '../api/events/useGetTribeVenue.ts';
-import { sanitizeHtml } from '../utils/sanitizeHtml';
+import { useGetTribeEvent } from '../../api/events/useGetTribeEvent.ts';
+import { useGetTribeVenue } from '../../api/events/useGetTribeVenue.ts';
+import { sanitizeHtml } from '../../utils/sanitizeHtml';
 
 export interface TribeEventCardProps {
   eventSlug: string;

@@ -1,5 +1,5 @@
-import { useGetMedia } from '../api/media/useGetMedia';
-import type { Media } from '../api/media/mediaTypes.ts';
+import { useGetMedia } from '../../api/media/useGetMedia';
+import type { Media } from '../../api/media/mediaTypes.ts';
 import styles from './Media.module.css';
 
 function MediaPage() {

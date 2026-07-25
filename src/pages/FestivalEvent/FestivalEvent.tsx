@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useGetFestivalEvent } from '../api/festivalEvents/useGetFestivalEvent.ts';
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
-import type { PersonData } from '../api/people/peopleTypes.ts';
-import { useGetPersonBooks } from '../api/people/useGetPersonBooks.ts';
-import { AuthorFeatureCard } from '../components/AuthorFeatureCard.tsx';
-import VenueMap from '../components/VenueMap.tsx';
-import { usePageTitle } from '../utils/usePageTitle.ts';
+import { useGetFestivalEvent } from '../../api/festivalEvents/useGetFestivalEvent.ts';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import type { PersonData } from '../../api/people/peopleTypes.ts';
+import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
+import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
+import VenueMap from '../../components/VenueMap/VenueMap.tsx';
+import { usePageTitle } from '../../utils/usePageTitle.ts';
 import styles from './FestivalEvent.module.css';
 
 function AuthorCard({ person }: { person: PersonData }) {

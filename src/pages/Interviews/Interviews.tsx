@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useGetInterviews } from '../api/interviews/useGetInterviews';
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
-import { usePageTitle } from '../utils/usePageTitle';
+import { useGetInterviews } from '../../api/interviews/useGetInterviews';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { usePageTitle } from '../../utils/usePageTitle';
 import styles from './Interviews.module.css';
 
 export default function InterviewsPage() {

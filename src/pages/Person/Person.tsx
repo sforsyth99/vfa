@@ -1,13 +1,13 @@
 import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useGetPerson } from '../api/people/useGetPerson.ts';
-import { useGetPersonEvents } from '../api/people/useGetPersonEvents.ts';
-import { useGetPersonBooks } from '../api/people/useGetPersonBooks.ts';
-import { useGetPersonInterviews } from '../api/people/useGetPersonInterview.ts';
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts';
-import { usePageTitle } from '../utils/usePageTitle.ts';
-import { AuthorFeatureCard } from '../components/AuthorFeatureCard.tsx';
-import { BookLink } from '../components/BookLink.tsx';
+import { useGetPerson } from '../../api/people/useGetPerson.ts';
+import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
+import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
+import { useGetPersonInterviews } from '../../api/people/useGetPersonInterview.ts';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { usePageTitle } from '../../utils/usePageTitle.ts';
+import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
+import { BookLink } from '../../components/BookLink/BookLink.tsx';
 import styles from './Person.module.css';
 
 export default function PersonPage() {
