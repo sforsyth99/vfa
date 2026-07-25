@@ -5,6 +5,8 @@ import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import type { PersonData } from '../../api/people/peopleTypes.ts';
 import { Container } from '../../components/Container/Container';
+import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
+import { PageTitle } from '../../components/PageTitle/PageTitle';
 import styles from './Book.module.css';
 
 function AuthorName({ person }: { person: PersonData }) {
@@ -38,8 +40,8 @@ export default function BookPage() {
           <img src={cover_image[0]} alt={title} className={styles.coverImage} />
         )}
         <div className={styles.meta}>
-          <p className={styles.eyebrow}><FormattedMessage id="book.eyebrow" /></p>
-          <h1 className={styles.title}>{title}</h1>
+          <Eyebrow><FormattedMessage id="book.eyebrow" /></Eyebrow>
+          <PageTitle>{title}</PageTitle>
           {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
           {(authors.length > 0 || additional_authors) && (
             <p className={styles.authors}>

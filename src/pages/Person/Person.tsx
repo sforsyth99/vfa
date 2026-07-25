@@ -1,45 +1,37 @@
 import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetPerson } from '../../api/people/useGetPerson.ts';
-import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
-import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
-import { useGetPersonInterviews } from '../../api/people/useGetPersonInterview.ts';
+import { useGetPersonEvents, type PersonEvent } from '../../api/people/useGetPersonEvents.ts';
+import { useGetPersonBooks, type PersonBook } from '../../api/people/useGetPersonBooks.ts';
+import { useGetPersonInterviews, type PersonInterview } from '../../api/people/useGetPersonInterview.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
 import { BookLink } from '../../components/BookLink/BookLink.tsx';
 import { Container } from '../../components/Container/Container';
+import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
+import { PageTitle } from '../../components/PageTitle/PageTitle';
 import styles from './Person.module.css';
 
-export default function PersonPage() {
+interface AuthorMetaProps {
+  name: string;
+  firstName: string;
+  name_pronunciation?: string | null;
+  alternate_name?: string | null;
+  bio?: string | null;
+  website_url?: string | null;
+  interviews?: PersonInterview[];
+  events?: PersonEvent[];
+  firstBook?: PersonBook;
+  isKidfest: boolean;
+}
+
+function AuthorMeta({ name, firstName, name_pronunciation, alternate_name, bio, website_url, interviews, events, firstBook, isKidfest }: AuthorMetaProps) {
   const intl = useIntl();
-  const { slug } = useParams<{ slug: string }>();
-  const { data: person, isLoading, error } = useGetPerson({ slug: slug! });
-  const { data: events } = useGetPersonEvents(person?.id);
-  const { data: books } = useGetPersonBooks(person?.id);
-  const { data: interviews } = useGetPersonInterviews(person?.id);
-
-  const name = decodeHtmlEntities(person?.title?.rendered ?? '');
-  usePageTitle(person ? name : null);
-
-  if (isLoading) return <div><FormattedMessage id="person.loading" /></div>;
-  if (error || !person) return <div><FormattedMessage id="person.notFound" /></div>;
-
-  const { alternate_name, name_pronunciation, bio, website_url, photo, kidfest_years, kidfest_photo } = person.person_data;
-
-  const isKidfest = kidfest_years?.length > 0;
-  const firstBook = books?.[0];
-  const kidsBook = books?.find(b => b.categories?.includes('children')) ?? firstBook;
-  const photoSrc = photo ? photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
-  const kidfestPhotoSrc = kidfest_photo ? kidfest_photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
-  const firstName = name.split(' ')[0];
-
-  const adultHasEvents = !isKidfest && !!events?.length;
-
-  const metaContent = (
+  return (
     <>
-      <p className={styles.eyebrow}><FormattedMessage id="person.eyebrow" /></p>
-      <h1 className={styles.name}>{name}</h1>
+      <Eyebrow><FormattedMessage id="person.eyebrow" /></Eyebrow>
+      <PageTitle>{name}</PageTitle>
       {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
       {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
       {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />}
@@ -73,6 +65,46 @@ export default function PersonPage() {
         </BookLink>
       )}
     </>
+  );
+}
+
+export default function PersonPage() {
+  const { slug } = useParams<{ slug: string }>();
+  const { data: person, isLoading, error } = useGetPerson({ slug: slug! });
+  const { data: events } = useGetPersonEvents(person?.id);
+  const { data: books } = useGetPersonBooks(person?.id);
+  const { data: interviews } = useGetPersonInterviews(person?.id);
+
+  const name = decodeHtmlEntities(person?.title?.rendered ?? '');
+  usePageTitle(person ? name : null);
+
+  if (isLoading) return <div><FormattedMessage id="person.loading" /></div>;
+  if (error || !person) return <div><FormattedMessage id="person.notFound" /></div>;
+
+  const { alternate_name, name_pronunciation, bio, website_url, photo, kidfest_years, kidfest_photo } = person.person_data;
+
+  const isKidfest = kidfest_years?.length > 0;
+  const firstBook = books?.[0];
+  const kidsBook = books?.find(b => b.categories?.includes('children')) ?? firstBook;
+  const photoSrc = photo ? photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
+  const kidfestPhotoSrc = kidfest_photo ? kidfest_photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
+  const firstName = name.split(' ')[0];
+
+  const adultHasEvents = !isKidfest && !!events?.length;
+
+  const authorMeta = (
+    <AuthorMeta
+      name={name}
+      firstName={firstName}
+      name_pronunciation={name_pronunciation}
+      alternate_name={alternate_name}
+      bio={bio}
+      website_url={website_url}
+      interviews={interviews}
+      events={events}
+      firstBook={firstBook}
+      isKidfest={isKidfest}
+    />
   );
 
   return (
@@ -111,11 +143,11 @@ export default function PersonPage() {
               className={styles.eventFeatureCard}
             />
           </div>
-          <div className={styles.meta}>{metaContent}</div>
+          <div className={styles.meta}>{authorMeta}</div>
         </div>
       ) : (
         <div className={styles.profile}>
-          <div className={styles.meta}>{metaContent}</div>
+          <div className={styles.meta}>{authorMeta}</div>
         </div>
       )}
       </Container>

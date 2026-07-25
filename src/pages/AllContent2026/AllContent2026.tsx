@@ -5,14 +5,15 @@ import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { useGetAuthors } from '../../api/people/useGetAuthors';
 import { useGetKidfestAuthors } from '../../api/people/useGetKidfestAuthors';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
-import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import type { PersonData } from '../../api/people/peopleTypes';
+import { EventSchedule } from '../../components/EventSchedule/EventSchedule';
 import { useGetBooks } from '../../api/books/useGetBooks';
 import type { Book } from '../../api/books/bookTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { Link } from 'react-router-dom';
 import { BookLink } from '../../components/BookLink/BookLink.tsx';
 import { Container } from '../../components/Container/Container';
+import { SectionTitle } from '../../components/SectionTitle/SectionTitle';
 
 function InterviewsList() {
   const intl = useIntl();
@@ -26,7 +27,7 @@ function InterviewsList() {
 
   return (
     <div className={styles.section}>
-      <h2><FormattedMessage id="home.interviews.heading" /></h2>
+      <SectionTitle><FormattedMessage id="home.interviews.heading" /></SectionTitle>
       <ul className={styles.interviewList}>
         {preview.map((interview) => {
           const data = interview.interview_data;
@@ -98,7 +99,7 @@ function AuthorPhotoGrid({
   const sorted = [...authors].sort(bySurname);
   return (
     <div className={styles.section}>
-      <h2><FormattedMessage id={headingId} /></h2>
+      <SectionTitle><FormattedMessage id={headingId} /></SectionTitle>
       <div className={styles.authorGrid}>
         {sorted.map((author) => (
           <Link key={author.id} to={`/people/${author.slug}`} className={kids ? styles.kidsAuthorPhoto : styles.authorPhoto}>
@@ -138,174 +139,6 @@ function KidsAuthorsList() {
   return <AuthorPhotoGrid headingId="home.kidsAuthors.heading" authors={authors} kids />;
 }
 
-function formatTime(t: string): string {
-  if (!t) return '';
-  const [h, m] = t.split(':').map(Number);
-  const period = h >= 12 ? 'PM' : 'AM';
-  return `${h % 12 || 12}:${m.toString().padStart(2, '0')} ${period}`;
-}
-
-function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; showHost?: boolean }) {
-  const intl = useIntl();
-  return (
-    <table className={styles.scheduleTable}>
-      <thead>
-        <tr>
-          <th>{intl.formatMessage({ id: 'home.schedule.date' })}</th>
-          <th>{intl.formatMessage({ id: 'home.schedule.time' })}</th>
-          <th>{intl.formatMessage({ id: 'home.schedule.event' })}</th>
-          <th>{intl.formatMessage({ id: 'home.schedule.location' })}</th>
-          {showHost && <th>{intl.formatMessage({ id: 'home.schedule.hostedBy' })}</th>}
-        </tr>
-      </thead>
-      <tbody>
-        {events.map((event) => {
-          const { event_date, time_start, time_end, venue, tickets, hosts, hosted_by } = event.event_data;
-          const timeStr = time_start
-            ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
-            : '';
-          const hasOnline = tickets.some((t) => t.type === 'online');
-          const location = venue?.name
-            ? hasOnline
-              ? intl.formatMessage({ id: 'home.schedule.locationAndOnline' }, { venue: venue.name })
-              : venue.name
-            : hasOnline
-              ? intl.formatMessage({ id: 'home.schedule.locationOnline' })
-              : '—';
-          const hostParts: React.ReactNode[] = [
-            ...(hosts ?? []).map((h) =>
-              h.slug
-                ? <Link key={h.id} to={`/people/${h.slug}`}>{h.name}</Link>
-                : <span key={h.id}>{h.name}</span>
-            ),
-            ...(hosted_by ? [<span key="text">{hosted_by}</span>] : []),
-          ];
-          return (
-            <tr key={event.id}>
-              <td className={styles.scheduleDate}>
-                {event_date
-                  ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
-                  : '—'}
-              </td>
-              <td className={styles.scheduleTime}>{timeStr || '—'}</td>
-              <td className={styles.scheduleName}>
-                <Link to={`/festival-events/${event.slug}`}>
-                  {decodeHtmlEntities(event.title?.rendered ?? '')}
-                </Link>
-              </td>
-              <td className={styles.scheduleLocation}>{location}</td>
-              {showHost && (
-                <td className={styles.scheduleLocation}>
-                  {hostParts.length > 0
-                    ? hostParts.reduce<React.ReactNode[]>((acc, el, i) => i === 0 ? [el] : [...acc, ', ', el], [])
-                    : '—'}
-                </td>
-              )}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
-}
-
-function EventSchedule() {
-  const intl = useIntl();
-  const { data: events, isLoading, isError } = useGetFestivalEvents();
-
-  if (isLoading) return <div>{intl.formatMessage({ id: 'home.events.loading' })}</div>;
-  if (isError) return <div>{intl.formatMessage({ id: 'home.events.error' })}</div>;
-  if (!events?.length) return null;
-
-  const today = new Date().toISOString().slice(0, 10);
-
-  const upcoming = events
-    .filter((e) => e.event_data.event_date >= today)
-    .sort((a, b) => {
-      const dateCmp = a.event_data.event_date.localeCompare(b.event_data.event_date);
-      if (dateCmp !== 0) return dateCmp;
-      return a.event_data.time_start.localeCompare(b.event_data.time_start);
-    });
-
-  const past = events
-    .filter((e) => e.event_data.event_date < today)
-    .sort((a, b) => b.event_data.event_date.localeCompare(a.event_data.event_date));
-
-  const regular = upcoming.filter((e) => !e.event_data.is_kidfest);
-  const kidfest = upcoming.filter((e) => e.event_data.is_kidfest);
-  const workshops = upcoming.filter((e) => e.event_data.event_type === 'workshop' && !e.event_data.is_kidfest);
-  const online = upcoming.filter((e) => e.event_data.tickets.some((t) => t.type === 'online'));
-
-  if (!upcoming.length && !past.length) return null;
-
-  return (
-    <>
-      {regular.length > 0 && (
-        <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.upcoming" /></h2>
-          <ScheduleTable events={regular} />
-        </div>
-      )}
-      {kidfest.length > 0 && (
-        <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.kidfest" /></h2>
-          <ScheduleTable events={kidfest} />
-        </div>
-      )}
-      {workshops.length > 0 && (
-        <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.workshops" /></h2>
-          <ScheduleTable events={workshops} showHost />
-        </div>
-      )}
-      {online.length > 0 && (
-        <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.onlineEvents" /></h2>
-          <p className={styles.scheduleIntro}><FormattedMessage id="home.schedule.onlineIntro" /></p>
-          <table className={styles.scheduleTable}>
-            <thead>
-              <tr>
-                <th>{intl.formatMessage({ id: 'home.schedule.date' })}</th>
-                <th>{intl.formatMessage({ id: 'home.schedule.time' })}</th>
-                <th>{intl.formatMessage({ id: 'home.schedule.event' })}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {online.map((event) => {
-                const { event_date, time_start, time_end } = event.event_data;
-                const timeStr = time_start
-                  ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
-                  : '';
-                return (
-                  <tr key={event.id}>
-                    <td className={styles.scheduleDate}>
-                      {event_date
-                        ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
-                        : '—'}
-                    </td>
-                    <td className={styles.scheduleTime}>{timeStr || '—'}</td>
-                    <td className={styles.scheduleName}>
-                      <Link to={`/festival-events/${event.slug}`}>
-                        {decodeHtmlEntities(event.title?.rendered ?? '')}
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
-      {past.length > 0 && (
-        <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.past" /></h2>
-          <ScheduleTable events={past} />
-        </div>
-      )}
-    </>
-  );
-}
-
 function BookCoverGrid({ books }: { books: Book[] }) {
   return (
     <div className={styles.bookGrid}>
@@ -338,7 +171,7 @@ function RegularBooksList() {
 
   return (
     <div className={styles.section}>
-      <h2><FormattedMessage id="home.books.heading" /></h2>
+      <SectionTitle><FormattedMessage id="home.books.heading" /></SectionTitle>
       <BookCoverGrid books={filtered} />
     </div>
   );
@@ -354,7 +187,7 @@ function KidsBooksList() {
 
   return (
     <div className={styles.section}>
-      <h2><FormattedMessage id="home.kidsBooks.heading" /></h2>
+      <SectionTitle><FormattedMessage id="home.kidsBooks.heading" /></SectionTitle>
       <BookCoverGrid books={filtered} />
     </div>
   );
@@ -429,7 +262,7 @@ function SupportingPersonBioSnippets() {
 
   return (
     <div className={styles.section}>
-      <h2><FormattedMessage id="home.supportingBios.heading" /></h2>
+      <SectionTitle><FormattedMessage id="home.supportingBios.heading" /></SectionTitle>
       <table className={styles.authorBioTable}>
         <tbody>
           {people.map((person) => {
@@ -473,7 +306,7 @@ function AuthorBioSnippets() {
 
   return (
     <div className={styles.section}>
-      <h2><FormattedMessage id="home.authorBios.heading" /></h2>
+      <SectionTitle><FormattedMessage id="home.authorBios.heading" /></SectionTitle>
       <table className={styles.authorBioTable}>
         <tbody>
           {sorted.map((author) => {

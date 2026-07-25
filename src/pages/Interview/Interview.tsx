@@ -1,11 +1,52 @@
 import { Link, useParams } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
-import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
+import { useGetPersonEvents, type PersonEvent } from '../../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
+import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
+import { PageTitle } from '../../components/PageTitle/PageTitle';
 import styles from './Interview.module.css';
+
+function UpcomingEventCard({ event, firstName }: { event: PersonEvent; firstName: string }) {
+  const intl = useIntl();
+  return (
+    <div className={styles.eventCard}>
+      <p className={styles.eventCardEyebrow}>
+        {intl.formatMessage({ id: 'interview.seeLive' }, { firstName })}
+      </p>
+      <p className={styles.eventCardTitle}>
+        <Link to={`/festival-events/${event.slug}`}>{event.title}</Link>
+      </p>
+      {event.event_date && (
+        <p className={styles.eventCardDate}>
+          {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+          })}
+          {event.time_start && ` · ${event.time_start} PT`}
+        </p>
+      )}
+      {event.venue_name && <p className={styles.eventCardVenue}>{event.venue_name}</p>}
+      {event.eventbrite_url ? (
+        <a
+          href={event.eventbrite_url}
+          className={styles.eventCardButton}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FormattedMessage id="interview.getTickets" />
+        </a>
+      ) : (
+        <Link to={`/festival-events/${event.slug}`} className={styles.eventCardButton}>
+          <FormattedMessage id="interview.learnMore" />
+        </Link>
+      )}
+    </div>
+  );
+}
 
 function getInitials(name: string): string {
   return name
@@ -66,10 +107,8 @@ export default function InterviewPage() {
       <Container narrow>
       <header className={styles.header}>
         <div className={styles.titleBlock}>
-          <p className={styles.eyebrow}>
-            <FormattedMessage id="interview.eyebrow" />
-          </p>
-          <h1 className={styles.authorName}>{displayName}</h1>
+          <Eyebrow><FormattedMessage id="interview.eyebrow" /></Eyebrow>
+          <PageTitle>{displayName}</PageTitle>
           {interviewer_name && (
             <p className={styles.interviewer}>
               {intl.formatMessage({ id: 'interview.interviewedBy' }, { name: interviewer_name })}
@@ -89,45 +128,11 @@ export default function InterviewPage() {
           </div>
 
           {upcomingEvents.length > 0 && (
-          <div className={styles.eventCards}>
-            {upcomingEvents.map((event) => (
-              <div key={event.id} className={styles.eventCard}>
-                <p className={styles.eventCardEyebrow}>
-                  {intl.formatMessage({ id: 'interview.seeLive' }, { firstName })}
-                </p>
-                <p className={styles.eventCardTitle}>
-                  <Link to={`/festival-events/${event.slug}`}>{event.title}</Link>
-                </p>
-                {event.event_date && (
-                  <p className={styles.eventCardDate}>
-                    {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
-                      weekday: 'long',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                    {event.time_start && ` · ${event.time_start} PT`}
-                  </p>
-                )}
-                {event.venue_name && (
-                  <p className={styles.eventCardVenue}>{event.venue_name}</p>
-                )}
-                {event.eventbrite_url ? (
-                  <a
-                    href={event.eventbrite_url}
-                    className={styles.eventCardButton}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <FormattedMessage id="interview.getTickets" />
-                  </a>
-                ) : (
-                  <Link to={`/festival-events/${event.slug}`} className={styles.eventCardButton}>
-                    <FormattedMessage id="interview.learnMore" />
-                  </Link>
-                )}
-              </div>
-            ))}
-          </div>
+            <div className={styles.eventCards}>
+              {upcomingEvents.map((event) => (
+                <UpcomingEventCard key={event.id} event={event} firstName={firstName} />
+              ))}
+            </div>
           )}
         </div>
       </header>

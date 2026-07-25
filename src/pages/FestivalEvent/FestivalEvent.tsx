@@ -9,6 +9,8 @@ import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeat
 import VenueMap from '../../components/VenueMap/VenueMap.tsx';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
+import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
+import { PageTitle } from '../../components/PageTitle/PageTitle';
 import styles from './FestivalEvent.module.css';
 
 function AuthorCard({ person }: { person: PersonData }) {
@@ -111,8 +113,8 @@ export default function FestivalEventPage() {
           className={styles.eventImage}
         />
       )}
-      <p className={styles.eyebrow}>{eyebrowLabel}</p>
-      <h1 className={styles.title}>{decodeHtmlEntities(event.title?.rendered ?? '')}</h1>
+      <Eyebrow>{eyebrowLabel}</Eyebrow>
+      <PageTitle>{decodeHtmlEntities(event.title?.rendered ?? '')}</PageTitle>
       {event_date && (
         <p className={styles.datetime}>
           {event_date}

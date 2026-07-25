@@ -58,29 +58,6 @@
 }
 
 
-.eyebrow {
-    font-size: var(--vfa-font-size-eyebrow);
-    letter-spacing: var(--vfa-letter-spacing-eyebrow);
-    text-transform: uppercase;
-    color: var(--vfa-color-forest-mid);
-    font-weight: var(--vfa-font-weight-semibold);
-    margin: 0 0 0.9rem;
-}
-
-.authorName {
-    font-size: var(--vfa-font-size-page-title);
-    font-weight: var(--vfa-font-weight-bold);
-    line-height: var(--vfa-line-height-title);
-    color: var(--vfa-color-ink-darkest);
-    margin: 0 0 0.5rem;
-    letter-spacing: -0.02em;
-}
-
-@media (max-width: 640px) {
-    .authorName {
-        font-size: var(--vfa-font-size-page-title-mobile);
-    }
-}
 
 .interviewer {
     font-size: var(--vfa-font-size-sm);

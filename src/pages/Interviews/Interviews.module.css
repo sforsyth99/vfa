@@ -2,13 +2,6 @@
     padding-block: 3rem 5rem;
 }
 
-.heading {
-    font-size: var(--vfa-font-size-page-title);
-    font-weight: var(--vfa-font-weight-bold);
-    color: var(--vfa-color-ink-darkest);
-    margin: 0 0 2.5rem;
-    letter-spacing: -0.02em;
-}
 
 .state {
     padding: 3rem 2rem;

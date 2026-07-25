@@ -5,6 +5,7 @@ import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
+import { PageTitle } from '../../components/PageTitle/PageTitle';
 import styles from './Interviews.module.css';
 
 export default function InterviewsPage() {
@@ -36,7 +37,7 @@ export default function InterviewsPage() {
   return (
     <main id="main-content" className={styles.page}>
       <Container>
-      <h1 className={styles.heading}><FormattedMessage id="interviews.heading" /></h1>
+      <PageTitle><FormattedMessage id="interviews.heading" /></PageTitle>
 
       {years.length > 1 && (
         <div className={styles.yearFilter}>

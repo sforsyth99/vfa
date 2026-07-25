@@ -1,0 +1,15 @@
+.sectionTitle {
+    font-family: var(--vfa-font-display);
+    font-size: 1.5rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    line-height: var(--vfa-line-height-tight);
+    color: var(--vfa-color-ink-darkest);
+    margin: 0 0 1rem;
+    letter-spacing: -0.01em;
+}
+
+@media (max-width: 640px) {
+    .sectionTitle {
+        font-size: 1.25rem;
+    }
+}

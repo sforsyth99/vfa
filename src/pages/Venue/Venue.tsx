@@ -4,6 +4,8 @@ import { useGetVenue } from '../../api/venues/useGetVenue.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
+import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
+import { PageTitle } from '../../components/PageTitle/PageTitle';
 import styles from './Venue.module.css';
 
 export default function VenuePage() {
@@ -23,8 +25,8 @@ export default function VenuePage() {
   return (
     <main id="main-content" className={styles.page}>
       <Container narrow>
-        <p className={styles.eyebrow}><FormattedMessage id="venue.eyebrow" /></p>
-        <h1 className={styles.name}>{decodeHtmlEntities(venue.title?.rendered ?? '')}</h1>
+        <Eyebrow><FormattedMessage id="venue.eyebrow" /></Eyebrow>
+        <PageTitle>{decodeHtmlEntities(venue.title?.rendered ?? '')}</PageTitle>
         {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
         {alternate_name && <p className={styles.alternateName}>{intl.formatMessage({ id: 'venue.formerly' }, { name: alternate_name })}</p>}
         {buildingLine && <p className={styles.building}>{buildingLine}</p>}

@@ -1,0 +1,8 @@
+.eyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-forest-mid);
+    font-weight: var(--vfa-font-weight-semibold);
+    margin: 0 0 0.9rem;
+}

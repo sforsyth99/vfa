@@ -1,0 +1,175 @@
+import type { ReactNode } from 'react';
+import { useIntl, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
+import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
+import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import styles from './EventSchedule.module.css';
+
+function formatTime(t: string): string {
+  if (!t) return '';
+  const [h, m] = t.split(':').map(Number);
+  const period = h >= 12 ? 'PM' : 'AM';
+  return `${h % 12 || 12}:${m.toString().padStart(2, '0')} ${period}`;
+}
+
+function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; showHost?: boolean }) {
+  const intl = useIntl();
+  return (
+    <table className={styles.scheduleTable}>
+      <thead>
+        <tr>
+          <th>{intl.formatMessage({ id: 'home.schedule.date' })}</th>
+          <th>{intl.formatMessage({ id: 'home.schedule.time' })}</th>
+          <th>{intl.formatMessage({ id: 'home.schedule.event' })}</th>
+          <th>{intl.formatMessage({ id: 'home.schedule.location' })}</th>
+          {showHost && <th>{intl.formatMessage({ id: 'home.schedule.hostedBy' })}</th>}
+        </tr>
+      </thead>
+      <tbody>
+        {events.map((event) => {
+          const { event_date, time_start, time_end, venue, tickets, hosts, hosted_by } = event.event_data;
+          const timeStr = time_start
+            ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
+            : '';
+          const hasOnline = tickets.some((t) => t.type === 'online');
+          const location = venue?.name
+            ? hasOnline
+              ? intl.formatMessage({ id: 'home.schedule.locationAndOnline' }, { venue: venue.name })
+              : venue.name
+            : hasOnline
+              ? intl.formatMessage({ id: 'home.schedule.locationOnline' })
+              : '—';
+          const hostParts: ReactNode[] = [
+            ...(hosts ?? []).map((h) =>
+              h.slug
+                ? <Link key={h.id} to={`/people/${h.slug}`}>{h.name}</Link>
+                : <span key={h.id}>{h.name}</span>
+            ),
+            ...(hosted_by ? [<span key="text">{hosted_by}</span>] : []),
+          ];
+          return (
+            <tr key={event.id}>
+              <td className={styles.scheduleDate}>
+                {event_date
+                  ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
+                  : '—'}
+              </td>
+              <td className={styles.scheduleTime}>{timeStr || '—'}</td>
+              <td className={styles.scheduleName}>
+                <Link to={`/festival-events/${event.slug}`}>
+                  {decodeHtmlEntities(event.title?.rendered ?? '')}
+                </Link>
+              </td>
+              <td className={styles.scheduleLocation}>{location}</td>
+              {showHost && (
+                <td className={styles.scheduleLocation}>
+                  {hostParts.length > 0
+                    ? hostParts.reduce<ReactNode[]>((acc, el, i) => i === 0 ? [el] : [...acc, ', ', el], [])
+                    : '—'}
+                </td>
+              )}
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+export function EventSchedule() {
+  const intl = useIntl();
+  const { data: events, isLoading, isError } = useGetFestivalEvents();
+
+  if (isLoading) return <div>{intl.formatMessage({ id: 'home.events.loading' })}</div>;
+  if (isError) return <div>{intl.formatMessage({ id: 'home.events.error' })}</div>;
+  if (!events?.length) return null;
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  const upcoming = events
+    .filter((e) => e.event_data.event_date >= today)
+    .sort((a, b) => {
+      const dateCmp = a.event_data.event_date.localeCompare(b.event_data.event_date);
+      if (dateCmp !== 0) return dateCmp;
+      return a.event_data.time_start.localeCompare(b.event_data.time_start);
+    });
+
+  const past = events
+    .filter((e) => e.event_data.event_date < today)
+    .sort((a, b) => b.event_data.event_date.localeCompare(a.event_data.event_date));
+
+  const regular = upcoming.filter((e) => !e.event_data.is_kidfest);
+  const kidfest = upcoming.filter((e) => e.event_data.is_kidfest);
+  const workshops = upcoming.filter((e) => e.event_data.event_type === 'workshop' && !e.event_data.is_kidfest);
+  const online = upcoming.filter((e) => e.event_data.tickets.some((t) => t.type === 'online'));
+
+  if (!upcoming.length && !past.length) return null;
+
+  return (
+    <>
+      {regular.length > 0 && (
+        <div className={styles.scheduleSection}>
+          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.upcoming" /></h2>
+          <ScheduleTable events={regular} />
+        </div>
+      )}
+      {kidfest.length > 0 && (
+        <div className={styles.scheduleSection}>
+          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.kidfest" /></h2>
+          <ScheduleTable events={kidfest} />
+        </div>
+      )}
+      {workshops.length > 0 && (
+        <div className={styles.scheduleSection}>
+          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.workshops" /></h2>
+          <ScheduleTable events={workshops} showHost />
+        </div>
+      )}
+      {online.length > 0 && (
+        <div className={styles.scheduleSection}>
+          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.onlineEvents" /></h2>
+          <p className={styles.scheduleIntro}><FormattedMessage id="home.schedule.onlineIntro" /></p>
+          <table className={styles.scheduleTable}>
+            <thead>
+              <tr>
+                <th>{intl.formatMessage({ id: 'home.schedule.date' })}</th>
+                <th>{intl.formatMessage({ id: 'home.schedule.time' })}</th>
+                <th>{intl.formatMessage({ id: 'home.schedule.event' })}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {online.map((event) => {
+                const { event_date, time_start, time_end } = event.event_data;
+                const timeStr = time_start
+                  ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
+                  : '';
+                return (
+                  <tr key={event.id}>
+                    <td className={styles.scheduleDate}>
+                      {event_date
+                        ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
+                        : '—'}
+                    </td>
+                    <td className={styles.scheduleTime}>{timeStr || '—'}</td>
+                    <td className={styles.scheduleName}>
+                      <Link to={`/festival-events/${event.slug}`}>
+                        {decodeHtmlEntities(event.title?.rendered ?? '')}
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {past.length > 0 && (
+        <div className={styles.scheduleSection}>
+          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.past" /></h2>
+          <ScheduleTable events={past} />
+        </div>
+      )}
+    </>
+  );
+}
