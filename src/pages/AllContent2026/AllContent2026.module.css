@@ -1,11 +1,9 @@
 .homeMain {
-    padding: 0 0 2rem;
-    max-width: 900px;
-    margin: 0 auto;
+    padding-bottom: 2rem;
 }
 
 .hero {
-    padding: 4rem 2rem 3rem;
+    padding: 4rem 0 3rem;
     border-bottom: 1px solid var(--vfa-color-warm-border-light);
     margin-bottom: 2rem;
 }

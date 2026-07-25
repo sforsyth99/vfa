@@ -1,5 +1,6 @@
 import { useGetMedia } from '../../api/media/useGetMedia';
 import type { Media } from '../../api/media/mediaTypes.ts';
+import { Container } from '../../components/Container/Container';
 import styles from './Media.module.css';
 
 function MediaPage() {
@@ -10,24 +11,26 @@ function MediaPage() {
   if (!data || data.length === 0) return <div>No media found.</div>;
 
   return (
-    <div>
-      <h1>Media</h1>
-      <ul>
-        {data.slice(0, 5).map((media: Media) => (
-          <li key={media.id} className={styles.mediaItem}>
-            <strong>{media.title.rendered}</strong>
-            <div>
-              <img
-                src={media.source_url}
-                alt={media.alt_text || media.title.rendered}
-                className={styles.mediaImg}
-              />
-            </div>
-            <div>{media.caption.rendered && <span dangerouslySetInnerHTML={{ __html: media.caption.rendered }} />}</div>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <main id="main-content">
+      <Container>
+        <h1>Media</h1>
+        <ul>
+          {data.slice(0, 5).map((media: Media) => (
+            <li key={media.id} className={styles.mediaItem}>
+              <strong>{media.title.rendered}</strong>
+              <div>
+                <img
+                  src={media.source_url}
+                  alt={media.alt_text || media.title.rendered}
+                  className={styles.mediaImg}
+                />
+              </div>
+              <div>{media.caption.rendered && <span dangerouslySetInnerHTML={{ __html: media.caption.rendered }} />}</div>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </main>
   );
 }
 

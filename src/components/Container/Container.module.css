@@ -1,0 +1,16 @@
+.container {
+    width: 100%;
+    max-width: var(--vfa-width-site);
+    margin-inline: auto;
+    padding-inline: var(--vfa-padding-x);
+}
+
+.narrow {
+    max-width: var(--vfa-width-content);
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding-inline: 1rem;
+    }
+}

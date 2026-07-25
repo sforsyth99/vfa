@@ -142,6 +142,12 @@
   "interview.learnMore": "Learn more",
   "interview.readBio": "Read {name}'s bio →",
   "interview.interviewerBio": "About the Interviewer",
+
+  "venue.loading": "Loading…",
+  "venue.notFound": "Venue not found",
+  "venue.eyebrow": "Venue",
+  "venue.visitWebsite": "Visit website →",
+  "venue.formerly": "(formerly {name})",
   "author.interviews": "Author Interviews",
   "sponsors.title": "Our Sponsors",
   "donate.cta": "Donate via CanadaHelps",

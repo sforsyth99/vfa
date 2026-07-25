@@ -4,6 +4,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { usePageTitle } from '../../utils/usePageTitle';
+import { Container } from '../../components/Container/Container';
 import styles from './Interviews.module.css';
 
 export default function InterviewsPage() {
@@ -34,6 +35,7 @@ export default function InterviewsPage() {
 
   return (
     <main id="main-content" className={styles.page}>
+      <Container>
       <h1 className={styles.heading}><FormattedMessage id="interviews.heading" /></h1>
 
       {years.length > 1 && (
@@ -96,6 +98,7 @@ export default function InterviewsPage() {
           })}
         </ul>
       )}
+      </Container>
     </main>
   );
 }

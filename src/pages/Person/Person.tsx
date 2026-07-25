@@ -8,6 +8,7 @@ import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
 import { BookLink } from '../../components/BookLink/BookLink.tsx';
+import { Container } from '../../components/Container/Container';
 import styles from './Person.module.css';
 
 export default function PersonPage() {
@@ -76,6 +77,7 @@ export default function PersonPage() {
 
   return (
     <main id="main-content" className={styles.page}>
+      <Container narrow>
       {isKidfest && (kidfestPhotoSrc || kidsBook?.cover_image) && (
         <div className={styles.kidsHero}>
           {kidfestPhotoSrc && (
@@ -116,7 +118,7 @@ export default function PersonPage() {
           <div className={styles.meta}>{metaContent}</div>
         </div>
       )}
-
+      </Container>
     </main>
   );
 }

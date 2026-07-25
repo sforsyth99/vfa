@@ -4,6 +4,7 @@ import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
 import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
+import { Container } from '../../components/Container/Container';
 import styles from './Interview.module.css';
 
 function getInitials(name: string): string {
@@ -62,6 +63,7 @@ export default function InterviewPage() {
 
   return (
     <main id="main-content" className={styles.page}>
+      <Container narrow>
       <header className={styles.header}>
         <div className={styles.titleBlock}>
           <p className={styles.eyebrow}>
@@ -176,6 +178,7 @@ export default function InterviewPage() {
           ))}
         </div>
       )}
+      </Container>
     </main>
   );
 }

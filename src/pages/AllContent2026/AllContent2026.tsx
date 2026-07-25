@@ -12,6 +12,7 @@ import type { Book } from '../../api/books/bookTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { Link } from 'react-router-dom';
 import { BookLink } from '../../components/BookLink/BookLink.tsx';
+import { Container } from '../../components/Container/Container';
 
 function InterviewsList() {
   const intl = useIntl();
@@ -513,16 +514,18 @@ export function AllContent2026Page() {
   usePageTitle();
   return (
     <main id="main-content" className={styles.homeMain}>
-      <Hero />
-      <EventSchedule />
-      <InterviewsList />
-      <AuthorsList />
-      <KidsAuthorsList />
-      <HostsAndModerators />
-      <AuthorBioSnippets />
-      <SupportingPersonBioSnippets />
-      <RegularBooksList />
-      <KidsBooksList />
+      <Container>
+        <Hero />
+        <EventSchedule />
+        <InterviewsList />
+        <AuthorsList />
+        <KidsAuthorsList />
+        <HostsAndModerators />
+        <AuthorBioSnippets />
+        <SupportingPersonBioSnippets />
+        <RegularBooksList />
+        <KidsBooksList />
+      </Container>
     </main>
   );
 }

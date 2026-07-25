@@ -1,16 +1,19 @@
 import { useParams } from 'react-router-dom';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetVenue } from '../../api/venues/useGetVenue.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
+import { Container } from '../../components/Container/Container';
 import styles from './Venue.module.css';
 
 export default function VenuePage() {
+  const intl = useIntl();
   const { slug } = useParams<{ slug: string }>();
   const { data: venue, isLoading, error } = useGetVenue({ slug: slug! });
   usePageTitle(venue ? decodeHtmlEntities(venue.title?.rendered ?? '') : null);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !venue) return <div>Venue not found</div>;
+  if (isLoading) return <div><FormattedMessage id="venue.loading" /></div>;
+  if (error || !venue) return <div><FormattedMessage id="venue.notFound" /></div>;
 
   const { alternate_name, name_pronunciation, building, room, street_address, city, province, postal_code, country, phone, website_url, description } = venue.venue_data;
 
@@ -19,15 +22,17 @@ export default function VenuePage() {
 
   return (
     <main id="main-content" className={styles.page}>
-      <p className={styles.eyebrow}>Venue</p>
-      <h1 className={styles.name}>{decodeHtmlEntities(venue.title?.rendered ?? '')}</h1>
-      {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
-      {alternate_name && <p className={styles.alternateName}>(formerly {alternate_name})</p>}
-      {buildingLine && <p className={styles.building}>{buildingLine}</p>}
-      {addressLine && <p className={styles.address}>{addressLine}</p>}
-      {phone && <p className={styles.phone}>{phone}</p>}
-      {website_url && <a href={website_url} className={styles.websiteLink}>Visit website →</a>}
-      {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
+      <Container narrow>
+        <p className={styles.eyebrow}><FormattedMessage id="venue.eyebrow" /></p>
+        <h1 className={styles.name}>{decodeHtmlEntities(venue.title?.rendered ?? '')}</h1>
+        {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
+        {alternate_name && <p className={styles.alternateName}>{intl.formatMessage({ id: 'venue.formerly' }, { name: alternate_name })}</p>}
+        {buildingLine && <p className={styles.building}>{buildingLine}</p>}
+        {addressLine && <p className={styles.address}>{addressLine}</p>}
+        {phone && <p className={styles.phone}>{phone}</p>}
+        {website_url && <a href={website_url} className={styles.websiteLink}><FormattedMessage id="venue.visitWebsite" /></a>}
+        {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
+      </Container>
     </main>
   );
 }

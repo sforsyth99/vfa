@@ -1,5 +1,6 @@
 import { useIntl } from 'react-intl';
 import { useGetTribeEvents } from '../../api/events/useGetTribeEvents.ts';
+import { Container } from '../../components/Container/Container';
 import styles from './Events.module.css';
 
 const renderEventDetail = (key: string, value: unknown): React.ReactNode => {
@@ -23,22 +24,24 @@ function Events() {
 
   return (
     <main id="main-content" className={styles.eventsMain}>
-      <h1>{intl.formatMessage({ id: 'events.heading' })}</h1>
-      {isLoading && <p>{intl.formatMessage({ id: 'events.loading' })}</p>}
-      {error && <p>{intl.formatMessage({ id: 'events.error' })}</p>}
-      {events && (
-        <ul>
-          {events.map(event => (
-            <li key={event.id} className={styles.eventItem}>
-              {Object.entries(event).map(([key, value]) => (
-                <div key={key} className={styles.eventField}>
-                  <strong>{key}:</strong> {renderEventDetail(key, value)}
-                </div>
-              ))}
-            </li>
-          ))}
-        </ul>
-      )}
+      <Container>
+        <h1>{intl.formatMessage({ id: 'events.heading' })}</h1>
+        {isLoading && <p>{intl.formatMessage({ id: 'events.loading' })}</p>}
+        {error && <p>{intl.formatMessage({ id: 'events.error' })}</p>}
+        {events && (
+          <ul>
+            {events.map(event => (
+              <li key={event.id} className={styles.eventItem}>
+                {Object.entries(event).map(([key, value]) => (
+                  <div key={key} className={styles.eventField}>
+                    <strong>{key}:</strong> {renderEventDetail(key, value)}
+                  </div>
+                ))}
+              </li>
+            ))}
+          </ul>
+        )}
+      </Container>
     </main>
   );
 }

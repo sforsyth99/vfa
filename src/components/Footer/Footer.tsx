@@ -47,7 +47,7 @@ function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0
 }
 
 // Vite-specific: import all sponsor images statically
-const sponsorImages = import.meta.glob('../assets/sponsors/*.{png,jpg,jpeg,svg}', { eager: true, import: 'default' });
+const sponsorImages = import.meta.glob('../../assets/sponsors/*.{png,jpg,jpeg,svg}', { eager: true, import: 'default' });
 const sponsorLogos: string[] = Object.values(sponsorImages) as string[];
 
 function Footer() {

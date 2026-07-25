@@ -4,6 +4,7 @@ import { useGetBook } from '../../api/books/useGetBook.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import type { PersonData } from '../../api/people/peopleTypes.ts';
+import { Container } from '../../components/Container/Container';
 import styles from './Book.module.css';
 
 function AuthorName({ person }: { person: PersonData }) {
@@ -31,6 +32,7 @@ export default function BookPage() {
 
   return (
     <main id="main-content" className={styles.page}>
+      <Container narrow>
       <div className={styles.bookLayout}>
         {cover_image && (
           <img src={cover_image[0]} alt={title} className={styles.coverImage} />
@@ -64,6 +66,7 @@ export default function BookPage() {
           )}
         </div>
       </div>
+      </Container>
     </main>
   );
 }

@@ -8,6 +8,7 @@ import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
 import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
 import VenueMap from '../../components/VenueMap/VenueMap.tsx';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
+import { Container } from '../../components/Container/Container';
 import styles from './FestivalEvent.module.css';
 
 function AuthorCard({ person }: { person: PersonData }) {
@@ -102,6 +103,7 @@ export default function FestivalEventPage() {
 
   return (
     <main id="main-content" className={styles.page}>
+      <Container narrow>
       {event_image && (
         <img
           src={event_image[0]}
@@ -241,7 +243,7 @@ export default function FestivalEventPage() {
           )}
         </div>
       )}
-
+      </Container>
     </main>
   );
 }
