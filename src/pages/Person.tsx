@@ -33,144 +33,90 @@ export default function PersonPage() {
   const kidfestPhotoSrc = kidfest_photo ? kidfest_photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
   const firstName = name.split(' ')[0];
 
+  const adultHasEvents = !isKidfest && !!events?.length;
+
+  const metaContent = (
+    <>
+      <p className={styles.eyebrow}><FormattedMessage id="person.eyebrow" /></p>
+      <h1 className={styles.name}>{name}</h1>
+      {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
+      {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
+      {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />}
+      {website_url && (
+        <a href={website_url} className={styles.websiteLink}>
+          <FormattedMessage id="person.websiteLink" />
+        </a>
+      )}
+      {interviews && interviews.length > 0 && interviews.map((interview) => (
+        <Link key={interview.id} to={`/interviews/${interview.slug}`} className={styles.websiteLink}>
+          {interview.book_title ? (
+            <FormattedMessage
+              id="person.interviewLink.withBook"
+              values={{ firstName, bookTitle: <em>{interview.book_title}</em> }}
+            />
+          ) : interview.festival_year ? (
+            intl.formatMessage({ id: 'person.interviewLink.withYear' }, { year: interview.festival_year })
+          ) : (
+            intl.formatMessage({ id: 'person.interviewLink.generic' })
+          )}
+        </Link>
+      ))}
+      {events && events.length > 0 && events.map((event) => (
+        <Link key={event.id} to={`/festival-events/${event.slug}`} className={styles.websiteLink}>
+          {intl.formatMessage({ id: 'person.eventLink' }, { firstName, eventTitle: event.title })}
+        </Link>
+      ))}
+      {!isKidfest && firstBook && (
+        <BookLink slug={firstBook.slug} munrosUrl={firstBook.munros_url} className={styles.websiteLink}>
+          {intl.formatMessage({ id: 'person.bookLink' }, { bookTitle: firstBook.title })}
+        </BookLink>
+      )}
+    </>
+  );
+
   return (
     <main id="main-content" className={styles.page}>
-      {events && events.length > 0 && !isKidfest && (
-        <div className={styles.eventFeatureCards}>
-          {events.map((event) => (
-            <AuthorFeatureCard
-              key={event.id}
-              photoSrc={photoSrc}
-              photoAlt={name}
-              bookCoverSrc={firstBook?.cover_image ? firstBook.cover_image[0] : null}
-              bookCoverAlt={firstBook?.title}
-              title={event.title}
-              subtitleLines={event.event_date ? [
-                new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
-                  weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
-                }),
-              ] : []}
-              to={`/festival-events/${event.slug}`}
-              className={styles.eventFeatureCard}
-            />
-          ))}
-        </div>
-      )}
-
       {isKidfest && (kidfestPhotoSrc || kidsBook?.cover_image) && (
         <div className={styles.kidsHero}>
           {kidfestPhotoSrc && (
             <img src={kidfestPhotoSrc} alt={name} className={styles.kidsHeroImg} />
           )}
           {kidsBook?.cover_image && (
-            <img src={kidsBook.cover_image[0]} alt={kidsBook.title} className={styles.kidsHeroImg} />
+            <BookLink slug={kidsBook.slug} munrosUrl={kidsBook.munros_url}>
+              <img src={kidsBook.cover_image[0]} alt={kidsBook.title} className={styles.kidsHeroImg} />
+            </BookLink>
           )}
         </div>
       )}
 
-      <div className={styles.profile}>
-        <div className={styles.meta}>
-          <p className={styles.eyebrow}><FormattedMessage id="person.eyebrow" /></p>
-          <h1 className={styles.name}>{name}</h1>
-          {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
-          {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
-
-          {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />}
-          {website_url && (
-            <a href={website_url} className={styles.websiteLink}>
-              <FormattedMessage id="person.websiteLink" />
-            </a>
-          )}
-          {interviews &&
-            interviews.length > 0 &&
-            interviews.map((interview) => (
-              <Link
-                key={interview.id}
-                to={`/interviews/${interview.slug}`}
-                className={styles.websiteLink}
-              >
-                {interview.book_title ? (
-                  <FormattedMessage
-                    id="person.interviewLink.withBook"
-                    values={{ firstName, bookTitle: <em>{interview.book_title}</em> }}
-                  />
-                ) : interview.festival_year ? (
-                  intl.formatMessage({ id: 'person.interviewLink.withYear' }, { year: interview.festival_year })
-                ) : (
-                  intl.formatMessage({ id: 'person.interviewLink.generic' })
-                )}
-              </Link>
-            ))}
-          {events &&
-            events.length > 0 &&
-            events.map((event) => (
-              <Link
-                key={event.id}
-                to={`/festival-events/${event.slug}`}
-                className={styles.websiteLink}
-              >
-                {intl.formatMessage({ id: 'person.eventLink' }, { firstName, eventTitle: event.title })}
-              </Link>
-            ))}
+      {adultHasEvents ? (
+        <div className={styles.adultHero}>
+          <div className={styles.eventFeatureCards}>
+            <AuthorFeatureCard
+              photoSrc={photoSrc}
+              photoAlt={name}
+              bookCoverSrc={firstBook?.cover_image ? firstBook.cover_image[0] : null}
+              bookCoverAlt={firstBook?.title}
+              events={events!.map((event) => ({
+                title: event.title,
+                subtitleLines: event.event_date ? [
+                  new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
+                    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
+                  }),
+                ] : [],
+                to: `/festival-events/${event.slug}`,
+              }))}
+              className={styles.eventFeatureCard}
+            />
+          </div>
+          <div className={styles.meta}>{metaContent}</div>
         </div>
-      </div>
+      ) : (
+        <div className={styles.profile}>
+          <div className={styles.meta}>{metaContent}</div>
+        </div>
+      )}
 
-      {books &&
-        books.length > 0 &&
-        (() => {
-          const regularBooks = books.filter((b) => !b.categories?.includes('children'));
-          const kidsBooks = books.filter((b) => b.categories?.includes('children'));
-          return (
-            <>
-              {regularBooks.length > 0 && (
-                <section className={styles.section}>
-                  <h2 className={styles.sectionHeading}>
-                    <FormattedMessage id="person.section.books" />
-                  </h2>
-                  <div className={styles.bookGrid}>
-                    {regularBooks.map((book) => (
-                      <BookLink key={book.id} slug={book.slug} munrosUrl={book.munros_url} className={styles.bookCard}>
-                        {book.cover_image ? (
-                          <img
-                            src={book.cover_image[0]}
-                            alt={book.title}
-                            className={styles.bookCover}
-                          />
-                        ) : (
-                          <div className={styles.bookCoverPlaceholder} />
-                        )}
-                        <p className={styles.bookTitle}>{book.title}</p>
-                      </BookLink>
-                    ))}
-                  </div>
-                </section>
-              )}
-              {kidsBooks.length > 0 && (
-                <section className={styles.section}>
-                  <h2 className={styles.sectionHeading}>
-                    <FormattedMessage id="person.section.kidsBooks" />
-                  </h2>
-                  <div className={styles.bookGrid}>
-                    {kidsBooks.map((book) => (
-                      <BookLink key={book.id} slug={book.slug} munrosUrl={book.munros_url} className={styles.bookCard}>
-                        {book.cover_image ? (
-                          <img
-                            src={book.cover_image[0]}
-                            alt={book.title}
-                            className={styles.bookCover}
-                          />
-                        ) : (
-                          <div className={styles.bookCoverPlaceholder} />
-                        )}
-                        <p className={styles.bookTitle}>{book.title}</p>
-                      </BookLink>
-                    ))}
-                  </div>
-                </section>
-              )}
-            </>
-          );
-        })()}
     </main>
   );
 }

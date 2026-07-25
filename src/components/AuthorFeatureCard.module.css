@@ -12,6 +12,11 @@
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
 }
 
+.cardMulti:hover {
+    transform: none;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+}
+
 .photoSection {
     position: relative;
     aspect-ratio: 1 / 1;
@@ -80,7 +85,27 @@
 
 .banner {
     background: var(--vfa-event-blue);
-    padding: 1.75rem 1.75rem 1.5rem;
+    padding: 1.25rem 1.75rem 1.25rem;
+}
+
+.eventList {
+    display: flex;
+    flex-direction: column;
+}
+
+.eventEntry {
+    display: block;
+    text-decoration: none;
+    padding: 0.5rem 0;
+    transition: opacity 0.15s ease;
+}
+
+.eventEntry + .eventEntry {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.eventEntry:hover {
+    opacity: 0.75;
 }
 
 .title {

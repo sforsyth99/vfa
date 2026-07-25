@@ -101,6 +101,37 @@
     }
 }
 
+/* ── Adult Hero (event cards + meta side by side) ────── */
+
+.adultHero {
+    display: flex;
+    gap: 2.5rem;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--vfa-warm-border);
+}
+
+.adultHero .eventFeatureCards {
+    flex: 0 0 46%;
+    margin-bottom: 0;
+}
+
+.adultHero .eventFeatureCard {
+    width: 100%;
+}
+
+.adultHero .meta {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 640px) {
+    .adultHero {
+        flex-direction: column;
+    }
+}
+
 /* ── Event Feature Cards ─────────────────────────────── */
 
 .eventFeatureCards {
