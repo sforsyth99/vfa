@@ -92,6 +92,10 @@ add_action('rest_api_init', function() {
                                     get_post_meta($post_id, 'kidfest_photo', true),
                                     'medium'
                                 ),
+            'photo_square'   => wp_get_attachment_image_src(
+                                    get_post_meta($post_id, 'photo_square', true),
+                                    'medium'
+                                ),
         ];
     }
 

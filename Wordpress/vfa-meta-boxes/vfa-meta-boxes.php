@@ -62,28 +62,37 @@ function vfa_mb_config(): array {
                 ['id' => 'name_pronunciation', 'name' => 'Name Pronunciation', 'type' => 'text',
                  'desc' => 'Optional phonetic guide, e.g. "SAHN-dra"'],
                 [
-                    'id'      => 'pronouns',
-                    'name'    => 'Pronouns',
-                    'type'    => 'select',
-                    'options' => [
-                        ''          => '— Select —',
-                        'she_her'   => 'She/Her',
-                        'he_him'    => 'He/Him',
-                        'they_them' => 'They/Them',
-                        'she_they'  => 'She/They',
-                        'he_they'   => 'He/They',
-                        'ze_zir'    => 'Ze/Zir',
-                        'other'     => 'Other',
+                    'type'   => 'inline_fields',
+                    'name'   => 'Pronouns',
+                    'fields' => [
+                        [
+                            'id'      => 'pronouns',
+                            'name'    => 'Pronouns',
+                            'type'    => 'select',
+                            'options' => [
+                                ''          => '— Select —',
+                                'she_her'   => 'She/Her',
+                                'he_him'    => 'He/Him',
+                                'they_them' => 'They/Them',
+                                'she_they'  => 'She/They',
+                                'he_they'   => 'He/They',
+                                'ze_zir'    => 'Ze/Zir',
+                                'other'     => 'Other',
+                            ],
+                        ],
+                        ['id' => 'pronouns_other', 'name' => 'Other', 'type' => 'text',
+                         'desc' => 'Required if "Other" selected above.'],
                     ],
                 ],
-                ['id' => 'pronouns_other', 'name' => 'Custom Pronouns', 'type' => 'text',
-                 'desc' => 'Required if "Other" selected above.'],
-                ['id' => 'photo',          'name' => 'Photo',          'type' => 'image_advanced'],
                 [
-                    'id'   => 'kidfest_photo',
-                    'name' => 'Kidfest Photo',
-                    'type' => 'image_advanced',
-                    'desc' => 'Cartoon-style image for Kidfest. Optional.',
+                    'type'   => 'inline_fields',
+                    'name'   => 'Photos',
+                    'fields' => [
+                        ['id' => 'photo',        'name' => 'Photo 7x10',   'type' => 'image_advanced'],
+                        ['id' => 'photo_square', 'name' => 'Photo Square', 'type' => 'image_advanced'],
+                        ['id' => 'kidfest_photo', 'name' => 'Kidfest Photo', 'type' => 'image_advanced',
+                         'desc' => 'Cartoon-style image for Kidfest. Optional.'],
+                    ],
                 ],
                 ['id' => 'bio',         'name' => 'Bio',         'type' => 'wysiwyg'],
                 ['id' => 'website_url', 'name' => 'Website URL', 'type' => 'url'],
@@ -523,16 +532,20 @@ function vfa_mb_post_option_label(WP_Post $p, array $post_types): string {
 }
 
 function vfa_mb_render_image(string $field_id, $attachment_id, string $input_name): void {
-    $src     = $attachment_id ? wp_get_attachment_image_url((int)$attachment_id, 'medium') : '';
-    $display = $src ? '' : ' style="display:none"';
+    $src          = $attachment_id ? wp_get_attachment_image_url((int)$attachment_id, 'medium') : '';
+    $preview_hide = $src ? '' : ' style="display:none"';
+    $empty_hide   = $src ? ' style="display:none"' : '';
 
     echo '<div class="vfa-img">';
     echo '<input type="hidden" name="' . esc_attr($input_name) . '" value="' . esc_attr($attachment_id ?: '') . '">';
-    echo '<div class="vfa-img-preview"' . $display . '>';
+    echo '<div class="vfa-img-preview"' . $preview_hide . '>';
     echo '<img src="' . esc_url($src ?: '') . '" alt="">';
+    echo '<div class="vfa-img-actions">';
     echo '<button type="button" class="button vfa-img-remove">Remove</button>';
-    echo '</div>';
     echo '<button type="button" class="button vfa-img-select">Select Image</button>';
+    echo '</div>';
+    echo '</div>';
+    echo '<button type="button" class="button vfa-img-select vfa-img-select-empty"' . $empty_hide . '>Select Image</button>';
     echo '</div>';
 }
 
@@ -904,7 +917,7 @@ function vfa_mb_css(): string {
     flex-direction: column;
     gap: 3px;
     flex: 1;
-    min-width: 0;
+    min-width: 140px;
 }
 
 .vfa-inline-item .ts-wrapper {
@@ -982,15 +995,36 @@ function vfa_mb_css(): string {
 }
 
 /* Image picker */
-.vfa-img-preview { margin-bottom: 8px; }
+.vfa-img-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 6px;
+}
 
 .vfa-img-preview img {
     display: block;
-    max-width: 200px;
+    max-width: 100px;
+    max-height: 100px;
+    width: auto;
     height: auto;
+    object-fit: contain;
     border: 1px solid #ddd;
     border-radius: 3px;
-    margin-bottom: 6px;
+}
+
+.vfa-img-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-self: stretch;
+}
+
+.vfa-img-actions .button {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 /* Tom Select overrides for WP admin */
@@ -1079,6 +1113,20 @@ function vfa_mb_js(): string {
         new TomSelect(el, config);
     });
 
+    // Conditional: show "Other" pronouns field only when "other" is selected
+    (function() {
+        var pronounsSel = document.getElementById("pronouns");
+        var otherInput  = document.getElementById("pronouns_other");
+        if (!pronounsSel || !otherInput) return;
+        var otherItem = otherInput.closest(".vfa-inline-item");
+        if (!otherItem) return;
+        function toggle() {
+            otherItem.style.display = pronounsSel.value === "other" ? "" : "none";
+        }
+        toggle();
+        pronounsSel.addEventListener("change", toggle);
+    })();
+
     // Image picker
     function openPicker(wrap) {
         var frame = wp.media({
@@ -1096,6 +1144,8 @@ function vfa_mb_js(): string {
             input.value = att.id;
             img.src     = src;
             prev.style.display = "";
+            var emptyBtn = wrap.querySelector(".vfa-img-select-empty");
+            if (emptyBtn) emptyBtn.style.display = "none";
         });
         frame.open();
     }
@@ -1150,6 +1200,8 @@ function vfa_mb_js(): string {
             wrap.querySelector("input[type=\'hidden\']").value = "";
             wrap.querySelector(".vfa-img-preview img").src = "";
             wrap.querySelector(".vfa-img-preview").style.display = "none";
+            var emptyBtn = wrap.querySelector(".vfa-img-select-empty");
+            if (emptyBtn) emptyBtn.style.display = "";
             return;
         }
 

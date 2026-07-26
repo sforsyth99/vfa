@@ -3,6 +3,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import { SkipToContent } from './components/SkipToContent/SkipToContent';
 import { ScrollToTop } from './components/ScrollToTop/ScrollToTop';
+import { GoogleAnalytics } from './components/GoogleAnalytics/GoogleAnalytics';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import AllContent2026Page from './pages/AllContent2026/AllContent2026';
 import HomePage from './pages/Home/Home';
@@ -19,6 +20,7 @@ function App() {
   return (
     <>
       <ScrollToTop />
+      <GoogleAnalytics />
       <Header />
       <SkipToContent />
       <ErrorBoundary>

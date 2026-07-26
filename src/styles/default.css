@@ -117,3 +117,7 @@
     --vfa-color-accent-gold: #ffd700;
     --vfa-color-error-dark: #c0392b;
 }
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
