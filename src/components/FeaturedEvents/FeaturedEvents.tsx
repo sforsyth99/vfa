@@ -75,24 +75,27 @@ export function FeaturedEvents() {
                   )}
                 </div>
                 {(() => {
-                  const bookCovers = authors.flatMap((a) => a.books ?? []).filter((b) => b.cover);
-                  const authorPhotos = authors.map((a) => ({ id: a.id, name: a.name, src: a.photo?.[0] })).filter((a) => a.src);
-                  if (bookCovers.length > 0 || authorPhotos.length > 0 || event_image) {
-                    return (
-                      <div className={styles.cardImagePanel}>
-                        {authorPhotos.map((a) => (
-                          <img key={a.id} src={a.src!} alt={a.name} className={styles.cardAuthorPhoto} />
-                        ))}
-                        {bookCovers.map((book) => (
-                          <img key={book.id} src={book.cover![0]} alt={book.title} className={styles.cardBookCover} />
-                        ))}
-                        {bookCovers.length === 0 && event_image && (
-                          <img src={event_image[0]} alt={title} className={styles.cardImage} />
-                        )}
-                      </div>
-                    );
-                  }
-                  return null;
+                  const bookCovers = authors.flatMap((a) => a.books ?? []).flatMap((b) =>
+                    Array.isArray(b.cover) ? [{ id: b.id, title: b.title, src: b.cover[0] as string }] : []
+                  );
+                  const authorPhotos = authors.flatMap((a) => {
+                    const src = Array.isArray(a.photo) ? a.photo[0] as string : undefined;
+                    return src ? [{ id: a.id, name: a.name, src }] : [];
+                  });
+                  if (bookCovers.length === 0 && authorPhotos.length === 0 && !event_image) return null;
+                  return (
+                    <div className={styles.cardImagePanel}>
+                      {authorPhotos.map((a) => (
+                        <img key={a.id} src={a.src} alt={a.name} className={styles.cardAuthorPhoto} />
+                      ))}
+                      {bookCovers.map((book) => (
+                        <img key={book.id} src={book.src} alt={book.title} className={styles.cardBookCover} />
+                      ))}
+                      {bookCovers.length === 0 && event_image && (
+                        <img src={event_image[0]} alt={title} className={styles.cardImage} />
+                      )}
+                    </div>
+                  );
                 })()}
               </li>
             );
