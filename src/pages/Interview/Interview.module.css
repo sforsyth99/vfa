@@ -153,7 +153,7 @@
     font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--vfa-color-forest-dark);
+    color: var(--vfa-color-2026-indigo);
     margin: 0;
 }
 
@@ -189,7 +189,7 @@
     margin-top: 0.75rem;
     display: inline-block;
     padding: 0.55em 1.4em;
-    background: var(--vfa-color-forest-dark);
+    background: var(--vfa-color-2026-indigo);
     color: var(--vfa-color-text-light);
     font-size: 0.9rem;
     font-weight: var(--vfa-font-weight-semibold);
@@ -201,7 +201,7 @@
 }
 
 .eventCardButton:hover {
-    background: var(--vfa-color-forest-darkest);
+    background: var(--vfa-color-2026-indigo-mid);
 }
 
 /* ── Q&A Pairs ──────────────────────────────────────── */
@@ -230,7 +230,7 @@
 
 .qMark {
     font-weight: var(--vfa-font-weight-bold);
-    color: var(--vfa-color-forest-dark);
+    color: var(--vfa-color-2026-indigo);
     user-select: none;
 }
 

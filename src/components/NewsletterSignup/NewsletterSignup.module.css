@@ -3,7 +3,7 @@
 }
 
 .title {
-    color: var(--vfa-color-ink-darkest);
+    color: var(--vfa-color-text-light);
     font-size: 1em;
     font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.04em;
@@ -47,8 +47,8 @@
 
 .button {
     padding: 0.55em 1.4em;
-    background: var(--vfa-color-forest-dark);
-    color: var(--vfa-color-text-light);
+    background: var(--vfa-color-surface);
+    color: var(--vfa-color-ink-darkest);
     border: none;
     border-radius: var(--vfa-radius-md);
     font-size: 0.95em;
@@ -59,7 +59,7 @@
 }
 
 .button:hover:not(:disabled) {
-    background: var(--vfa-color-forest-darkest);
+    background: var(--vfa-color-secondary);
 }
 
 .button:disabled {
@@ -68,7 +68,7 @@
 }
 
 .success {
-    color: var(--vfa-color-forest-dark);
+    color: var(--vfa-color-2026-gold);
     margin: 0.6em 0 0;
     font-size: 0.9em;
 }

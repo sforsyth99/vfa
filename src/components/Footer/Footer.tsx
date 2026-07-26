@@ -80,6 +80,7 @@ function Footer() {
             src={titleSponsorSrc}
             alt={intl.formatMessage({ id: 'footer.sponsor.titleAlt' })}
             className={styles.titleSponsorLogo}
+            loading="lazy"
           />
         </div>
         {sponsorLogos.length > 0 && (
@@ -90,17 +91,19 @@ function Footer() {
                 src={src}
                 alt={intl.formatMessage({ id: 'footer.sponsor.logoAlt' })}
                 className={styles.sponsorLogo}
+                loading="lazy"
               />
             ))}
           </div>
         )}
-      </div>
-      <div className={styles.calfRow}>
-        <img
-          src={calfStampSrc}
-          alt={intl.formatMessage({ id: 'footer.calf.alt' })}
-          className={styles.calfStamp}
-        />
+        <div className={styles.calfWrapper}>
+          <img
+            src={calfStampSrc}
+            alt={intl.formatMessage({ id: 'footer.calf.alt' })}
+            className={styles.calfStamp}
+            loading="lazy"
+          />
+        </div>
       </div>
       <p className={styles.footerText}>
         <FormattedMessage id="footer.landAcknowledgement" />

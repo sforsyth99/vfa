@@ -40,12 +40,13 @@ export default function InterviewsPage() {
       <PageTitle><FormattedMessage id="interviews.heading" /></PageTitle>
 
       {years.length > 1 && (
-        <div className={styles.yearFilter}>
+        <div className={styles.yearFilter} role="group" aria-label={intl.formatMessage({ id: 'interviews.yearFilter.label' })}>
           {years.map(year => (
             <button
               key={year}
               className={year === activeYear ? styles.yearButtonActive : styles.yearButton}
               onClick={() => setSelectedYear(year)}
+              aria-pressed={year === activeYear}
             >
               {year}
             </button>
@@ -79,13 +80,13 @@ export default function InterviewsPage() {
                 <Link to={`/interviews/${interview.slug}`} className={styles.item}>
                   <div className={styles.authorPhoto}>
                     {primaryAuthor?.photo
-                      ? <img src={primaryAuthor.photo[0]} alt={authorLabel} />
+                      ? <img src={primaryAuthor.photo[0]} alt="" aria-hidden="true" loading="lazy" />
                       : <div className={styles.authorPhotoPlaceholder} aria-hidden="true">{initials}</div>
                     }
                   </div>
                   {cover
-                    ? <img src={cover[0]} alt="" className={styles.cover} />
-                    : <div className={styles.coverPlaceholder} />
+                    ? <img src={cover[0]} alt="" className={styles.cover} loading="lazy" />
+                    : <div className={styles.coverPlaceholder} aria-hidden="true" />
                   }
                   <div className={styles.itemText}>
                     <p className={styles.itemName}>{authorLabel}</p>

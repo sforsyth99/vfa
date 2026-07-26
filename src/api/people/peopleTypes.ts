@@ -14,12 +14,15 @@ export interface PersonData {
   bio: string;
   website_url: string;
   photo: [string, number, number, boolean] | false;
+  photo_square: [string, number, number, boolean] | false | null;
   author_years: number[];
   moderator_years: number[];
   curator_years: number[];
   musician_years: number[];
   kidfest_years: number[];
+  elder_years: number[];
   kidfest_photo: [string, number, number, boolean] | false;
+  books?: { id: number; title: string; cover: [string, number, number, boolean] | null }[];
 }
 
 export interface Person {

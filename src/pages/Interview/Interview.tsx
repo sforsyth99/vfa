@@ -123,7 +123,7 @@ export default function InterviewPage() {
               <img src={primaryAuthor.photo[0]} alt={displayName} className={styles.headerImg} />
             )}
             {book_cover && (
-              <img src={book_cover[0]} alt={intl.formatMessage({ id: 'book.eyebrow' })} className={styles.headerImg} />
+              <img src={book_cover[0]} alt={intl.formatMessage({ id: 'interview.bookCoverAlt' })} className={styles.headerImg} />
             )}
           </div>
 
@@ -145,7 +145,7 @@ export default function InterviewPage() {
           return (
             <div key={i} className={styles.pair}>
               <div className={styles.question}>
-                <span className={styles.qMark} aria-hidden="true">
+                <span className={styles.qMark}>
                   {i === 0 && interviewer_name
                     ? `${interviewer_name} (${interviewerInitials}):`
                     : `${interviewerInitials}:`}
@@ -153,7 +153,7 @@ export default function InterviewPage() {
                 <div className={styles.qText} dangerouslySetInnerHTML={{ __html: q }} />
               </div>
               <div className={styles.answer}>
-                <span className={styles.aMark} aria-hidden="true">
+                <span className={styles.aMark}>
                   {i === 0 ? `${displayName} (${authorInitials}):` : `${authorInitials}:`}
                 </span>
                 <div className={styles.aText} dangerouslySetInnerHTML={{ __html: answer[i] }} />

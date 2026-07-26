@@ -1,0 +1,447 @@
+/* ── Hero ─────────────────────────────────────────────── */
+
+.hero {
+    background: var(--vfa-color-2026-indigo);
+    width: 100%;
+}
+
+.heroInner {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    max-width: var(--vfa-width-site);
+    margin: 0 auto;
+    padding: 3.5rem 2.5rem;
+}
+
+.heroPoster {
+    width: 280px;
+    flex-shrink: 0;
+    border-radius: var(--vfa-radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.heroContent {
+    flex: 1;
+    min-width: 0;
+}
+
+.heroEyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-gold);
+    margin: 0 0 0.75rem;
+}
+
+.heroHeading {
+    font-family: var(--vfa-font-display);
+    font-size: 2.8rem;
+    font-weight: var(--vfa-font-weight-bold);
+    line-height: var(--vfa-line-height-title);
+    color: var(--vfa-color-text-light);
+    margin: 0 0 1rem;
+}
+
+.heroTagline {
+    font-size: var(--vfa-font-size-md);
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 1.75rem;
+    line-height: var(--vfa-line-height-body);
+}
+
+.heroDetails {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.heroDetailRow {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+}
+
+.heroDetailLabel {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-gold);
+    flex-shrink: 0;
+    width: 3.5rem;
+}
+
+.heroDetailValue {
+    font-size: var(--vfa-font-size-base);
+    color: var(--vfa-color-text-light);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.heroAddress {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: var(--vfa-font-size-sm);
+}
+
+/* ── Page sections ────────────────────────────────────── */
+
+.section {
+    margin: 2.5rem 0;
+}
+
+.empty {
+    color: var(--vfa-color-ink-mid);
+    font-style: italic;
+}
+
+/* ── Events wrapper ───────────────────────────────────── */
+
+.eventsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+/* ── Main event (author fair) ─────────────────────────── */
+
+.mainEventCard {
+    background: var(--vfa-color-2026-indigo);
+    border-radius: var(--vfa-radius-card);
+    padding: 1.5rem 1.75rem;
+    color: var(--vfa-color-text-light);
+    border-left: 5px solid var(--vfa-color-2026-gold);
+}
+
+.mainEventEyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-gold);
+    margin: 0 0 0.5rem;
+}
+
+.mainEventTitle {
+    font-family: var(--vfa-font-display);
+    font-size: 1.4rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    margin: 0 0 0.4rem;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.mainEventTitle a {
+    color: var(--vfa-color-text-light);
+    text-decoration: none;
+}
+
+.mainEventTitle a:hover {
+    text-decoration: underline;
+}
+
+.mainEventMeta {
+    font-size: var(--vfa-font-size-sm);
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 0.85rem;
+}
+
+.mainEventDescription {
+    font-size: var(--vfa-font-size-base);
+    color: rgba(255, 255, 255, 0.88);
+    line-height: var(--vfa-line-height-body);
+    margin: 0 0 1rem;
+}
+
+.mainEventFree {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--vfa-color-text-light);
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    border-radius: var(--vfa-radius-pill);
+    padding: 0.25em 0.9em;
+}
+
+/* ── Event cards ──────────────────────────────────────── */
+
+.eventList {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.eventCard {
+    background: var(--vfa-color-surface);
+    border: 1px solid var(--vfa-color-warm-border-light);
+    border-radius: var(--vfa-radius-card);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--vfa-shadow-card);
+}
+
+.eventMeta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.eventTime {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-2026-indigo);
+}
+
+.eventAge {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--vfa-color-ink-light);
+    background: var(--vfa-color-warm-border-faint);
+    border-radius: var(--vfa-radius-pill);
+    padding: 0.15em 0.7em;
+}
+
+.workshopBadge {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--vfa-color-text-light);
+    background: var(--vfa-color-2026-indigo);
+    border-radius: var(--vfa-radius-pill);
+    padding: 0.15em 0.7em;
+}
+
+.eventPrice {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-dark);
+}
+
+.eventTitle {
+    font-family: var(--vfa-font-display);
+    font-size: 1.2rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    margin: 0 0 0.3rem;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.eventTitle a {
+    color: var(--vfa-color-ink-darkest);
+    text-decoration: none;
+}
+
+.eventTitle a:hover {
+    color: var(--vfa-color-2026-indigo);
+    text-decoration: underline;
+}
+
+.eventVenue {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+    margin: 0 0 0.6rem;
+}
+
+.eventSummary {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-dark);
+    margin: 0 0 0.75rem;
+    line-height: var(--vfa-line-height-body);
+}
+
+.eventLink {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-2026-indigo);
+    text-decoration: none;
+}
+
+.eventLink:hover {
+    text-decoration: underline;
+}
+
+/* ── Authors ──────────────────────────────────────────── */
+
+.authorGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.authorCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.authorPhoto {
+    display: block;
+    width: auto;
+    height: 140px;
+    object-fit: contain;
+    border-radius: var(--vfa-radius-sm);
+    transition: transform var(--vfa-transition);
+}
+
+.authorCard:hover .authorPhoto {
+    transform: translateY(-2px);
+}
+
+.authorPhotoPlaceholder {
+    width: 90px;
+    height: 140px;
+    border-radius: var(--vfa-radius-sm);
+    background: var(--vfa-color-forest-pale);
+    color: var(--vfa-color-forest-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: var(--vfa-font-weight-semibold);
+}
+
+.authorName {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-ink-darkest);
+    text-align: center;
+    line-height: var(--vfa-line-height-tight);
+    max-width: 100px;
+}
+
+.authorCardGuest .authorPhoto,
+.authorCardGuest .authorPhotoPlaceholder {
+    outline: 2px solid var(--vfa-color-2026-gold);
+    outline-offset: 2px;
+}
+
+.guestBadge {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-indigo);
+    background: rgba(196, 168, 130, 0.2);
+    border: 1px solid var(--vfa-color-2026-gold);
+    border-radius: var(--vfa-radius-pill);
+    padding: 0.15em 0.6em;
+    text-align: center;
+}
+
+/* ── Books ────────────────────────────────────────────── */
+
+.bookGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.bookItem {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    text-decoration: none;
+    gap: 0.4rem;
+    width: 110px;
+}
+
+.bookCover {
+    display: block;
+    width: 110px;
+    height: 140px;
+    object-fit: contain;
+    border-radius: var(--vfa-radius-sm);
+    box-shadow: var(--vfa-shadow-md);
+    transition: transform var(--vfa-transition), box-shadow var(--vfa-transition);
+}
+
+.bookItem:hover .bookCover,
+.bookItem:hover .bookCoverPlaceholder {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+}
+
+.bookCoverPlaceholder {
+    width: 110px;
+    height: 140px;
+    border-radius: var(--vfa-radius-sm);
+    background: var(--vfa-color-forest-pale);
+    box-shadow: var(--vfa-shadow-md);
+    transition: transform var(--vfa-transition), box-shadow var(--vfa-transition);
+}
+
+.bookTitle {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-ink-darkest);
+    line-height: var(--vfa-line-height-tight);
+    margin: 0;
+}
+
+.bookAuthor {
+    font-size: var(--vfa-font-size-eyebrow);
+    color: var(--vfa-color-ink-mid);
+    line-height: var(--vfa-line-height-tight);
+    margin: 0.2em 0 0;
+}
+
+/* ── Mobile ───────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .heroInner {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+    }
+
+    .heroPoster {
+        width: 220px;
+    }
+
+    .heroHeading {
+        font-size: 2.2rem;
+    }
+
+    .heroDetailRow {
+        justify-content: center;
+    }
+
+    .heroDetailLabel {
+        width: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .heroInner {
+        padding: 2rem 1rem;
+    }
+
+    .heroPoster {
+        width: 180px;
+    }
+
+    .heroHeading {
+        font-size: 1.9rem;
+    }
+
+    .eventCard {
+        padding: 1rem 1.1rem;
+    }
+}

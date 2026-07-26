@@ -1,3 +1,22 @@
 .loadMore {
-    margin-top: 1rem;
+    display: block;
+    margin: 1.5rem auto 0;
+    padding: 0.55em 1.8em;
+    background: var(--vfa-color-2026-indigo);
+    color: var(--vfa-color-text-light);
+    border: none;
+    border-radius: var(--vfa-radius-md);
+    font-size: 0.95em;
+    font-weight: var(--vfa-font-weight-semibold);
+    cursor: pointer;
+    transition: background var(--vfa-transition-base);
+}
+
+.loadMore:hover:not(:disabled) {
+    background: var(--vfa-color-2026-indigo-mid);
+}
+
+.loadMore:disabled {
+    opacity: var(--vfa-opacity-hover-strong);
+    cursor: not-allowed;
 }

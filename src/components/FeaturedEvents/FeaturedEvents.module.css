@@ -1,0 +1,220 @@
+.section {
+    background: var(--vfa-color-warm-bg);
+    border-top: 1px solid var(--vfa-color-warm-border-light);
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    padding: 3rem 0;
+}
+
+.inner {
+    max-width: var(--vfa-width-site);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.eyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-indigo);
+    margin: 0 0 0.5rem;
+}
+
+.heading {
+    font-family: var(--vfa-font-display);
+    font-size: 1.6rem;
+    font-weight: var(--vfa-font-weight-bold);
+    margin: 0 0 1.75rem;
+    line-height: var(--vfa-line-height-tight);
+    color: var(--vfa-color-ink-darkest);
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* ── Card ─────────────────────────────────────────────── */
+
+.card {
+    background: var(--vfa-color-surface);
+    border: 1px solid var(--vfa-color-warm-border-light);
+    border-left: 4px solid var(--vfa-color-2026-indigo);
+    border-radius: var(--vfa-radius-card);
+    box-shadow: var(--vfa-shadow-card);
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+}
+
+.cardBody {
+    flex: 1;
+    min-width: 0;
+    padding: 1.5rem 1.75rem;
+}
+
+/* ── Meta row ─────────────────────────────────────────── */
+
+.cardMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 0.6rem;
+}
+
+.cardMetaRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 1rem;
+}
+
+.cardDate {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-2026-indigo);
+}
+
+.cardTime {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+    font-variant-numeric: tabular-nums;
+}
+
+.cardVenue {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+}
+
+.cardPrice {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-darkest);
+    background: var(--vfa-color-warm-border-faint);
+    border-radius: var(--vfa-radius-pill);
+    padding: 0.15em 0.75em;
+}
+
+/* ── Title ────────────────────────────────────────────── */
+
+.cardTitle {
+    font-family: var(--vfa-font-display);
+    font-size: 1.25rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    margin: 0 0 0.85rem;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.cardTitle a {
+    color: var(--vfa-color-ink-darkest);
+    text-decoration: none;
+}
+
+.cardTitle a:hover {
+    color: var(--vfa-color-2026-indigo);
+    text-decoration: underline;
+}
+
+/* ── Author photo (in image panel) ───────────────────── */
+
+.cardAuthorPhoto {
+    height: 160px;
+    width: auto;
+    object-fit: cover;
+    object-position: top;
+    border-radius: var(--vfa-radius-sm);
+    box-shadow: var(--vfa-shadow-md);
+    flex-shrink: 0;
+    display: block;
+}
+
+/* ── Summary + CTA ────────────────────────────────────── */
+
+.cardSummary {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-dark);
+    line-height: var(--vfa-line-height-body);
+    margin: 0 0 1rem;
+}
+
+.cardCta {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-2026-indigo);
+    text-decoration: none;
+}
+
+.cardCta:hover {
+    text-decoration: underline;
+}
+
+/* ── Right image panel ────────────────────────────────── */
+
+.cardImagePanel {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem 1.25rem 0;
+    background: transparent;
+}
+
+.cardBookCover {
+    height: 160px;
+    width: auto;
+    border-radius: var(--vfa-radius-sm);
+    box-shadow: var(--vfa-shadow-md);
+    display: block;
+    flex-shrink: 0;
+}
+
+.cardImage {
+    height: 160px;
+    width: auto;
+    max-width: 140px;
+    object-fit: cover;
+    border-radius: var(--vfa-radius-sm);
+    box-shadow: var(--vfa-shadow-md);
+    display: block;
+}
+
+/* ── Mobile ───────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+    .section {
+        padding: 2rem 0;
+    }
+
+    .inner {
+        padding: 0 1.25rem;
+    }
+
+    .card {
+        flex-direction: column-reverse;
+    }
+
+    .cardBody {
+        padding: 1.25rem 1.25rem;
+    }
+
+    .cardImagePanel {
+        width: 100%;
+        padding: 0 1.25rem 1rem;
+        justify-content: flex-start;
+    }
+
+    .cardAuthorPhoto,
+    .cardBookCover,
+    .cardImage {
+        height: 120px;
+    }
+
+    .cardMeta {
+        gap: 0.2rem;
+    }
+}

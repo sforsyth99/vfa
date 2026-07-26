@@ -4,7 +4,7 @@
     --vfa-font-display: 'Playfair Display', Georgia, serif;
 
     /* ── Font sizes ──────────────────────────────────────── */
-    --vfa-font-size-eyebrow: 0.7rem;       /* uppercase labels, section tags */
+    --vfa-font-size-eyebrow: 0.7rem; /* uppercase labels, section tags */
     --vfa-font-size-xs: 0.75rem;
     --vfa-font-size-sm: 0.875rem;
     --vfa-font-size-base: 1rem;
@@ -37,9 +37,9 @@
     --vfa-z-overlay: 1000;
 
     /* ── Layout ──────────────────────────────────────────── */
-    --vfa-width-content: 780px;            /* most pages */
-    --vfa-width-site: 1200px;              /* header, footer */
-    --vfa-padding-page: 4rem 2rem 6rem;   /* standard page padding */
+    --vfa-width-content: 780px; /* most pages */
+    --vfa-width-site: 1200px; /* header, footer */
+    --vfa-padding-page: 4rem 2rem 6rem; /* standard page padding */
     --vfa-padding-x: 2rem;
 
     /* ── Radius ──────────────────────────────────────────── */
@@ -61,48 +61,57 @@
     --vfa-transition-base: 0.2s;
 
     /* ── Colors: primary ─────────────────────────────────── */
-    --vfa-color-primary: #1a5cff;
-    --vfa-color-primary-dark: #174bb3;
-    --vfa-color-secondary: #f8f8f8;
-    --vfa-color-background: #f8f8f8;
+    --vfa-color-primary: #1d3d2f;
+    --vfa-color-primary-dark: #153028;
+    --vfa-color-secondary: #f0ece8;
+    --vfa-color-background: #f0ece8;
     --vfa-color-surface: #fff;
     --vfa-color-text: #222;
     --vfa-color-text-light: #fff;
     --vfa-color-border: #ccc;
-    --vfa-color-link: #1a5cff;
-    --vfa-color-link-hover: #174bb3;
+    --vfa-color-link: #1d3d2f;
+    --vfa-color-link-hover: #153028;
     --vfa-color-accent: #ffe066;
     --vfa-color-error: #e53935;
     --vfa-color-success: #43a047;
 
     /* ── Colors: ink scale ───────────────────────────────── */
-    --vfa-color-ink-darkest: #1c1917;      /* main headings, page text */
-    --vfa-color-ink-dark: #3d3a3f;         /* body text, descriptions */
-    --vfa-color-ink-mid: #5a5560;          /* secondary text, dates */
-    --vfa-color-ink-light: #7a7580;        /* muted text, labels */
-    --vfa-color-ink-placeholder: #999;     /* input placeholder */
+    --vfa-color-ink-darkest: #1c1917; /* main headings, page text */
+    --vfa-color-ink-dark: #3d3a3f; /* body text, descriptions */
+    --vfa-color-ink-mid: #5a5560; /* secondary text, dates */
+    --vfa-color-ink-light: #7a7580; /* muted text, labels */
+    --vfa-color-ink-placeholder: #999; /* input placeholder */
 
     /* ── Colors: forest green (brand) ───────────────────── */
-    --vfa-color-forest-darkest: #153028;   /* button hover */
-    --vfa-color-forest-dark: #1d3d2f;      /* buttons, links, CTAs */
-    --vfa-color-forest-mid: #6b8f7e;       /* eyebrows, category labels */
-    --vfa-color-forest-light: #b8cebb;     /* light borders */
-    --vfa-color-forest-pale: #d4e0d6;      /* tag borders, card borders */
-    --vfa-color-forest-bg: #eef3ef;        /* footer, card backgrounds */
+    --vfa-color-forest-darkest: #153028; /* button hover */
+    --vfa-color-forest-dark: #1d3d2f; /* buttons, links, CTAs */
+    --vfa-color-forest-mid: #6b8f7e; /* eyebrows, category labels */
+    --vfa-color-forest-light: #b8cebb; /* light borders */
+    --vfa-color-forest-pale: #d4e0d6; /* tag borders, card borders */
+    --vfa-color-forest-bg: #eef3ef; /* footer, card backgrounds */
+
+    /* ── Colors: 2026 festival palette ──────────────────── */
+    --vfa-color-2026-indigo: #42424f;
+    --vfa-color-2026-indigo-mid: #5a4470;
+    --vfa-color-2026-gold: #c4a882;
+    --vfa-color-2026-gold-dark: #a98e6a;
+
+    /* ── Colors: footer ──────────────────────────────────── */
+    --vfa-color-footer-bg: var(--vfa-color-2026-indigo);
 
     /* ── Colors: event card ──────────────────────────────── */
     --vfa-color-event-blue: #4a6dcc;
 
     /* ── Colors: warm neutrals ───────────────────────────── */
-    --vfa-color-warm-border: #d9d4ce;          /* section dividers */
-    --vfa-color-warm-border-light: #e8e4e0;    /* header, list borders */
-    --vfa-color-warm-border-mid: #c8c2bc;      /* filter button borders */
-    --vfa-color-warm-border-faint: #c4bfc8;    /* bio link border */
-    --vfa-color-warm-bg: #f0ece8;              /* hover backgrounds */
-    --vfa-color-warm-card-bg: #d6d0c8;         /* BlurImageCard background */
+    --vfa-color-warm-border: #d9d4ce; /* section dividers */
+    --vfa-color-warm-border-light: #e8e4e0; /* header, list borders */
+    --vfa-color-warm-border-mid: #c8c2bc; /* filter button borders */
+    --vfa-color-warm-border-faint: #c4bfc8; /* bio link border */
+    --vfa-color-warm-bg: #f0ece8; /* hover backgrounds */
+    --vfa-color-warm-card-bg: #d6d0c8; /* BlurImageCard background */
 
     /* ── Colors: UI surfaces & misc ─────────────────────── */
-    --vfa-color-bg-page: #f8f8f8;
+    --vfa-color-bg-page: #f0ece8;
     --vfa-color-bg-hover: #f0f0f0;
     --vfa-color-border-light: #ddd;
     --vfa-color-border-faint: #eee;

@@ -21,7 +21,7 @@
   "footer.landAcknowledgement": "Victoria Festival of Authors respectfully acknowledges that we are located on the traditional territories of the Lekwungen people now known as the Songhees and Esquimalt nations.",
 
   "newsletter.signup": "Sign up for our newsletter",
-  "newsletter.title": "Stay in the loop",
+  "newsletter.title": "Subscribe to our newsletter",
   "newsletter.emailPlaceholder": "Your email address",
   "newsletter.emailLabel": "Email address",
   "newsletter.submit": "Subscribe",
@@ -45,7 +45,9 @@
   "home.schedule.kidfest": "KidsFest Events",
   "home.schedule.workshops": "Workshops",
   "home.schedule.onlineEvents": "Online Events",
-  "home.schedule.onlineIntro": "Can't make it in person? Join us online for select events.",
+  "home.schedule.onlineCta": "Can't make it in person?",
+  "home.schedule.onlineIntro": "Check out these events — available to watch online from anywhere.",
+  "home.schedule.joinOnline": "Join online →",
   "home.schedule.past": "Past Events",
   "home.schedule.locationAndOnline": "{venue} and online",
   "home.schedule.locationOnline": "Online",
@@ -84,6 +86,7 @@
   "events.error": "Error loading events.",
 
   "interviews.heading": "Interviews",
+  "interviews.yearFilter.label": "Filter by year",
   "interviews.loading": "Loading interviews…",
   "interviews.error": "Error loading interviews.",
   "interviews.empty": "No interviews yet.",
@@ -137,6 +140,7 @@
   "interview.loading": "Loading…",
   "interview.notFound": "Interview not found",
   "interview.eyebrow": "Q&A",
+  "interview.bookCoverAlt": "Book cover",
   "interview.pageTitle": "Interview with {name}",
   "interview.interviewedBy": "Interviewed by {name}",
   "interview.seeLive": "See {firstName} live",
@@ -157,5 +161,41 @@
   "event.buyTickets": "Buy Tickets",
   "event.online": "Online Event",
   "event.inPerson": "In-Person Event",
-  "event.location": "Location"
+  "event.location": "Location",
+
+  "hero.heading": "Victoria Festival of Authors — October 12–18, 2026",
+  "hero.imageAlt": "Silhouettes of readers relaxing beneath a starlit night sky",
+
+  "kidsfest2026.pageTitle": "KidsFest 2026",
+  "kidsfest2026.events.heading": "What's Happening",
+  "kidsfest2026.events.loading": "Loading events…",
+  "kidsfest2026.events.empty": "No KidsFest events yet — check back soon!",
+  "kidsfest2026.events.details": "Event details →",
+  "kidsfest2026.mainEvent.eyebrow": "Main Event",
+  "kidsfest2026.mainEvent.description": "Drop in and meet the authors! Each author has their own table — stop by for a chat, get your books signed, and take part in fun hands-on activities. Enjoy special readings by Indigenous Elder Sky Bellefleur throughout the afternoon.",
+  "kidsfest2026.mainEvent.free": "Free admission · All ages welcome",
+  "kidsfest2026.workshop.badge": "Workshop",
+  "kidsfest2026.elders.heading": "Special Guest",
+  "kidsfest2026.authors.heading": "Meet the Authors",
+  "kidsfest2026.authors.loading": "Loading authors…",
+  "kidsfest2026.books.heading": "Featured Books",
+
+  "kidsfest.eyebrow": "Free Family Event",
+  "kidsfest.heading": "KidsFest 2026",
+  "kidsfest.tagline": "A literary festival for young readers — free admission, all welcome.",
+  "kidsfest.date": "October 17, 2026",
+  "kidsfest.time": "12:30 – 3:30 PM",
+  "kidsfest.venue": "Fernwood Community Centre Gymnasium",
+  "kidsfest.address": "1240 Gladstone Avenue, Victoria",
+  "kidsfest.cta": "Learn More",
+  "kidsfest.posterAlt": "VFA KidsFest 2026 illustrated poster showing diverse children surrounded by books",
+
+  "featured.eyebrow": "Don't miss",
+  "featured.heading": "Featured Events",
+  "featured.details": "Event details →",
+
+  "instagram.heading": "Latest on Instagram",
+  "instagram.postLinkLabel": "View Instagram post: {caption}",
+  "instagram.viewPost": "View post",
+  "instagram.viewMore": "See more @{handle} on Instagram →"
 }

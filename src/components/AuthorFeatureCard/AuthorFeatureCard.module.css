@@ -28,7 +28,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--vfa-color-event-blue);
+    background: var(--vfa-color-2026-indigo);
     clip-path: polygon(70% 0%, 100% 0%, 100% 100%, 63% 100%);
     z-index: 2;
 }
@@ -84,7 +84,7 @@
 }
 
 .banner {
-    background: var(--vfa-color-event-blue);
+    background: var(--vfa-color-2026-indigo);
     padding: 1.25rem 1.75rem 1.25rem;
 }
 

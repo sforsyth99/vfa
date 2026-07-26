@@ -98,6 +98,7 @@ function vfa_mb_config(): array {
                 ['id' => 'website_url', 'name' => 'Website URL', 'type' => 'url'],
                 $year_select('author_years',    'Author Years'),
                 $year_select('kidfest_years',   'Kidfest Years'),
+                $year_select('elder_years',     'Elder Years'),
                 $year_select('moderator_years', 'Moderator Years'),
                 $year_select('curator_years',   'Curator Years'),
                 $year_select('musician_years',  'Musician Years'),
@@ -210,6 +211,15 @@ function vfa_mb_config(): array {
                 ['id' => 'summary', 'name' => 'Summary', 'type' => 'text',
                  'desc' => 'One-line description for listings and schedules.'],
                 ['id' => 'description', 'name' => 'Description', 'type' => 'wysiwyg'],
+
+                // ── Promotion ────────────────────────────────────────────────
+                ['type' => 'section', 'name' => 'Promotion'],
+                [
+                    'id'   => 'is_featured',
+                    'name' => 'Featured Event',
+                    'type' => 'checkbox',
+                    'desc' => 'Highlight this event in the "Featured Events" section on the homepage. Use for off-season promotions.',
+                ],
 
                 // ── KidsFest ─────────────────────────────────────────────────
                 ['type' => 'section', 'name' => 'KidsFest'],
