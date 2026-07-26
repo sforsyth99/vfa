@@ -47,13 +47,13 @@ function InterviewsList() {
               <Link to={`/interviews/${interview.slug}`} className={styles.interviewItem}>
                 <div className={styles.interviewAuthorPhoto}>
                   {primaryAuthor?.photo
-                    ? <img src={primaryAuthor.photo[0]} alt={authorLabel} />
+                    ? <img src={primaryAuthor.photo[0]} alt="" aria-hidden="true" />
                     : <div className={styles.interviewAuthorPlaceholder} aria-hidden="true">{initials}</div>
                   }
                 </div>
                 {cover
                   ? <img src={cover[0]} alt="" className={styles.interviewCover} />
-                  : <div className={styles.interviewCoverPlaceholder} />
+                  : <div className={styles.interviewCoverPlaceholder} aria-hidden="true" />
                 }
                 <div className={styles.interviewItemText}>
                   <span className={styles.interviewItemName}>{authorLabel}</span>
@@ -104,7 +104,7 @@ function AuthorPhotoGrid({
         {sorted.map((author) => (
           <Link key={author.id} to={`/people/${author.slug}`} className={kids ? styles.kidsAuthorPhoto : styles.authorPhoto}>
             {author.photo
-              ? <img src={author.photo[0]} alt={author.name} />
+              ? <img src={author.photo[0]} alt="" aria-hidden="true" />
               : <div className={kids ? styles.kidsAuthorPhotoPlaceholder : styles.authorPhotoPlaceholder} aria-hidden="true">
                   {nameInitials(author.name)}
                 </div>
@@ -148,7 +148,7 @@ function BookCoverGrid({ books }: { books: Book[] }) {
         return (
           <BookLink key={book.id} slug={book.slug} munrosUrl={book.book_data?.munros_url} className={styles.bookCover}>
             {cover
-              ? <img src={cover[0]} alt={title} />
+              ? <img src={cover[0]} alt="" aria-hidden="true" />
               : <div className={styles.bookCoverPlaceholder} aria-hidden="true" />
             }
             <p className={styles.bookCoverTitle}>{title}</p>
@@ -270,7 +270,7 @@ function SupportingPersonBioSnippets() {
             const snippet = plainBio.slice(0, 50);
             return (
               <tr key={person.id}>
-                <td className={styles.authorBioName}>
+                <th scope="row" className={styles.authorBioName}>
                   {person.slug
                     ? <Link to={`/people/${person.slug}`}>{person.name}</Link>
                     : person.name
@@ -278,7 +278,7 @@ function SupportingPersonBioSnippets() {
                   <span className={styles.authorBioRoles}>
                     {person.roles.map((r) => roleLabel[r]).join(', ')}
                   </span>
-                </td>
+                </th>
                 <td className={styles.authorBioSnippet}>
                   {snippet
                     ? <>{snippet}{plainBio.length > 50 ? '…' : ''}</>
@@ -314,9 +314,9 @@ function AuthorBioSnippets() {
             const snippet = plainBio.slice(0, 50);
             return (
               <tr key={author.id}>
-                <td className={styles.authorBioName}>
+                <th scope="row" className={styles.authorBioName}>
                   <Link to={`/people/${author.slug}`}>{author.name}</Link>
-                </td>
+                </th>
                 <td className={styles.authorBioSnippet}>
                   {snippet
                     ? <>{snippet}{plainBio.length > 50 ? '…' : ''}</>

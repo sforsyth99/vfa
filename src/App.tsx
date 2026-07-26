@@ -21,8 +21,8 @@ function App() {
     <>
       <ScrollToTop />
       <GoogleAnalytics />
-      <Header />
       <SkipToContent />
+      <Header />
       <ErrorBoundary>
         <Routes>
           <Route path="/" element={<HomePage />} />

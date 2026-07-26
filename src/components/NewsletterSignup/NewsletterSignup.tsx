@@ -71,8 +71,10 @@ function NewsletterSignup() {
             : intl.formatMessage({ id: 'newsletter.submit' })}
         </button>
       </form>
-      {status === 'success' && <p className={styles.success}>{message}</p>}
-      {status === 'error' && <p className={styles.error}>{message}</p>}
+      <div aria-live="polite" aria-atomic="true">
+        {status === 'success' && <p className={styles.success}>{message}</p>}
+        {status === 'error' && <p className={styles.error}>{message}</p>}
+      </div>
     </div>
   );
 }

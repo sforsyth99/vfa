@@ -25,11 +25,11 @@ function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; 
     <table className={styles.scheduleTable}>
       <thead>
         <tr>
-          <th>{dateLabel}</th>
-          <th>{timeLabel}</th>
-          <th>{eventLabel}</th>
-          <th>{locationLabel}</th>
-          {showHost && <th>{hostedByLabel}</th>}
+          <th scope="col">{dateLabel}</th>
+          <th scope="col">{timeLabel}</th>
+          <th scope="col">{eventLabel}</th>
+          <th scope="col">{locationLabel}</th>
+          {showHost && <th scope="col">{hostedByLabel}</th>}
         </tr>
       </thead>
       <tbody>
@@ -142,9 +142,9 @@ export function EventSchedule() {
           <table className={styles.scheduleTable}>
             <thead>
               <tr>
-                <th>{dateLabel}</th>
-                <th>{timeLabel}</th>
-                <th>{eventLabel}</th>
+                <th scope="col">{dateLabel}</th>
+                <th scope="col">{timeLabel}</th>
+                <th scope="col">{eventLabel}</th>
               </tr>
             </thead>
             <tbody>

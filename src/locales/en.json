@@ -84,6 +84,7 @@
   "events.error": "Error loading events.",
 
   "interviews.heading": "Interviews",
+  "interviews.yearFilter.label": "Filter by year",
   "interviews.loading": "Loading interviews…",
   "interviews.error": "Error loading interviews.",
   "interviews.empty": "No interviews yet.",
@@ -137,6 +138,7 @@
   "interview.loading": "Loading…",
   "interview.notFound": "Interview not found",
   "interview.eyebrow": "Q&A",
+  "interview.bookCoverAlt": "Book cover",
   "interview.pageTitle": "Interview with {name}",
   "interview.interviewedBy": "Interviewed by {name}",
   "interview.seeLive": "See {firstName} live",

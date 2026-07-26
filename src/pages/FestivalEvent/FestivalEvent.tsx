@@ -127,7 +127,7 @@ export default function FestivalEventPage() {
 
       {(tickets.length > 0 || eventbrite_url) && (
         <div className={styles.section}>
-          <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.tickets' })}</p>
+          <h2 className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.tickets' })}</h2>
           {(['in_person', 'online'] as const).map((type) => {
             const group = tickets.filter((t) => t.type === type);
             if (group.length === 0) return null;
@@ -205,7 +205,7 @@ export default function FestivalEventPage() {
 
       {(venue || online_url) && (
         <div className={styles.section}>
-          <p className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.venue' })}</p>
+          <h2 className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.venue' })}</h2>
           {venue && (
             <div className={styles.venueRow}>
               <div className={styles.venueInfo}>

@@ -70,7 +70,7 @@ function Header() {
           <img src={logo} alt={intl.formatMessage({ id: 'app.title' })} className={styles.logo} />
         </Link>
 
-        <nav className={`${styles.nav} ${isOpen ? styles.navOpen : ''}`} aria-label="Main navigation">
+        <nav id="primary-nav" className={`${styles.nav} ${isOpen ? styles.navOpen : ''}`} aria-label="Main navigation">
           {(loadingMenu || loadingItems || loadingPages) ? (
             <div>{intl.formatMessage({ id: 'nav.loading' })}</div>
           ) : menuError || itemsError || pagesError ? (
@@ -101,6 +101,7 @@ function Header() {
           className={`${styles.menuButton} ${isOpen ? styles.menuButtonOpen : ''}`}
           onClick={() => setIsOpen((o) => !o)}
           aria-expanded={isOpen}
+          aria-controls="primary-nav"
           aria-label={isOpen ? intl.formatMessage({ id: 'nav.close' }) : intl.formatMessage({ id: 'nav.open' })}
         >
           <span className={styles.bar} />
