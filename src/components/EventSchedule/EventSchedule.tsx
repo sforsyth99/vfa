@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
@@ -13,11 +13,17 @@ function formatTime(t: string): string {
   return `${h % 12 || 12}:${m.toString().padStart(2, '0')} ${period}`;
 }
 
-function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; showHost?: boolean }) {
+function ScheduleTable({
+  events,
+  showHost = false,
+}: {
+  events: FestivalEvent[];
+  showHost?: boolean;
+}) {
   const intl = useIntl();
-  const dateLabel     = intl.formatMessage({ id: 'home.schedule.date' });
-  const timeLabel     = intl.formatMessage({ id: 'home.schedule.time' });
-  const eventLabel    = intl.formatMessage({ id: 'home.schedule.event' });
+  const dateLabel = intl.formatMessage({ id: 'home.schedule.date' });
+  const timeLabel = intl.formatMessage({ id: 'home.schedule.time' });
+  const eventLabel = intl.formatMessage({ id: 'home.schedule.event' });
   const locationLabel = intl.formatMessage({ id: 'home.schedule.location' });
   const hostedByLabel = intl.formatMessage({ id: 'home.schedule.hostedBy' });
 
@@ -34,7 +40,8 @@ function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; 
       </thead>
       <tbody>
         {events.map((event) => {
-          const { event_date, time_start, time_end, venue, tickets, hosts, hosted_by } = event.event_data;
+          const { event_date, time_start, time_end, venue, tickets, hosts, hosted_by } =
+            event.event_data;
           const timeStr = time_start
             ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
             : '';
@@ -48,9 +55,13 @@ function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; 
               : '—';
           const hostParts: ReactNode[] = [
             ...(hosts ?? []).map((h) =>
-              h.slug
-                ? <Link key={h.id} to={`/people/${h.slug}`}>{h.name}</Link>
-                : <span key={h.id}>{h.name}</span>
+              h.slug ? (
+                <Link key={h.id} to={`/people/${h.slug}`}>
+                  {h.name}
+                </Link>
+              ) : (
+                <span key={h.id}>{h.name}</span>
+              ),
             ),
             ...(hosted_by ? [<span key="text">{hosted_by}</span>] : []),
           ];
@@ -58,20 +69,31 @@ function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; 
             <tr key={event.id}>
               <td className={styles.scheduleDate} data-label={dateLabel}>
                 {event_date
-                  ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
+                  ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', {
+                      weekday: 'short',
+                      month: 'short',
+                      day: 'numeric',
+                    })
                   : '—'}
               </td>
-              <td className={styles.scheduleTime} data-label={timeLabel}>{timeStr || '—'}</td>
+              <td className={styles.scheduleTime} data-label={timeLabel}>
+                {timeStr || '—'}
+              </td>
               <td className={styles.scheduleName} data-label={eventLabel}>
                 <Link to={`/festival-events/${event.slug}`}>
                   {decodeHtmlEntities(event.title?.rendered ?? '')}
                 </Link>
               </td>
-              <td className={styles.scheduleLocation} data-label={locationLabel}>{location}</td>
+              <td className={styles.scheduleLocation} data-label={locationLabel}>
+                {location}
+              </td>
               {showHost && (
                 <td className={styles.scheduleLocation} data-label={hostedByLabel}>
                   {hostParts.length > 0
-                    ? hostParts.reduce<ReactNode[]>((acc, el, i) => i === 0 ? [el] : [...acc, ', ', el], [])
+                    ? hostParts.reduce<ReactNode[]>(
+                        (acc, el, i) => (i === 0 ? [el] : [...acc, ', ', el]),
+                        [],
+                      )
                     : '—'}
                 </td>
               )}
@@ -83,7 +105,13 @@ function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; 
   );
 }
 
-export function EventSchedule({ hideKidfest = false, hidePast = false }: { hideKidfest?: boolean; hidePast?: boolean }) {
+export function EventSchedule({
+  hideKidfest = false,
+  hidePast = false,
+}: {
+  hideKidfest?: boolean;
+  hidePast?: boolean;
+}) {
   const intl = useIntl();
   const { data: events, isLoading, isError } = useGetFestivalEvents();
 
@@ -92,9 +120,9 @@ export function EventSchedule({ hideKidfest = false, hidePast = false }: { hideK
   if (!events?.length) return null;
 
   const today = new Date().toISOString().slice(0, 10);
-  const dateLabel  = intl.formatMessage({ id: 'home.schedule.date' });
-  const timeLabel  = intl.formatMessage({ id: 'home.schedule.time' });
-  const eventLabel = intl.formatMessage({ id: 'home.schedule.event' });
+  // const dateLabel  = intl.formatMessage({ id: 'home.schedule.date' });
+  // const timeLabel  = intl.formatMessage({ id: 'home.schedule.time' });
+  // const eventLabel = intl.formatMessage({ id: 'home.schedule.event' });
 
   const upcoming = events
     .filter((e) => e.event_data.event_date >= today)
@@ -108,10 +136,12 @@ export function EventSchedule({ hideKidfest = false, hidePast = false }: { hideK
     .filter((e) => e.event_data.event_date < today)
     .sort((a, b) => b.event_data.event_date.localeCompare(a.event_data.event_date));
 
-  const regular   = upcoming.filter((e) => !e.event_data.is_kidfest);
-  const kidfest   = upcoming.filter((e) => e.event_data.is_kidfest);
-  const workshops = upcoming.filter((e) => e.event_data.event_type === 'workshop' && !e.event_data.is_kidfest);
-  const online    = upcoming.filter((e) => e.event_data.tickets.some((t) => t.type === 'online'));
+  const regular = upcoming.filter((e) => !e.event_data.is_kidfest);
+  const kidfest = upcoming.filter((e) => e.event_data.is_kidfest);
+  const workshops = upcoming.filter(
+    (e) => e.event_data.event_type === 'workshop' && !e.event_data.is_kidfest,
+  );
+  const online = upcoming.filter((e) => e.event_data.tickets.some((t) => t.type === 'online'));
 
   if (!upcoming.length && !past.length) return null;
 
@@ -119,33 +149,47 @@ export function EventSchedule({ hideKidfest = false, hidePast = false }: { hideK
     <>
       {regular.length > 0 && (
         <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.upcoming" /></h2>
+          <h2 className={styles.scheduleHeading}>
+            <FormattedMessage id="home.schedule.upcoming" />
+          </h2>
           <ScheduleTable events={regular} />
         </div>
       )}
       {!hideKidfest && kidfest.length > 0 && (
         <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.kidfest" /></h2>
+          <h2 className={styles.scheduleHeading}>
+            <FormattedMessage id="home.schedule.kidfest" />
+          </h2>
           <ScheduleTable events={kidfest} />
         </div>
       )}
       {workshops.length > 0 && (
         <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.workshops" /></h2>
+          <h2 className={styles.scheduleHeading}>
+            <FormattedMessage id="home.schedule.workshops" />
+          </h2>
           <ScheduleTable events={workshops} showHost />
         </div>
       )}
       {online.length > 0 && (
         <div className={styles.onlineSection}>
           <div className={styles.onlineCta}>
-            <p className={styles.onlineCtaHeading}><FormattedMessage id="home.schedule.onlineCta" /></p>
-            <p className={styles.onlineCtaIntro}><FormattedMessage id="home.schedule.onlineIntro" /></p>
+            <p className={styles.onlineCtaHeading}>
+              <FormattedMessage id="home.schedule.onlineCta" />
+            </p>
+            <p className={styles.onlineCtaIntro}>
+              <FormattedMessage id="home.schedule.onlineIntro" />
+            </p>
           </div>
           <ul className={styles.onlineList}>
             {online.map((event) => {
               const { event_date, time_start, time_end, online_url } = event.event_data;
               const dateStr = event_date
-                ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
+                ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                  })
                 : '';
               const timeStr = time_start
                 ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
@@ -160,7 +204,12 @@ export function EventSchedule({ hideKidfest = false, hidePast = false }: { hideK
                     {title}
                   </Link>
                   {online_url && (
-                    <a href={online_url} target="_blank" rel="noopener noreferrer" className={styles.onlineEventJoin}>
+                    <a
+                      href={online_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.onlineEventJoin}
+                    >
                       <FormattedMessage id="home.schedule.joinOnline" />
                     </a>
                   )}
@@ -172,7 +221,9 @@ export function EventSchedule({ hideKidfest = false, hidePast = false }: { hideK
       )}
       {!hidePast && past.length > 0 && (
         <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.past" /></h2>
+          <h2 className={styles.scheduleHeading}>
+            <FormattedMessage id="home.schedule.past" />
+          </h2>
           <ScheduleTable events={past} />
         </div>
       )}

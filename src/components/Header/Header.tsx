@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import styles from './Header.module.css';
 import logo from '../../assets/VFA_Logo.png';
@@ -10,7 +10,7 @@ import type { MenuItem } from '../../api/menus/menuTypes.ts';
 import type { Page } from '../../api/pages/pageTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 
-function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0): React.ReactNode {
+function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0, onClose?: () => void): React.ReactNode {
   const items = menuItems
     .filter((item: MenuItem) => item.parent === parentId)
     .sort((a: MenuItem, b: MenuItem) => a.menu_order - b.menu_order);
@@ -33,11 +33,11 @@ function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0
         return (
           <li key={item.id}>
             {isExternal ? (
-              <a href={item.url} target="_blank" rel="noopener noreferrer">{decodeHtmlEntities(item.title.rendered)}</a>
+              <a href={item.url} target="_blank" rel="noopener noreferrer" onClick={onClose}>{decodeHtmlEntities(item.title.rendered)}</a>
             ) : (
-              <Link to={linkTo}>{decodeHtmlEntities(item.title.rendered)}</Link>
+              <Link to={linkTo} onClick={onClose}>{decodeHtmlEntities(item.title.rendered)}</Link>
             )}
-            {renderMenuItems(menuItems, pages, item.id)}
+            {renderMenuItems(menuItems, pages, item.id, onClose)}
           </li>
         );
       })}
@@ -49,17 +49,13 @@ const DONATE_URL = 'https://www.canadahelps.org/en/charities/victoria-festival-o
 
 function Header() {
   const intl = useIntl();
-  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const closeMenu = () => setIsOpen(false);
 
   const { data: menuLocation, isLoading: loadingMenu, error: menuError } = useGetPrimaryMenu();
   const menuId = menuLocation?.menu;
   const { data: menuItems, isLoading: loadingItems, error: itemsError } = useGetMenuItems(menuId ?? 0);
   const { data: pages, isLoading: loadingPages, error: pagesError } = useGetPages();
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location.pathname]);
 
   const donateLabel = intl.formatMessage({ id: 'nav.donate' });
 
@@ -76,7 +72,7 @@ function Header() {
           ) : menuError || itemsError || pagesError ? (
             <div>{intl.formatMessage({ id: 'nav.error' })}</div>
           ) : (
-            menuItems && renderMenuItems(menuItems, pages)
+            menuItems && renderMenuItems(menuItems, pages, 0, closeMenu)
           )}
           <a
             href={DONATE_URL}
