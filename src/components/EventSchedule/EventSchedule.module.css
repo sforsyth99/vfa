@@ -63,3 +63,47 @@
     color: var(--vfa-color-text-ui);
     margin: 0 0 1rem;
 }
+
+/* ── Mobile: table → stacked cards ──────────────────── */
+
+@media (max-width: 640px) {
+    .scheduleTable thead {
+        display: none;
+    }
+
+    .scheduleTable tbody tr {
+        display: block;
+        padding: 0.9rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .scheduleTable tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    .scheduleTable td {
+        display: flex;
+        gap: 0.6rem;
+        align-items: baseline;
+        padding: 0.15rem 0;
+        border: none;
+        font-size: 0.9rem;
+    }
+
+    .scheduleTable td::before {
+        content: attr(data-label);
+        font-size: 0.68rem;
+        font-weight: var(--vfa-font-weight-semibold);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--vfa-color-ink-light);
+        min-width: 48px;
+        flex-shrink: 0;
+        padding-top: 0.15em;
+    }
+
+    .scheduleDate,
+    .scheduleTime {
+        white-space: normal;
+    }
+}

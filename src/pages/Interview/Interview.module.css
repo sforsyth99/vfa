@@ -52,8 +52,8 @@
 }
 
 @media (max-width: 640px) {
-    .photoWrap, .bookWrap {
-        height: 200px;
+    .headerImg {
+        height: 180px;
     }
 }
 
@@ -125,6 +125,17 @@
     gap: 0.75rem;
     flex: 1;
     min-width: 260px;
+}
+
+@media (max-width: 640px) {
+    .visualRow {
+        flex-direction: column;
+    }
+
+    .eventCards {
+        min-width: 0;
+        width: 100%;
+    }
 }
 
 .eventCard {

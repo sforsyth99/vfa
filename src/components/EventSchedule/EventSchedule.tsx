@@ -15,15 +15,21 @@ function formatTime(t: string): string {
 
 function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; showHost?: boolean }) {
   const intl = useIntl();
+  const dateLabel     = intl.formatMessage({ id: 'home.schedule.date' });
+  const timeLabel     = intl.formatMessage({ id: 'home.schedule.time' });
+  const eventLabel    = intl.formatMessage({ id: 'home.schedule.event' });
+  const locationLabel = intl.formatMessage({ id: 'home.schedule.location' });
+  const hostedByLabel = intl.formatMessage({ id: 'home.schedule.hostedBy' });
+
   return (
     <table className={styles.scheduleTable}>
       <thead>
         <tr>
-          <th>{intl.formatMessage({ id: 'home.schedule.date' })}</th>
-          <th>{intl.formatMessage({ id: 'home.schedule.time' })}</th>
-          <th>{intl.formatMessage({ id: 'home.schedule.event' })}</th>
-          <th>{intl.formatMessage({ id: 'home.schedule.location' })}</th>
-          {showHost && <th>{intl.formatMessage({ id: 'home.schedule.hostedBy' })}</th>}
+          <th>{dateLabel}</th>
+          <th>{timeLabel}</th>
+          <th>{eventLabel}</th>
+          <th>{locationLabel}</th>
+          {showHost && <th>{hostedByLabel}</th>}
         </tr>
       </thead>
       <tbody>
@@ -50,20 +56,20 @@ function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; 
           ];
           return (
             <tr key={event.id}>
-              <td className={styles.scheduleDate}>
+              <td className={styles.scheduleDate} data-label={dateLabel}>
                 {event_date
                   ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
                   : '—'}
               </td>
-              <td className={styles.scheduleTime}>{timeStr || '—'}</td>
-              <td className={styles.scheduleName}>
+              <td className={styles.scheduleTime} data-label={timeLabel}>{timeStr || '—'}</td>
+              <td className={styles.scheduleName} data-label={eventLabel}>
                 <Link to={`/festival-events/${event.slug}`}>
                   {decodeHtmlEntities(event.title?.rendered ?? '')}
                 </Link>
               </td>
-              <td className={styles.scheduleLocation}>{location}</td>
+              <td className={styles.scheduleLocation} data-label={locationLabel}>{location}</td>
               {showHost && (
-                <td className={styles.scheduleLocation}>
+                <td className={styles.scheduleLocation} data-label={hostedByLabel}>
                   {hostParts.length > 0
                     ? hostParts.reduce<ReactNode[]>((acc, el, i) => i === 0 ? [el] : [...acc, ', ', el], [])
                     : '—'}
@@ -86,6 +92,9 @@ export function EventSchedule() {
   if (!events?.length) return null;
 
   const today = new Date().toISOString().slice(0, 10);
+  const dateLabel  = intl.formatMessage({ id: 'home.schedule.date' });
+  const timeLabel  = intl.formatMessage({ id: 'home.schedule.time' });
+  const eventLabel = intl.formatMessage({ id: 'home.schedule.event' });
 
   const upcoming = events
     .filter((e) => e.event_data.event_date >= today)
@@ -99,10 +108,10 @@ export function EventSchedule() {
     .filter((e) => e.event_data.event_date < today)
     .sort((a, b) => b.event_data.event_date.localeCompare(a.event_data.event_date));
 
-  const regular = upcoming.filter((e) => !e.event_data.is_kidfest);
-  const kidfest = upcoming.filter((e) => e.event_data.is_kidfest);
+  const regular   = upcoming.filter((e) => !e.event_data.is_kidfest);
+  const kidfest   = upcoming.filter((e) => e.event_data.is_kidfest);
   const workshops = upcoming.filter((e) => e.event_data.event_type === 'workshop' && !e.event_data.is_kidfest);
-  const online = upcoming.filter((e) => e.event_data.tickets.some((t) => t.type === 'online'));
+  const online    = upcoming.filter((e) => e.event_data.tickets.some((t) => t.type === 'online'));
 
   if (!upcoming.length && !past.length) return null;
 
@@ -133,9 +142,9 @@ export function EventSchedule() {
           <table className={styles.scheduleTable}>
             <thead>
               <tr>
-                <th>{intl.formatMessage({ id: 'home.schedule.date' })}</th>
-                <th>{intl.formatMessage({ id: 'home.schedule.time' })}</th>
-                <th>{intl.formatMessage({ id: 'home.schedule.event' })}</th>
+                <th>{dateLabel}</th>
+                <th>{timeLabel}</th>
+                <th>{eventLabel}</th>
               </tr>
             </thead>
             <tbody>
@@ -146,13 +155,13 @@ export function EventSchedule() {
                   : '';
                 return (
                   <tr key={event.id}>
-                    <td className={styles.scheduleDate}>
+                    <td className={styles.scheduleDate} data-label={dateLabel}>
                       {event_date
                         ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
                         : '—'}
                     </td>
-                    <td className={styles.scheduleTime}>{timeStr || '—'}</td>
-                    <td className={styles.scheduleName}>
+                    <td className={styles.scheduleTime} data-label={timeLabel}>{timeStr || '—'}</td>
+                    <td className={styles.scheduleName} data-label={eventLabel}>
                       <Link to={`/festival-events/${event.slug}`}>
                         {decodeHtmlEntities(event.title?.rendered ?? '')}
                       </Link>

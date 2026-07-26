@@ -28,8 +28,20 @@
 }
 
 @media (max-width: 640px) {
+    .hero {
+        padding: 2.5rem 0 2rem;
+    }
+
     .heroTitle {
         font-size: 2.2rem;
+    }
+
+    .heroSubtitle {
+        font-size: var(--vfa-font-size-base);
+    }
+
+    .homeMain p {
+        font-size: var(--vfa-font-size-base);
     }
 }
 

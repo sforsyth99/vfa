@@ -27,6 +27,7 @@
     color: var(--vfa-color-ink-darkest);
     font-size: 0.95em;
     width: 260px;
+    max-width: 100%;
     outline: none;
     transition: border-color 0.2s;
 }

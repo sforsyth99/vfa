@@ -114,6 +114,9 @@
     color: var(--vfa-color-text-light);
     margin: 0 0 0.3rem;
     line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .subtitle {

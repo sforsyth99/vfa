@@ -149,7 +149,8 @@
 
 @media (max-width: 640px) {
     .eventFeatureCard {
-        width: 100%;
+        width: 72%;
+        max-width: 300px;
     }
 }
 

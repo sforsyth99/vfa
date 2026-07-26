@@ -9,6 +9,8 @@
   "nav.donate": "Donate",
   "nav.loading": "Loading menu…",
   "nav.error": "Error loading menu",
+  "nav.open": "Open menu",
+  "nav.close": "Close menu",
 
   "footer.menu.label": "Footer menu",
   "footer.sponsor.titleLabel": "Title Sponsor",

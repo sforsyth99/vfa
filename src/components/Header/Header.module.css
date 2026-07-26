@@ -29,6 +29,8 @@
     display: block;
 }
 
+/* ── Desktop nav ─────────────────────────────────────── */
+
 .nav {
     flex: 1;
 }
@@ -71,4 +73,118 @@
 .donateButton:focus {
     background: var(--vfa-color-forest-darkest);
     color: var(--vfa-color-text-light);
+}
+
+/* ── Hamburger button (hidden on desktop) ────────────── */
+
+.menuButton {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.bar {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--vfa-color-ink-darkest);
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menuButtonOpen .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.menuButtonOpen .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.menuButtonOpen .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Donate link inside mobile menu (hidden on desktop) */
+.donateMobile {
+    display: none;
+}
+
+/* ── Mobile ──────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .header {
+        padding: 0.75rem 1rem;
+    }
+
+    .headerInner {
+        gap: 1rem;
+    }
+
+    .menuButton {
+        display: flex;
+    }
+
+    .donateButton {
+        display: none;
+    }
+
+    .nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--vfa-color-surface);
+        border-bottom: 1px solid var(--vfa-color-warm-border-light);
+        padding: 0.5rem 1.5rem 1.5rem;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .navOpen {
+        display: block;
+    }
+
+    .navList {
+        flex-direction: column;
+        gap: 0;
+        justify-content: flex-start;
+    }
+
+    .navList li {
+        border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    }
+
+    .navList li:last-child {
+        border-bottom: none;
+    }
+
+    .navList a {
+        display: block;
+        padding: 0.85rem 0;
+        font-size: 1.05rem;
+    }
+
+    .donateMobile {
+        display: inline-block;
+        margin-top: 1.25rem;
+        padding: 0.55em 1.4em;
+        background: var(--vfa-color-forest-dark);
+        color: var(--vfa-color-text-light);
+        font-weight: var(--vfa-font-weight-bold);
+        font-size: 0.95em;
+        border-radius: var(--vfa-radius-md);
+        text-decoration: none;
+        transition: background var(--vfa-transition-base);
+    }
+
+    .donateMobile:hover {
+        background: var(--vfa-color-forest-darkest);
+    }
 }
