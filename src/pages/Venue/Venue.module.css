@@ -1,0 +1,52 @@
+.page {
+  padding-block: 4rem 6rem;
+  color: var(--vfa-color-ink-darkest);
+}
+
+
+.pronunciation {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--vfa-color-forest-mid);
+  margin: -0.25rem 0 0.75rem;
+}
+
+.alternateName {
+  font-size: 1.125rem;
+  font-style: italic;
+  color: var(--vfa-color-ink-light);
+  margin: 0 0 0.75rem;
+}
+
+.address {
+  font-size: var(--vfa-font-size-base);
+  color: var(--vfa-color-ink-dark);
+  margin: 0 0 1rem;
+}
+
+.onlineLink {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: var(--vfa-font-weight-medium);
+  color: var(--vfa-color-forest-dark);
+  text-decoration: none;
+  border-bottom: 1px solid var(--vfa-color-forest-dark);
+  padding-bottom: 1px;
+  transition: opacity var(--vfa-transition);
+  margin-bottom: 1.5rem;
+}
+
+.onlineLink:hover {
+  opacity: var(--vfa-opacity-hover-strong);
+  text-decoration: none;
+}
+
+.description {
+  font-size: var(--vfa-font-size-base);
+  line-height: var(--vfa-line-height-body);
+  color: var(--vfa-color-ink-dark);
+  margin: 1.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--vfa-color-warm-border);
+  white-space: pre-line;
+}

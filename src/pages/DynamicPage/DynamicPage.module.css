@@ -1,0 +1,112 @@
+.page {
+    padding-block: 3rem 4rem;
+}
+
+.title {
+    font-family: var(--vfa-font-display);
+    font-size: 2.6rem;
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-text-heading);
+    line-height: 1.2;
+    margin: 0 0 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--vfa-color-accent-gold);
+}
+
+.content {
+    font-size: var(--vfa-font-size-md);
+    line-height: 1.8;
+    color: var(--vfa-color-text-body);
+}
+
+.content :global(h1),
+.content :global(h2),
+.content :global(h3),
+.content :global(h4),
+.content :global(h5),
+.content :global(h6) {
+    font-family: var(--vfa-font-display);
+    color: var(--vfa-color-text-heading);
+    line-height: var(--vfa-line-height-tight);
+    margin: 2.5rem 0 0.75rem;
+}
+
+.content :global(h2) { font-size: 1.8rem; font-weight: var(--vfa-font-weight-bold); }
+.content :global(h3) { font-size: 1.4rem; font-weight: var(--vfa-font-weight-semibold); }
+.content :global(h4) { font-size: 1.15rem; font-weight: var(--vfa-font-weight-semibold); }
+
+.content :global(p) {
+    margin: 0 0 1.4rem;
+}
+
+.content :global(a) {
+    color: var(--vfa-color-link);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.content :global(a:hover) {
+    color: var(--vfa-color-link-hover);
+}
+
+.content :global(ul),
+.content :global(ol) {
+    padding-left: 1.75rem;
+    margin: 0 0 1.4rem;
+}
+
+.content :global(li) {
+    margin-bottom: 0.5rem;
+}
+
+.content :global(blockquote) {
+    border-left: 4px solid var(--vfa-color-accent-gold);
+    margin: 2rem 0;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    color: var(--vfa-color-text-ui);
+    font-style: italic;
+    font-size: var(--vfa-font-size-lg);
+}
+
+.content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 1rem 0;
+}
+
+.content :global(figure) {
+    margin: 2rem 0;
+}
+
+.content :global(figcaption) {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-light);
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--vfa-color-hr);
+    margin: 2.5rem 0;
+}
+
+.content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+.content :global(th),
+.content :global(td) {
+    border: 1px solid var(--vfa-color-hr);
+    padding: 0.6rem 1rem;
+    text-align: left;
+}
+
+.content :global(th) {
+    background: var(--vfa-color-table-header);
+    font-weight: var(--vfa-font-weight-semibold);
+}

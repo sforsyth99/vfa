@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&display=swap');
 
 /* Global styles */
 html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', Arial, sans-serif;
-  background: var(--vfa-bg-page);
-  color: var(--vfa-text-body);
+  font-family: var(--vfa-font-body);
+  background: var(--vfa-color-bg-page);
+  color: var(--vfa-color-text-body);
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -23,14 +23,14 @@ a:hover {
 
 button {
   font-family: inherit;
-  font-size: 1rem;
+  font-size: var(--vfa-font-size-base);
   padding: 0.5em 1em;
-  border-radius: 4px;
+  border-radius: var(--vfa-radius-md);
   border: 1px solid var(--vfa-color-border);
   background: var(--vfa-color-surface);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background var(--vfa-transition-base);
 }
 button:hover {
-  background: var(--vfa-bg-hover);
+  background: var(--vfa-color-bg-hover);
 }

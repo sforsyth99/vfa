@@ -1,5 +1,66 @@
 :root {
-    /* ── Existing primary tokens ──────────────────────── */
+    /* ── Fonts ───────────────────────────────────────────── */
+    --vfa-font-body: 'Inter', Arial, sans-serif;
+    --vfa-font-display: 'Playfair Display', Georgia, serif;
+
+    /* ── Font sizes ──────────────────────────────────────── */
+    --vfa-font-size-eyebrow: 0.7rem;       /* uppercase labels, section tags */
+    --vfa-font-size-xs: 0.75rem;
+    --vfa-font-size-sm: 0.875rem;
+    --vfa-font-size-base: 1rem;
+    --vfa-font-size-md: 1.05rem;
+    --vfa-font-size-lg: 1.1rem;
+    --vfa-font-size-page-title: 2.4rem;
+    --vfa-font-size-page-title-mobile: 1.9rem;
+    --vfa-font-size-hero: 3rem;
+
+    /* ── Font weights ────────────────────────────────────── */
+    --vfa-font-weight-normal: 400;
+    --vfa-font-weight-medium: 500;
+    --vfa-font-weight-semibold: 600;
+    --vfa-font-weight-bold: 700;
+
+    /* ── Letter spacing ──────────────────────────────────── */
+    --vfa-letter-spacing-eyebrow: 0.18em;
+
+    /* ── Line heights ────────────────────────────────────── */
+    --vfa-line-height-body: 1.75;
+    --vfa-line-height-tight: 1.3;
+    --vfa-line-height-title: 1.15;
+
+    /* ── Opacity ─────────────────────────────────────────── */
+    --vfa-opacity-hover: 0.75;
+    --vfa-opacity-hover-strong: 0.6;
+
+    /* ── Z-index ─────────────────────────────────────────── */
+    --vfa-z-header: 100;
+    --vfa-z-overlay: 1000;
+
+    /* ── Layout ──────────────────────────────────────────── */
+    --vfa-width-content: 780px;            /* most pages */
+    --vfa-width-site: 1200px;              /* header, footer */
+    --vfa-padding-page: 4rem 2rem 6rem;   /* standard page padding */
+    --vfa-padding-x: 2rem;
+
+    /* ── Radius ──────────────────────────────────────────── */
+    --vfa-radius-sm: 2px;
+    --vfa-radius-md: 4px;
+    --vfa-radius-lg: 8px;
+    --vfa-radius-card: 12px;
+    --vfa-radius-pill: 999px;
+    --vfa-radius-circle: 50%;
+
+    /* ── Shadows ─────────────────────────────────────────── */
+    --vfa-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.15);
+    --vfa-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --vfa-shadow-card: 0 2px 16px rgba(0, 0, 0, 0.1);
+    --vfa-shadow-card-hover: 0 6px 24px rgba(0, 0, 0, 0.15);
+
+    /* ── Transitions ─────────────────────────────────────── */
+    --vfa-transition: 0.15s ease;
+    --vfa-transition-base: 0.2s;
+
+    /* ── Colors: primary ─────────────────────────────────── */
     --vfa-color-primary: #1a5cff;
     --vfa-color-primary-dark: #174bb3;
     --vfa-color-secondary: #f8f8f8;
@@ -14,45 +75,49 @@
     --vfa-color-error: #e53935;
     --vfa-color-success: #43a047;
 
-    /* ── Ink scale ────────────────────────────────────── */
-    --vfa-ink-darkest: #1c1917;     /* main headings, page text */
-    --vfa-ink-dark: #3d3a3f;        /* body text, descriptions */
-    --vfa-ink-mid: #5a5560;         /* secondary text, dates */
-    --vfa-ink-light: #7a7580;       /* muted text, labels */
-    --vfa-ink-placeholder: #999;    /* input placeholder */
+    /* ── Colors: ink scale ───────────────────────────────── */
+    --vfa-color-ink-darkest: #1c1917;      /* main headings, page text */
+    --vfa-color-ink-dark: #3d3a3f;         /* body text, descriptions */
+    --vfa-color-ink-mid: #5a5560;          /* secondary text, dates */
+    --vfa-color-ink-light: #7a7580;        /* muted text, labels */
+    --vfa-color-ink-placeholder: #999;     /* input placeholder */
 
-    /* ── Forest green — brand ─────────────────────────── */
-    --vfa-forest-darkest: #153028;  /* button hover */
-    --vfa-forest-dark: #1d3d2f;     /* buttons, links, CTAs */
-    --vfa-forest-mid: #6b8f7e;      /* eyebrows, category labels */
-    --vfa-forest-light: #b8cebb;    /* light borders */
-    --vfa-forest-pale: #d4e0d6;     /* tag borders, card borders */
-    --vfa-forest-bg: #eef3ef;       /* footer, card backgrounds */
+    /* ── Colors: forest green (brand) ───────────────────── */
+    --vfa-color-forest-darkest: #153028;   /* button hover */
+    --vfa-color-forest-dark: #1d3d2f;      /* buttons, links, CTAs */
+    --vfa-color-forest-mid: #6b8f7e;       /* eyebrows, category labels */
+    --vfa-color-forest-light: #b8cebb;     /* light borders */
+    --vfa-color-forest-pale: #d4e0d6;      /* tag borders, card borders */
+    --vfa-color-forest-bg: #eef3ef;        /* footer, card backgrounds */
 
-    /* ── Event card ───────────────────────────────────── */
-    --vfa-event-blue: #4a6dcc;
+    /* ── Colors: event card ──────────────────────────────── */
+    --vfa-color-event-blue: #4a6dcc;
 
-    /* ── Warm neutrals ────────────────────────────────── */
-    --vfa-warm-border: #d9d4ce;         /* section dividers */
-    --vfa-warm-border-light: #e8e4e0;   /* header, list borders */
-    --vfa-warm-border-mid: #c8c2bc;     /* filter button borders */
-    --vfa-warm-border-faint: #c4bfc8;   /* bio link border */
-    --vfa-warm-bg: #f0ece8;             /* hover backgrounds */
-    --vfa-warm-card-bg: #d6d0c8;        /* BlurImageCard background */
+    /* ── Colors: warm neutrals ───────────────────────────── */
+    --vfa-color-warm-border: #d9d4ce;          /* section dividers */
+    --vfa-color-warm-border-light: #e8e4e0;    /* header, list borders */
+    --vfa-color-warm-border-mid: #c8c2bc;      /* filter button borders */
+    --vfa-color-warm-border-faint: #c4bfc8;    /* bio link border */
+    --vfa-color-warm-bg: #f0ece8;              /* hover backgrounds */
+    --vfa-color-warm-card-bg: #d6d0c8;         /* BlurImageCard background */
 
-    /* ── UI surfaces & misc ───────────────────────────── */
-    --vfa-bg-page: #f8f8f8;
-    --vfa-bg-hover: #f0f0f0;        /* button hover */
-    --vfa-border-light: #ddd;
-    --vfa-border-faint: #eee;
-    --vfa-border-sponsor: #e5e5e5;
-    --vfa-text-ui: #555;
-    --vfa-text-footer: #888;
-    --vfa-text-body: #333;
-    --vfa-text-heading: #1a1a1a;
-    --vfa-hr: #e0e0e0;
-    --vfa-table-header: #f5f5f5;
-    --vfa-social-icon-bg: #444;
-    --vfa-accent-gold: #ffd700;
-    --vfa-error-dark: #c0392b;
+    /* ── Colors: UI surfaces & misc ─────────────────────── */
+    --vfa-color-bg-page: #f8f8f8;
+    --vfa-color-bg-hover: #f0f0f0;
+    --vfa-color-border-light: #ddd;
+    --vfa-color-border-faint: #eee;
+    --vfa-color-border-sponsor: #e5e5e5;
+    --vfa-color-text-ui: #555;
+    --vfa-color-text-footer: #888;
+    --vfa-color-text-body: #333;
+    --vfa-color-text-heading: #1a1a1a;
+    --vfa-color-hr: #e0e0e0;
+    --vfa-color-table-header: #f5f5f5;
+    --vfa-color-social-icon-bg: #444;
+    --vfa-color-accent-gold: #ffd700;
+    --vfa-color-error-dark: #c0392b;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
 }

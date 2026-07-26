@@ -1,0 +1,29 @@
+.section {
+    width: 100%;
+}
+
+.default {
+    padding-block: 4rem;
+}
+
+.large {
+    padding-block: 6rem;
+}
+
+.compact {
+    padding-block: 2rem;
+}
+
+@media (max-width: 640px) {
+    .default {
+        padding-block: 2.5rem;
+    }
+
+    .large {
+        padding-block: 3.5rem;
+    }
+
+    .compact {
+        padding-block: 1.5rem;
+    }
+}

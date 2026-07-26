@@ -1,0 +1,382 @@
+.homeMain {
+    padding-bottom: 2rem;
+}
+
+.hero {
+    padding: 4rem 0 3rem;
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    margin-bottom: 2rem;
+}
+
+.heroEyebrow {
+    font-size: 0.75rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--vfa-color-forest-dark);
+    margin: 0 0 1rem;
+}
+
+.heroTitle {
+    font-family: var(--vfa-font-display);
+    font-size: var(--vfa-font-size-hero);
+    font-weight: var(--vfa-font-weight-semibold);
+    line-height: 1.1;
+    color: var(--vfa-color-ink-darkest);
+    margin: 0 0 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+@media (max-width: 640px) {
+    .hero {
+        padding: 2.5rem 0 2rem;
+    }
+
+    .heroTitle {
+        font-size: 2.2rem;
+    }
+
+    .heroSubtitle {
+        font-size: var(--vfa-font-size-base);
+    }
+
+    .homeMain p {
+        font-size: var(--vfa-font-size-base);
+    }
+}
+
+.heroSubtitle {
+    font-size: var(--vfa-font-size-lg);
+    line-height: 1.7;
+    color: var(--vfa-color-ink-dark);
+    max-width: 600px;
+    margin: 0 0 1rem;
+}
+
+.heroKidfest {
+    font-size: 0.9rem;
+    color: var(--vfa-color-forest-dark);
+    font-weight: var(--vfa-font-weight-medium);
+    margin: 0;
+}
+
+.homeMain h1,
+.homeMain h2 {
+    margin-bottom: 1rem;
+}
+
+.homeMain p {
+    font-size: var(--vfa-font-size-lg);
+    color: var(--vfa-color-text);
+}
+
+.authorGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.authorPhoto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+    gap: 0.5rem;
+    width: 100px;
+}
+
+.authorPhoto img {
+    display: block;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: var(--vfa-radius-circle);
+    box-shadow: var(--vfa-shadow-sm);
+    transition: transform var(--vfa-transition), box-shadow var(--vfa-transition);
+}
+
+.authorPhoto:hover img {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+}
+
+.kidsAuthorPhoto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+    gap: 0.5rem;
+}
+
+.kidsAuthorPhoto img {
+    display: block;
+    height: 120px;
+    width: auto;
+    border-radius: 0;
+    object-fit: contain;
+    transition: transform 0.15s ease;
+}
+
+.authorPhotoPlaceholder {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--vfa-radius-circle);
+    background: var(--vfa-color-forest-pale);
+    color: var(--vfa-color-forest-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+}
+
+.kidsAuthorPhotoPlaceholder {
+    width: 80px;
+    height: 120px;
+    border-radius: var(--vfa-radius-sm);
+    background: var(--vfa-color-forest-pale);
+    color: var(--vfa-color-forest-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: 0.02em;
+}
+
+.kidsAuthorPhoto:hover img {
+    transform: translateY(-2px);
+}
+
+.authorName {
+    font-size: 0.75rem;
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-ink-darkest);
+    text-align: center;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.bookGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.bookCover {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    text-decoration: none;
+    gap: 0.4rem;
+    width: 130px;
+}
+
+.bookCover img {
+    display: block;
+    width: 130px;
+    height: 160px;
+    object-fit: contain;
+    object-position: center;
+    border-radius: var(--vfa-radius-sm);
+    box-shadow: var(--vfa-shadow-md);
+    transition: transform var(--vfa-transition), box-shadow var(--vfa-transition);
+}
+
+.bookCover:hover img,
+.bookCover:hover .bookCoverPlaceholder {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+}
+
+.bookCoverPlaceholder {
+    height: 160px;
+    width: 107px;
+    border-radius: var(--vfa-radius-sm);
+    background: var(--vfa-color-forest-pale);
+    box-shadow: var(--vfa-shadow-md);
+    transition: transform var(--vfa-transition), box-shadow var(--vfa-transition);
+    flex-shrink: 0;
+}
+
+.bookCoverTitle {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-ink-darkest);
+    line-height: var(--vfa-line-height-tight);
+    margin: 0;
+}
+
+.authorBioTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+}
+
+.authorBioTable tr {
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+}
+
+.authorBioTable tr:last-child {
+    border-bottom: none;
+}
+
+.authorBioName {
+    font-weight: var(--vfa-font-weight-semibold);
+    padding: 6px 16px 6px 0;
+    white-space: nowrap;
+    width: 180px;
+    vertical-align: top;
+}
+
+.authorBioName a {
+    text-decoration: none;
+    color: var(--vfa-color-forest-dark);
+}
+
+.authorBioName a:hover {
+    text-decoration: underline;
+}
+
+.authorBioRoles {
+    display: block;
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-normal);
+    color: var(--vfa-color-ink-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+}
+
+.authorBioSnippet {
+    padding: 6px 0;
+    color: var(--vfa-color-ink-dark);
+    font-size: var(--vfa-font-size-sm);
+    vertical-align: top;
+}
+
+.authorBioMissing {
+    color: var(--vfa-color-error);
+    font-style: italic;
+}
+
+.seeAll {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-forest-dark);
+    text-decoration: none;
+    border-bottom: 1px solid var(--vfa-color-forest-dark);
+    padding-bottom: 1px;
+    transition: opacity var(--vfa-transition);
+}
+
+.seeAll:hover {
+    opacity: 0.65;
+}
+
+.section {
+    margin: 2rem 0;
+}
+
+.interviewList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.interviewItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    text-decoration: none;
+    color: inherit;
+    transition: opacity var(--vfa-transition);
+}
+
+.interviewItem:first-of-type {
+    border-top: 1px solid var(--vfa-color-warm-border-light);
+}
+
+.interviewItem:hover {
+    opacity: var(--vfa-opacity-hover);
+}
+
+.interviewAuthorPhoto {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+}
+
+.interviewAuthorPhoto img {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: var(--vfa-radius-md);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.interviewAuthorPlaceholder {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--vfa-radius-md);
+    background: var(--vfa-color-forest-pale);
+    color: var(--vfa-color-forest-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: var(--vfa-font-weight-semibold);
+}
+
+.interviewCover {
+    width: 34px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: var(--vfa-radius-sm);
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.interviewCoverPlaceholder {
+    width: 34px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.interviewItemText {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.interviewItemName {
+    font-size: 0.95rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-darkest);
+}
+
+.interviewItemSnippet {
+    font-size: 0.8rem;
+    color: var(--vfa-color-ink-light);
+}
+
+.interviewItemMissing {
+    font-size: 0.8rem;
+    color: var(--vfa-color-error);
+    font-style: italic;
+}

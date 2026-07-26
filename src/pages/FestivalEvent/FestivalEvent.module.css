@@ -1,0 +1,331 @@
+.page {
+  padding-block: 4rem 6rem;
+  color: var(--vfa-color-ink-darkest);
+}
+
+/* ── Event image ─────────────────────────────────────── */
+
+.eventImage {
+  display: block;
+  width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  border-radius: var(--vfa-radius-sm);
+  margin-bottom: 2.5rem;
+}
+
+/* ── Title block ─────────────────────────────────────── */
+
+
+.datetime {
+  font-size: var(--vfa-font-size-base);
+  color: var(--vfa-color-ink-dark);
+  margin: 0 0 0.4rem;
+}
+
+.ageRange {
+  font-size: 0.85rem;
+  font-weight: var(--vfa-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--vfa-color-forest-mid);
+  margin: 0.5rem 0 0;
+}
+
+.description {
+  font-size: var(--vfa-font-size-base);
+  line-height: var(--vfa-line-height-body);
+  color: var(--vfa-color-ink-dark);
+  margin: 1.5rem 0 0;
+  white-space: pre-line;
+}
+
+.extraInfo {
+  font-size: var(--vfa-font-size-sm);
+  color: var(--vfa-color-ink-light);
+  font-style: italic;
+  margin: 1rem 0 0;
+}
+
+/* ── Sections ────────────────────────────────────────── */
+
+.section {
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--vfa-color-warm-border);
+}
+
+.sectionLabel {
+  font-size: var(--vfa-font-size-eyebrow);
+  letter-spacing: var(--vfa-letter-spacing-eyebrow);
+  text-transform: uppercase;
+  color: var(--vfa-color-forest-mid);
+  font-weight: var(--vfa-font-weight-semibold);
+  margin: 0 0 1rem;
+}
+
+/* ── Venue ───────────────────────────────────────────── */
+
+.venueRow {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.venueInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .venueRow {
+    flex-direction: column;
+  }
+}
+
+.venueName {
+  font-family: var(--vfa-font-display);
+  font-size: 1.25rem;
+  font-weight: var(--vfa-font-weight-semibold);
+  color: var(--vfa-color-ink-darkest);
+  margin: 0 0 0.25rem;
+}
+
+.venuePronunciation {
+  font-size: var(--vfa-font-size-sm);
+  font-style: italic;
+  color: var(--vfa-color-forest-mid);
+  margin: 0.1rem 0 0.25rem;
+}
+
+.venueIndigenous {
+  font-size: 0.9375rem;
+  font-style: italic;
+  color: var(--vfa-color-ink-light);
+  margin: 0 0 0.5rem;
+}
+
+.venueAddress {
+  font-size: 0.9375rem;
+  color: var(--vfa-color-ink-dark);
+  margin: 0 0 0.75rem;
+}
+
+.onlineLink {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: var(--vfa-font-weight-medium);
+  color: var(--vfa-color-forest-dark);
+  text-decoration: none;
+  border-bottom: 1px solid var(--vfa-color-forest-dark);
+  padding-bottom: 1px;
+  transition: opacity var(--vfa-transition);
+}
+
+.onlineLink:hover {
+  opacity: var(--vfa-opacity-hover-strong);
+  text-decoration: none;
+}
+
+/* ── People ──────────────────────────────────────────── */
+
+.peopleFlow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.labelledCard {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .labelledCard {
+    width: 100%;
+  }
+}
+
+.cardRoleLabel {
+  font-size: var(--vfa-font-size-eyebrow);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: var(--vfa-font-weight-semibold);
+  color: var(--vfa-color-ink-light);
+  margin: 0 0 0.5rem;
+}
+
+.personCardGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.personCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  width: 100px;
+  transition: opacity var(--vfa-transition);
+}
+
+.personCard:hover {
+  opacity: 0.8;
+}
+
+.personPhoto {
+  display: block;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: var(--vfa-radius-circle);
+}
+
+.personPhotoContain {
+  display: block;
+  width: 100px;
+  height: 120px;
+  object-fit: contain;
+  object-position: top center;
+}
+
+.personPhotoPlaceholder {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--vfa-radius-circle);
+  background: var(--vfa-color-forest-bg);
+  border: 1px solid var(--vfa-color-forest-pale);
+}
+
+.personCardName {
+  font-size: 0.8rem;
+  font-weight: var(--vfa-font-weight-medium);
+  color: var(--vfa-color-ink-darkest);
+  text-align: center;
+  line-height: var(--vfa-line-height-tight);
+}
+
+/* ── Author Cards ────────────────────────────────────── */
+
+.authorCard {
+  width: 100%;
+}
+
+.hostedByText {
+  font-size: 0.9375rem;
+  color: var(--vfa-color-ink-dark);
+  margin: 0.5rem 0 0;
+}
+
+.personLink {
+  color: var(--vfa-color-forest-dark);
+  text-decoration: none;
+  border-bottom: 1px solid var(--vfa-color-forest-dark);
+  padding-bottom: 1px;
+  transition: opacity var(--vfa-transition);
+}
+
+.personLink:hover {
+  opacity: var(--vfa-opacity-hover-strong);
+  text-decoration: none;
+}
+
+/* ── Books ───────────────────────────────────────────── */
+
+.bookGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.bookCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: opacity var(--vfa-transition);
+}
+
+.bookCard:hover {
+  opacity: 0.8;
+}
+
+.bookCover {
+  display: block;
+  height: 200px;
+  width: auto;
+  border-radius: var(--vfa-radius-sm);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.bookCoverPlaceholder {
+  width: 140px;
+  height: 200px;
+  background: var(--vfa-color-forest-bg);
+  border-radius: var(--vfa-radius-sm);
+  border: 1px solid var(--vfa-color-forest-pale);
+}
+
+.bookTitle {
+  font-size: 0.8rem;
+  font-weight: var(--vfa-font-weight-medium);
+  color: var(--vfa-color-ink-darkest);
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* ── Tickets ─────────────────────────────────────────── */
+
+.ticketList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ticketRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.9375rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dotted var(--vfa-color-warm-border);
+  max-width: 320px;
+}
+
+.ticketTier {
+  color: var(--vfa-color-ink-dark);
+}
+
+.ticketPrice {
+  font-weight: var(--vfa-font-weight-semibold);
+  color: var(--vfa-color-ink-darkest);
+  font-family: var(--vfa-font-display);
+}
+
+.eventbriteLink {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: var(--vfa-font-size-sm);
+  font-weight: var(--vfa-font-weight-semibold);
+  color: var(--vfa-color-text-light);
+  background: var(--vfa-color-forest-dark);
+  text-decoration: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--vfa-radius-sm);
+  letter-spacing: 0.02em;
+  transition: opacity var(--vfa-transition);
+}
+
+.eventbriteLink:hover {
+  opacity: 0.85;
+}

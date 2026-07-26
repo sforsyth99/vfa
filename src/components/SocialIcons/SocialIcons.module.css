@@ -1,0 +1,34 @@
+.socialRow {
+    display: flex;
+    justify-content: center;
+    gap: 1.2em;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+.socialLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--vfa-radius-circle);
+    background: var(--vfa-color-social-icon-bg);
+    color: var(--vfa-color-text-light);
+    transition: background var(--vfa-transition-base), transform 0.15s;
+}
+
+.socialLink:hover,
+.socialLink:focus {
+    background: var(--vfa-color-accent-gold);
+    color: var(--vfa-color-text);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.socialLink svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}

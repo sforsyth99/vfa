@@ -1,0 +1,85 @@
+.newsletter {
+    text-align: left;
+}
+
+.title {
+    color: var(--vfa-color-ink-darkest);
+    font-size: 1em;
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0 0 0.75em;
+}
+
+.form {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.input {
+    padding: 0.55em 1em;
+    border: 1px solid var(--vfa-color-forest-light);
+    border-radius: var(--vfa-radius-md);
+    background: var(--vfa-color-surface);
+    color: var(--vfa-color-ink-darkest);
+    font-size: 0.95em;
+    width: 260px;
+    max-width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input::placeholder {
+    color: var(--vfa-color-ink-placeholder);
+}
+
+.input:focus {
+    border-color: var(--vfa-color-forest-dark);
+}
+
+.input:disabled {
+    opacity: var(--vfa-opacity-hover-strong);
+    cursor: not-allowed;
+}
+
+.button {
+    padding: 0.55em 1.4em;
+    background: var(--vfa-color-forest-dark);
+    color: var(--vfa-color-text-light);
+    border: none;
+    border-radius: var(--vfa-radius-md);
+    font-size: 0.95em;
+    font-weight: var(--vfa-font-weight-semibold);
+    cursor: pointer;
+    transition: background var(--vfa-transition-base);
+    white-space: nowrap;
+}
+
+.button:hover:not(:disabled) {
+    background: var(--vfa-color-forest-darkest);
+}
+
+.button:disabled {
+    opacity: var(--vfa-opacity-hover-strong);
+    cursor: not-allowed;
+}
+
+.success {
+    color: var(--vfa-color-forest-dark);
+    margin: 0.6em 0 0;
+    font-size: 0.9em;
+}
+
+.error {
+    color: var(--vfa-color-error-dark);
+    margin: 0.6em 0 0;
+    font-size: 0.9em;
+}
+
+.honeypot {
+    position: absolute;
+    left: -5000px;
+}
