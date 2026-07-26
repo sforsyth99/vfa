@@ -83,7 +83,7 @@ function ScheduleTable({ events, showHost = false }: { events: FestivalEvent[]; 
   );
 }
 
-export function EventSchedule() {
+export function EventSchedule({ hideKidfest = false, hidePast = false }: { hideKidfest?: boolean; hidePast?: boolean }) {
   const intl = useIntl();
   const { data: events, isLoading, isError } = useGetFestivalEvents();
 
@@ -123,7 +123,7 @@ export function EventSchedule() {
           <ScheduleTable events={regular} />
         </div>
       )}
-      {kidfest.length > 0 && (
+      {!hideKidfest && kidfest.length > 0 && (
         <div className={styles.scheduleSection}>
           <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.kidfest" /></h2>
           <ScheduleTable events={kidfest} />
@@ -136,44 +136,41 @@ export function EventSchedule() {
         </div>
       )}
       {online.length > 0 && (
-        <div className={styles.scheduleSection}>
-          <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.onlineEvents" /></h2>
-          <p className={styles.scheduleIntro}><FormattedMessage id="home.schedule.onlineIntro" /></p>
-          <table className={styles.scheduleTable}>
-            <thead>
-              <tr>
-                <th scope="col">{dateLabel}</th>
-                <th scope="col">{timeLabel}</th>
-                <th scope="col">{eventLabel}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {online.map((event) => {
-                const { event_date, time_start, time_end } = event.event_data;
-                const timeStr = time_start
-                  ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
-                  : '';
-                return (
-                  <tr key={event.id}>
-                    <td className={styles.scheduleDate} data-label={dateLabel}>
-                      {event_date
-                        ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
-                        : '—'}
-                    </td>
-                    <td className={styles.scheduleTime} data-label={timeLabel}>{timeStr || '—'}</td>
-                    <td className={styles.scheduleName} data-label={eventLabel}>
-                      <Link to={`/festival-events/${event.slug}`}>
-                        {decodeHtmlEntities(event.title?.rendered ?? '')}
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+        <div className={styles.onlineSection}>
+          <div className={styles.onlineCta}>
+            <p className={styles.onlineCtaHeading}><FormattedMessage id="home.schedule.onlineCta" /></p>
+            <p className={styles.onlineCtaIntro}><FormattedMessage id="home.schedule.onlineIntro" /></p>
+          </div>
+          <ul className={styles.onlineList}>
+            {online.map((event) => {
+              const { event_date, time_start, time_end, online_url } = event.event_data;
+              const dateStr = event_date
+                ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
+                : '';
+              const timeStr = time_start
+                ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
+                : '';
+              const title = decodeHtmlEntities(event.title?.rendered ?? '');
+              return (
+                <li key={event.id} className={styles.onlineEvent}>
+                  <div className={styles.onlineEventMeta}>
+                    {[dateStr, timeStr].filter(Boolean).join(' · ')}
+                  </div>
+                  <Link to={`/festival-events/${event.slug}`} className={styles.onlineEventTitle}>
+                    {title}
+                  </Link>
+                  {online_url && (
+                    <a href={online_url} target="_blank" rel="noopener noreferrer" className={styles.onlineEventJoin}>
+                      <FormattedMessage id="home.schedule.joinOnline" />
+                    </a>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       )}
-      {past.length > 0 && (
+      {!hidePast && past.length > 0 && (
         <div className={styles.scheduleSection}>
           <h2 className={styles.scheduleHeading}><FormattedMessage id="home.schedule.past" /></h2>
           <ScheduleTable events={past} />

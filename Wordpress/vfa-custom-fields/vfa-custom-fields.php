@@ -88,6 +88,7 @@ add_action('rest_api_init', function() {
             'curator_years'   => array_map('intval', get_post_meta($post_id, 'curator_years', false)),
             'musician_years'  => array_map('intval', get_post_meta($post_id, 'musician_years', false)),
             'kidfest_years'   => array_map('intval', get_post_meta($post_id, 'kidfest_years', false)),
+            'elder_years'     => array_map('intval', get_post_meta($post_id, 'elder_years', false)),
             'kidfest_photo'  => wp_get_attachment_image_src(
                                     get_post_meta($post_id, 'kidfest_photo', true),
                                     'medium'
@@ -199,6 +200,7 @@ add_action('rest_api_init', function() {
             $id = $post['id'];
             $author_ids = get_post_meta($id, 'authors', false);
             return [
+                'is_featured'  => (bool) get_post_meta($id, 'is_featured', true),
                 'is_kidfest'   => (bool) get_post_meta($id, 'is_kidfest', true),
                 'event_type'   => get_post_meta($id, 'event_type', true) ?: 'conversation',
                 'hosts'        => array_values(array_filter(array_map(

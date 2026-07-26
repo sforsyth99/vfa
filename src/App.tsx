@@ -15,6 +15,7 @@ import PersonPage from './pages/Person/Person';
 import FestivalEventPage from './pages/FestivalEvent/FestivalEvent';
 import VenuePage from './pages/Venue/Venue';
 import BookPage from './pages/Book/Book';
+import KidsFest2026Page from './pages/KidsFest2026/KidsFest2026';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/festival-events/:slug" element={<FestivalEventPage />} />
           <Route path="/venues/:slug" element={<VenuePage />} />
           <Route path="/books/:slug" element={<BookPage />} />
+          <Route path="/kidsfest2026" element={<KidsFest2026Page />} />
         </Routes>
       </ErrorBoundary>
       <Footer />

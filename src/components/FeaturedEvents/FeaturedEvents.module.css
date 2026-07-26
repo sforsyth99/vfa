@@ -1,0 +1,147 @@
+.section {
+    background: var(--vfa-color-warm-bg);
+    border-top: 1px solid var(--vfa-color-warm-border-light);
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    padding: 3rem 0;
+}
+
+.inner {
+    max-width: var(--vfa-width-site);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.eyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-indigo);
+    margin: 0 0 0.5rem;
+}
+
+.heading {
+    font-family: var(--vfa-font-display);
+    font-size: 1.6rem;
+    font-weight: var(--vfa-font-weight-bold);
+    margin: 0 0 1.75rem;
+    line-height: var(--vfa-line-height-tight);
+    color: var(--vfa-color-ink-darkest);
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.card {
+    background: var(--vfa-color-surface);
+    border: 1px solid var(--vfa-color-warm-border-light);
+    border-left: 4px solid var(--vfa-color-2026-indigo);
+    border-radius: var(--vfa-radius-card);
+    padding: 1.5rem 1.75rem;
+    box-shadow: var(--vfa-shadow-card);
+}
+
+.cardMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    align-items: baseline;
+    margin-bottom: 0.6rem;
+}
+
+.cardDate {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-2026-indigo);
+}
+
+.cardTime {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+    font-variant-numeric: tabular-nums;
+}
+
+.cardVenue {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+}
+
+.cardVenue::before {
+    content: '·';
+    margin-right: 1.25rem;
+    color: var(--vfa-color-warm-border-light);
+}
+
+.cardPrice {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-darkest);
+    background: var(--vfa-color-warm-border-faint);
+    border-radius: var(--vfa-radius-pill);
+    padding: 0.15em 0.75em;
+}
+
+.cardTitle {
+    font-family: var(--vfa-font-display);
+    font-size: 1.25rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    margin: 0 0 0.5rem;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.cardTitle a {
+    color: var(--vfa-color-ink-darkest);
+    text-decoration: none;
+}
+
+.cardTitle a:hover {
+    color: var(--vfa-color-2026-indigo);
+    text-decoration: underline;
+}
+
+.cardSummary {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-dark);
+    line-height: var(--vfa-line-height-body);
+    margin: 0 0 1rem;
+}
+
+.cardCta {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-2026-indigo);
+    text-decoration: none;
+}
+
+.cardCta:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+    .section {
+        padding: 2rem 0;
+    }
+
+    .inner {
+        padding: 0 1.25rem;
+    }
+
+    .card {
+        padding: 1.25rem 1.25rem;
+    }
+
+    .cardMeta {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .cardVenue::before {
+        display: none;
+    }
+}

@@ -20,6 +20,7 @@ export interface PersonData {
   curator_years: number[];
   musician_years: number[];
   kidfest_years: number[];
+  elder_years: number[];
   kidfest_photo: [string, number, number, boolean] | false;
 }
 
