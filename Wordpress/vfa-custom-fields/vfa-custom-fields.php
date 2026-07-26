@@ -197,8 +197,39 @@ add_action('rest_api_init', function() {
 
     register_rest_field('festival_events', 'event_data', [
         'get_callback' => function($post) {
-            $id = $post['id'];
-            $author_ids = get_post_meta($id, 'authors', false);
+            $id         = $post['id'];
+            $author_ids = array_map('intval', array_filter(get_post_meta($id, 'authors', false)));
+
+            // Look up 2026 books for each author in one query, grouped by author ID.
+            $author_books = [];
+            if (!empty($author_ids)) {
+                $book_posts = get_posts([
+                    'post_type'      => 'books',
+                    'posts_per_page' => -1,
+                    'post_status'    => 'publish',
+                    'meta_query'     => [
+                        ['key' => 'festival_year', 'value' => date('Y'), 'compare' => '=', 'type' => 'NUMERIC'],
+                    ],
+                ]);
+                foreach ($book_posts as $book_post) {
+                    $book_author_ids = array_map('intval', get_post_meta($book_post->ID, 'authors', false));
+                    $cover = wp_get_attachment_image_src(
+                                 get_post_meta($book_post->ID, 'cover_image', true), 'large'
+                             );
+                    $entry = ['id' => $book_post->ID, 'title' => $book_post->post_title, 'cover' => $cover ?: null];
+                    foreach (array_intersect($book_author_ids, $author_ids) as $matched_id) {
+                        $author_books[$matched_id][] = $entry;
+                    }
+                }
+            }
+
+            $authors = array_values(array_filter(array_map(function($author_id) use ($author_books) {
+                $person = vfa_get_person_data($author_id);
+                if (!$person) return null;
+                $person['books'] = $author_books[$author_id] ?? [];
+                return $person;
+            }, $author_ids)));
+
             return [
                 'is_featured'  => (bool) get_post_meta($id, 'is_featured', true),
                 'is_kidfest'   => (bool) get_post_meta($id, 'is_kidfest', true),
@@ -207,23 +238,21 @@ add_action('rest_api_init', function() {
                                       'vfa_get_person_data', get_post_meta($id, 'hosts', false)
                                   ))),
                 'hosted_by'    => get_post_meta($id, 'hosted_by', true),
-                'age_range'   => get_post_meta($id, 'age_range', true),
-                'extra_info'  => get_post_meta($id, 'extra_info', true),
-                'summary'     => get_post_meta($id, 'summary', true),
-                'event_date'  => get_post_meta($id, 'event_date', true),
-                'time_start'       => get_post_meta($id, 'time_start', true),
-                'time_end'         => get_post_meta($id, 'time_end', true),
-                'event_image' => wp_get_attachment_image_src(
-                                     get_post_meta($id, 'event_image', true),
-                                     'large'
-                                 ),
+                'age_range'    => get_post_meta($id, 'age_range', true),
+                'extra_info'   => get_post_meta($id, 'extra_info', true),
+                'summary'      => get_post_meta($id, 'summary', true),
+                'event_date'   => get_post_meta($id, 'event_date', true),
+                'time_start'   => get_post_meta($id, 'time_start', true),
+                'time_end'     => get_post_meta($id, 'time_end', true),
+                'event_image'  => wp_get_attachment_image_src(
+                                      get_post_meta($id, 'event_image', true), 'large'
+                                  ),
                 'eventbrite_image' => wp_get_attachment_image_src(
-                                          get_post_meta($id, 'eventbrite_image', true),
-                                          'large'
+                                          get_post_meta($id, 'eventbrite_image', true), 'large'
                                       ),
-                'description' => get_post_meta($id, 'description', true),
-                'venue'          => vfa_get_venue_data(get_post_meta($id, 'venue', true)),
-                'online_url'     => get_post_meta($id, 'online_url', true),
+                'description'  => get_post_meta($id, 'description', true),
+                'venue'        => vfa_get_venue_data(get_post_meta($id, 'venue', true)),
+                'online_url'   => get_post_meta($id, 'online_url', true),
                 'eventbrite_url' => get_post_meta($id, 'eventbrite_url', true),
                 'tickets' => (function() use ($id) {
                     $types  = get_post_meta($id, 'ticket_type', false);
@@ -239,18 +268,16 @@ add_action('rest_api_init', function() {
                         ];
                     }, range(0, $count - 1));
                 })(),
-                'authors'     => array_values(array_filter(array_map(
-                                     'vfa_get_person_data', $author_ids
-                                 ))),
-                'moderator'   => array_values(array_filter(array_map(
-                                     'vfa_get_person_data', get_post_meta($id, 'moderator', false)
-                                 ))),
-                'curator'     => array_values(array_filter(array_map(
-                                     'vfa_get_person_data', get_post_meta($id, 'curator', false)
-                                 ))),
-                'musician'    => array_values(array_filter(array_map(
-                                     'vfa_get_person_data', get_post_meta($id, 'musician', false)
-                                 ))),
+                'authors'   => $authors,
+                'moderator' => array_values(array_filter(array_map(
+                                   'vfa_get_person_data', get_post_meta($id, 'moderator', false)
+                               ))),
+                'curator'   => array_values(array_filter(array_map(
+                                   'vfa_get_person_data', get_post_meta($id, 'curator', false)
+                               ))),
+                'musician'  => array_values(array_filter(array_map(
+                                   'vfa_get_person_data', get_post_meta($id, 'musician', false)
+                               ))),
             ];
         },
         'schema' => null,

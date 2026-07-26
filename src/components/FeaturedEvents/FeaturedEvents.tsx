@@ -33,7 +33,7 @@ export function FeaturedEvents() {
         </h2>
         <ul className={styles.list}>
           {featured.map((event) => {
-            const { event_date, time_start, time_end, venue, summary, eventbrite_url, tickets } = event.event_data;
+            const { event_date, time_start, time_end, venue, summary, eventbrite_url, tickets, authors, event_image } = event.event_data;
             const inPersonTicket = tickets.find((t) => t.type === 'in_person');
             const rawPrice = inPersonTicket?.price;
             const price = rawPrice ? `$${rawPrice}` : 'Free';
@@ -46,27 +46,54 @@ export function FeaturedEvents() {
               ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
               : '';
             const title = decodeHtmlEntities(event.title?.rendered ?? '');
+            const ctaLabel = intl.formatMessage({ id: 'featured.details' });
             return (
               <li key={event.id} className={styles.card}>
-                <div className={styles.cardMeta}>
-                  {dateStr && <span className={styles.cardDate}>{dateStr}</span>}
-                  {timeStr && <span className={styles.cardTime}>{timeStr}</span>}
-                  {venue?.name && <span className={styles.cardVenue}>{venue.name}</span>}
-                  <span className={styles.cardPrice}>{price}</span>
+                <div className={styles.cardBody}>
+                  <div className={styles.cardMeta}>
+                    <div className={styles.cardMetaRow}>
+                      {dateStr && <span className={styles.cardDate}>{dateStr}</span>}
+                      {timeStr && <span className={styles.cardTime}>{timeStr}</span>}
+                    </div>
+                    <div className={styles.cardMetaRow}>
+                      {venue?.name && <span className={styles.cardVenue}>{venue.name}</span>}
+                      <span className={styles.cardPrice}>{price}</span>
+                    </div>
+                  </div>
+                  <h3 className={styles.cardTitle}>
+                    <Link to={`/festival-events/${event.slug}`}>{title}</Link>
+                  </h3>
+                  {summary && <p className={styles.cardSummary}>{summary}</p>}
+                  {eventbrite_url ? (
+                    <a href={eventbrite_url} target="_blank" rel="noopener noreferrer" className={styles.cardCta}>
+                      {ctaLabel}
+                    </a>
+                  ) : (
+                    <Link to={`/festival-events/${event.slug}`} className={styles.cardCta}>
+                      {ctaLabel}
+                    </Link>
+                  )}
                 </div>
-                <h3 className={styles.cardTitle}>
-                  <Link to={`/festival-events/${event.slug}`}>{title}</Link>
-                </h3>
-                {summary && <p className={styles.cardSummary}>{summary}</p>}
-                {eventbrite_url ? (
-                  <a href={eventbrite_url} target="_blank" rel="noopener noreferrer" className={styles.cardCta}>
-                    {intl.formatMessage({ id: 'featured.details' })}
-                  </a>
-                ) : (
-                  <Link to={`/festival-events/${event.slug}`} className={styles.cardCta}>
-                    {intl.formatMessage({ id: 'featured.details' })}
-                  </Link>
-                )}
+                {(() => {
+                  const bookCovers = authors.flatMap((a) => a.books ?? []).filter((b) => b.cover);
+                  const authorPhotos = authors.map((a) => ({ id: a.id, name: a.name, src: a.photo?.[0] })).filter((a) => a.src);
+                  if (bookCovers.length > 0 || authorPhotos.length > 0 || event_image) {
+                    return (
+                      <div className={styles.cardImagePanel}>
+                        {authorPhotos.map((a) => (
+                          <img key={a.id} src={a.src!} alt={a.name} className={styles.cardAuthorPhoto} />
+                        ))}
+                        {bookCovers.map((book) => (
+                          <img key={book.id} src={book.cover![0]} alt={book.title} className={styles.cardBookCover} />
+                        ))}
+                        {bookCovers.length === 0 && event_image && (
+                          <img src={event_image[0]} alt={title} className={styles.cardImage} />
+                        )}
+                      </div>
+                    );
+                  }
+                  return null;
+                })()}
               </li>
             );
           })}

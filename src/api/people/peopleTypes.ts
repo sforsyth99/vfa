@@ -22,6 +22,7 @@ export interface PersonData {
   kidfest_years: number[];
   elder_years: number[];
   kidfest_photo: [string, number, number, boolean] | false;
+  books?: { id: number; title: string; cover: [string, number, number, boolean] | null }[];
 }
 
 export interface Person {

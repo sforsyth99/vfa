@@ -38,21 +38,39 @@
     gap: 1.25rem;
 }
 
+/* ── Card ─────────────────────────────────────────────── */
+
 .card {
     background: var(--vfa-color-surface);
     border: 1px solid var(--vfa-color-warm-border-light);
     border-left: 4px solid var(--vfa-color-2026-indigo);
     border-radius: var(--vfa-radius-card);
-    padding: 1.5rem 1.75rem;
     box-shadow: var(--vfa-shadow-card);
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
 }
+
+.cardBody {
+    flex: 1;
+    min-width: 0;
+    padding: 1.5rem 1.75rem;
+}
+
+/* ── Meta row ─────────────────────────────────────────── */
 
 .cardMeta {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.25rem;
-    align-items: baseline;
+    flex-direction: column;
+    gap: 0.3rem;
     margin-bottom: 0.6rem;
+}
+
+.cardMetaRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 1rem;
 }
 
 .cardDate {
@@ -72,12 +90,6 @@
     color: var(--vfa-color-ink-mid);
 }
 
-.cardVenue::before {
-    content: '·';
-    margin-right: 1.25rem;
-    color: var(--vfa-color-warm-border-light);
-}
-
 .cardPrice {
     font-size: var(--vfa-font-size-sm);
     font-weight: var(--vfa-font-weight-semibold);
@@ -87,11 +99,13 @@
     padding: 0.15em 0.75em;
 }
 
+/* ── Title ────────────────────────────────────────────── */
+
 .cardTitle {
     font-family: var(--vfa-font-display);
     font-size: 1.25rem;
     font-weight: var(--vfa-font-weight-semibold);
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.85rem;
     line-height: var(--vfa-line-height-tight);
 }
 
@@ -104,6 +118,21 @@
     color: var(--vfa-color-2026-indigo);
     text-decoration: underline;
 }
+
+/* ── Author photo (in image panel) ───────────────────── */
+
+.cardAuthorPhoto {
+    height: 160px;
+    width: auto;
+    object-fit: cover;
+    object-position: top;
+    border-radius: var(--vfa-radius-sm);
+    box-shadow: var(--vfa-shadow-md);
+    flex-shrink: 0;
+    display: block;
+}
+
+/* ── Summary + CTA ────────────────────────────────────── */
 
 .cardSummary {
     font-size: var(--vfa-font-size-sm);
@@ -123,6 +152,39 @@
     text-decoration: underline;
 }
 
+/* ── Right image panel ────────────────────────────────── */
+
+.cardImagePanel {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem 1.25rem 0;
+    background: transparent;
+}
+
+.cardBookCover {
+    height: 160px;
+    width: auto;
+    border-radius: var(--vfa-radius-sm);
+    box-shadow: var(--vfa-shadow-md);
+    display: block;
+    flex-shrink: 0;
+}
+
+.cardImage {
+    height: 160px;
+    width: auto;
+    max-width: 140px;
+    object-fit: cover;
+    border-radius: var(--vfa-radius-sm);
+    box-shadow: var(--vfa-shadow-md);
+    display: block;
+}
+
+/* ── Mobile ───────────────────────────────────────────── */
+
 @media (max-width: 640px) {
     .section {
         padding: 2rem 0;
@@ -133,15 +195,26 @@
     }
 
     .card {
+        flex-direction: column-reverse;
+    }
+
+    .cardBody {
         padding: 1.25rem 1.25rem;
     }
 
-    .cardMeta {
-        flex-direction: column;
-        gap: 0.2rem;
+    .cardImagePanel {
+        width: 100%;
+        padding: 0 1.25rem 1rem;
+        justify-content: flex-start;
     }
 
-    .cardVenue::before {
-        display: none;
+    .cardAuthorPhoto,
+    .cardBookCover,
+    .cardImage {
+        height: 120px;
+    }
+
+    .cardMeta {
+        gap: 0.2rem;
     }
 }
