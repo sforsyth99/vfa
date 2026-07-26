@@ -61,16 +61,16 @@
     --vfa-transition-base: 0.2s;
 
     /* ── Colors: primary ─────────────────────────────────── */
-    --vfa-color-primary: #1a5cff;
-    --vfa-color-primary-dark: #174bb3;
+    --vfa-color-primary: #1d3d2f;
+    --vfa-color-primary-dark: #153028;
     --vfa-color-secondary: #f8f8f8;
     --vfa-color-background: #f8f8f8;
     --vfa-color-surface: #fff;
     --vfa-color-text: #222;
     --vfa-color-text-light: #fff;
     --vfa-color-border: #ccc;
-    --vfa-color-link: #1a5cff;
-    --vfa-color-link-hover: #174bb3;
+    --vfa-color-link: #1d3d2f;
+    --vfa-color-link-hover: #153028;
     --vfa-color-accent: #ffe066;
     --vfa-color-error: #e53935;
     --vfa-color-success: #43a047;
@@ -89,6 +89,11 @@
     --vfa-color-forest-light: #b8cebb;     /* light borders */
     --vfa-color-forest-pale: #d4e0d6;      /* tag borders, card borders */
     --vfa-color-forest-bg: #eef3ef;        /* footer, card backgrounds */
+
+    /* ── Colors: 2026 festival palette ──────────────────── */
+    --vfa-color-2026-indigo: #2a1f45;
+    --vfa-color-2026-indigo-mid: #3d2f5e;
+    --vfa-color-2026-gold: #c4a882;
 
     /* ── Colors: event card ──────────────────────────────── */
     --vfa-color-event-blue: #4a6dcc;

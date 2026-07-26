@@ -22,7 +22,7 @@
 .post {
   display: block;
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   border-radius: var(--vfa-radius-card);
 }

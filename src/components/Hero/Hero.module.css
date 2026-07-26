@@ -1,0 +1,18 @@
+.hero {
+  width: 100%;
+  background: var(--vfa-color-2026-indigo);
+  line-height: 0;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .image {
+    min-height: 120px;
+    object-fit: cover;
+  }
+}
