@@ -14,6 +14,7 @@ export interface PersonData {
   bio: string;
   website_url: string;
   photo: [string, number, number, boolean] | false;
+  photo_square: [string, number, number, boolean] | false | null;
   author_years: number[];
   moderator_years: number[];
   curator_years: number[];

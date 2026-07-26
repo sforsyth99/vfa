@@ -1,4 +1,4 @@
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import styles from './AllContent2026.module.css';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
@@ -27,17 +27,26 @@ function InterviewsList() {
 
   return (
     <div className={styles.section}>
-      <SectionTitle><FormattedMessage id="home.interviews.heading" /></SectionTitle>
+      <SectionTitle>
+        <FormattedMessage id="home.interviews.heading" />
+      </SectionTitle>
       <ul className={styles.interviewList}>
         {preview.map((interview) => {
           const data = interview.interview_data;
           const cover = data?.book_cover;
           const authors = data?.authors ?? [];
           const primaryAuthor = authors[0];
-          const authorLabel = authors.length > 0
-            ? authors.map(a => a.name).join(' & ')
-            : decodeHtmlEntities(interview.title?.rendered ?? '');
-          const initials = authorLabel.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+          const authorLabel =
+            authors.length > 0
+              ? authors.map((a) => a.name).join(' & ')
+              : decodeHtmlEntities(interview.title?.rendered ?? '');
+          const initials = authorLabel
+            .trim()
+            .split(/\s+/)
+            .map((w) => w[0])
+            .join('')
+            .slice(0, 2)
+            .toUpperCase();
           const rawText = (data?.intro || data?.question?.[0] || '').replace(/<[^>]+>/g, '').trim();
           const snippet = rawText.slice(0, 55);
           const isMissing = !snippet;
@@ -46,19 +55,34 @@ function InterviewsList() {
             <li key={interview.id}>
               <Link to={`/interviews/${interview.slug}`} className={styles.interviewItem}>
                 <div className={styles.interviewAuthorPhoto}>
-                  {primaryAuthor?.photo
-                    ? <img src={primaryAuthor.photo[0]} alt="" aria-hidden="true" loading="lazy" />
-                    : <div className={styles.interviewAuthorPlaceholder} aria-hidden="true">{initials}</div>
-                  }
+                  {primaryAuthor?.photo ? (
+                    <img src={primaryAuthor.photo[0]} alt="" aria-hidden="true" loading="lazy" />
+                  ) : (
+                    <div className={styles.interviewAuthorPlaceholder} aria-hidden="true">
+                      {initials}
+                    </div>
+                  )}
                 </div>
-                {cover
-                  ? <img src={cover[0]} alt="" className={styles.interviewCover} loading="lazy" />
-                  : <div className={styles.interviewCoverPlaceholder} aria-hidden="true" />
-                }
+                {cover ? (
+                  <img src={cover[0]} alt="" className={styles.interviewCover} loading="lazy" />
+                ) : (
+                  <div className={styles.interviewCoverPlaceholder} aria-hidden="true" />
+                )}
                 <div className={styles.interviewItemText}>
                   <span className={styles.interviewItemName}>{authorLabel}</span>
-                  <span className={isMissing ? styles.interviewItemMissing : styles.interviewItemSnippet}>
-                    {isMissing ? 'No content yet.' : <>{snippet}{rawText.length > 55 ? '…' : ''}</>}
+                  <span
+                    className={
+                      isMissing ? styles.interviewItemMissing : styles.interviewItemSnippet
+                    }
+                  >
+                    {isMissing ? (
+                      'No content yet.'
+                    ) : (
+                      <>
+                        {snippet}
+                        {rawText.length > 55 ? '…' : ''}
+                      </>
+                    )}
                   </span>
                 </div>
               </Link>
@@ -84,7 +108,13 @@ function bySurname(a: { name: string }, b: { name: string }): number {
 }
 
 function nameInitials(name: string): string {
-  return name.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  return name
+    .trim()
+    .split(/\s+/)
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 }
 
 function AuthorPhotoGrid({
@@ -93,25 +123,46 @@ function AuthorPhotoGrid({
   kids = false,
 }: {
   headingId: string;
-  authors: { id: number; slug?: string; name: string; photo: [string, number, number, boolean] | false | null }[];
+  authors: {
+    id: number;
+    slug?: string;
+    name: string;
+    photo: [string, number, number, boolean] | false | null;
+    photo_square: [string, number, number, boolean] | false | null;
+  }[];
   kids?: boolean;
 }) {
   const sorted = [...authors].sort(bySurname);
   return (
     <div className={styles.section}>
-      <SectionTitle><FormattedMessage id={headingId} /></SectionTitle>
+      <SectionTitle>
+        <FormattedMessage id={headingId} />
+      </SectionTitle>
       <div className={styles.authorGrid}>
-        {sorted.map((author) => (
-          <Link key={author.id} to={`/people/${author.slug}`} className={kids ? styles.kidsAuthorPhoto : styles.authorPhoto}>
-            {author.photo
-              ? <img src={author.photo[0]} alt="" aria-hidden="true" loading="lazy" />
-              : <div className={kids ? styles.kidsAuthorPhotoPlaceholder : styles.authorPhotoPlaceholder} aria-hidden="true">
+        {sorted.map((author) => {
+          const photoSrc = kids ? author.photo : author.photo_square;
+          return (
+            <Link
+              key={author.id}
+              to={`/people/${author.slug}`}
+              className={kids ? styles.kidsAuthorPhoto : styles.authorPhoto}
+            >
+              {photoSrc ? (
+                <img src={photoSrc[0]} alt="" aria-hidden="true" loading="lazy" />
+              ) : (
+                <div
+                  className={
+                    kids ? styles.kidsAuthorPhotoPlaceholder : styles.authorPhotoPlaceholder
+                  }
+                  aria-hidden="true"
+                >
                   {nameInitials(author.name)}
                 </div>
-            }
-            <span className={styles.authorName}>{author.name}</span>
-          </Link>
-        ))}
+              )}
+              <span className={styles.authorName}>{author.name}</span>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
@@ -146,11 +197,17 @@ function BookCoverGrid({ books }: { books: Book[] }) {
         const cover = book.book_data?.cover_image;
         const title = decodeHtmlEntities(book.title?.rendered ?? '');
         return (
-          <BookLink key={book.id} slug={book.slug} munrosUrl={book.book_data?.munros_url} className={styles.bookCover}>
-            {cover
-              ? <img src={cover[0]} alt="" aria-hidden="true" loading="lazy" />
-              : <div className={styles.bookCoverPlaceholder} aria-hidden="true" />
-            }
+          <BookLink
+            key={book.id}
+            slug={book.slug}
+            munrosUrl={book.book_data?.munros_url}
+            className={styles.bookCover}
+          >
+            {cover ? (
+              <img src={cover[0]} alt="" aria-hidden="true" loading="lazy" />
+            ) : (
+              <div className={styles.bookCoverPlaceholder} aria-hidden="true" />
+            )}
             <p className={styles.bookCoverTitle}>{title}</p>
           </BookLink>
         );
@@ -171,7 +228,9 @@ function RegularBooksList() {
 
   return (
     <div className={styles.section}>
-      <SectionTitle><FormattedMessage id="home.books.heading" /></SectionTitle>
+      <SectionTitle>
+        <FormattedMessage id="home.books.heading" />
+      </SectionTitle>
       <BookCoverGrid books={filtered} />
     </div>
   );
@@ -187,7 +246,9 @@ function KidsBooksList() {
 
   return (
     <div className={styles.section}>
-      <SectionTitle><FormattedMessage id="home.kidsBooks.heading" /></SectionTitle>
+      <SectionTitle>
+        <FormattedMessage id="home.kidsBooks.heading" />
+      </SectionTitle>
       <BookCoverGrid books={filtered} />
     </div>
   );
@@ -202,11 +263,20 @@ function HostsAndModerators() {
   }
 
   const seen = new Set<number>();
-  const people: { id: number; slug?: string; name: string; photo: [string, number, number, boolean] | false | null }[] = [];
+  const people: {
+    id: number;
+    slug?: string;
+    name: string;
+    photo: [string, number, number, boolean] | false | null;
+    photo_square: [string, number, number, boolean] | false | null;
+  }[] = [];
 
-  for (const event of (events ?? [])) {
+  for (const event of events ?? []) {
     for (const person of [...event.event_data.hosts, ...event.event_data.moderator]) {
-      if (!seen.has(person.id)) { seen.add(person.id); people.push(person); }
+      if (!seen.has(person.id)) {
+        seen.add(person.id);
+        people.push(person);
+      }
     }
   }
 
@@ -239,11 +309,17 @@ function SupportingPersonBioSnippets() {
     if (existing) {
       if (!existing.roles.includes(role)) existing.roles.push(role);
     } else {
-      seen.set(person.id, { id: person.id, slug: person.slug, name: person.name, bio: person.bio, roles: [role] });
+      seen.set(person.id, {
+        id: person.id,
+        slug: person.slug,
+        name: person.name,
+        bio: person.bio,
+        roles: [role],
+      });
     }
   };
 
-  for (const event of (events ?? [])) {
+  for (const event of events ?? []) {
     event.event_data.moderator.forEach((p) => addPerson(p, 'moderator'));
     event.event_data.curator.forEach((p) => addPerson(p, 'curator'));
     event.event_data.musician.forEach((p) => addPerson(p, 'musician'));
@@ -255,14 +331,16 @@ function SupportingPersonBioSnippets() {
 
   const roleLabel: Record<SupportRole, string> = {
     moderator: intl.formatMessage({ id: 'home.supportingBios.role.moderator' }),
-    curator:   intl.formatMessage({ id: 'home.supportingBios.role.curator' }),
-    musician:  intl.formatMessage({ id: 'home.supportingBios.role.musician' }),
-    host:      intl.formatMessage({ id: 'home.supportingBios.role.host' }),
+    curator: intl.formatMessage({ id: 'home.supportingBios.role.curator' }),
+    musician: intl.formatMessage({ id: 'home.supportingBios.role.musician' }),
+    host: intl.formatMessage({ id: 'home.supportingBios.role.host' }),
   };
 
   return (
     <div className={styles.section}>
-      <SectionTitle><FormattedMessage id="home.supportingBios.heading" /></SectionTitle>
+      <SectionTitle>
+        <FormattedMessage id="home.supportingBios.heading" />
+      </SectionTitle>
       <table className={styles.authorBioTable}>
         <tbody>
           {people.map((person) => {
@@ -271,19 +349,26 @@ function SupportingPersonBioSnippets() {
             return (
               <tr key={person.id}>
                 <th scope="row" className={styles.authorBioName}>
-                  {person.slug
-                    ? <Link to={`/people/${person.slug}`}>{person.name}</Link>
-                    : person.name
-                  }
+                  {person.slug ? (
+                    <Link to={`/people/${person.slug}`}>{person.name}</Link>
+                  ) : (
+                    person.name
+                  )}
                   <span className={styles.authorBioRoles}>
                     {person.roles.map((r) => roleLabel[r]).join(', ')}
                   </span>
                 </th>
                 <td className={styles.authorBioSnippet}>
-                  {snippet
-                    ? <>{snippet}{plainBio.length > 50 ? '…' : ''}</>
-                    : <span className={styles.authorBioMissing}><FormattedMessage id="home.supportingBios.noBio" /></span>
-                  }
+                  {snippet ? (
+                    <>
+                      {snippet}
+                      {plainBio.length > 50 ? '…' : ''}
+                    </>
+                  ) : (
+                    <span className={styles.authorBioMissing}>
+                      <FormattedMessage id="home.supportingBios.noBio" />
+                    </span>
+                  )}
                 </td>
               </tr>
             );
@@ -306,7 +391,9 @@ function AuthorBioSnippets() {
 
   return (
     <div className={styles.section}>
-      <SectionTitle><FormattedMessage id="home.authorBios.heading" /></SectionTitle>
+      <SectionTitle>
+        <FormattedMessage id="home.authorBios.heading" />
+      </SectionTitle>
       <table className={styles.authorBioTable}>
         <tbody>
           {sorted.map((author) => {
@@ -318,10 +405,16 @@ function AuthorBioSnippets() {
                   <Link to={`/people/${author.slug}`}>{author.name}</Link>
                 </th>
                 <td className={styles.authorBioSnippet}>
-                  {snippet
-                    ? <>{snippet}{plainBio.length > 50 ? '…' : ''}</>
-                    : <span className={styles.authorBioMissing}><FormattedMessage id="home.authorBios.noBio" /></span>
-                  }
+                  {snippet ? (
+                    <>
+                      {snippet}
+                      {plainBio.length > 50 ? '…' : ''}
+                    </>
+                  ) : (
+                    <span className={styles.authorBioMissing}>
+                      <FormattedMessage id="home.authorBios.noBio" />
+                    </span>
+                  )}
                 </td>
               </tr>
             );
@@ -335,10 +428,18 @@ function AuthorBioSnippets() {
 function Hero() {
   return (
     <div className={styles.hero}>
-      <p className={styles.heroEyebrow}><FormattedMessage id="home.hero.eyebrow" /></p>
-      <h1 className={styles.heroTitle}><FormattedMessage id="home.hero.title" /></h1>
-      <p className={styles.heroSubtitle}><FormattedMessage id="home.hero.subtitle" /></p>
-      <p className={styles.heroKidfest}><FormattedMessage id="home.hero.kidfest" /></p>
+      <p className={styles.heroEyebrow}>
+        <FormattedMessage id="home.hero.eyebrow" />
+      </p>
+      <h1 className={styles.heroTitle}>
+        <FormattedMessage id="home.hero.title" />
+      </h1>
+      <p className={styles.heroSubtitle}>
+        <FormattedMessage id="home.hero.subtitle" />
+      </p>
+      <p className={styles.heroKidfest}>
+        <FormattedMessage id="home.hero.kidfest" />
+      </p>
     </div>
   );
 }
