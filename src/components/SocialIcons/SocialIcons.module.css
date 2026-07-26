@@ -14,7 +14,7 @@
     width: 40px;
     height: 40px;
     border-radius: var(--vfa-radius-circle);
-    background: var(--vfa-color-social-icon-bg);
+    background: rgba(255, 255, 255, 0.12);
     color: var(--vfa-color-text-light);
     transition: background var(--vfa-transition-base), transform 0.15s;
 }

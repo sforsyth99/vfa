@@ -161,7 +161,8 @@
   "event.inPerson": "In-Person Event",
   "event.location": "Location",
 
-  "hero.alt": "Victoria Festival of Authors — October 12–18, 2026. Silhouettes of readers beneath a starlit sky.",
+  "hero.heading": "Victoria Festival of Authors — October 12–18, 2026",
+  "hero.imageAlt": "Silhouettes of readers relaxing beneath a starlit night sky",
 
   "instagram.heading": "Latest on Instagram",
   "instagram.postLinkLabel": "View Instagram post: {caption}",

@@ -63,8 +63,8 @@
     /* ── Colors: primary ─────────────────────────────────── */
     --vfa-color-primary: #1d3d2f;
     --vfa-color-primary-dark: #153028;
-    --vfa-color-secondary: #f8f8f8;
-    --vfa-color-background: #f8f8f8;
+    --vfa-color-secondary: #f0ece8;
+    --vfa-color-background: #f0ece8;
     --vfa-color-surface: #fff;
     --vfa-color-text: #222;
     --vfa-color-text-light: #fff;
@@ -91,9 +91,13 @@
     --vfa-color-forest-bg: #eef3ef;        /* footer, card backgrounds */
 
     /* ── Colors: 2026 festival palette ──────────────────── */
-    --vfa-color-2026-indigo: #2a1f45;
-    --vfa-color-2026-indigo-mid: #3d2f5e;
+    --vfa-color-2026-indigo: #3f2d5a;
+    --vfa-color-2026-indigo-mid: #5a4470;
     --vfa-color-2026-gold: #c4a882;
+    --vfa-color-2026-gold-dark: #a98e6a;
+
+    /* ── Colors: footer ──────────────────────────────────── */
+    --vfa-color-footer-bg: var(--vfa-color-2026-indigo);
 
     /* ── Colors: event card ──────────────────────────────── */
     --vfa-color-event-blue: #4a6dcc;
@@ -107,7 +111,7 @@
     --vfa-color-warm-card-bg: #d6d0c8;         /* BlurImageCard background */
 
     /* ── Colors: UI surfaces & misc ─────────────────────── */
-    --vfa-color-bg-page: #f8f8f8;
+    --vfa-color-bg-page: #f0ece8;
     --vfa-color-bg-hover: #f0f0f0;
     --vfa-color-border-light: #ddd;
     --vfa-color-border-faint: #eee;

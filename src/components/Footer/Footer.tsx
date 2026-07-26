@@ -96,14 +96,14 @@ function Footer() {
             ))}
           </div>
         )}
-      </div>
-      <div className={styles.calfRow}>
-        <img
-          src={calfStampSrc}
-          alt={intl.formatMessage({ id: 'footer.calf.alt' })}
-          className={styles.calfStamp}
-          loading="lazy"
-        />
+        <div className={styles.calfWrapper}>
+          <img
+            src={calfStampSrc}
+            alt={intl.formatMessage({ id: 'footer.calf.alt' })}
+            className={styles.calfStamp}
+            loading="lazy"
+          />
+        </div>
       </div>
       <p className={styles.footerText}>
         <FormattedMessage id="footer.landAcknowledgement" />

@@ -6,9 +6,10 @@ export function Hero() {
   const intl = useIntl();
   return (
     <div className={styles.hero}>
+      <h1 className="sr-only">{intl.formatMessage({ id: 'hero.heading' })}</h1>
       <img
         src={heroImage}
-        alt={intl.formatMessage({ id: 'hero.alt' })}
+        alt={intl.formatMessage({ id: 'hero.imageAlt' })}
         className={styles.image}
       />
     </div>
