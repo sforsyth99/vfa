@@ -159,5 +159,10 @@
   "event.buyTickets": "Buy Tickets",
   "event.online": "Online Event",
   "event.inPerson": "In-Person Event",
-  "event.location": "Location"
+  "event.location": "Location",
+
+  "instagram.heading": "Latest on Instagram",
+  "instagram.postLinkLabel": "View Instagram post: {caption}",
+  "instagram.viewPost": "View post",
+  "instagram.viewMore": "See more @{handle} on Instagram →"
 }
