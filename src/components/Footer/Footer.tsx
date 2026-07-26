@@ -80,6 +80,7 @@ function Footer() {
             src={titleSponsorSrc}
             alt={intl.formatMessage({ id: 'footer.sponsor.titleAlt' })}
             className={styles.titleSponsorLogo}
+            loading="lazy"
           />
         </div>
         {sponsorLogos.length > 0 && (
@@ -90,6 +91,7 @@ function Footer() {
                 src={src}
                 alt={intl.formatMessage({ id: 'footer.sponsor.logoAlt' })}
                 className={styles.sponsorLogo}
+                loading="lazy"
               />
             ))}
           </div>
@@ -100,6 +102,7 @@ function Footer() {
           src={calfStampSrc}
           alt={intl.formatMessage({ id: 'footer.calf.alt' })}
           className={styles.calfStamp}
+          loading="lazy"
         />
       </div>
       <p className={styles.footerText}>

@@ -66,11 +66,12 @@ export function AuthorFeatureCard({
               src={photoSrc}
               alt={photoAlt}
               className={contain ? styles.authorPhotoContain : styles.authorPhoto}
+              loading="lazy"
             />
           </div>
         )}
         {bookCoverSrc && (
-          <img src={bookCoverSrc} alt={bookCoverAlt} className={styles.bookCover} />
+          <img src={bookCoverSrc} alt={bookCoverAlt} className={styles.bookCover} loading="lazy" />
         )}
       </div>
       <div className={styles.banner}>

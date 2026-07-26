@@ -47,12 +47,12 @@ function InterviewsList() {
               <Link to={`/interviews/${interview.slug}`} className={styles.interviewItem}>
                 <div className={styles.interviewAuthorPhoto}>
                   {primaryAuthor?.photo
-                    ? <img src={primaryAuthor.photo[0]} alt="" aria-hidden="true" />
+                    ? <img src={primaryAuthor.photo[0]} alt="" aria-hidden="true" loading="lazy" />
                     : <div className={styles.interviewAuthorPlaceholder} aria-hidden="true">{initials}</div>
                   }
                 </div>
                 {cover
-                  ? <img src={cover[0]} alt="" className={styles.interviewCover} />
+                  ? <img src={cover[0]} alt="" className={styles.interviewCover} loading="lazy" />
                   : <div className={styles.interviewCoverPlaceholder} aria-hidden="true" />
                 }
                 <div className={styles.interviewItemText}>
@@ -104,7 +104,7 @@ function AuthorPhotoGrid({
         {sorted.map((author) => (
           <Link key={author.id} to={`/people/${author.slug}`} className={kids ? styles.kidsAuthorPhoto : styles.authorPhoto}>
             {author.photo
-              ? <img src={author.photo[0]} alt="" aria-hidden="true" />
+              ? <img src={author.photo[0]} alt="" aria-hidden="true" loading="lazy" />
               : <div className={kids ? styles.kidsAuthorPhotoPlaceholder : styles.authorPhotoPlaceholder} aria-hidden="true">
                   {nameInitials(author.name)}
                 </div>
@@ -148,7 +148,7 @@ function BookCoverGrid({ books }: { books: Book[] }) {
         return (
           <BookLink key={book.id} slug={book.slug} munrosUrl={book.book_data?.munros_url} className={styles.bookCover}>
             {cover
-              ? <img src={cover[0]} alt="" aria-hidden="true" />
+              ? <img src={cover[0]} alt="" aria-hidden="true" loading="lazy" />
               : <div className={styles.bookCoverPlaceholder} aria-hidden="true" />
             }
             <p className={styles.bookCoverTitle}>{title}</p>

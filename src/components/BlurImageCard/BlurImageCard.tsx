@@ -9,8 +9,8 @@ interface Props {
 export function BlurImageCard({ src, alt, contain = false }: Props) {
   return (
     <div className={styles.card}>
-      <img src={src} alt="" className={styles.blurBg} aria-hidden="true" />
-      <img src={src} alt={alt} className={contain ? styles.imgContain : styles.img} />
+      <img src={src} alt="" className={styles.blurBg} aria-hidden="true" loading="lazy" />
+      <img src={src} alt={alt} className={contain ? styles.imgContain : styles.img} loading="lazy" />
     </div>
   );
 }

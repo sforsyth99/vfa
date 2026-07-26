@@ -23,6 +23,7 @@ function MediaPage() {
                   src={media.source_url}
                   alt={media.alt_text || media.title.rendered}
                   className={styles.mediaImg}
+                  loading="lazy"
                 />
               </div>
               <div>{media.caption.rendered && <span dangerouslySetInnerHTML={{ __html: media.caption.rendered }} />}</div>

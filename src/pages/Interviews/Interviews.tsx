@@ -80,12 +80,12 @@ export default function InterviewsPage() {
                 <Link to={`/interviews/${interview.slug}`} className={styles.item}>
                   <div className={styles.authorPhoto}>
                     {primaryAuthor?.photo
-                      ? <img src={primaryAuthor.photo[0]} alt="" aria-hidden="true" />
+                      ? <img src={primaryAuthor.photo[0]} alt="" aria-hidden="true" loading="lazy" />
                       : <div className={styles.authorPhotoPlaceholder} aria-hidden="true">{initials}</div>
                     }
                   </div>
                   {cover
-                    ? <img src={cover[0]} alt="" className={styles.cover} />
+                    ? <img src={cover[0]} alt="" className={styles.cover} loading="lazy" />
                     : <div className={styles.coverPlaceholder} aria-hidden="true" />
                   }
                   <div className={styles.itemText}>
