@@ -141,6 +141,19 @@
     margin: 0 0 1rem;
 }
 
+.cardInterviewLink {
+    display: block;
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+    text-decoration: none;
+    margin-bottom: 0.6rem;
+}
+
+.cardInterviewLink:hover {
+    color: var(--vfa-color-2026-indigo);
+    text-decoration: underline;
+}
+
 .cardCta {
     font-size: var(--vfa-font-size-sm);
     font-weight: var(--vfa-font-weight-semibold);
@@ -204,7 +217,7 @@
 
     .cardImagePanel {
         width: 100%;
-        padding: 0 1.25rem 1rem;
+        padding: 1.25rem 1.25rem 1rem;
         justify-content: flex-start;
     }
 
