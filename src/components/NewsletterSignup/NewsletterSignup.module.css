@@ -15,7 +15,7 @@
     display: flex;
     justify-content: flex-start;
     gap: 0.5em;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     position: relative;
 }
 
@@ -26,8 +26,8 @@
     background: var(--vfa-color-surface);
     color: var(--vfa-color-ink-darkest);
     font-size: 0.95em;
-    width: 260px;
-    max-width: 100%;
+    flex: 1;
+    min-width: 0;
     outline: none;
     transition: border-color 0.2s;
 }

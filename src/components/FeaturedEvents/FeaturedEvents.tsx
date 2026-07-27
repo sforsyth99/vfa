@@ -1,6 +1,7 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
+import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import styles from './FeaturedEvents.module.css';
 
@@ -14,8 +15,16 @@ function formatTime(t: string): string {
 export function FeaturedEvents() {
   const intl = useIntl();
   const { data: events, isLoading } = useGetFestivalEvents();
+  const { data: interviews } = useGetInterviews();
 
   if (isLoading) return null;
+
+  // Map author ID → their most recent interview (by festival year)
+  const interviewByAuthor = new Map(
+    (interviews ?? [])
+      .sort((a, b) => (b.interview_data.festival_year ?? 0) - (a.interview_data.festival_year ?? 0))
+      .flatMap((iv) => iv.interview_data.authors.map((author) => [author.id, iv] as const))
+  );
 
   const today = new Date().toISOString().slice(0, 10);
   const featured = (events ?? [])
@@ -64,6 +73,20 @@ export function FeaturedEvents() {
                     <Link to={`/festival-events/${event.slug}`}>{title}</Link>
                   </h3>
                   {summary && <p className={styles.cardSummary}>{summary}</p>}
+                  {authors.map((author) => {
+                    const iv = interviewByAuthor.get(author.id);
+                    if (!iv) return null;
+                    const firstName = author.name.split(' ')[0];
+                    const bookTitle = iv.interview_data.book_title;
+                    const label = bookTitle
+                      ? intl.formatMessage({ id: 'person.interviewLink.withBook' }, { firstName, bookTitle })
+                      : intl.formatMessage({ id: 'person.interviewLink.generic' });
+                    return (
+                      <Link key={author.id} to={`/interviews/${iv.slug}`} className={styles.cardInterviewLink}>
+                        {label}
+                      </Link>
+                    );
+                  })}
                   {eventbrite_url ? (
                     <a href={eventbrite_url} target="_blank" rel="noopener noreferrer" className={styles.cardCta}>
                       {ctaLabel}
