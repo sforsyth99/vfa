@@ -1,5 +1,4 @@
 import { Container } from '../../components/Container/Container';
-import { EventSchedule } from '../../components/EventSchedule/EventSchedule';
 import { FeaturedEvents } from '../../components/FeaturedEvents/FeaturedEvents';
 import { InstagramFeed } from '../../components/InstagramFeed/InstagramFeed';
 import { Hero } from '../../components/Hero/Hero';
@@ -14,9 +13,9 @@ export default function HomePage() {
       <Container>
         <InstagramFeed />
       </Container>
-      <Container>
-        <EventSchedule hideKidfest hidePast />
-      </Container>
+      {/*<Container>*/}
+      {/*  <EventSchedule hideKidfest hidePast />*/}
+      {/*</Container>*/}
     </main>
   );
 }
