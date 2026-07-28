@@ -22,32 +22,32 @@ export const FOOTER_NAV: FooterNavGroup[] = [
   {
     heading: 'Explore VFA',
     items: [
+      { label: 'Events', to: '/events' },
+      { label: 'Authors', to: '/authors' },
+      { label: 'Interviews', to: '/interviews' },
+      { label: 'KidsFest', to: '/kidsfest2026' },
       { label: 'Archives', to: '/qa-archive-page' },
     ],
   },
   {
-    heading: 'Festival',
+    heading: 'The Festival',
     items: [
-      { label: 'Events', to: '/events' },
-      { label: 'Authors', to: '/authors' },
-      { label: 'KidsFest', to: '/kidsfest2026' },
-      { label: 'Interviews', to: '/interviews' },
       { label: 'Venues', to: '/venues' },
       { label: 'Accessibility', to: '/vfa-accessibility-info' },
+      { label: 'Festival History', to: '/history' },
     ],
   },
   {
-    heading: 'About',
+    heading: 'About VFA',
     items: [
-      { label: 'Who we are', to: '/who-we-are-2' },
-      { label: 'History', to: '/history' },
+      { label: 'Who We Are', to: '/who-we-are-2' },
+      { label: 'Our Mission', to: '/what-we-do' },
       { label: 'Strategic Plan', to: '/strategic-plan' },
-      { label: 'Our mission', to: '/what-we-do' },
       { label: 'Contact Us', to: '/contact-us' },
     ],
   },
   {
-    heading: 'Support the festival',
+    heading: 'Support the Festival',
     items: [
       { label: 'Get Tickets', to: 'https://www.eventbrite.ca/o/victoria-festival-of-authors-11095513695', external: true },
       { label: 'Donate', to: 'https://www.canadahelps.org/en/charities/victoria-festival-of-authors-society/', external: true },
