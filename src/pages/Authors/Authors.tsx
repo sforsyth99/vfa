@@ -1,0 +1,51 @@
+import { Link } from 'react-router-dom';
+import { useIntl, FormattedMessage } from 'react-intl';
+import { useGetAuthors } from '../../api/people/useGetAuthors';
+import { usePageTitle } from '../../utils/usePageTitle';
+import { Container } from '../../components/Container/Container';
+import { PageTitle } from '../../components/PageTitle/PageTitle';
+import styles from './Authors.module.css';
+
+function bySurname(a: { name: string }, b: { name: string }) {
+  const surname = (name: string) => name.trim().split(/\s+/).pop()!.toLowerCase();
+  return surname(a.name).localeCompare(surname(b.name));
+}
+
+function initials(name: string) {
+  return name.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+}
+
+export default function AuthorsPage() {
+  const intl = useIntl();
+  usePageTitle(intl.formatMessage({ id: 'home.authors.heading' }));
+  const { data: authors, isLoading, isError } = useGetAuthors(2026);
+
+  return (
+    <main id="main-content" className={styles.page}>
+      <Container>
+        <PageTitle><FormattedMessage id="home.authors.heading" /></PageTitle>
+
+        {isLoading && <p className={styles.state}><FormattedMessage id="home.authors.loading" /></p>}
+        {isError && <p className={styles.state}><FormattedMessage id="home.authors.error" /></p>}
+
+        {authors && (
+          <div className={styles.grid}>
+            {[...authors].sort(bySurname).map((author) => {
+              const photo = author.photo_square || author.photo;
+              return (
+                <Link key={author.id} to={`/people/${author.slug}`} className={styles.card}>
+                  {photo ? (
+                    <img src={photo[0]} alt="" aria-hidden="true" loading="lazy" className={styles.photo} />
+                  ) : (
+                    <div className={styles.placeholder} aria-hidden="true">{initials(author.name)}</div>
+                  )}
+                  <span className={styles.name}>{author.name}</span>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </Container>
+    </main>
+  );
+}

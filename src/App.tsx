@@ -16,6 +16,8 @@ import FestivalEventPage from './pages/FestivalEvent/FestivalEvent';
 import VenuePage from './pages/Venue/Venue';
 import BookPage from './pages/Book/Book';
 import KidsFest2026Page from './pages/KidsFest2026/KidsFest2026';
+import AuthorsPage from './pages/Authors/Authors';
+import VenuesPage from './pages/Venues/Venues';
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
           <Route path="/venues/:slug" element={<VenuePage />} />
           <Route path="/books/:slug" element={<BookPage />} />
           <Route path="/kidsfest2026" element={<KidsFest2026Page />} />
+          <Route path="/authors" element={<AuthorsPage />} />
+          <Route path="/venues" element={<VenuesPage />} />
           <Route path="/:slug" element={<DynamicPage />} />
         </Routes>
       </ErrorBoundary>

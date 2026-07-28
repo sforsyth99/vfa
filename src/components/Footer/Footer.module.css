@@ -1,7 +1,7 @@
 .footer {
     background: var(--vfa-color-footer-bg);
     color: var(--vfa-color-text-light);
-    text-align: center;
+    text-align: left;
     padding: 1rem 0;
     left: 0;
     bottom: 0;
@@ -21,43 +21,48 @@
 }
 
 .footerNav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
     max-width: var(--vfa-width-site);
-    margin: 0 auto 1.5em;
-    padding: 2rem 1.5rem 0;
-    text-align: center;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+}
+
+.footerNavGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.footerNavHeading {
+    font-size: 0.7rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 0.25rem;
 }
 
 .footerNavList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5em 1.5em;
-    justify-content: center;
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size: var(--vfa-font-size-base);
-}
-
-.footerSubMenu {
-    list-style: disc;
-    margin-left: 2em;
-    color: var(--vfa-color-text-light);
-    padding-left: 1.5em;
-    display: block;
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .footerNavLink {
-    color: var(--vfa-color-text-light);
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
-    font-weight: var(--vfa-font-weight-medium);
+    font-size: 0.9rem;
     transition: color var(--vfa-transition-base);
 }
 
 .footerNavLink:hover,
 .footerNavLink:focus {
-    color: var(--vfa-color-2026-gold);
-    text-decoration: underline;
+    color: var(--vfa-color-text-light);
 }
 
 .sponsorsContainer {
@@ -125,6 +130,7 @@
     padding: 0 1.5rem;
     margin-bottom: 1em;
     font-size: 0.9em;
+    text-align: center;
 }
 
 .sponsorLogo {
@@ -137,7 +143,17 @@
     /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);*/
 }
 
+@media (max-width: 768px) {
+    .footerNav {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 640px) {
+    .footerNav {
+        grid-template-columns: 1fr;
+    }
+
     .newsletterSocialRow {
         flex-direction: column;
         align-items: center;

@@ -1,52 +1,13 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useGetMenus } from '../../api/menus/useGetMenus';
-import { useGetMenuItems } from '../../api/menus/useGetMenuItems';
-import { useGetPages } from '../../api/pages/useGetPages';
 import styles from './Footer.module.css';
-import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
-import type { MenuItem } from '../../api/menus/menuTypes';
-import type { Page } from '../../api/pages/pageTypes';
 import titleSponsorSrc from '../../assets/titleSponsor/MunrosBooks.jpg';
 import calfStampSrc from '../../assets/CALF-Member_Stamp_Primary.png';
 import SocialIcons from '../SocialIcons/SocialIcons';
 import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
+import { FOOTER_NAV } from '../../config/menus';
 
-function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0): React.ReactNode {
-  const items = menuItems.filter((item: MenuItem) => item.parent === parentId).sort((a: MenuItem, b: MenuItem) => a.menu_order - b.menu_order);
-  if (!items.length) return null;
-  return (
-    <ul className={parentId === 0 ? styles.footerNavList : styles.footerSubMenu}>
-      {items.map((item: MenuItem) => {
-        let pageMatch: Page | null = null;
-        if (pages && pages.length) {
-          pageMatch = pages.find((page: Page) =>
-            item.url.endsWith(`/pages/${page.slug}`) ||
-            item.url.replace(/^https?:\/\/[^/]+/, '') === `/pages/${page.slug}` ||
-            item.url.replace(/^https?:\/\/[^/]+/, '') === `/${page.slug}` ||
-            item.url === page.link,
-          ) || null;
-        }
-        const isExternal = /^https?:\/\//.test(item.url) && !pageMatch;
-        const linkTo = pageMatch ? `/${pageMatch.slug}` : (item.url.replace(/^https?:\/\/[^/]+/, '') || '/');
-        return (
-          <li key={item.id}>
-            {isExternal ? (
-              <a href={item.url} target="_blank" rel="noopener noreferrer"
-                 className={styles.footerNavLink}>{decodeHtmlEntities(item.title.rendered)}</a>
-            ) : (
-              <Link to={linkTo} className={styles.footerNavLink}>{decodeHtmlEntities(item.title.rendered)}</Link>
-            )}
-            {renderMenuItems(menuItems, pages, item.id)}
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
-// Vite-specific: import all sponsor images statically
 const sponsorImages = import.meta.glob('../../assets/sponsors/*.{png,jpg,jpeg,svg}', { eager: true, import: 'default' });
 const sponsorLogos: string[] = Object.values(sponsorImages) as string[];
 
@@ -54,23 +15,34 @@ function Footer() {
   const intl = useIntl();
   const year = useMemo(() => new Date().getFullYear(), []);
 
-  const { data: menus } = useGetMenus();
-  const footerMenu = menus?.find(menu => menu.slug === 'footer');
-  const footerMenuId = footerMenu?.id;
-  const { data: menuItems } = useGetMenuItems(footerMenuId ?? 0);
-  const { data: pages } = useGetPages();
-
   return (
     <footer className={styles.footer}>
-      {menuItems && menuItems.length > 0 && (
-        <nav className={styles.footerNav} aria-label={intl.formatMessage({ id: 'footer.menu.label' })}>
-          {renderMenuItems(menuItems, pages)}
-        </nav>
-      )}
+      <nav className={styles.footerNav} aria-label={intl.formatMessage({ id: 'footer.menu.label' })}>
+        {FOOTER_NAV.map((group) => (
+          <div key={group.heading} className={styles.footerNavGroup}>
+            <p className={styles.footerNavHeading}>{group.heading}</p>
+            <ul className={styles.footerNavList}>
+              {group.items.map((item) => (
+                <li key={item.to}>
+                  {item.external ? (
+                    <a href={item.to} target="_blank" rel="noopener noreferrer" className={styles.footerNavLink}>
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link to={item.to} className={styles.footerNavLink}>{item.label}</Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+
       <div className={styles.newsletterSocialRow}>
         <NewsletterSignup />
         <SocialIcons />
       </div>
+
       <div className={styles.sponsorsContainer}>
         <div className={styles.titleSponsorRow}>
           <p className={styles.titleSponsorLabel}>
@@ -105,6 +77,7 @@ function Footer() {
           />
         </div>
       </div>
+
       <p className={styles.footerText}>
         <FormattedMessage id="footer.landAcknowledgement" />
       </p>

@@ -90,6 +90,9 @@
   "events.heading": "Events",
   "events.loading": "Loading events…",
   "events.error": "Error loading events.",
+  "events.empty": "No upcoming events.",
+  "events.free": "Free",
+  "events.details": "Details →",
 
   "interviews.latest.heading": "Latest Interviews",
   "interviews.latest.viewAll": "View all interviews",
@@ -157,6 +160,10 @@
   "interview.readBio": "Read {name}'s bio →",
   "interview.interviewerBio": "About the Interviewer",
 
+  "venues.heading": "Venues",
+  "venues.loading": "Loading venues…",
+  "venues.error": "Error loading venues.",
+  "venues.empty": "No venues found.",
   "venue.loading": "Loading…",
   "venue.notFound": "Venue not found",
   "venue.eyebrow": "Venue",

@@ -37,7 +37,6 @@ export enum MenuObjectType {
   PAGE = 'page',
   CUSTOM = 'custom',
   CATEGORY = 'category',
-  TRIBE_EVENTS = 'tribe_events',
 }
 
 export enum MenuLocationType {
