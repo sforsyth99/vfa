@@ -13,15 +13,15 @@ export default function DynamicPage() {
   const { data: interviews, isLoading: loadingInterviews } = useGetInterviews();
 
   const interviewMatch = interviews?.find((i) => i.slug === slug);
-  if (interviewMatch) return <Navigate to={`/interviews/${slug}`} replace />;
-
   const page = pages?.find((p: { slug: string }) => p.slug === slug);
   const pageId = page?.id;
 
-  const { data: pageData, isLoading: loadingPage } = useGetPage({ pageId: pageId as number });
+  const { data: pageData, isLoading: loadingPage } = useGetPage({ pageId, enabled: !interviewMatch && !!pageId });
 
-  const lookUpPost = !loadingPages && !loadingInterviews && !pageId;
+  const lookUpPost = !interviewMatch && !loadingPages && !loadingInterviews && !pageId;
   const { data: postData, isLoading: loadingPost } = useGetPostBySlug({ slug: slug!, enabled: lookUpPost });
+
+  if (interviewMatch) return <Navigate to={`/interviews/${slug}`} replace />;
 
   if (loadingPages || loadingInterviews || loadingPage || loadingPost) return <div>Loading...</div>;
 

@@ -20,6 +20,13 @@ export function SearchWidget() {
 
   const { data: results = [], isFetching } = useSearchWP(debouncedQuery);
 
+  function closeSearch() {
+    setOpen(false);
+    setQuery('');
+    setDebouncedQuery('');
+    setActiveIndex(-1);
+  }
+
   useEffect(() => {
     const id = setTimeout(() => setDebouncedQuery(query), 300);
     return () => clearTimeout(id);
@@ -27,21 +34,12 @@ export function SearchWidget() {
 
   useEffect(() => {
     if (open) inputRef.current?.focus();
-    else {
-      setQuery('');
-      setDebouncedQuery('');
-      setActiveIndex(-1);
-    }
   }, [open]);
-
-  useEffect(() => {
-    setActiveIndex(-1);
-  }, [results]);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
+        closeSearch();
       }
     }
     document.addEventListener('mousedown', handleClick);
@@ -49,7 +47,7 @@ export function SearchWidget() {
   }, []);
 
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Escape') { setOpen(false); return; }
+    if (e.key === 'Escape') { closeSearch(); return; }
     if (!results.length) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -84,7 +82,7 @@ export function SearchWidget() {
             type="search"
             className={styles.input}
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => { setQuery(e.target.value); setActiveIndex(-1); }}
             onKeyDown={handleKeyDown}
             placeholder={intl.formatMessage({ id: 'nav.search.placeholder' })}
             aria-label={intl.formatMessage({ id: 'nav.search.label' })}
@@ -96,7 +94,7 @@ export function SearchWidget() {
           <button
             className={styles.closeButton}
             aria-label={intl.formatMessage({ id: 'nav.search.close' })}
-            onClick={() => setOpen(false)}
+            onClick={closeSearch}
           >
             ✕
           </button>
