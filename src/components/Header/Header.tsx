@@ -9,6 +9,7 @@ import { useGetPages } from '../../api/pages/useGetPages';
 import type { MenuItem } from '../../api/menus/menuTypes.ts';
 import type { Page } from '../../api/pages/pageTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { SearchWidget } from '../SearchWidget/SearchWidget';
 
 function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0, onClose?: () => void): React.ReactNode {
   const items = menuItems
@@ -93,17 +94,20 @@ function Header() {
           {donateLabel}
         </a>
 
-        <button
-          className={`${styles.menuButton} ${isOpen ? styles.menuButtonOpen : ''}`}
-          onClick={() => setIsOpen((o) => !o)}
-          aria-expanded={isOpen}
-          aria-controls="primary-nav"
-          aria-label={isOpen ? intl.formatMessage({ id: 'nav.close' }) : intl.formatMessage({ id: 'nav.open' })}
-        >
-          <span className={styles.bar} />
-          <span className={styles.bar} />
-          <span className={styles.bar} />
-        </button>
+        <div className={styles.headerRight}>
+          <SearchWidget />
+          <button
+            className={`${styles.menuButton} ${isOpen ? styles.menuButtonOpen : ''}`}
+            onClick={() => setIsOpen((o) => !o)}
+            aria-expanded={isOpen}
+            aria-controls="primary-nav"
+            aria-label={isOpen ? intl.formatMessage({ id: 'nav.close' }) : intl.formatMessage({ id: 'nav.open' })}
+          >
+            <span className={styles.bar} />
+            <span className={styles.bar} />
+            <span className={styles.bar} />
+          </button>
+        </div>
       </div>
     </header>
   );

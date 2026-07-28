@@ -75,6 +75,13 @@
     color: var(--vfa-color-text-light);
 }
 
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
 /* ── Hamburger button (hidden on desktop) ────────────── */
 
 .menuButton {
