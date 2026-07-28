@@ -29,7 +29,6 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/2026-all" element={<AllContent2026Page />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/pages/:slug" element={<DynamicPage />} />
           <Route path="/interviews" element={<InterviewsPage />} />
           <Route path="/interviews/:slug" element={<InterviewPage />} />
           <Route path="/people/:slug" element={<PersonPage />} />
@@ -37,6 +36,7 @@ function App() {
           <Route path="/venues/:slug" element={<VenuePage />} />
           <Route path="/books/:slug" element={<BookPage />} />
           <Route path="/kidsfest2026" element={<KidsFest2026Page />} />
+          <Route path="/:slug" element={<DynamicPage />} />
         </Routes>
       </ErrorBoundary>
       <Footer />

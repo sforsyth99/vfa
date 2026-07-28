@@ -29,7 +29,7 @@ function renderMenuItems(menuItems: MenuItem[], pages: Page[] = [], parentId = 0
           ) || null;
         }
         const isExternal = /^https?:\/\//.test(item.url) && !pageMatch;
-        const linkTo = pageMatch ? `/pages/${pageMatch.slug}` : (item.url.replace(/^https?:\/\/[^/]+/, '') || '/');
+        const linkTo = pageMatch ? `/${pageMatch.slug}` : (item.url.replace(/^https?:\/\/[^/]+/, '') || '/');
         return (
           <li key={item.id}>
             {isExternal ? (
