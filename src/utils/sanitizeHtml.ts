@@ -1,10 +1,8 @@
 import DOMPurify from 'dompurify';
 
-/**
- * Sanitize HTML string for safe rendering.
- * @param html Raw HTML string
- * @returns Sanitized HTML string
- */
+const WP_ORIGIN = 'https://api.victoriafestivalofauthors.ca';
+
 export function sanitizeHtml(html: string): string {
-  return DOMPurify.sanitize(html);
+  const rewritten = html.replaceAll(WP_ORIGIN, '');
+  return DOMPurify.sanitize(rewritten);
 }
