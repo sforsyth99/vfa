@@ -24,6 +24,8 @@
   "footer.copyright": "© {year} Author Festival. All rights reserved.",
   "footer.landAcknowledgement": "Victoria Festival of Authors respectfully acknowledges that we are located on the traditional territories of the Lekwungen people now known as the Songhees and Esquimalt nations.",
 
+  "newsletter.cta.heading": "Stay in the story",
+  "newsletter.cta.body": "Get the latest from Victoria Festival of Authors—new author announcements, interviews, festival news, and ticket updates delivered to your inbox.",
   "newsletter.signup": "Sign up for our newsletter",
   "newsletter.title": "Subscribe to our newsletter",
   "newsletter.emailPlaceholder": "Your email address",
@@ -89,6 +91,8 @@
   "events.loading": "Loading events…",
   "events.error": "Error loading events.",
 
+  "interviews.latest.heading": "Latest Interviews",
+  "interviews.latest.viewAll": "View all interviews",
   "interviews.heading": "Interviews",
   "interviews.yearFilter.label": "Filter by year",
   "interviews.loading": "Loading interviews…",

@@ -54,8 +54,8 @@
     width: 52px;
     height: 52px;
     border-radius: var(--vfa-radius-md);
-    background: var(--vfa-color-forest-pale);
-    color: var(--vfa-color-forest-dark);
+    background: var(--vfa-color-2026-indigo);
+    color: var(--vfa-color-text-light);
     display: flex;
     align-items: center;
     justify-content: center;

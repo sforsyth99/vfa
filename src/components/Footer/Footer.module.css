@@ -17,7 +17,7 @@
     max-width: var(--vfa-width-site);
     margin: 0 auto;
     padding: 2rem 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .footerNav {

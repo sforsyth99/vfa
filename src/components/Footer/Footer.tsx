@@ -62,15 +62,15 @@ function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.newsletterSocialRow}>
-        <NewsletterSignup />
-        <SocialIcons />
-      </div>
       {menuItems && menuItems.length > 0 && (
         <nav className={styles.footerNav} aria-label={intl.formatMessage({ id: 'footer.menu.label' })}>
           {renderMenuItems(menuItems, pages)}
         </nav>
       )}
+      <div className={styles.newsletterSocialRow}>
+        <NewsletterSignup />
+        <SocialIcons />
+      </div>
       <div className={styles.sponsorsContainer}>
         <div className={styles.titleSponsorRow}>
           <p className={styles.titleSponsorLabel}>
