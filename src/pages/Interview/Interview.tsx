@@ -3,6 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
 import { useGetPersonEvents, type PersonEvent } from '../../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { sanitizeHtml } from '../../utils/sanitizeHtml.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
@@ -137,7 +138,7 @@ export default function InterviewPage() {
         </div>
       </header>
 
-      {intro && <div className={styles.intro} dangerouslySetInnerHTML={{ __html: intro }} />}
+      {intro && <div className={styles.intro} dangerouslySetInnerHTML={{ __html: sanitizeHtml(intro) }} />}
 
       <div className={styles.qa}>
         {question.map((q, i) => {
@@ -150,13 +151,13 @@ export default function InterviewPage() {
                     ? `${interviewer_name} (${interviewerInitials}):`
                     : `${interviewerInitials}:`}
                 </span>
-                <div className={styles.qText} dangerouslySetInnerHTML={{ __html: q }} />
+                <div className={styles.qText} dangerouslySetInnerHTML={{ __html: sanitizeHtml(q) }} />
               </div>
               <div className={styles.answer}>
                 <span className={styles.aMark}>
                   {i === 0 ? `${displayName} (${authorInitials}):` : `${authorInitials}:`}
                 </span>
-                <div className={styles.aText} dangerouslySetInnerHTML={{ __html: answer[i] }} />
+                <div className={styles.aText} dangerouslySetInnerHTML={{ __html: sanitizeHtml(answer[i]) }} />
               </div>
               {img && <img src={img[0]} alt="" className={styles.pairImage} />}
             </div>
@@ -170,7 +171,7 @@ export default function InterviewPage() {
             <FormattedMessage id="interview.interviewerBio" />
             {interviewer_name && `: ${interviewer_name}`}{interviewer_age != null && `, age ${interviewer_age}`}
           </p>
-          <div dangerouslySetInnerHTML={{ __html: interviewer_bio }} />
+          <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(interviewer_bio) }} />
         </div>
       )}
 

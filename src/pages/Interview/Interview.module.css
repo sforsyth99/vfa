@@ -85,7 +85,7 @@
     font-size: var(--vfa-font-size-eyebrow);
     letter-spacing: var(--vfa-letter-spacing-eyebrow);
     text-transform: uppercase;
-    color: var(--vfa-color-forest-mid);
+    color: var(--vfa-color-ink-darkest);
     font-weight: var(--vfa-font-weight-semibold);
     margin: 0 0 0.9rem;
 }
@@ -142,8 +142,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    background: var(--vfa-color-forest-bg);
-    border: 1px solid var(--vfa-color-forest-pale);
+    background: var(--vfa-color-surface);
+    border: 1px solid var(--vfa-color-warm-border);
     border-radius: var(--vfa-radius-lg);
     padding: 1.25rem 1.5rem;
 }
