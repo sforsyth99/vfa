@@ -8,6 +8,7 @@ import { Container } from '../../components/Container/Container';
 import { SectionTitle } from '../../components/SectionTitle/SectionTitle';
 import { BookLink } from '../../components/BookLink/BookLink';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { eventPath } from '../../utils/eventPath';
 import posterSrc from '../../assets/VFA_KidsFest.jpg';
 import styles from './KidsFest2026.module.css';
 
@@ -101,7 +102,7 @@ function KidsFestEvents() {
               {intl.formatMessage({ id: 'kidsfest2026.mainEvent.eyebrow' })}
             </p>
             <h3 className={styles.mainEventTitle}>
-              <Link to={`/festival-events/${mainEvent.slug}`}>{title}</Link>
+              <Link to={eventPath(mainEvent.slug, mainEvent.event_data.is_kidfest)}>{title}</Link>
             </h3>
             <p className={styles.mainEventMeta}>
               {timeStr}{venue?.name ? ` · ${venue.name}` : ''}
@@ -139,10 +140,10 @@ function KidsFestEvents() {
                   <span className={styles.eventPrice}>{price}</span>
                 </div>
                 <h3 className={styles.eventTitle}>
-                  <Link to={`/festival-events/${event.slug}`}>{title}</Link>
+                  <Link to={eventPath(event.slug, event.event_data.is_kidfest)}>{title}</Link>
                 </h3>
                 {venue?.name && <p className={styles.eventVenue}>{venue.name}</p>}
-                <Link to={`/festival-events/${event.slug}`} className={styles.eventLink}>
+                <Link to={eventPath(event.slug, event.event_data.is_kidfest)} className={styles.eventLink}>
                   {intl.formatMessage({ id: 'kidsfest2026.events.details' })}
                 </Link>
               </li>

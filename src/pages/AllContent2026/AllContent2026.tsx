@@ -10,6 +10,7 @@ import { EventSchedule } from '../../components/EventSchedule/EventSchedule';
 import { useGetBooks } from '../../api/books/useGetBooks';
 import type { Book } from '../../api/books/bookTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { bySurname } from '../../utils/sortBySurname';
 import { Link } from 'react-router-dom';
 import { BookLink } from '../../components/BookLink/BookLink.tsx';
 import { Container } from '../../components/Container/Container';
@@ -99,13 +100,6 @@ function InterviewsList() {
   );
 }
 
-function bySurname(a: { name: string }, b: { name: string }): number {
-  const surname = (name: string) => {
-    const parts = name.trim().split(/\s+/);
-    return parts[parts.length - 1].toLowerCase();
-  };
-  return surname(a.name).localeCompare(surname(b.name));
-}
 
 function nameInitials(name: string): string {
   return name

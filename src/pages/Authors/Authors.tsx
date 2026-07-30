@@ -2,14 +2,10 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetAuthors } from '../../api/people/useGetAuthors';
 import { usePageTitle } from '../../utils/usePageTitle';
+import { bySurname } from '../../utils/sortBySurname';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import styles from './Authors.module.css';
-
-function bySurname(a: { name: string }, b: { name: string }) {
-  const surname = (name: string) => name.trim().split(/\s+/).pop()!.toLowerCase();
-  return surname(a.name).localeCompare(surname(b.name));
-}
 
 function initials(name: string) {
   return name.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();

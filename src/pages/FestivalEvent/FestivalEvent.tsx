@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvent } from '../../api/festivalEvents/useGetFestivalEvent.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { sortBySurname } from '../../utils/sortBySurname.ts';
 import type { PersonData } from '../../api/people/peopleTypes.ts';
 import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
 import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
@@ -57,6 +58,7 @@ function LabelledCard({ label, children }: { label: string; children: React.Reac
 
 const EVENT_TYPE_KEYS: Record<string, string> = {
   conversation: 'festivalEvent.type.conversation',
+  panel: 'festivalEvent.type.panel',
   walk: 'festivalEvent.type.walk',
   workshop: 'festivalEvent.type.workshop',
   author_fair: 'festivalEvent.type.authorFair',
@@ -173,22 +175,22 @@ export default function FestivalEventPage() {
         hosted_by) && (
         <div className={styles.section}>
           <div className={styles.peopleFlow}>
-            {authors.map((a) => (
+            {sortBySurname(authors).map((a) => (
               <LabelledCard key={a.id} label={intl.formatMessage({ id: 'festivalEvent.people.author' })}>
                 <AuthorCard person={a} />
               </LabelledCard>
             ))}
-            {moderator.map((p) => (
+            {sortBySurname(moderator).map((p) => (
               <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.moderator' })}>
                 <StaffCard person={p} />
               </LabelledCard>
             ))}
-            {curator.map((p) => (
+            {sortBySurname(curator).map((p) => (
               <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.curator' })}>
                 <StaffCard person={p} />
               </LabelledCard>
             ))}
-            {musician.map((p) => (
+            {sortBySurname(musician).map((p) => (
               <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.musician' })}>
                 <StaffCard person={p} />
               </LabelledCard>

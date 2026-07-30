@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { eventPath } from '../../utils/eventPath';
 import styles from './EventSchedule.module.css';
 
 function formatTime(t: string): string {
@@ -80,7 +81,7 @@ function ScheduleTable({
                 {timeStr || '—'}
               </td>
               <td className={styles.scheduleName} data-label={eventLabel}>
-                <Link to={`/festival-events/${event.slug}`}>
+                <Link to={eventPath(event.slug, event.event_data.is_kidfest)}>
                   {decodeHtmlEntities(event.title?.rendered ?? '')}
                 </Link>
               </td>
@@ -200,7 +201,7 @@ export function EventSchedule({
                   <div className={styles.onlineEventMeta}>
                     {[dateStr, timeStr].filter(Boolean).join(' · ')}
                   </div>
-                  <Link to={`/festival-events/${event.slug}`} className={styles.onlineEventTitle}>
+                  <Link to={eventPath(event.slug, event.event_data.is_kidfest)} className={styles.onlineEventTitle}>
                     {title}
                   </Link>
                   {online_url && (

@@ -3,6 +3,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
 import { useGetPersonEvents, type PersonEvent } from '../../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { eventPath } from '../../utils/eventPath.ts';
+import { sortBySurname } from '../../utils/sortBySurname.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
@@ -18,7 +20,7 @@ function UpcomingEventCard({ event, firstName }: { event: PersonEvent; firstName
         {intl.formatMessage({ id: 'interview.seeLive' }, { firstName })}
       </p>
       <p className={styles.eventCardTitle}>
-        <Link to={`/festival-events/${event.slug}`}>{event.title}</Link>
+        <Link to={eventPath(event.slug, event.is_kidfest)}>{event.title}</Link>
       </p>
       {event.event_date && (
         <p className={styles.eventCardDate}>
@@ -41,7 +43,7 @@ function UpcomingEventCard({ event, firstName }: { event: PersonEvent; firstName
           <FormattedMessage id="interview.getTickets" />
         </a>
       ) : (
-        <Link to={`/festival-events/${event.slug}`} className={styles.eventCardButton}>
+        <Link to={eventPath(event.slug, event.is_kidfest)} className={styles.eventCardButton}>
           <FormattedMessage id="interview.learnMore" />
         </Link>
       )}
@@ -62,7 +64,7 @@ export default function InterviewPage() {
   const intl = useIntl();
   const { slug } = useParams<{ slug: string }>();
   const { data: interview, isLoading, error } = useGetInterview({ slug: slug! });
-  const authors = interview?.interview_data?.authors ?? [];
+  const authors = sortBySurname(interview?.interview_data?.authors ?? []);
   const primaryAuthor = authors[0];
   const { data: personEvents } = useGetPersonEvents(primaryAuthor?.id);
   const authorNames =

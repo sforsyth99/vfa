@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetPerson } from '../../api/people/useGetPerson.ts';
+import { eventPath } from '../../utils/eventPath.ts';
 import { useGetPersonEvents, type PersonEvent } from '../../api/people/useGetPersonEvents.ts';
 import { useGetPersonBooks, type PersonBook } from '../../api/people/useGetPersonBooks.ts';
 import { useGetPersonInterviews, type PersonInterview } from '../../api/people/useGetPersonInterview.ts';
@@ -55,7 +56,7 @@ function AuthorMeta({ name, firstName, name_pronunciation, alternate_name, bio, 
         </Link>
       ))}
       {events && events.length > 0 && events.map((event) => (
-        <Link key={event.id} to={`/festival-events/${event.slug}`} className={styles.websiteLink}>
+        <Link key={event.id} to={eventPath(event.slug, event.is_kidfest)} className={styles.websiteLink}>
           {intl.formatMessage({ id: 'person.eventLink' }, { firstName, eventTitle: event.title })}
         </Link>
       ))}
@@ -138,7 +139,7 @@ export default function PersonPage() {
                     weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
                   }),
                 ] : [],
-                to: `/festival-events/${event.slug}`,
+                to: eventPath(event.slug, event.is_kidfest),
               }))}
               className={styles.eventFeatureCard}
             />
