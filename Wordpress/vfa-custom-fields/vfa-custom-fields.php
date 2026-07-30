@@ -233,7 +233,7 @@ add_action('rest_api_init', function() {
             return [
                 'is_featured'  => (bool) get_post_meta($id, 'is_featured', true),
                 'is_kidfest'   => (bool) get_post_meta($id, 'is_kidfest', true),
-                'event_type'   => get_post_meta($id, 'event_type', true) ?: 'conversation',
+                'event_type'   => get_post_meta($id, 'event_type', true) ?: '',
                 'hosts'        => array_values(array_filter(array_map(
                                       'vfa_get_person_data', get_post_meta($id, 'hosts', false)
                                   ))),
@@ -367,6 +367,7 @@ add_action('rest_api_init', function() {
                                             return $venue_id ? get_the_title((int) $venue_id) : null;
                                         })(),
                     'year'           => $year,
+                    'is_kidfest'     => (bool) get_post_meta($id, 'is_kidfest', true),
                     'roles'          => $roles,
                 ];
             }, $events);

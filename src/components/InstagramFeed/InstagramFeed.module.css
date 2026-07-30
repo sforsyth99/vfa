@@ -7,7 +7,6 @@
   font-weight: var(--vfa-font-weight-bold);
   color: var(--vfa-color-text-dark);
   margin: 0 0 1.25rem;
-  text-align: center;
 }
 
 .grid {
@@ -42,7 +41,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: color-mix(in srgb, var(--vfa-color-ink-darkest) 45%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +54,7 @@
 }
 
 .overlayText {
-  color: #fff;
+  color: var(--vfa-color-text-light);
   font-size: 0.85rem;
   font-weight: var(--vfa-font-weight-semibold);
   letter-spacing: 0.03em;
@@ -63,8 +62,7 @@
 
 .viewMore {
   display: block;
-  text-align: center;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   font-size: 0.9rem;
   font-weight: var(--vfa-font-weight-semibold);
   color: var(--vfa-color-text-dark);

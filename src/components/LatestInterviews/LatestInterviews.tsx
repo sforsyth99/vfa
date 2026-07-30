@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { sortBySurname } from '../../utils/sortBySurname';
 import styles from './LatestInterviews.module.css';
 
 const COUNT = 3;
@@ -27,7 +28,7 @@ export function LatestInterviews() {
       <ul className={styles.list}>
         {latest.map((interview) => {
           const data = interview.interview_data;
-          const authors = data?.authors ?? [];
+          const authors = sortBySurname(data?.authors ?? []);
           const primaryAuthor = authors[0];
           const authorLabel = authors.length > 0
             ? authors.map(a => a.name).join(' & ')

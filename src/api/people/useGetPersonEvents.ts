@@ -13,6 +13,7 @@ export interface PersonEvent {
   eventbrite_url: string;
   venue_name: string | null;
   year: number | null;
+  is_kidfest: boolean;
   roles: string[];
 }
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { sortBySurname } from '../../utils/sortBySurname';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
@@ -63,7 +64,7 @@ export default function InterviewsPage() {
           {filtered.map((interview) => {
             const data = interview.interview_data;
             const cover = data?.book_cover;
-            const authors = data?.authors ?? [];
+            const authors = sortBySurname(data?.authors ?? []);
             const primaryAuthor = authors[0];
             const authorLabel = authors.length > 0
               ? authors.map(a => a.name).join(' & ')

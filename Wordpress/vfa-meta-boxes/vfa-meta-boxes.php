@@ -238,9 +238,11 @@ function vfa_mb_config(): array {
                     'id'      => 'event_type',
                     'name'    => 'Event Type',
                     'type'    => 'select',
-                    'std'     => 'conversation',
+                    'std'     => '',
                     'options' => [
+                        ''             => '— None —',
                         'conversation' => 'Conversation',
+                        'panel'        => 'Panel',
                         'walk'         => 'Walk',
                         'workshop'     => 'Workshop',
                         'author_fair'  => 'Author Fair',
