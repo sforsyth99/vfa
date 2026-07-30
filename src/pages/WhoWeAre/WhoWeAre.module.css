@@ -1,0 +1,155 @@
+.page {
+    padding-block: 3rem 5rem;
+}
+
+.intro {
+    font-size: var(--vfa-font-size-md);
+    color: var(--vfa-color-ink-dark);
+    line-height: var(--vfa-line-height-body);
+    margin: 0.5rem 0 0;
+}
+
+.state {
+    color: var(--vfa-color-ink-light);
+    padding: 2rem 0;
+}
+
+/* ── Sections ──────────────────────────────────────────────────────────────── */
+
+.section {
+    margin-top: 3rem;
+}
+
+.section + .section {
+    margin-top: 3.5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--vfa-color-warm-border);
+}
+
+.sectionHeading {
+    font-family: var(--vfa-font-display);
+    font-size: 1.5rem;
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-ink-darkest);
+    margin: 0 0 1.75rem;
+}
+
+/* ── Shared member text ────────────────────────────────────────────────────── */
+
+.memberName {
+    font-weight: var(--vfa-font-weight-semibold);
+    font-size: var(--vfa-font-size-md);
+    color: var(--vfa-color-ink-darkest);
+    margin: 0;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.memberPronouns {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-normal);
+    color: var(--vfa-color-ink-mid);
+    margin-left: 0.35em;
+}
+
+.memberPosition {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-forest-mid);
+    margin: 0.2rem 0 0;
+    font-style: italic;
+}
+
+.memberBio {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-dark);
+    line-height: var(--vfa-line-height-body);
+    margin-top: 0.6rem;
+}
+
+.memberBio p { margin: 0 0 0.5rem; }
+.memberBio p:last-child { margin-bottom: 0; }
+
+/* ── Staff grid ────────────────────────────────────────────────────────────── */
+
+.staffGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.staffCard {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+}
+
+.staffPhotoWrap {
+    flex-shrink: 0;
+}
+
+.staffPhoto {
+    display: block;
+    width: 80px;
+    height: 80px;
+    border-radius: var(--vfa-radius-circle);
+    object-fit: cover;
+    object-position: top center;
+    box-shadow: var(--vfa-shadow-sm);
+}
+
+
+.staffBody {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ── Board grid ────────────────────────────────────────────────────────────── */
+
+.boardGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.boardCard {
+    padding: 1.1rem 1.25rem;
+    background: var(--vfa-color-forest-bg);
+    border-radius: var(--vfa-radius-card);
+    border: 1px solid var(--vfa-color-forest-pale);
+}
+
+/* ── Honorary list ─────────────────────────────────────────────────────────── */
+
+.honoraryList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 2rem;
+}
+
+.honoraryItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+}
+
+.honoraryPosition {
+    font-size: var(--vfa-font-size-xs);
+    color: var(--vfa-color-ink-mid);
+    font-style: italic;
+}
+
+/* ── Mobile ────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+    .page {
+        padding-block: 2rem 3rem;
+    }
+
+    .honoraryList {
+        grid-template-columns: 1fr;
+    }
+}

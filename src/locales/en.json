@@ -1,6 +1,14 @@
 {
   "app.title": "Victoria Festival of Authors",
 
+  "whoWeAre.pageTitle": "Who We Are",
+  "whoWeAre.intro": "Victoria Festival of Authors has expanded from a two-person operation with a four-member board to a small but mighty team in {year}!",
+  "whoWeAre.loading": "Loading…",
+  "whoWeAre.error": "Could not load team information.",
+  "whoWeAre.staff.heading": "VFA's Team",
+  "whoWeAre.board.heading": "Board",
+  "whoWeAre.honorary.heading": "Other Notable Members",
+
   "common.loading": "Loading…",
 
   "accessibility.title": "Accessibility Information",
