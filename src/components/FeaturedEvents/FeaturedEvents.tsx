@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { eventPath } from '../../utils/eventPath';
 import styles from './FeaturedEvents.module.css';
 
 function formatTime(t: string): string {
@@ -70,7 +71,7 @@ export function FeaturedEvents() {
                     </div>
                   </div>
                   <h3 className={styles.cardTitle}>
-                    <Link to={`/festival-events/${event.slug}`}>{title}</Link>
+                    <Link to={eventPath(event.slug, event.event_data.is_kidfest)}>{title}</Link>
                   </h3>
                   {summary && <p className={styles.cardSummary}>{summary}</p>}
                   {authors.map((author) => {
@@ -92,7 +93,7 @@ export function FeaturedEvents() {
                       {ctaLabel}
                     </a>
                   ) : (
-                    <Link to={`/festival-events/${event.slug}`} className={styles.cardCta}>
+                    <Link to={eventPath(event.slug, event.event_data.is_kidfest)} className={styles.cardCta}>
                       {ctaLabel}
                     </Link>
                   )}

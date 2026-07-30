@@ -40,7 +40,7 @@ export const FOOTER_NAV: FooterNavGroup[] = [
   {
     heading: 'About VFA',
     items: [
-      { label: 'Who We Are', to: '/who-we-are-2' },
+      { label: 'Who We Are', to: '/who-we-are' },
       { label: 'Our Mission', to: '/what-we-do' },
       { label: 'Strategic Plan', to: '/strategic-plan' },
       { label: 'Contact Us', to: '/contact-us' },

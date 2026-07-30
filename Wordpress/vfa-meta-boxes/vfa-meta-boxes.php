@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Meta Boxes
  * Description: Custom meta box UI for VFA post types. No third-party dependencies.
- * Version: 1.6.0
+ * Version: 1.8.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -238,9 +238,11 @@ function vfa_mb_config(): array {
                     'id'      => 'event_type',
                     'name'    => 'Event Type',
                     'type'    => 'select',
-                    'std'     => 'conversation',
+                    'std'     => '',
                     'options' => [
+                        ''             => '— None —',
                         'conversation' => 'Conversation',
+                        'panel'        => 'Panel',
                         'walk'         => 'Walk',
                         'workshop'     => 'Workshop',
                         'author_fair'  => 'Author Fair',
@@ -276,6 +278,65 @@ function vfa_mb_config(): array {
                         ],
                     ],
                 ],
+            ],
+        ],
+        [
+            'id'         => 'team_member_fields',
+            'title'      => 'Team Member Fields',
+            'post_types' => ['team_members'],
+            'fields'     => [
+                ['id' => 'title',    'name' => 'Name',     'type' => 'text', 'required' => true],
+                [
+                    'type'   => 'inline_fields',
+                    'name'   => 'Pronouns',
+                    'fields' => [
+                        [
+                            'id'      => 'pronouns',
+                            'name'    => 'Pronouns',
+                            'type'    => 'select',
+                            'options' => [
+                                ''          => '— Select —',
+                                'she_her'   => 'She/Her',
+                                'he_him'    => 'He/Him',
+                                'they_them' => 'They/Them',
+                                'she_they'  => 'She/They',
+                                'he_they'   => 'He/They',
+                                'ze_zir'    => 'Ze/Zir',
+                                'other'     => 'Other',
+                            ],
+                        ],
+                        ['id' => 'pronouns_other', 'name' => 'Other', 'type' => 'text',
+                         'desc' => 'Required if "Other" selected above.'],
+                    ],
+                ],
+                ['id' => 'position', 'name' => 'Position', 'type' => 'text',
+                 'desc' => 'e.g. "Executive Director" or "Board Chair"'],
+                [
+                    'id'      => 'team_role',
+                    'name'    => 'Role',
+                    'type'    => 'select',
+                    'std'     => 'staff',
+                    'options' => [
+                        'staff'    => 'Staff',
+                        'board'    => 'Board',
+                        'honorary' => 'Honorary',
+                    ],
+                ],
+                ['id' => 'photo', 'name' => 'Photo', 'type' => 'image_advanced'],
+                [
+                    'type'   => 'inline_fields',
+                    'name'   => 'Term',
+                    'desc'   => 'Optional. Board members may have partial-year terms.',
+                    'fields' => [
+                        ['id' => 'term_start', 'name' => 'Start', 'type' => 'text',
+                         'desc' => 'e.g. "2024"'],
+                        ['id' => 'term_end', 'name' => 'End', 'type' => 'text',
+                         'desc' => 'e.g. "2026" — leave blank if ongoing'],
+                    ],
+                ],
+                ['id' => 'display_order', 'name' => 'Display Order', 'type' => 'number', 'min' => 0,
+                 'desc' => 'Lower numbers appear first. Leave blank to sort alphabetically.'],
+                ['id' => 'description', 'name' => 'Description', 'type' => 'wysiwyg'],
             ],
         ],
         [
@@ -805,7 +866,7 @@ add_action('admin_enqueue_scripts', function(string $hook) {
     if (!in_array($hook, ['post.php', 'post-new.php'])) return;
     $screen = get_current_screen();
     if (!$screen) return;
-    $types = ['interviews', 'people', 'festival_events', 'venues', 'books'];
+    $types = ['interviews', 'people', 'festival_events', 'venues', 'books', 'team_members'];
     if (!in_array($screen->post_type, $types)) return;
 
     wp_enqueue_media();
@@ -830,7 +891,7 @@ add_action('admin_enqueue_scripts', function(string $hook) {
 add_action('admin_head', function() {
     $screen = get_current_screen();
     if (!$screen) return;
-    $types = ['interviews', 'people', 'festival_events', 'venues', 'books'];
+    $types = ['interviews', 'people', 'festival_events', 'venues', 'books', 'team_members'];
     if (!in_array($screen->post_type ?? '', $types)) return;
     echo '<style>' . vfa_mb_css() . '</style>';
 });

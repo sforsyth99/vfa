@@ -1,6 +1,14 @@
 {
   "app.title": "Victoria Festival of Authors",
 
+  "whoWeAre.pageTitle": "Who We Are",
+  "whoWeAre.intro": "Victoria Festival of Authors has expanded from a two-person operation with a four-member board to a small but mighty team in {year}!",
+  "whoWeAre.loading": "Loading…",
+  "whoWeAre.error": "Could not load team information.",
+  "whoWeAre.staff.heading": "VFA's Team",
+  "whoWeAre.board.heading": "Board",
+  "whoWeAre.honorary.heading": "Other Notable Members",
+
   "common.loading": "Loading…",
 
   "accessibility.title": "Accessibility Information",
@@ -22,7 +30,7 @@
   "footer.sponsor.logoAlt": "Sponsor logo",
   "footer.calf.alt": "CALF Member",
   "footer.copyright": "© {year} Author Festival. All rights reserved.",
-  "footer.landAcknowledgement": "Victoria Festival of Authors respectfully acknowledges that we are located on the traditional territories of the Lekwungen people now known as the Songhees and Esquimalt nations.",
+  "footer.landAcknowledgement": "Victoria Festival of Authors respectfully acknowledges that we are located on the traditional territories of the  lək̓ʷəŋən people now known as the Songhees and Esquimalt nations.",
 
   "newsletter.cta.heading": "Stay in the story",
   "newsletter.cta.body": "Get the latest from Victoria Festival of Authors—new author announcements, interviews, festival news, and ticket updates delivered to your inbox.",
@@ -95,6 +103,15 @@
   "events.details": "Details →",
   "events.preseason": "Pre-season Events",
   "events.past": "View past events",
+  "events.rowFeaturing": "Featuring {names}",
+  "events.rowMod": "Moderated by {name}",
+  "events.workshopBy": "Workshop by {names}",
+  "events.locationInPerson": "In-person",
+  "events.locationOnline": "Online",
+  "events.locationInPersonAndOnline": "In-person and online",
+  "events.inConversationWith": "{author} in conversation with {moderator}",
+  "events.moderatedBy": "Moderated by {names}",
+  "events.agesRange": "Ages {range}",
 
   "interviews.latest.heading": "Latest Interviews",
   "interviews.latest.viewAll": "View all interviews",
@@ -120,6 +137,7 @@
   "festivalEvent.loading": "Loading…",
   "festivalEvent.notFound": "Event not found",
   "festivalEvent.type.conversation": "Conversation",
+  "festivalEvent.type.panel": "Panel",
   "festivalEvent.type.walk": "Walk",
   "festivalEvent.type.workshop": "Workshop",
   "festivalEvent.type.authorFair": "Author Fair",
@@ -211,8 +229,8 @@
   "featured.heading": "Featured Events",
   "featured.details": "Event details →",
 
-  "instagram.heading": "Latest on Instagram",
+  "instagram.heading": "Follow Us on Instagram",
   "instagram.postLinkLabel": "View Instagram post: {caption}",
-  "instagram.viewPost": "View post",
-  "instagram.viewMore": "See more @{handle} on Instagram →"
+  "instagram.viewPost": "View on Instagram",
+  "instagram.viewMore": "@{handle}"
 }

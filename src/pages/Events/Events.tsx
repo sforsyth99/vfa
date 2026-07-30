@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
+import type { PersonData } from '../../api/people/peopleTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { sortBySurname } from '../../utils/sortBySurname';
+import { eventPath } from '../../utils/eventPath';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
@@ -50,64 +53,115 @@ function formatEventPrice(tickets: { type: string; tier: string; price: string }
   return isSliding ? `Sliding Scale · ${range}` : range;
 }
 
+function formatVenueLabel(
+  tickets: { type: string }[],
+  venueName: string | undefined,
+  intl: ReturnType<typeof useIntl>,
+): string {
+  const hasInPerson = tickets?.some((t) => t.type === 'in_person');
+  const hasOnline = tickets?.some((t) => t.type === 'online');
+  if (venueName && hasOnline) return intl.formatMessage({ id: 'home.schedule.locationAndOnline' }, { venue: venueName });
+  if (venueName) return venueName;
+  if (hasOnline && !hasInPerson) return intl.formatMessage({ id: 'home.schedule.locationOnline' });
+  return '';
+}
+
+function formatAuthorLine(
+  eventType: string,
+  authorNames: string,
+  modNames: string,
+  intl: ReturnType<typeof useIntl>,
+): { authorLine: string | null; showModSeparately: boolean } {
+  if (eventType === 'conversation' && authorNames && modNames) {
+    return {
+      authorLine: intl.formatMessage({ id: 'events.inConversationWith' }, { author: authorNames, moderator: modNames }),
+      showModSeparately: false,
+    };
+  }
+  if (eventType === 'workshop' && authorNames) {
+    return {
+      authorLine: intl.formatMessage({ id: 'events.workshopBy' }, { names: authorNames }),
+      showModSeparately: true,
+    };
+  }
+  return { authorLine: null, showModSeparately: true };
+}
+
+function formatNames(people: PersonData[] | undefined): string {
+  if (!people?.length) return '';
+  if (people.length === 1) return people[0].name;
+  return people.slice(0, -1).map((p) => p.name).join(', ') + ' & ' + people[people.length - 1].name;
+}
+
 function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef: React.RefObject<HTMLDivElement | null> }) {
+  const intl = useIntl();
   const d = event.event_data;
   const title = decodeHtmlEntities(event.title?.rendered ?? '');
-  const authors = d.authors ?? [];
+  const authorNames = formatNames(sortBySurname(d.authors ?? [])) || formatNames(sortBySurname(d.hosts ?? []));
+  const modNames = formatNames(sortBySurname(d.moderator ?? []));
+  const price = formatEventPrice(d.tickets, intl.formatMessage({ id: 'events.free' }));
+  const timeStr = d.time_start
+    ? d.time_end
+      ? `${formatTime(d.time_start)} – ${formatTime(d.time_end)}`
+      : formatTime(d.time_start)
+    : '';
 
-  const photos = authors.flatMap((a) =>
-    a.photo ? [{ id: a.id, name: a.name, src: a.photo[0] }] : []
-  );
-  const covers = authors.flatMap((a) =>
-    (a.books ?? []).flatMap((b) =>
-      Array.isArray(b.cover) ? [{ id: b.id, title: b.title, src: b.cover[0] as string }] : []
-    )
-  );
-  const eventImg = d.event_image ? d.event_image[0] : null;
-  const showImages = !d.is_kidfest;
+  const popoverImg = d.event_type === 'author_fair' && d.event_image
+    ? d.event_image[0]
+    : d.eventbrite_image
+      ? d.eventbrite_image[0]
+      : null;
 
   return (
     <div ref={popoverRef} className={styles.popover} role="tooltip" aria-label={title}>
-      {showImages && photos.length === 0 && covers.length === 0 && eventImg && (
-        <img src={eventImg} alt={title} className={styles.popoverEventImg} />
+      <p className={styles.popoverTitle}>{title}</p>
+      {popoverImg && (
+        <img src={popoverImg} alt="" aria-hidden="true" className={styles.popoverEventbriteImg} />
       )}
-      {showImages && (photos.length > 0 || covers.length > 0) && (
-        photos.length <= 2 ? (
-          <div className={styles.popoverImages}>
-            {photos.map((p) => (
-              <img key={p.id} src={p.src} alt={p.name} className={styles.popoverPhoto} />
-            ))}
-            {covers.slice(0, 4).map((c) => (
-              <img key={c.id} src={c.src} alt={c.title} className={styles.popoverCover} />
-            ))}
-          </div>
-        ) : (
+      {(() => {
+        const { authorLine, showModSeparately } = formatAuthorLine(d.event_type, authorNames, modNames, intl);
+        const displayLine = authorLine ?? authorNames;
+        return (
           <>
-            <div className={styles.popoverImages}>
-              {photos.slice(0, 4).map((p) => (
-                <img key={p.id} src={p.src} alt={p.name} className={styles.popoverPhoto} />
-              ))}
-            </div>
-            {covers.length > 0 && (
-              <div className={styles.popoverImages}>
-                {covers.slice(0, 4).map((c) => (
-                  <img key={c.id} src={c.src} alt={c.title} className={styles.popoverCover} />
-                ))}
-              </div>
+            {displayLine && <p className={styles.popoverAuthors}>{displayLine}</p>}
+            {showModSeparately && modNames && (
+              <p className={styles.popoverMod}>
+                {intl.formatMessage({ id: 'events.moderatedBy' }, { names: modNames })}
+              </p>
             )}
           </>
-        )
-      )}
-      <p className={styles.popoverTitle}>{title}</p>
-      {authors.length > 0 && (
-        <p className={styles.popoverAuthors}>
-          {authors.length === 1
-            ? authors[0].name
-            : authors.slice(0, -1).map((a) => a.name).join(', ') + ' & ' + authors[authors.length - 1].name}
+        );
+      })()}
+      {d.summary && <p className={styles.popoverSummary}>{d.summary}</p>}
+      {(() => {
+        const hasInPerson = d.tickets?.some((t) => t.type === 'in_person');
+        const hasOnline = d.tickets?.some((t) => t.type === 'online');
+        const locationMode = hasInPerson && hasOnline
+          ? intl.formatMessage({ id: 'events.locationInPersonAndOnline' })
+          : hasOnline
+            ? intl.formatMessage({ id: 'events.locationOnline' })
+            : hasInPerson
+              ? intl.formatMessage({ id: 'events.locationInPerson' })
+              : '';
+        const venueLine = [d.venue?.name, d.venue?.room, d.venue?.building, d.venue?.street_address]
+          .filter(Boolean).join(', ');
+        return (
+          <>
+            <div className={styles.popoverMeta}>
+              {timeStr && <span>{timeStr}</span>}
+              {locationMode && <span>{locationMode}</span>}
+              {price && <span>{price}</span>}
+            </div>
+            {venueLine && <p className={styles.popoverVenueAddress}>{venueLine}</p>}
+          </>
+        );
+      })()}
+      {d.age_range && (
+        <p className={styles.popoverAgeRange}>
+          {intl.formatMessage({ id: 'events.agesRange' }, { range: d.age_range })}
         </p>
       )}
-      {d.summary && <p className={styles.popoverSummary}>{d.summary}</p>}
-      {d.venue?.name && <p className={styles.popoverVenue}>{d.venue.name}</p>}
+      {d.extra_info && <p className={styles.popoverExtra}>{d.extra_info}</p>}
     </div>
   );
 }
@@ -117,8 +171,17 @@ function EventRow({ event }: { event: FestivalEvent }) {
   const popoverRef = useRef<HTMLDivElement>(null);
   const d = event.event_data;
   const title = decodeHtmlEntities(event.title?.rendered ?? '');
-  const price = formatEventPrice(d.tickets, intl.formatMessage({ id: 'events.free' }));
   const timeStr = d.time_start ? formatTime(d.time_start) : '';
+  const venueLabel = formatVenueLabel(d.tickets, d.venue?.name, intl);
+
+  const authorNames = formatNames(sortBySurname(d.authors ?? [])) || formatNames(sortBySurname(d.hosts ?? []));
+  const modNames = formatNames(sortBySurname(d.moderator ?? []));
+  const { authorLine, showModSeparately } = formatAuthorLine(d.event_type, authorNames, modNames, intl);
+  const rowAuthorLine = authorLine ?? (authorNames ? intl.formatMessage({ id: 'events.rowFeaturing' }, { names: authorNames }) : '');
+  const rowSubtitle = [
+    rowAuthorLine,
+    showModSeparately && modNames ? intl.formatMessage({ id: 'events.rowMod' }, { name: modNames }) : '',
+  ].filter(Boolean).join(' · ');
 
   const handleMouseMove = (e: React.MouseEvent<HTMLLIElement>) => {
     const pop = popoverRef.current;
@@ -134,13 +197,13 @@ function EventRow({ event }: { event: FestivalEvent }) {
 
   return (
     <li className={styles.row} onMouseMove={handleMouseMove}>
-      <Link to={`/festival-events/${event.slug}`} className={styles.rowLink}>
+      <Link to={eventPath(event.slug, event.event_data.is_kidfest)} className={styles.rowLink}>
         <span className={styles.rowTime}>{timeStr}</span>
-        <span className={styles.rowTitle}>{title}</span>
-        <span className={styles.rowMeta}>
-          {d.venue?.name && <span className={styles.rowVenue}>{d.venue.name}</span>}
-          <span className={styles.rowPrice}>{price}</span>
+        <span className={styles.rowTitleGroup}>
+          <span className={styles.rowTitle}>{title}</span>
+          {rowSubtitle && <span className={styles.rowAuthors}>{rowSubtitle}</span>}
         </span>
+        {venueLabel && <span className={styles.rowVenue}>{venueLabel}</span>}
       </Link>
       <EventPopover event={event} popoverRef={popoverRef} />
     </li>

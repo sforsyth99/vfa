@@ -2,8 +2,30 @@
 /**
  * Plugin Name: VFA Custom Fields
  * Description: Custom fields for interviews, people, venues, and events.
- * Version: 1.7.0
+ * Version: 1.9.0
  */
+
+add_action('init', function() {
+    register_post_type('team_members', [
+        'labels' => [
+            'name'               => 'Team Members',
+            'singular_name'      => 'Team Member',
+            'add_new_item'       => 'Add New Team Member',
+            'edit_item'          => 'Edit Team Member',
+            'new_item'           => 'New Team Member',
+            'view_item'          => 'View Team Member',
+            'search_items'       => 'Search Team Members',
+            'not_found'          => 'No team members found',
+            'not_found_in_trash' => 'No team members found in Trash',
+        ],
+        'public'       => false,
+        'show_ui'      => true,
+        'show_in_rest' => true,
+        'rest_base'    => 'team_members',
+        'supports'     => ['title'],
+        'menu_icon'    => 'dashicons-groups',
+    ]);
+});
 
 add_action('init', function() {
     global $wp_post_types;
@@ -25,7 +47,7 @@ add_action('init', function() {
 // doesn't affect the REST API. Title is hidden via CSS only (removing title
 // support would strip title.rendered from REST API responses).
 add_action('init', function() {
-    $types = ['interviews', 'people', 'venues', 'festival_events', 'books'];
+    $types = ['interviews', 'people', 'venues', 'festival_events', 'books', 'team_members'];
     foreach ($types as $type) {
         remove_post_type_support($type, 'editor');
     }
@@ -34,7 +56,7 @@ add_action('init', function() {
 add_action('admin_head', function() {
     $screen = get_current_screen();
     if (!$screen) return;
-    $types = ['interviews', 'people', 'venues', 'festival_events', 'books'];
+    $types = ['interviews', 'people', 'venues', 'festival_events', 'books', 'team_members'];
     if (!in_array($screen->post_type, $types)) return;
     echo '<style>#titlediv { display: none; }</style>';
 });
@@ -42,7 +64,7 @@ add_action('admin_head', function() {
 function vfa_sync_title_to_post($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (wp_is_post_revision($post_id)) return;
-    $types = ['interviews', 'people', 'venues', 'festival_events', 'books'];
+    $types = ['interviews', 'people', 'venues', 'festival_events', 'books', 'team_members'];
     if (!in_array(get_post_type($post_id), $types)) return;
     $title = get_post_meta($post_id, 'title', true);
     if (!$title) return;
@@ -233,7 +255,7 @@ add_action('rest_api_init', function() {
             return [
                 'is_featured'  => (bool) get_post_meta($id, 'is_featured', true),
                 'is_kidfest'   => (bool) get_post_meta($id, 'is_kidfest', true),
-                'event_type'   => get_post_meta($id, 'event_type', true) ?: 'conversation',
+                'event_type'   => get_post_meta($id, 'event_type', true) ?: '',
                 'hosts'        => array_values(array_filter(array_map(
                                       'vfa_get_person_data', get_post_meta($id, 'hosts', false)
                                   ))),
@@ -367,6 +389,7 @@ add_action('rest_api_init', function() {
                                             return $venue_id ? get_the_title((int) $venue_id) : null;
                                         })(),
                     'year'           => $year,
+                    'is_kidfest'     => (bool) get_post_meta($id, 'is_kidfest', true),
                     'roles'          => $roles,
                 ];
             }, $events);
@@ -400,6 +423,29 @@ add_action('rest_api_init', function() {
                 ];
             }, $interviews);
         },
+    ]);
+
+    register_rest_field('team_members', 'team_member_data', [
+        'get_callback' => function($post) {
+            $id = $post['id'];
+            return [
+                'name'           => get_the_title($id),
+                'pronouns'       => get_post_meta($id, 'pronouns', true),
+                'pronouns_other' => get_post_meta($id, 'pronouns_other', true),
+                'position'       => get_post_meta($id, 'position', true),
+                'team_role'     => get_post_meta($id, 'team_role', true),
+                'photo'         => wp_get_attachment_image_src(
+                                       get_post_meta($id, 'photo', true), 'medium'
+                                   ) ?: null,
+                'term_start'    => get_post_meta($id, 'term_start', true),
+                'term_end'      => get_post_meta($id, 'term_end', true),
+                'display_order' => get_post_meta($id, 'display_order', true) !== ''
+                                       ? (int) get_post_meta($id, 'display_order', true)
+                                       : null,
+                'description'   => get_post_meta($id, 'description', true),
+            ];
+        },
+        'schema' => null,
     ]);
 
     register_rest_route('vfa/v1', '/people/(?P<id>\d+)/books', [
