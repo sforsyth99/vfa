@@ -63,8 +63,8 @@ export const WithEvents: Story = {
     ],
   },
   play: async ({ canvas }) => {
-    const table = await canvas.findByRole('table');
-    await expect(table).toBeVisible();
+    const tables = await canvas.findAllByRole('table');
+    await expect(tables[0]).toBeVisible();
   },
 };
 
