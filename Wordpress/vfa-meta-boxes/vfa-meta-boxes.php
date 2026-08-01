@@ -873,15 +873,15 @@ add_action('admin_enqueue_scripts', function(string $hook) {
 
     wp_enqueue_style(
         'tom-select',
-        'https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.default.min.css',
+        plugins_url('vendor/tom-select/tom-select.default.min.css', __FILE__),
         [],
-        null
+        '2.3.1'
     );
     wp_enqueue_script(
         'tom-select',
-        'https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js',
+        plugins_url('vendor/tom-select/tom-select.complete.min.js', __FILE__),
         [],
-        null,
+        '2.3.1',
         true
     );
 
