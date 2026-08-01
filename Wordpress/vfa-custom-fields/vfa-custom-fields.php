@@ -145,6 +145,7 @@ add_action('rest_api_init', function() {
             'phone'          => get_post_meta($post_id, 'phone', true),
             'website_url'    => get_post_meta($post_id, 'website_url', true),
             'description'    => get_post_meta($post_id, 'description', true),
+            'accessibility'  => get_post_meta($post_id, 'accessibility', true),
         ];
     }
 
