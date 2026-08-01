@@ -138,6 +138,16 @@ export default function InterviewPage() {
             </div>
           )}
         </div>
+
+        {authors.length > 0 && (
+          <div className={styles.bioLinks}>
+            {authors.map((a) => (
+              <Link key={a.id} to={`/people/${a.slug}`} className={styles.bioLink}>
+                {intl.formatMessage({ id: 'interview.readBio' }, { name: a.name })}
+              </Link>
+            ))}
+          </div>
+        )}
       </header>
 
       {intro && <div className={styles.intro} dangerouslySetInnerHTML={{ __html: sanitizeHtml(intro) }} />}
@@ -174,16 +184,6 @@ export default function InterviewPage() {
             {interviewer_name && `: ${interviewer_name}`}{interviewer_age != null && `, age ${interviewer_age}`}
           </p>
           <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(interviewer_bio) }} />
-        </div>
-      )}
-
-      {authors.length > 0 && (
-        <div className={styles.bioLinks}>
-          {authors.map((a) => (
-            <Link key={a.id} to={`/people/${a.slug}`} className={styles.bioLink}>
-              {intl.formatMessage({ id: 'interview.readBio' }, { name: a.name })}
-            </Link>
-          ))}
         </div>
       )}
       </Container>
