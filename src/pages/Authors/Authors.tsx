@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetAuthors } from '../../api/people/useGetAuthors';
 import { usePageTitle } from '../../utils/usePageTitle';
+import { CURRENT_YEAR } from '../../config/festival';
 import { bySurname } from '../../utils/sortBySurname';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
@@ -14,7 +15,7 @@ function initials(name: string) {
 export default function AuthorsPage() {
   const intl = useIntl();
   usePageTitle(intl.formatMessage({ id: 'home.authors.heading' }));
-  const { data: authors, isLoading, isError } = useGetAuthors(2026);
+  const { data: authors, isLoading, isError } = useGetAuthors(CURRENT_YEAR);
 
   return (
     <main id="main-content" className={styles.page}>

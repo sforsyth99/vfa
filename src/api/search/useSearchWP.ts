@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import wretch from '../wretch.ts';
-import { BASE_URL } from '../commonTypes.ts';
+import { BASE_URL, WP_ORIGIN } from '../commonTypes.ts';
 
 const SEARCH_URL = `${BASE_URL}/search`;
 
@@ -11,8 +11,6 @@ export interface SearchResult {
   type: string;
   subtype: string;
 }
-
-const WP_ORIGIN = 'https://api.victoriafestivalofauthors.ca';
 
 const SUBTYPE_PREFIX: Record<string, string> = {
   interview:       '/interviews',
