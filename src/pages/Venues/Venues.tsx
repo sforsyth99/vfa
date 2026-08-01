@@ -34,7 +34,14 @@ export default function VenuesPage() {
             return (
               <li key={venue.id}>
                 <Link to={`/venues/${venue.slug}`} className={styles.item}>
-                  <p className={styles.name}>{title}</p>
+                  <p className={styles.name}>
+                    {title}
+                    {d.alternate_name && (
+                      <span className={styles.formerName}>
+                        {intl.formatMessage({ id: 'venue.formerly' }, { name: d.alternate_name })}
+                      </span>
+                    )}
+                  </p>
                   {buildingLine && <p className={styles.detail}>{buildingLine}</p>}
                   {addressLine && <p className={styles.detail}>{addressLine}</p>}
                 </Link>

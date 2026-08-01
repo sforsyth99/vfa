@@ -18,7 +18,7 @@ export default function VenuePage() {
   if (isLoading) return <div><FormattedMessage id="venue.loading" /></div>;
   if (error || !venue) return <div><FormattedMessage id="venue.notFound" /></div>;
 
-  const { alternate_name, name_pronunciation, building, room, street_address, city, province, postal_code, country, phone, website_url, description } = venue.venue_data;
+  const { alternate_name, name_pronunciation, building, room, street_address, city, province, postal_code, country, phone, website_url, description, accessibility } = venue.venue_data;
 
   const buildingLine = [building, room].filter(Boolean).join(', ');
   const addressLine = [street_address, city, province, postal_code, country].filter(Boolean).join(', ');
@@ -35,6 +35,12 @@ export default function VenuePage() {
         {phone && <p className={styles.phone}>{phone}</p>}
         {website_url && <a href={website_url} className={styles.websiteLink}><FormattedMessage id="venue.visitWebsite" /></a>}
         {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
+        {accessibility && (
+          <div className={styles.accessibility}>
+            <h2 className={styles.accessibilityHeading}><FormattedMessage id="venue.accessibility" /></h2>
+            <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(accessibility) }} />
+          </div>
+        )}
       </Container>
     </main>
   );

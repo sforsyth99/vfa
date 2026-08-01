@@ -50,3 +50,17 @@
   border-top: 1px solid var(--vfa-color-warm-border);
   white-space: pre-line;
 }
+
+.accessibility {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--vfa-color-warm-border);
+}
+
+.accessibilityHeading {
+  font-family: var(--vfa-font-body);
+  font-size: var(--vfa-font-size-base);
+  font-weight: var(--vfa-font-weight-semibold);
+  color: var(--vfa-color-text-heading);
+  margin: 0 0 0.75rem;
+}

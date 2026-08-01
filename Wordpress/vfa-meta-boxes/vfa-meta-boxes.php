@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Meta Boxes
  * Description: Custom meta box UI for VFA post types. No third-party dependencies.
- * Version: 1.8.0
+ * Version: 1.9.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -147,7 +147,9 @@ function vfa_mb_config(): array {
                 ['id' => 'country',     'name' => 'Country',      'type' => 'text', 'std' => 'Canada'],
                 ['id' => 'phone',       'name' => 'Phone',        'type' => 'text'],
                 ['id' => 'website_url', 'name' => 'Website',      'type' => 'url'],
-                ['id' => 'description', 'name' => 'Description',  'type' => 'wysiwyg'],
+                ['id' => 'description',   'name' => 'Description',   'type' => 'wysiwyg'],
+                ['id' => 'accessibility', 'name' => 'Accessibility', 'type' => 'wysiwyg',
+                 'desc' => 'Wheelchair access, hearing loops, parking, accessible washrooms, etc.'],
             ],
         ],
         [

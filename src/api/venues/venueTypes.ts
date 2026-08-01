@@ -19,6 +19,7 @@ export interface VenueData {
   phone: string;
   website_url: string;
   description: string;
+  accessibility: string;
 }
 
 export interface Venue {
