@@ -229,6 +229,11 @@
   "featured.heading": "Featured Events",
   "featured.details": "Event details →",
 
+  "media.heading": "Media",
+  "media.loading": "Loading media…",
+  "media.error": "Error loading media.",
+  "media.empty": "No media found.",
+
   "instagram.heading": "Follow Us on Instagram",
   "instagram.postLinkLabel": "View Instagram post: {caption}",
   "instagram.viewPost": "View on Instagram",
