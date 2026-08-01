@@ -220,6 +220,10 @@
     padding-top: 0;
 }
 
+.pair:last-child {
+    border-bottom: none;
+}
+
 .question {
     font-size: 1.125rem;
     font-weight: var(--vfa-font-weight-semibold);

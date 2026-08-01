@@ -242,6 +242,11 @@
   "featured.heading": "Featured Events",
   "featured.details": "Event details →",
 
+  "strategicPlan.pageTitle": "Strategic Plan",
+  "strategicPlan.description": "Read about VFA's goals, values, and direction for the years ahead.",
+  "strategicPlan.download": "Download Strategic Plan (PDF)",
+  "strategicPlan.pdfLabel": "VFA Strategic Plan 2022 document",
+
   "media.heading": "Media",
   "media.loading": "Loading media…",
   "media.error": "Error loading media.",

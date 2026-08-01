@@ -1,0 +1,51 @@
+.page {
+    padding-block: 3rem 5rem;
+}
+
+.description {
+    font-size: var(--vfa-font-size-md);
+    color: var(--vfa-color-text-body);
+    margin: 0 0 2rem;
+    line-height: var(--vfa-line-height-body);
+}
+
+.downloadBtn {
+    display: inline-block;
+    padding: 0.7em 1.6em;
+    background: var(--vfa-color-2026-indigo);
+    color: var(--vfa-color-text-light);
+    font-size: var(--vfa-font-size-base);
+    font-weight: var(--vfa-font-weight-semibold);
+    border-radius: var(--vfa-radius-md);
+    text-decoration: none;
+    margin-bottom: 2.5rem;
+    transition: background var(--vfa-transition);
+}
+
+.downloadBtn:hover {
+    background: var(--vfa-color-2026-indigo-mid);
+}
+
+.pdfWrapper {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border: 1px solid var(--vfa-color-border-faint);
+    border-radius: var(--vfa-radius-lg);
+    overflow: hidden;
+}
+
+.pdfEmbed {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+@media (max-width: 640px) {
+    .page {
+        padding-block: 2rem 3rem;
+    }
+
+    .pdfWrapper {
+        display: none;
+    }
+}
