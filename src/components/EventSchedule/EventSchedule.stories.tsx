@@ -18,7 +18,7 @@ const venue = {
   id: 1, slug: 'mcpherson', name: 'McPherson Playhouse', alternate_name: '',
   name_pronunciation: '', building: '', room: '', street_address: '3 Centennial Square',
   city: 'Victoria', province: 'BC', postal_code: 'V8W 1P5', country: 'Canada',
-  phone: '', website_url: '', description: '',
+  phone: '', website_url: '', description: '', accessibility: '',
 };
 
 function makeEvent(overrides: Partial<FestivalEvent> & { event_date: string }): FestivalEvent {
