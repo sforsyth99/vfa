@@ -11,9 +11,8 @@ import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
+import { FESTIVAL_START } from '../../config/festival';
 import styles from './Events.module.css';
-
-const FESTIVAL_START = '2026-10-12';
 
 function formatDayHeading(dateStr: string): string {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-CA', {

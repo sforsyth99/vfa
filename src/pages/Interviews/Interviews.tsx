@@ -90,7 +90,7 @@ export default function InterviewsPage() {
                   <div className={styles.itemText}>
                     <p className={styles.itemName}>{authorLabel}</p>
                     <p className={isMissing ? styles.itemMissing : styles.itemIntro}>
-                      {isMissing ? 'No content yet.' : <>{snippet}{rawText.length > 55 ? '…' : ''}</>}
+                      {isMissing ? <FormattedMessage id="interviews.noContent" /> : <>{snippet}{rawText.length > 55 ? '…' : ''}</>}
                     </p>
                   </div>
                 </Link>

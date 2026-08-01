@@ -121,6 +121,7 @@
   "interviews.error": "Error loading interviews.",
   "interviews.empty": "No interviews yet.",
   "interviews.emptyYear": "No interviews for {year}.",
+  "interviews.noContent": "No content yet.",
 
   "person.loading": "Loading…",
   "person.notFound": "Person not found",
