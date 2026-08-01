@@ -6,6 +6,7 @@ import { CURRENT_YEAR } from '../../config/festival';
 import { bySurname } from '../../utils/sortBySurname';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { QueryState } from '../../components/QueryState/QueryState';
 import styles from './Authors.module.css';
 
 function initials(name: string) {
@@ -22,8 +23,7 @@ export default function AuthorsPage() {
       <Container>
         <PageTitle><FormattedMessage id="home.authors.heading" /></PageTitle>
 
-        {isLoading && <p className={styles.state}><FormattedMessage id="home.authors.loading" /></p>}
-        {isError && <p className={styles.state}><FormattedMessage id="home.authors.error" /></p>}
+        <QueryState isLoading={isLoading} isError={isError} loadingId="home.authors.loading" errorId="home.authors.error" />
 
         {authors && (
           <div className={styles.grid}>

@@ -7,6 +7,7 @@ import { sortBySurname } from '../../utils/sortBySurname';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { QueryState } from '../../components/QueryState/QueryState';
 import styles from './Interviews.module.css';
 
 export default function InterviewsPage() {
@@ -31,16 +32,14 @@ export default function InterviewsPage() {
     return interviews.filter(i => i.interview_data?.festival_year === activeYear);
   }, [interviews, activeYear]);
 
-  if (isLoading) return <div className={styles.state}><FormattedMessage id="interviews.loading" /></div>;
-  if (isError) return <div className={styles.state}><FormattedMessage id="interviews.error" /></div>;
-  if (!interviews?.length) return <div className={styles.state}><FormattedMessage id="interviews.empty" /></div>;
-
   return (
     <main id="main-content" className={styles.page}>
       <Container>
       <PageTitle><FormattedMessage id="interviews.heading" /></PageTitle>
 
-      {years.length > 1 && (
+      <QueryState isLoading={isLoading} isError={isError} isEmpty={!isLoading && !isError && !interviews?.length} loadingId="interviews.loading" errorId="interviews.error" emptyId="interviews.empty" />
+
+      {interviews && interviews.length > 0 && years.length > 1 && (
         <div className={styles.yearFilter} role="group" aria-label={intl.formatMessage({ id: 'interviews.yearFilter.label' })}>
           {years.map(year => (
             <button
@@ -55,11 +54,10 @@ export default function InterviewsPage() {
         </div>
       )}
 
-      {filtered.length === 0 ? (
-        <div className={styles.state}>
-          <FormattedMessage id="interviews.emptyYear" values={{ year: activeYear }} />
-        </div>
-      ) : (
+      {interviews && interviews.length > 0 && filtered.length === 0 && (
+        <QueryState isLoading={false} isError={false} isEmpty={true} loadingId="interviews.loading" emptyId="interviews.emptyYear" emptyValues={{ year: activeYear ?? '' }} />
+      )}
+      {interviews && interviews.length > 0 && filtered.length > 0 && (
         <ul className={styles.list}>
           {filtered.map((interview) => {
             const data = interview.interview_data;

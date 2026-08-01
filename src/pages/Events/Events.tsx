@@ -10,6 +10,7 @@ import { eventPath } from '../../utils/eventPath';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { QueryState } from '../../components/QueryState/QueryState';
 import styles from './Events.module.css';
 
 const FESTIVAL_START = '2026-10-12';
@@ -252,11 +253,7 @@ function Events() {
       <Container>
         <PageTitle><FormattedMessage id="events.heading" /></PageTitle>
 
-        {isLoading && <p className={styles.state}><FormattedMessage id="events.loading" /></p>}
-        {error && <p className={styles.state}><FormattedMessage id="events.error" /></p>}
-        {!isLoading && !error && upcoming.length === 0 && (
-          <p className={styles.state}><FormattedMessage id="events.empty" /></p>
-        )}
+        <QueryState isLoading={isLoading} isError={!!error} isEmpty={!isLoading && !error && upcoming.length === 0} loadingId="events.loading" errorId="events.error" emptyId="events.empty" />
 
         {preseason.length > 0 && (
           <EventGroup

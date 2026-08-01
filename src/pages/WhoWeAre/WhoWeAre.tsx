@@ -6,6 +6,7 @@ import { formatPronouns } from '../../utils/formatPronouns.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { QueryState } from '../../components/QueryState/QueryState';
 import styles from './WhoWeAre.module.css';
 
 function sortMembers(members: TeamMember[]): TeamMember[] {
@@ -122,16 +123,7 @@ export default function WhoWeArePage() {
           {intl.formatMessage({ id: 'whoWeAre.intro' }, { year: new Date().getFullYear() })}
         </p>
 
-        {isLoading && (
-          <p className={styles.state} role="status">
-            <FormattedMessage id="whoWeAre.loading" />
-          </p>
-        )}
-        {isError && (
-          <p className={styles.state} role="status">
-            <FormattedMessage id="whoWeAre.error" />
-          </p>
-        )}
+        <QueryState isLoading={isLoading} isError={isError} loadingId="whoWeAre.loading" errorId="whoWeAre.error" />
 
         {members && (
           <>

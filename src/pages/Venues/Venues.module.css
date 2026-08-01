@@ -2,11 +2,6 @@
     padding-block: 3rem 5rem;
 }
 
-.state {
-    color: var(--vfa-color-ink-light);
-    padding: 2rem 0;
-}
-
 .list {
     list-style: none;
     margin: 0;

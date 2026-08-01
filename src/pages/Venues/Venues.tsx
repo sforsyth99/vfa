@@ -5,6 +5,7 @@ import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { QueryState } from '../../components/QueryState/QueryState';
 import styles from './Venues.module.css';
 
 export default function VenuesPage() {
@@ -21,11 +22,7 @@ export default function VenuesPage() {
       <Container>
         <PageTitle><FormattedMessage id="venues.heading" /></PageTitle>
 
-        {isLoading && <p className={styles.state}><FormattedMessage id="venues.loading" /></p>}
-        {error && <p className={styles.state}><FormattedMessage id="venues.error" /></p>}
-        {!isLoading && !error && sorted.length === 0 && (
-          <p className={styles.state}><FormattedMessage id="venues.empty" /></p>
-        )}
+        <QueryState isLoading={isLoading} isError={!!error} isEmpty={!isLoading && !error && sorted.length === 0} loadingId="venues.loading" errorId="venues.error" emptyId="venues.empty" />
 
         <ul className={styles.list}>
           {sorted.map((venue) => {
