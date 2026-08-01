@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { QueryState } from '../QueryState/QueryState';
 import { Link } from 'react-router-dom';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
@@ -116,8 +117,7 @@ export function EventSchedule({
   const intl = useIntl();
   const { data: events, isLoading, isError } = useGetFestivalEvents();
 
-  if (isLoading) return <div>{intl.formatMessage({ id: 'home.events.loading' })}</div>;
-  if (isError) return <div>{intl.formatMessage({ id: 'home.events.error' })}</div>;
+  if (isLoading || isError) return <QueryState isLoading={isLoading} isError={isError} loadingId="home.events.loading" errorId="home.events.error" />;
   if (!events?.length) return null;
 
   const today = new Date().toISOString().slice(0, 10);

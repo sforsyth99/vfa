@@ -10,6 +10,18 @@
   "whoWeAre.honorary.heading": "Other Notable Members",
 
   "common.loading": "Loading…",
+  "dynamicPage.notFound": "Page not found",
+
+  "errorBoundary.heading": "Oops — something went wrong.",
+  "errorBoundary.body": "Try refreshing the page. If the problem persists, please <contactLink>contact us</contactLink>.",
+
+  "posts.loading": "Loading posts…",
+  "posts.error": "Error loading posts.",
+  "posts.empty": "No posts found.",
+  "posts.loadMore": "Load more",
+  "posts.loadingMore": "Loading…",
+  "posts.noMore": "No more posts.",
+  "posts.latestHeading": "Latest Posts",
 
   "accessibility.title": "Accessibility Information",
   "accessibility.skipToContent": "Skip to main content",

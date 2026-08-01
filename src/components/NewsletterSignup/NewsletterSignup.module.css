@@ -83,3 +83,13 @@
     position: absolute;
     left: -5000px;
 }
+
+@media (max-width: 640px) {
+    .form {
+        flex-direction: column;
+    }
+
+    .button {
+        width: 100%;
+    }
+}

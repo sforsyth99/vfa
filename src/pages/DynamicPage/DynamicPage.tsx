@@ -1,4 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 import { useGetPages } from '../../api/pages/useGetPages';
 import { useGetPage } from '../../api/pages/useGetPage';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
@@ -23,7 +24,7 @@ export default function DynamicPage() {
 
   if (interviewMatch) return <Navigate to={`/interviews/${slug}`} replace />;
 
-  if (loadingPages || loadingInterviews || loadingPage || loadingPost) return <div>Loading...</div>;
+  if (loadingPages || loadingInterviews || loadingPage || loadingPost) return <div><FormattedMessage id="common.loading" /></div>;
 
   if (postData) {
     return (
@@ -36,7 +37,7 @@ export default function DynamicPage() {
     );
   }
 
-  if (!pageId || !pageData) return <div>Page not found</div>;
+  if (!pageId || !pageData) return <div><FormattedMessage id="dynamicPage.notFound" /></div>;
 
   return (
     <main id="main-content" className={styles.page}>

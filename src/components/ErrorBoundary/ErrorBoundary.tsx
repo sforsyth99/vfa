@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import type { ReactNode } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { WEBMASTER_EMAIL } from '../../config/festival';
 import styles from './ErrorBoundary.module.css';
 
 interface Props {
@@ -21,10 +23,16 @@ class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <main className={styles.errorPage}>
-          <h1>Oops — something went wrong.</h1>
+          <h1><FormattedMessage id="errorBoundary.heading" /></h1>
           <p>
-            Try refreshing the page. If the problem persists, please{' '}
-          <a href="mailto:webmaster@victoriafestivalofauthors.ca">contact us</a>.
+            <FormattedMessage
+              id="errorBoundary.body"
+              values={{
+                contactLink: (chunks) => (
+                  <a href={`mailto:${WEBMASTER_EMAIL}`}>{chunks}</a>
+                ),
+              }}
+            />
           </p>
         </main>
       );
