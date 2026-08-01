@@ -92,6 +92,16 @@
     margin: 2.5rem 0;
 }
 
+@media (max-width: 640px) {
+    .page {
+        padding-block: 2rem 3rem;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+}
+
 .content :global(table) {
     width: 100%;
     border-collapse: collapse;

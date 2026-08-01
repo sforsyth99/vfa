@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetAuthors } from '../../api/people/useGetAuthors';
 import { usePageTitle } from '../../utils/usePageTitle';
+import { CURRENT_YEAR } from '../../config/festival';
 import { bySurname } from '../../utils/sortBySurname';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { QueryState } from '../../components/QueryState/QueryState';
 import styles from './Authors.module.css';
 
 function initials(name: string) {
@@ -14,15 +16,14 @@ function initials(name: string) {
 export default function AuthorsPage() {
   const intl = useIntl();
   usePageTitle(intl.formatMessage({ id: 'home.authors.heading' }));
-  const { data: authors, isLoading, isError } = useGetAuthors(2026);
+  const { data: authors, isLoading, isError } = useGetAuthors(CURRENT_YEAR);
 
   return (
     <main id="main-content" className={styles.page}>
       <Container>
         <PageTitle><FormattedMessage id="home.authors.heading" /></PageTitle>
 
-        {isLoading && <p className={styles.state}><FormattedMessage id="home.authors.loading" /></p>}
-        {isError && <p className={styles.state}><FormattedMessage id="home.authors.error" /></p>}
+        <QueryState isLoading={isLoading} isError={isError} loadingId="home.authors.loading" errorId="home.authors.error" />
 
         {authors && (
           <div className={styles.grid}>

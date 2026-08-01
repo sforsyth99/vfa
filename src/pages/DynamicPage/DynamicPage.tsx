@@ -1,4 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 import { useGetPages } from '../../api/pages/useGetPages';
 import { useGetPage } from '../../api/pages/useGetPage';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
@@ -23,25 +24,25 @@ export default function DynamicPage() {
 
   if (interviewMatch) return <Navigate to={`/interviews/${slug}`} replace />;
 
-  if (loadingPages || loadingInterviews || loadingPage || loadingPost) return <div>Loading...</div>;
+  if (loadingPages || loadingInterviews || loadingPage || loadingPost) return <div><FormattedMessage id="common.loading" /></div>;
 
   if (postData) {
     return (
       <main id="main-content" className={styles.page}>
         <Container narrow>
-          <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: postData.title.rendered }} />
+          <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: sanitizeHtml(postData.title.rendered) }} />
           <div className={styles.content} dangerouslySetInnerHTML={{ __html: sanitizeHtml(postData.content.rendered) }} />
         </Container>
       </main>
     );
   }
 
-  if (!pageId || !pageData) return <div>Page not found</div>;
+  if (!pageId || !pageData) return <div><FormattedMessage id="dynamicPage.notFound" /></div>;
 
   return (
     <main id="main-content" className={styles.page}>
       <Container narrow>
-        <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: pageData.title.rendered }} />
+        <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageData.title.rendered) }} />
         <div className={styles.content} dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageData.content.rendered) }} />
       </Container>
     </main>

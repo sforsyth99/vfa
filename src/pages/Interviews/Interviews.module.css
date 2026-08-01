@@ -3,11 +3,6 @@
 }
 
 
-.state {
-    padding: 3rem 2rem;
-    color: var(--vfa-color-ink-light);
-}
-
 .list {
     list-style: none;
     padding: 0;

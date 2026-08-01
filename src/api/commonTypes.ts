@@ -1,4 +1,6 @@
-export const BASE_URL = 'https://api.victoriafestivalofauthors.ca/wp-json/wp/v2';
+export const WP_ORIGIN = 'https://api.victoriafestivalofauthors.ca';
+export const BASE_URL = `${WP_ORIGIN}/wp-json/wp/v2`;
+export const VFA_API_BASE = `${WP_ORIGIN}/wp-json/vfa/v1`;
 
 //Remaining status types are not visible without authentication.
 export enum StatusType {

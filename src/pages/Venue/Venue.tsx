@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetVenue } from '../../api/venues/useGetVenue.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
@@ -33,7 +34,7 @@ export default function VenuePage() {
         {addressLine && <p className={styles.address}>{addressLine}</p>}
         {phone && <p className={styles.phone}>{phone}</p>}
         {website_url && <a href={website_url} className={styles.websiteLink}><FormattedMessage id="venue.visitWebsite" /></a>}
-        {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
+        {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
       </Container>
     </main>
   );

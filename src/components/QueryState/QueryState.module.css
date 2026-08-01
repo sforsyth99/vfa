@@ -1,0 +1,10 @@
+.state {
+  color: var(--vfa-color-ink-light);
+  padding: 2rem 0;
+}
+
+@media (max-width: 640px) {
+  .state {
+    padding: 1.5rem 0;
+  }
+}

@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import wretch from '../wretch.ts';
-
-const VFA_API_BASE = 'https://api.victoriafestivalofauthors.ca/wp-json/vfa/v1';
+import { VFA_API_BASE } from '../commonTypes.ts';
 
 export interface PersonEvent {
   id: number;

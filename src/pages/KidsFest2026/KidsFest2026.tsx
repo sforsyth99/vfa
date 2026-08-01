@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { useGetKidfestAuthors } from '../../api/people/useGetKidfestAuthors';
+import { CURRENT_YEAR } from '../../config/festival';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import { useGetBooks } from '../../api/books/useGetBooks';
 import { Container } from '../../components/Container/Container';
@@ -157,7 +158,7 @@ function KidsFestEvents() {
 
 function KidsFestAuthors() {
   const intl = useIntl();
-  const { data: everyone, isLoading } = useGetKidfestAuthors(2026);
+  const { data: everyone, isLoading } = useGetKidfestAuthors(CURRENT_YEAR);
 
   if (isLoading) return <p>{intl.formatMessage({ id: 'kidsfest2026.authors.loading' })}</p>;
   if (!everyone?.length) return null;
@@ -171,7 +172,7 @@ function KidsFestAuthors() {
     <section className={styles.section}>
       <div className={styles.authorGrid} aria-label={intl.formatMessage({ id: 'kidsfest2026.authors.heading' })}>
         {sorted.map((author) => {
-          const isGuest = author.elder_years?.includes(2026);
+          const isGuest = author.elder_years?.includes(CURRENT_YEAR);
           const photo = author.photo;
           const initials = author.name.trim().split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
           return (

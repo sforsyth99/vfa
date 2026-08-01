@@ -1,3 +1,4 @@
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useInfinitePosts } from '../../api/posts/useGetPosts';
 import type { Post } from '../../api/posts/postTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
@@ -6,6 +7,7 @@ import styles from './InfinitePosts.module.css';
 const POSTS_PER_PAGE = 3;
 
 function InfinitePosts() {
+  const intl = useIntl();
   const {
     data,
     isLoading,
@@ -13,18 +15,17 @@ function InfinitePosts() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    error,
   } = useInfinitePosts(POSTS_PER_PAGE);
 
   const allPosts: Post[] = data ? data.pages.flat() : [];
 
-  if (isLoading) return <div>Loading posts...</div>;
-  if (isError) return <div>Error loading posts: {error instanceof Error ? error.message : 'Unknown error'}</div>;
-  if (!allPosts.length) return <div>No posts found.</div>;
+  if (isLoading) return <div><FormattedMessage id="posts.loading" /></div>;
+  if (isError) return <div><FormattedMessage id="posts.error" /></div>;
+  if (!allPosts.length) return <div><FormattedMessage id="posts.empty" /></div>;
 
   return (
     <div>
-      <h2>Latest Posts (Infinite)</h2>
+      <h2><FormattedMessage id="posts.latestHeading" /></h2>
       <ul>
         {allPosts.map(post => (
           <li key={post.id}>
@@ -34,10 +35,12 @@ function InfinitePosts() {
       </ul>
       {hasNextPage && (
         <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} className={styles.spacedTop}>
-          {isFetchingNextPage ? 'Loading...' : 'Load more'}
+          {isFetchingNextPage
+            ? intl.formatMessage({ id: 'posts.loadingMore' })
+            : intl.formatMessage({ id: 'posts.loadMore' })}
         </button>
       )}
-      {!hasNextPage && <div className={styles.spacedTop}>No more posts.</div>}
+      {!hasNextPage && <div className={styles.spacedTop}><FormattedMessage id="posts.noMore" /></div>}
     </div>
   );
 }

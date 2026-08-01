@@ -10,6 +10,18 @@
   "whoWeAre.honorary.heading": "Other Notable Members",
 
   "common.loading": "Loading…",
+  "dynamicPage.notFound": "Page not found",
+
+  "errorBoundary.heading": "Oops — something went wrong.",
+  "errorBoundary.body": "Try refreshing the page. If the problem persists, please <contactLink>contact us</contactLink>.",
+
+  "posts.loading": "Loading posts…",
+  "posts.error": "Error loading posts.",
+  "posts.empty": "No posts found.",
+  "posts.loadMore": "Load more",
+  "posts.loadingMore": "Loading…",
+  "posts.noMore": "No more posts.",
+  "posts.latestHeading": "Latest Posts",
 
   "accessibility.title": "Accessibility Information",
   "accessibility.skipToContent": "Skip to main content",
@@ -121,6 +133,7 @@
   "interviews.error": "Error loading interviews.",
   "interviews.empty": "No interviews yet.",
   "interviews.emptyYear": "No interviews for {year}.",
+  "interviews.noContent": "No content yet.",
 
   "person.loading": "Loading…",
   "person.notFound": "Person not found",
@@ -228,6 +241,11 @@
   "featured.eyebrow": "Don't miss",
   "featured.heading": "Featured Events",
   "featured.details": "Event details →",
+
+  "media.heading": "Media",
+  "media.loading": "Loading media…",
+  "media.error": "Error loading media.",
+  "media.empty": "No media found.",
 
   "instagram.heading": "Follow Us on Instagram",
   "instagram.postLinkLabel": "View Instagram post: {caption}",

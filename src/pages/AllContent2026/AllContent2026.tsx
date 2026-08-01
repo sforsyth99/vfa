@@ -8,6 +8,7 @@ import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEve
 import type { PersonData } from '../../api/people/peopleTypes';
 import { EventSchedule } from '../../components/EventSchedule/EventSchedule';
 import { useGetBooks } from '../../api/books/useGetBooks';
+import { CURRENT_YEAR } from '../../config/festival';
 import type { Book } from '../../api/books/bookTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { bySurname } from '../../utils/sortBySurname';
@@ -164,7 +165,7 @@ function AuthorPhotoGrid({
 
 function AuthorsList() {
   const intl = useIntl();
-  const { data: authors, isLoading, isError } = useGetAuthors(2026);
+  const { data: authors, isLoading, isError } = useGetAuthors(CURRENT_YEAR);
 
   if (isLoading) return <div>{intl.formatMessage({ id: 'home.authors.loading' })}</div>;
   if (isError) return <div>{intl.formatMessage({ id: 'home.authors.error' })}</div>;
@@ -175,7 +176,7 @@ function AuthorsList() {
 
 function KidsAuthorsList() {
   const intl = useIntl();
-  const { data: authors, isLoading, isError } = useGetKidfestAuthors(2026);
+  const { data: authors, isLoading, isError } = useGetKidfestAuthors(CURRENT_YEAR);
 
   if (isLoading) return <div>{intl.formatMessage({ id: 'home.kidsAuthors.loading' })}</div>;
   if (isError) return <div>{intl.formatMessage({ id: 'home.kidsAuthors.error' })}</div>;
@@ -375,7 +376,7 @@ function SupportingPersonBioSnippets() {
 
 function AuthorBioSnippets() {
   const intl = useIntl();
-  const { data: authors, isLoading, isError } = useGetAuthors(2026);
+  const { data: authors, isLoading, isError } = useGetAuthors(CURRENT_YEAR);
 
   if (isLoading) return <div>{intl.formatMessage({ id: 'home.authorBios.loading' })}</div>;
   if (isError) return <div>{intl.formatMessage({ id: 'home.authorBios.error' })}</div>;

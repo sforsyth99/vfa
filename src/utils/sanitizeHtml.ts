@@ -1,6 +1,5 @@
 import DOMPurify from 'dompurify';
-
-const WP_ORIGIN = 'https://api.victoriafestivalofauthors.ca';
+import { WP_ORIGIN } from '../api/commonTypes.ts';
 
 export function sanitizeHtml(html: string): string {
   const rewritten = html.replaceAll(WP_ORIGIN, '');

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvent } from '../../api/festivalEvents/useGetFestivalEvent.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { sortBySurname } from '../../utils/sortBySurname.ts';
 import type { PersonData } from '../../api/people/peopleTypes.ts';
 import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
@@ -124,7 +125,7 @@ export default function FestivalEventPage() {
         </p>
       )}
       {age_range && <p className={styles.ageRange}>{age_range}</p>}
-      {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
+      {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
       {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
 
       {(tickets.length > 0 || eventbrite_url) && (

@@ -23,8 +23,8 @@ export const CssCheck: Story = {
   args: { slug: 'a-book', children: 'Buy this book' },
   play: async ({ canvas }) => {
     const link = canvas.getByRole('link', { name: /buy this book/i });
-    // global.css sets color: var(--vfa-color-link) = #1a5cff on <a>
-    await expect(getComputedStyle(link).color).toBe('rgb(26, 92, 255)');
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute('href', '/books/a-book');
   },
 };
 

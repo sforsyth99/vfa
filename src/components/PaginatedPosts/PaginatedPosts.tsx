@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetPaginatedPosts } from '../../api/posts/useGetPosts';
 import type { Post } from '../../api/posts/postTypes.ts';
 import styles from './PaginatedPosts.module.css';
@@ -6,6 +7,7 @@ import styles from './PaginatedPosts.module.css';
 const POSTS_PER_PAGE = 3;
 
 function PaginatedPosts() {
+  const intl = useIntl();
   const [page, setPage] = useState(1);
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -15,7 +17,6 @@ function PaginatedPosts() {
   React.useEffect(() => {
     if (posts && posts.length > 0) {
       setAllPosts(prev => {
-        // Avoid duplicates if page is reset
         const ids = new Set(prev.map(p => p.id));
         return [...prev, ...posts.filter(p => !ids.has(p.id))];
       });
@@ -31,13 +32,13 @@ function PaginatedPosts() {
     setPage(prev => prev + 1);
   };
 
-  if (isLoading && page === 1) return <div>Loading posts...</div>;
-  if (error) return <div>Error loading posts.</div>;
-  if (!allPosts || allPosts.length === 0) return <div>No posts found.</div>;
+  if (isLoading && page === 1) return <div><FormattedMessage id="posts.loading" /></div>;
+  if (error) return <div><FormattedMessage id="posts.error" /></div>;
+  if (!allPosts || allPosts.length === 0) return <div><FormattedMessage id="posts.empty" /></div>;
 
   return (
     <div>
-      <h2>Latest Posts</h2>
+      <h2><FormattedMessage id="posts.latestHeading" /></h2>
       <ul>
         {allPosts.map(post => (
           <li key={post.id}>
@@ -47,7 +48,9 @@ function PaginatedPosts() {
       </ul>
       {hasMore && (
         <button onClick={handleLoadMore} disabled={isLoadingMore} className={styles.loadMore}>
-          {isLoadingMore ? 'Loading...' : 'Load more'}
+          {isLoadingMore
+            ? intl.formatMessage({ id: 'posts.loadingMore' })
+            : intl.formatMessage({ id: 'posts.loadMore' })}
         </button>
       )}
     </div>

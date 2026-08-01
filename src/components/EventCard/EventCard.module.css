@@ -36,3 +36,14 @@
     display: flex;
     gap: 1.5rem;
 }
+
+@media (max-width: 640px) {
+    .eventCard {
+        padding: 1rem;
+    }
+
+    .eventCard div {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
