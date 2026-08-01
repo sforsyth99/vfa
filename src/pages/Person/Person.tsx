@@ -6,6 +6,7 @@ import { useGetPersonEvents, type PersonEvent } from '../../api/people/useGetPer
 import { useGetPersonBooks, type PersonBook } from '../../api/people/useGetPersonBooks.ts';
 import { useGetPersonInterviews, type PersonInterview } from '../../api/people/useGetPersonInterview.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
 import { BookLink } from '../../components/BookLink/BookLink.tsx';
@@ -35,7 +36,7 @@ function AuthorMeta({ name, firstName, name_pronunciation, alternate_name, bio, 
       <PageTitle>{name}</PageTitle>
       {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
       {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
-      {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: bio }} />}
+      {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: sanitizeHtml(bio) }} />}
       {website_url && (
         <a href={website_url} className={styles.websiteLink}>
           <FormattedMessage id="person.websiteLink" />

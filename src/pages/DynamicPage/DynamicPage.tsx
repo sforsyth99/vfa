@@ -29,7 +29,7 @@ export default function DynamicPage() {
     return (
       <main id="main-content" className={styles.page}>
         <Container narrow>
-          <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: postData.title.rendered }} />
+          <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: sanitizeHtml(postData.title.rendered) }} />
           <div className={styles.content} dangerouslySetInnerHTML={{ __html: sanitizeHtml(postData.content.rendered) }} />
         </Container>
       </main>
@@ -41,7 +41,7 @@ export default function DynamicPage() {
   return (
     <main id="main-content" className={styles.page}>
       <Container narrow>
-        <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: pageData.title.rendered }} />
+        <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageData.title.rendered) }} />
         <div className={styles.content} dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageData.content.rendered) }} />
       </Container>
     </main>

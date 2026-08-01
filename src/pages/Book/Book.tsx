@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetBook } from '../../api/books/useGetBook.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
+import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import type { PersonData } from '../../api/people/peopleTypes.ts';
 import { Container } from '../../components/Container/Container';
@@ -60,7 +61,7 @@ export default function BookPage() {
             </p>
           )}
           {ageLabel && <p className={styles.ageRange}>{ageLabel}</p>}
-          {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: description }} />}
+          {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
           {munros_url && (
             <a href={munros_url} className={styles.buyLink} target="_blank" rel="noopener noreferrer">
               <FormattedMessage id="book.buyOnline" />
