@@ -1,0 +1,181 @@
+.page {
+    padding-block: 3rem 5rem;
+}
+
+.yearList {
+    margin-top: 2rem;
+    border-top: 1px solid var(--vfa-color-border-faint);
+}
+
+/* ── Year accordion ─────────────────────────────────────── */
+
+.yearSection {
+    border-bottom: 1px solid var(--vfa-color-border-faint);
+}
+
+.yearToggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--vfa-color-text-heading);
+}
+
+.yearToggle:hover .yearLabel {
+    color: var(--vfa-color-link);
+}
+
+.yearLabel {
+    font-family: var(--vfa-font-body);
+    font-size: 1.1rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: 0.01em;
+    transition: color var(--vfa-transition);
+}
+
+.yearCount {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-light);
+    margin-left: auto;
+}
+
+.yearChevron {
+    font-size: 0.7rem;
+    color: var(--vfa-color-ink-light);
+}
+
+/* ── Year content ───────────────────────────────────────── */
+
+.yearContent {
+    padding-bottom: 1.5rem;
+    padding-left: 1.25rem;
+}
+
+.yearContentHidden {
+    display: none;
+}
+
+/* ── Interview list ─────────────────────────────────────── */
+
+.interviewList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.interviewItem {
+    border-bottom: 1px solid var(--vfa-color-border-faint);
+}
+
+.interviewItem:last-child {
+    border-bottom: none;
+}
+
+.interviewLink {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    text-decoration: none;
+    color: inherit;
+}
+
+.interviewLink:hover .interviewAuthor {
+    color: var(--vfa-color-link);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.interviewAuthor {
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-text-heading);
+    flex-shrink: 0;
+    transition: color var(--vfa-transition);
+}
+
+.interviewBook {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-light);
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Load more ──────────────────────────────────────────── */
+
+.loadMore {
+    margin-top: 1rem;
+    padding: 0.5em 1.25em;
+    background: none;
+    border: 1px solid var(--vfa-color-border-faint);
+    border-radius: var(--vfa-radius-md);
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-light);
+    cursor: pointer;
+    transition: border-color var(--vfa-transition), color var(--vfa-transition);
+}
+
+.loadMore:hover:not(:disabled) {
+    border-color: var(--vfa-color-link);
+    color: var(--vfa-color-link);
+}
+
+.loadMore:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* ── Social links ───────────────────────────────────── */
+
+.socialSection {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--vfa-color-border-faint);
+}
+
+.socialHeading {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-light);
+    text-transform: uppercase;
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    margin-bottom: 0.75rem;
+}
+
+.socialLinks {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.socialLink {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-link);
+    text-decoration: none;
+}
+
+.socialLink:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+    .page {
+        padding-block: 2rem 3rem;
+    }
+
+    .interviewLink {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .interviewBook {
+        white-space: normal;
+    }
+}

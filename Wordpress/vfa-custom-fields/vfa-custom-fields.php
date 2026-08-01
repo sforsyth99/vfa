@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Custom Fields
  * Description: Custom fields for interviews, people, venues, and events.
- * Version: 1.9.0
+ * Version: 2.0.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -449,6 +449,147 @@ add_action('rest_api_init', function() {
             ];
         },
         'schema' => null,
+    ]);
+
+    register_rest_route('vfa/v1', '/interviews/years', [
+        'methods'             => 'GET',
+        'permission_callback' => '__return_true',
+        'callback'            => function() {
+            global $wpdb;
+            $rows = $wpdb->get_results($wpdb->prepare(
+                "SELECT CAST(pm.meta_value AS UNSIGNED) AS year, COUNT(*) AS count
+                 FROM {$wpdb->postmeta} pm
+                 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+                 WHERE pm.meta_key = %s
+                   AND p.post_type  = %s
+                   AND p.post_status = %s
+                   AND pm.meta_value != ''
+                   AND pm.meta_value != '0'
+                 GROUP BY year
+                 ORDER BY year DESC",
+                'festival_year', 'interviews', 'publish'
+            ));
+            return array_map(function($row) {
+                return ['year' => (int) $row->year, 'count' => (int) $row->count];
+            }, $rows);
+        },
+    ]);
+
+    register_rest_route('vfa/v1', '/interviews', [
+        'methods'             => 'GET',
+        'permission_callback' => '__return_true',
+        'callback'            => function($request) {
+            $year     = $request->get_param('year') ? (int) $request->get_param('year') : null;
+            $per_page = min(abs((int) ($request->get_param('per_page') ?: 20)), 100);
+            $page     = max((int) ($request->get_param('page') ?: 1), 1);
+
+            $args = [
+                'post_type'      => 'interviews',
+                'posts_per_page' => $per_page,
+                'paged'          => $page,
+                'post_status'    => 'publish',
+                'orderby'        => 'title',
+                'order'          => 'ASC',
+            ];
+
+            if ($year) {
+                $args['meta_query'] = [
+                    ['key' => 'festival_year', 'value' => $year, 'compare' => '=', 'type' => 'NUMERIC'],
+                ];
+            }
+
+            $query = new WP_Query($args);
+            $total = (int) $query->found_posts;
+            $pages = (int) $query->max_num_pages;
+
+            $items = array_map(function($post) {
+                $id         = $post->ID;
+                $author_ids = get_post_meta($id, 'author', false);
+                $book_id    = (int) get_post_meta($id, 'book', true) ?: null;
+                $authors    = array_values(array_filter(array_map(function($aid) {
+                    $p = get_post((int) $aid);
+                    return $p ? ['id' => (int) $aid, 'slug' => $p->post_name, 'name' => $p->post_title] : null;
+                }, $author_ids)));
+                return [
+                    'id'           => $id,
+                    'slug'         => $post->post_name,
+                    'festival_year' => (int) get_post_meta($id, 'festival_year', true) ?: null,
+                    'authors'      => $authors,
+                    'book_title'   => $book_id ? get_the_title($book_id) : null,
+                ];
+            }, $query->posts);
+
+            return [
+                'items'       => $items,
+                'total'       => $total,
+                'total_pages' => $pages,
+                'page'        => $page,
+            ];
+        },
+    ]);
+
+    register_rest_route('vfa/v1', '/qa-categories', [
+        'methods'             => 'GET',
+        'permission_callback' => '__return_true',
+        'callback'            => function() {
+            $all_cats = get_categories(['hide_empty' => true, 'number' => 0]);
+            $qa_cats = array_values(array_filter($all_cats, function($cat) {
+                $name = html_entity_decode($cat->name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                return strpos($name, 'Q&A') === 0 && $name !== 'Q&A';
+            }));
+            usort($qa_cats, function($a, $b) {
+                $na = html_entity_decode($a->name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                $nb = html_entity_decode($b->name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                return strcmp($nb, $na);
+            });
+            return array_map(function($cat) {
+                return [
+                    'id'    => (int) $cat->term_id,
+                    'label' => html_entity_decode($cat->name, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+                    'slug'  => $cat->slug,
+                    'count' => (int) $cat->count,
+                ];
+            }, $qa_cats);
+        },
+    ]);
+
+    register_rest_route('vfa/v1', '/qa-posts', [
+        'methods'             => 'GET',
+        'permission_callback' => '__return_true',
+        'callback'            => function($request) {
+            $category_id = (int) $request->get_param('category_id');
+            if (!$category_id) {
+                return new WP_Error('missing_param', 'category_id is required', ['status' => 400]);
+            }
+            $per_page = min(abs((int) ($request->get_param('per_page') ?: 20)), 100);
+            $page     = max((int) ($request->get_param('page') ?: 1), 1);
+
+            $query = new WP_Query([
+                'post_type'      => 'post',
+                'post_status'    => 'publish',
+                'cat'            => $category_id,
+                'posts_per_page' => $per_page,
+                'paged'          => $page,
+                'orderby'        => 'title',
+                'order'          => 'ASC',
+            ]);
+
+            $items = array_map(function($post) {
+                return [
+                    'id'    => $post->ID,
+                    'slug'  => $post->post_name,
+                    'title' => html_entity_decode($post->post_title, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+                    'link'  => get_permalink($post->ID),
+                ];
+            }, $query->posts);
+
+            return [
+                'items'       => $items,
+                'total'       => (int) $query->found_posts,
+                'total_pages' => (int) $query->max_num_pages,
+                'page'        => $page,
+            ];
+        },
     ]);
 
     register_rest_route('vfa/v1', '/people/(?P<id>\d+)/books', [

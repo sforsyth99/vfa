@@ -26,7 +26,7 @@ export const FOOTER_NAV: FooterNavGroup[] = [
       { label: 'Authors', to: '/authors' },
       { label: 'Interviews', to: '/interviews' },
       { label: 'KidsFest', to: '/kidsfest2026' },
-      { label: 'Archives', to: '/qa-archive-page' },
+      { label: 'Archives', to: '/archives' },
     ],
   },
   {
