@@ -5,6 +5,8 @@
  * Version: 1.9.0
  */
 
+if (!defined('ABSPATH')) exit;
+
 add_action('init', function() {
     register_post_type('team_members', [
         'labels' => [
@@ -64,6 +66,7 @@ add_action('admin_head', function() {
 function vfa_sync_title_to_post($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (wp_is_post_revision($post_id)) return;
+    if (!current_user_can('edit_post', $post_id)) return;
     $types = ['interviews', 'people', 'venues', 'festival_events', 'books', 'team_members'];
     if (!in_array(get_post_type($post_id), $types)) return;
     $title = get_post_meta($post_id, 'title', true);
