@@ -32,6 +32,5 @@ export function useSearchWP(query: string) {
     queryFn: async () =>
       wretch(`${SEARCH_URL}?search=${encodeURIComponent(query)}&per_page=10`).get().json(),
     enabled: query.trim().length >= 2,
-    refetchOnWindowFocus: false,
   });
 }

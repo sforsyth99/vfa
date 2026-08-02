@@ -21,6 +21,5 @@ export function useGetPersonBooks(personId: number | undefined, year?: number) {
       return wretch(url).get().json<PersonBook[]>();
     },
     enabled: !!personId,
-    refetchOnWindowFocus: false,
   });
 }

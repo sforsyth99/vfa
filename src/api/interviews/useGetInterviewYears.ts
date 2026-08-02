@@ -6,7 +6,5 @@ export function useGetInterviewYears() {
   return useQuery<InterviewYear[]>({
     queryKey: ['interview-years'],
     queryFn: () => wretch(INTERVIEW_YEARS_URL).get().json(),
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 60,
   });
 }

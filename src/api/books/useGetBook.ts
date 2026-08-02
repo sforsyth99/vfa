@@ -10,6 +10,5 @@ export function useGetBook({ slug }: { slug: string }) {
       if (!results.length) throw new Error('Book not found');
       return results[0];
     },
-    refetchOnWindowFocus: false,
   });
 }

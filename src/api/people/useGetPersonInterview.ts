@@ -15,6 +15,5 @@ export function useGetPersonInterviews(personId: number | undefined) {
     queryKey: ['person-interviews', personId],
     queryFn: () => wretch(`${VFA_API_BASE}/people/${personId}/interviews`).get().json<PersonInterview[]>(),
     enabled: !!personId,
-    refetchOnWindowFocus: false,
   });
 }

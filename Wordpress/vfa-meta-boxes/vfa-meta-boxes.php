@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Meta Boxes
  * Description: Custom meta box UI for VFA post types. No third-party dependencies.
- * Version: 1.9.0
+ * Version: 1.10.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -827,9 +827,11 @@ function vfa_mb_save_field(array $field, int $post_id): void {
     $type     = $field['type'];
     $is_multi = !empty($field['clone']) || (!empty($field['multiple']) && in_array($type, ['post', 'select']));
 
+    // WordPress adds slashes to superglobals; unslash before sanitizing so quotes
+    // and apostrophes are stored cleanly rather than accumulating backslashes.
     if ($is_multi) {
         delete_post_meta($post_id, $id);
-        $values = isset($_POST[$id]) && is_array($_POST[$id]) ? $_POST[$id] : [];
+        $values = isset($_POST[$id]) && is_array($_POST[$id]) ? wp_unslash($_POST[$id]) : [];
         foreach ($values as $val) {
             $clean = vfa_mb_sanitize($type, $val);
             if ($clean !== '') {
@@ -837,7 +839,7 @@ function vfa_mb_save_field(array $field, int $post_id): void {
             }
         }
     } else {
-        $raw   = $_POST[$id] ?? ($type === 'checkbox' ? '0' : null);
+        $raw   = isset($_POST[$id]) ? wp_unslash($_POST[$id]) : ($type === 'checkbox' ? '0' : null);
         $clean = vfa_mb_sanitize($type, $raw);
         update_post_meta($post_id, $id, $clean);
     }

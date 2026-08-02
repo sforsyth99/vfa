@@ -10,6 +10,5 @@ export function useGetPrimaryMenu() {
         .get()
         .json();
     },
-    refetchOnWindowFocus: false,
   });
 }

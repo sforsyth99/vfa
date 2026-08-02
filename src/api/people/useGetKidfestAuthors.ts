@@ -9,6 +9,5 @@ export function useGetKidfestAuthors(year: number) {
     queryFn: async () => {
       return wretch(`${VFA_API_BASE}/people/kidfest?year=${year}`).get().json();
     },
-    refetchOnWindowFocus: false,
   });
 }

@@ -10,6 +10,5 @@ export function useGetFestivalEvent({ slug }: { slug: string }) {
       if (!results.length) throw new Error('Event not found');
       return results[0];
     },
-    refetchOnWindowFocus: false,
   });
 }

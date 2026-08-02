@@ -10,6 +10,5 @@ export function useGetPerson({ slug }: { slug: string }) {
       if (!results.length) throw new Error('Person not found');
       return results[0];
     },
-    refetchOnWindowFocus: false,
   });
 }

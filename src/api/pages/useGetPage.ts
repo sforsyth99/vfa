@@ -11,6 +11,5 @@ export function useGetPage({ pageId, enabled = true }: { pageId: number | undefi
         .json();
     },
     enabled: enabled && !!pageId,
-    refetchOnWindowFocus: false,
   });
 }

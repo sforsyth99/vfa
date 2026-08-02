@@ -10,7 +10,6 @@ export function useGetPosts() {
         .get()
         .json();
     },
-    refetchOnWindowFocus: false,
   });
 }
 
@@ -22,7 +21,6 @@ export function useGetPaginatedPosts(page: number = 1, per_page: number = 10) {
         .get()
         .json();
     },
-    refetchOnWindowFocus: false,
   });
 }
 
@@ -40,6 +38,5 @@ export function useInfinitePosts(per_page: number = 10) {
       if (lastPage.length < per_page) return undefined;
       return allPages.length + 1;
     },
-    refetchOnWindowFocus: false,
   });
 }

@@ -10,6 +10,5 @@ export function useGetInterview({ slug }: { slug: string }) {
       if (!results.length) throw new Error('Interview not found');
       return results[0];
     },
-    refetchOnWindowFocus: false,
   });
 }

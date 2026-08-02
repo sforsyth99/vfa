@@ -8,6 +8,5 @@ export function useGetPeople() {
     queryFn: async () => {
       return wretch(`${PEOPLE_URL}?per_page=100`).get().json();
     },
-    refetchOnWindowFocus: false,
   });
 }

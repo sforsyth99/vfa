@@ -10,6 +10,5 @@ export function useGetTags() {
         .get()
         .json();
     },
-    refetchOnWindowFocus: false,
   });
 }

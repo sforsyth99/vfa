@@ -10,6 +10,5 @@ export function useGetVenue({ slug }: { slug: string }) {
       if (!results.length) throw new Error('Venue not found');
       return results[0];
     },
-    refetchOnWindowFocus: false,
   });
 }
