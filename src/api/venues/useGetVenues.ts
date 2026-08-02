@@ -8,6 +8,5 @@ export function useGetVenues() {
     queryFn: async () => {
       return wretch(`${VENUES_URL}?per_page=100`).get().json();
     },
-    refetchOnWindowFocus: false,
   });
 }

@@ -4,6 +4,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvent } from '../../api/festivalEvents/useGetFestivalEvent.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
+import { isSafeUrl } from '../../utils/isSafeUrl.ts';
 import { sortBySurname } from '../../utils/sortBySurname.ts';
 import type { PersonData } from '../../api/people/peopleTypes.ts';
 import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
@@ -241,7 +242,7 @@ export default function FestivalEventPage() {
               {venue.street_address && <VenueMap venue={venue} />}
             </div>
           )}
-          {online_url && (
+          {online_url && isSafeUrl(online_url) && (
             <a href={online_url} className={styles.onlineLink}>
               <FormattedMessage id="festivalEvent.joinOnline" />
             </a>

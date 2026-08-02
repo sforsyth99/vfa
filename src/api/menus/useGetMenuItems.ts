@@ -12,6 +12,5 @@ export function useGetMenuItems(menuId: number) {
         .json();
     },
     enabled: !!menuId,
-    refetchOnWindowFocus: false,
   });
 }

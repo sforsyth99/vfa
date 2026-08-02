@@ -10,6 +10,5 @@ export function useGetMedia() {
         .get()
         .json();
     },
-    refetchOnWindowFocus: false,
   });
 }

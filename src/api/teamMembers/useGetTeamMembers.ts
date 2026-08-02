@@ -6,6 +6,5 @@ export function useGetTeamMembers() {
   return useQuery<TeamMember[]>({
     queryKey: ['team_members'],
     queryFn: () => wretch(`${TEAM_MEMBERS_URL}?per_page=100`).get().json(),
-    refetchOnWindowFocus: false,
   });
 }

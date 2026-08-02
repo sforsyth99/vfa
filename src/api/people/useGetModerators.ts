@@ -9,6 +9,5 @@ export function useGetModerators(year: number) {
     queryFn: async () => {
       return wretch(`${VFA_API_BASE}/people/moderators?year=${year}`).get().json();
     },
-    refetchOnWindowFocus: false,
   });
 }

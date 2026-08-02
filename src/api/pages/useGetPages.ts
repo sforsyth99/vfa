@@ -11,6 +11,5 @@ export function useGetPages() {
         .get()
         .json();
     },
-    refetchOnWindowFocus: false,
   });
 }

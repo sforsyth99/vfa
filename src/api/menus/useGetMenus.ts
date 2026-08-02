@@ -11,6 +11,5 @@ export function useGetMenus() {
         .get()
         .json();
     },
-    refetchOnWindowFocus: false,
   });
 }

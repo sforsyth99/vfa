@@ -10,6 +10,5 @@ export function useGetPostBySlug({ slug, enabled }: { slug: string; enabled: boo
       return results[0] ?? null;
     },
     enabled,
-    refetchOnWindowFocus: false,
   });
 }

@@ -13,6 +13,5 @@ export function useGetQAPosts(categoryId: number, enabled: boolean) {
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
     enabled,
-    refetchOnWindowFocus: false,
   });
 }

@@ -21,6 +21,5 @@ export function useGetPersonEvents(personId: number | undefined) {
     queryKey: ['person-events', personId],
     queryFn: () => wretch(`${VFA_API_BASE}/people/${personId}/events`).get().json<PersonEvent[]>(),
     enabled: !!personId,
-    refetchOnWindowFocus: false,
   });
 }

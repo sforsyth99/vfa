@@ -15,6 +15,5 @@ export function useGetPostsByCategory(categoryId: number, per_page: number = 10)
       if (lastPage.length < per_page) return undefined;
       return allPages.length + 1;
     },
-    refetchOnWindowFocus: false,
   });
 }

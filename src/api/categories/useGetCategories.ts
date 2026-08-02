@@ -11,6 +11,5 @@ export function useGetCategories() {
         .get()
         .json();
     },
-    refetchOnWindowFocus: false,
   });
 }

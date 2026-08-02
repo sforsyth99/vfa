@@ -8,6 +8,5 @@ export function useGetInterviews() {
     queryFn: async () => {
       return wretch(`${INTERVIEWS_URL}?per_page=100`).get().json();
     },
-    refetchOnWindowFocus: false,
   });
 }

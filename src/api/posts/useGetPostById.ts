@@ -10,7 +10,6 @@ export function useGetPostById({ postId }: { postId: number }) {
         .get()
         .json();
     },
-    refetchOnWindowFocus: false,
   });
 }
 

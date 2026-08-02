@@ -9,6 +9,5 @@ export function useGetAuthors(year: number) {
     queryFn: async () => {
       return wretch(`${VFA_API_BASE}/people/authors?year=${year}`).get().json();
     },
-    refetchOnWindowFocus: false,
   });
 }

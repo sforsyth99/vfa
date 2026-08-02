@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Custom Fields
  * Description: Custom fields for interviews, people, venues, and events.
- * Version: 2.0.0
+ * Version: 2.1.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -634,3 +634,40 @@ add_action('rest_api_init', function() {
     ]);
 
 });
+
+// ─── REST API cache headers ──────────────────────────────────────────────────
+//
+// The React frontend reads all its content from the REST API, so those GET
+// responses are the only thing under load. Advertise a short cache window so
+// browsers (and any CDN in front of the API, e.g. Cloudflare) can serve repeat
+// requests without hitting PHP/MySQL again.
+//
+// Guards:
+//   - GET only        — never cache POST/PUT (form submissions, admin saves).
+//   - Anonymous only   — logged-in editors always get live, uncached data.
+//   - Our read routes  — the custom vfa/v1 namespace + the core wp/v2 content
+//                        the frontend consumes.
+//
+// max-age  = browser cache window;  s-maxage = shared/CDN cache window.
+// stale-while-revalidate lets a cache serve slightly-stale JSON instantly while
+// it refreshes in the background, so visitors never wait on a cache miss.
+//
+// Interim value is deliberately short (10 min) so edits appear on their own
+// without a purge mechanism. Once Cloudflare + a save-triggered purge hook are
+// in place this can be raised substantially. See docs/ARCHITECTURE.md.
+add_filter('rest_post_dispatch', function($response, $server, $request) {
+    if ($request->get_method() !== 'GET') return $response;
+    if (is_user_logged_in())            return $response;
+
+    $route = $request->get_route();
+    $is_public_read = strpos($route, '/vfa/v1/') === 0 || strpos($route, '/wp/v2/') === 0;
+    if (!$is_public_read) return $response;
+
+    $max_age = 10 * MINUTE_IN_SECONDS;
+    $response->header(
+        'Cache-Control',
+        sprintf('public, max-age=%d, s-maxage=%d, stale-while-revalidate=%d',
+            $max_age, $max_age, DAY_IN_SECONDS)
+    );
+    return $response;
+}, 10, 3);
