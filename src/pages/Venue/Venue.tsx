@@ -7,6 +7,8 @@ import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { PageLoader } from '../../components/PageLoader/PageLoader';
+import { VenueMapRow } from '../../components/VenueMapRow/VenueMapRow.tsx';
 import styles from './Venue.module.css';
 
 export default function VenuePage() {
@@ -15,7 +17,7 @@ export default function VenuePage() {
   const { data: venue, isLoading, error } = useGetVenue({ slug: slug! });
   usePageTitle(venue ? decodeHtmlEntities(venue.title?.rendered ?? '') : null);
 
-  if (isLoading) return <div><FormattedMessage id="venue.loading" /></div>;
+  if (isLoading) return <PageLoader />;
   if (error || !venue) return <div><FormattedMessage id="venue.notFound" /></div>;
 
   const { alternate_name, name_pronunciation, building, room, street_address, city, province, postal_code, country, phone, website_url, description, accessibility } = venue.venue_data;
@@ -28,12 +30,14 @@ export default function VenuePage() {
       <Container narrow>
         <Eyebrow><FormattedMessage id="venue.eyebrow" /></Eyebrow>
         <PageTitle>{decodeHtmlEntities(venue.title?.rendered ?? '')}</PageTitle>
-        {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
-        {alternate_name && <p className={styles.alternateName}>{intl.formatMessage({ id: 'venue.formerly' }, { name: alternate_name })}</p>}
-        {buildingLine && <p className={styles.building}>{buildingLine}</p>}
-        {addressLine && <p className={styles.address}>{addressLine}</p>}
-        {phone && <p className={styles.phone}>{phone}</p>}
-        {website_url && <a href={website_url} className={styles.websiteLink}><FormattedMessage id="venue.visitWebsite" /></a>}
+        <VenueMapRow venue={venue.venue_data}>
+          {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
+          {alternate_name && <p className={styles.alternateName}>{intl.formatMessage({ id: 'venue.formerly' }, { name: alternate_name })}</p>}
+          {buildingLine && <p className={styles.building}>{buildingLine}</p>}
+          {addressLine && <p className={styles.address}>{addressLine}</p>}
+          {phone && <p className={styles.phone}>{phone}</p>}
+          {website_url && <a href={website_url} className={styles.websiteLink}><FormattedMessage id="venue.visitWebsite" /></a>}
+        </VenueMapRow>
         {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
         {accessibility && (
           <div className={styles.accessibility}>

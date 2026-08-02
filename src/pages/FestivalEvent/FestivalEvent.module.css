@@ -23,6 +23,34 @@
   margin: 0 0 0.4rem;
 }
 
+.locationBadge {
+  display: inline-block;
+  font-size: var(--vfa-font-size-eyebrow);
+  font-weight: var(--vfa-font-weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--vfa-radius-pill);
+  margin: 0.5rem 0 1rem;
+}
+
+.locationBadgeOnline {
+  background: var(--vfa-color-forest-mid);
+  color: var(--vfa-color-text-light);
+}
+
+.locationBadgeInPerson {
+  background: transparent;
+  border: 1px solid var(--vfa-color-warm-border);
+  color: var(--vfa-color-ink-mid);
+}
+
+.locationBadgeHybrid {
+  background: transparent;
+  border: 1px solid var(--vfa-color-warm-border);
+  color: var(--vfa-color-ink-mid);
+}
+
 .ageRange {
   font-size: 0.85rem;
   font-weight: var(--vfa-font-weight-semibold);
@@ -65,23 +93,6 @@
 
 /* ── Venue ───────────────────────────────────────────── */
 
-.venueRow {
-  display: flex;
-  gap: 1.5rem;
-  align-items: flex-start;
-}
-
-.venueInfo {
-  flex: 1;
-  min-width: 0;
-}
-
-@media (max-width: 640px) {
-  .venueRow {
-    flex-direction: column;
-  }
-}
-
 .venueName {
   font-family: var(--vfa-font-display);
   font-size: 1.25rem;
@@ -108,6 +119,45 @@
   font-size: 0.9375rem;
   color: var(--vfa-color-ink-dark);
   margin: 0 0 0.75rem;
+}
+
+/* Accessibility preview — kept short so the info column stays within the
+   280px map height beside it; full text lives on the venue page. */
+.venueAccessibility {
+  margin-top: 0.25rem;
+}
+
+.venueAccessibilityLabel {
+  font-size: var(--vfa-font-size-eyebrow);
+  font-weight: var(--vfa-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--vfa-letter-spacing-eyebrow);
+  color: var(--vfa-color-ink-light);
+  margin: 0 0 0.25rem;
+}
+
+.venueAccessibilityExcerpt {
+  font-size: var(--vfa-font-size-sm);
+  line-height: 1.5;
+  color: var(--vfa-color-ink-dark);
+  margin: 0 0 0.35rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.venueAccessibilityMore {
+  font-size: var(--vfa-font-size-sm);
+  font-weight: var(--vfa-font-weight-medium);
+  color: var(--vfa-color-link);
+  text-decoration: none;
+}
+
+.venueAccessibilityMore:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .onlineLink {
@@ -138,7 +188,7 @@
 .labelledCard {
   display: flex;
   flex-direction: column;
-  width: 240px;
+  width: 200px;
   flex-shrink: 0;
 }
 
@@ -282,6 +332,15 @@
 }
 
 /* ── Tickets ─────────────────────────────────────────── */
+
+.ticketCategory {
+  font-size: var(--vfa-font-size-eyebrow);
+  font-weight: var(--vfa-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--vfa-letter-spacing-eyebrow);
+  color: var(--vfa-color-ink-light);
+  margin: 1rem 0 0.4rem;
+}
 
 .ticketList {
   list-style: none;

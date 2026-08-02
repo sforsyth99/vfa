@@ -2,18 +2,20 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvent } from '../../api/festivalEvents/useGetFestivalEvent.ts';
+import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { isSafeUrl } from '../../utils/isSafeUrl.ts';
+import { htmlToText } from '../../utils/htmlToText.ts';
 import { sortBySurname } from '../../utils/sortBySurname.ts';
 import type { PersonData } from '../../api/people/peopleTypes.ts';
-import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
 import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
-import VenueMap from '../../components/VenueMap/VenueMap.tsx';
+import { VenueMapRow } from '../../components/VenueMapRow/VenueMapRow.tsx';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { PageLoader } from '../../components/PageLoader/PageLoader';
 import styles from './FestivalEvent.module.css';
 
 function AuthorCard({ person }: { person: PersonData }) {
@@ -28,7 +30,6 @@ function AuthorCard({ person }: { person: PersonData }) {
       photoAlt={person.name}
       bookCoverSrc={firstCover ? firstCover[0] : null}
       title={person.name}
-      subtitleLines={books.map((b) => b.title)}
       to={person.slug ? `/people/${person.slug}` : undefined}
       contain={isKidfest}
       className={styles.authorCard}
@@ -72,7 +73,7 @@ export default function FestivalEventPage() {
   const { data: event, isLoading, error } = useGetFestivalEvent({ slug: slug! });
   usePageTitle(event ? decodeHtmlEntities(event.title?.rendered ?? '') : null);
 
-  if (isLoading) return <div><FormattedMessage id="festivalEvent.loading" /></div>;
+  if (isLoading) return <PageLoader />;
   if (error || !event) return <div><FormattedMessage id="festivalEvent.notFound" /></div>;
 
   const {
@@ -107,6 +108,61 @@ export default function FestivalEventPage() {
     ? intl.formatMessage({ id: 'festivalEvent.type.kidfest' }, { label: typeLabel })
     : typeLabel;
 
+  const hasInPerson = tickets.some((t) => t.type === 'in_person');
+  const hasOnline = tickets.some((t) => t.type === 'online') || !!online_url;
+  const locationMode = hasInPerson && hasOnline
+    ? intl.formatMessage({ id: 'festivalEvent.format.hybrid' })
+    : hasOnline
+      ? intl.formatMessage({ id: 'festivalEvent.format.online' })
+      : hasInPerson
+        ? intl.formatMessage({ id: 'festivalEvent.format.inPerson' })
+        : null;
+  const locationBadgeClass = hasInPerson && hasOnline
+    ? styles.locationBadgeHybrid
+    : hasOnline
+      ? styles.locationBadgeOnline
+      : styles.locationBadgeInPerson;
+
+  const ticketsBlock = (tickets.length > 0 || eventbrite_url) && (
+    <div className={styles.section}>
+      <h2 className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.tickets' })}</h2>
+      {(['in_person', 'online'] as const).map((type) => {
+        const group = tickets.filter((t) => t.type === type);
+        if (group.length === 0) return null;
+        const hasOtherType = tickets.some((t) => t.type !== type);
+        return (
+          <div key={type}>
+            {hasOtherType && (
+              <p className={styles.ticketCategory}>
+                {type === 'in_person'
+                  ? intl.formatMessage({ id: 'festivalEvent.tickets.inPerson' })
+                  : intl.formatMessage({ id: 'festivalEvent.tickets.online' })}
+              </p>
+            )}
+            <ul className={styles.ticketList}>
+              {group.map((ticket, i) => (
+                <li key={i} className={styles.ticketRow}>
+                  <span className={styles.ticketTier}>{ticket.tier}</span>
+                  <span className={styles.ticketPrice}>{ticket.price}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+      {eventbrite_url && (
+        <a
+          href={eventbrite_url}
+          className={styles.eventbriteLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FormattedMessage id="festivalEvent.buyTickets" />
+        </a>
+      )}
+    </div>
+  );
+
   return (
     <main id="main-content" className={styles.page}>
       <Container narrow>
@@ -125,49 +181,12 @@ export default function FestivalEventPage() {
           {timeRange ? ` · ${timeRange}` : ''}
         </p>
       )}
+      {locationMode && (
+        <p className={`${styles.locationBadge} ${locationBadgeClass}`}>{locationMode}</p>
+      )}
       {age_range && <p className={styles.ageRange}>{age_range}</p>}
       {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
       {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
-
-      {(tickets.length > 0 || eventbrite_url) && (
-        <div className={styles.section}>
-          <h2 className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.tickets' })}</h2>
-          {(['in_person', 'online'] as const).map((type) => {
-            const group = tickets.filter((t) => t.type === type);
-            if (group.length === 0) return null;
-            const hasOtherType = tickets.some((t) => t.type !== type);
-            return (
-              <div key={type}>
-                {hasOtherType && (
-                  <p className={styles.ticketCategory}>
-                    {type === 'in_person'
-                      ? intl.formatMessage({ id: 'festivalEvent.tickets.inPerson' })
-                      : intl.formatMessage({ id: 'festivalEvent.tickets.online' })}
-                  </p>
-                )}
-                <ul className={styles.ticketList}>
-                  {group.map((ticket, i) => (
-                    <li key={i} className={styles.ticketRow}>
-                      <span className={styles.ticketTier}>{ticket.tier}</span>
-                      <span className={styles.ticketPrice}>{ticket.price}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-          {eventbrite_url && (
-            <a
-              href={eventbrite_url}
-              className={styles.eventbriteLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FormattedMessage id="festivalEvent.buyTickets" />
-            </a>
-          )}
-        </div>
-      )}
 
       {(authors.length > 0 ||
         moderator.length > 0 ||
@@ -207,40 +226,56 @@ export default function FestivalEventPage() {
         </div>
       )}
 
+      {ticketsBlock}
+
       {(venue || online_url) && (
         <div className={styles.section}>
           <h2 className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.venue' })}</h2>
           {venue && (
-            <div className={styles.venueRow}>
-              <div className={styles.venueInfo}>
-                <Link to={`/venues/${venue.slug}`} className={styles.venueName}>
-                  {venue.name}
-                </Link>
-                {venue.name_pronunciation && (
-                  <p className={styles.venuePronunciation}>{venue.name_pronunciation}</p>
-                )}
-                {venue.alternate_name && (
-                  <p className={styles.venueIndigenous}>
-                    ({intl.formatMessage({ id: 'festivalEvent.venueFormerly' }, { name: venue.alternate_name })})
+            <VenueMapRow venue={venue}>
+              <Link to={`/venues/${venue.slug}`} className={styles.venueName}>
+                {venue.name}
+              </Link>
+              {venue.name_pronunciation && (
+                <p className={styles.venuePronunciation}>{venue.name_pronunciation}</p>
+              )}
+              {venue.alternate_name && (
+                <p className={styles.venueIndigenous}>
+                  ({intl.formatMessage({ id: 'festivalEvent.venueFormerly' }, { name: venue.alternate_name })})
+                </p>
+              )}
+              {[venue.building, venue.room].filter(Boolean).join(', ') && (
+                <p className={styles.venueBuilding}>
+                  {[venue.building, venue.room].filter(Boolean).join(', ')}
+                </p>
+              )}
+              {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
+                .filter(Boolean)
+                .join(', ') && (
+                <p className={styles.venueAddress}>
+                  {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
+                    .filter(Boolean)
+                    .join(', ')}
+                </p>
+              )}
+              {venue.accessibility && (
+                <div className={styles.venueAccessibility}>
+                  <p className={styles.venueAccessibilityLabel}>
+                    {intl.formatMessage({ id: 'festivalEvent.accessibilityLabel' })}
                   </p>
-                )}
-                {[venue.building, venue.room].filter(Boolean).join(', ') && (
-                  <p className={styles.venueBuilding}>
-                    {[venue.building, venue.room].filter(Boolean).join(', ')}
+                  <p className={styles.venueAccessibilityExcerpt}>
+                    {htmlToText(venue.accessibility)}
                   </p>
-                )}
-                {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
-                  .filter(Boolean)
-                  .join(', ') && (
-                  <p className={styles.venueAddress}>
-                    {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
-                      .filter(Boolean)
-                      .join(', ')}
-                  </p>
-                )}
-              </div>
-              {venue.street_address && <VenueMap venue={venue} />}
-            </div>
+                  <Link
+                    to={`/venues/${venue.slug}`}
+                    className={styles.venueAccessibilityMore}
+                    aria-label={intl.formatMessage({ id: 'festivalEvent.accessibilityReadMoreLabel' }, { venue: venue.name })}
+                  >
+                    {intl.formatMessage({ id: 'festivalEvent.accessibilityReadMore' })}
+                  </Link>
+                </div>
+              )}
+            </VenueMapRow>
           )}
           {online_url && isSafeUrl(online_url) && (
             <a href={online_url} className={styles.onlineLink}>

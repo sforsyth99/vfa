@@ -6,6 +6,7 @@ import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { useGetPostBySlug } from '../../api/posts/useGetPostBySlug';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { Container } from '../../components/Container/Container';
+import { PageLoader } from '../../components/PageLoader/PageLoader';
 import styles from './DynamicPage.module.css';
 
 export default function DynamicPage() {
@@ -24,7 +25,7 @@ export default function DynamicPage() {
 
   if (interviewMatch) return <Navigate to={`/interviews/${slug}`} replace />;
 
-  if (loadingPages || loadingInterviews || loadingPage || loadingPost) return <div><FormattedMessage id="common.loading" /></div>;
+  if (loadingPages || loadingInterviews || loadingPage || loadingPost) return <PageLoader />;
 
   if (postData) {
     return (

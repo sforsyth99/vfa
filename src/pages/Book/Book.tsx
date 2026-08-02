@@ -8,6 +8,7 @@ import type { PersonData } from '../../api/people/peopleTypes.ts';
 import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { PageLoader } from '../../components/PageLoader/PageLoader';
 import styles from './Book.module.css';
 
 function AuthorName({ person }: { person: PersonData }) {
@@ -22,7 +23,7 @@ export default function BookPage() {
   const title = decodeHtmlEntities(book?.title?.rendered ?? '');
   usePageTitle(book ? title : null);
 
-  if (isLoading) return <div><FormattedMessage id="book.loading" /></div>;
+  if (isLoading) return <PageLoader />;
   if (error || !book) return <div><FormattedMessage id="book.notFound" /></div>;
 
   const { authors, additional_authors, subtitle, illustrators, age_min, age_max, cover_image, description, munros_url } = book.book_data;

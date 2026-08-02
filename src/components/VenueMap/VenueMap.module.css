@@ -1,10 +1,14 @@
 .wrap {
   flex-shrink: 0;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
 }
 
 .map {
-  width: 280px;
-  height: 280px;
+  flex: 1;
+  width: 100%;
+  min-height: 200px;
   border: 1px solid var(--vfa-color-border-light);
   border-radius: 6px;
   display: block;
@@ -15,4 +19,15 @@
   display: inline-block;
   margin-top: 6px;
   font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    width: 100%;
+  }
+
+  .map {
+    height: 220px;
+    flex: none;
+  }
 }
