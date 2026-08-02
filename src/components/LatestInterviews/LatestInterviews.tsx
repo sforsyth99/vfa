@@ -34,7 +34,7 @@ export function LatestInterviews() {
           return (
             <li key={interview.id}>
               <AuthorFeatureCard
-                photoSrc={primaryAuthor?.photo?.[0] ?? null}
+                photoSrc={primaryAuthor?.photo ? primaryAuthor.photo[0] : null}
                 photoAlt={authorLabel}
                 bookCoverSrc={bookCover ? bookCover[0] : null}
                 bookCoverAlt={interview.interview_data?.book_title ?? ''}
