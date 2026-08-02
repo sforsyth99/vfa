@@ -4,12 +4,14 @@ import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
 import { useGetPersonEvents, type PersonEvent } from '../../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { eventPath } from '../../utils/eventPath.ts';
+import { EventLink } from '../../components/EventLink/EventLink.tsx';
 import { sortBySurname } from '../../utils/sortBySurname.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { PageLoader } from '../../components/PageLoader/PageLoader';
 import styles from './Interview.module.css';
 
 function UpcomingEventCard({ event, firstName }: { event: PersonEvent; firstName: string }) {
@@ -20,7 +22,7 @@ function UpcomingEventCard({ event, firstName }: { event: PersonEvent; firstName
         {intl.formatMessage({ id: 'interview.seeLive' }, { firstName })}
       </p>
       <p className={styles.eventCardTitle}>
-        <Link to={eventPath(event.slug, event.is_kidfest)}>{event.title}</Link>
+        <EventLink slug={event.slug} isKidfest={event.is_kidfest} eventbriteUrl={event.eventbrite_url}>{event.title}</EventLink>
       </p>
       {event.event_date && (
         <p className={styles.eventCardDate}>
@@ -73,12 +75,7 @@ export default function InterviewPage() {
     authorNames ? intl.formatMessage({ id: 'interview.pageTitle' }, { name: authorNames }) : null,
   );
 
-  if (isLoading)
-    return (
-      <div>
-        <FormattedMessage id="interview.loading" />
-      </div>
-    );
+  if (isLoading) return <PageLoader />;
   if (error || !interview)
     return (
       <div>

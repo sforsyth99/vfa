@@ -9,26 +9,28 @@
 }
 
 .item {
-    display: block;
     padding: 1.25rem 0;
     border-bottom: 1px solid var(--vfa-color-warm-border-light);
-    text-decoration: none;
-    transition: opacity var(--vfa-transition);
 }
 
 .item:first-of-type {
     border-top: 1px solid var(--vfa-color-warm-border-light);
 }
 
-.item:hover {
-    opacity: var(--vfa-opacity-hover);
-}
-
 .name {
+    display: inline-block;
     font-size: 1.05rem;
     font-weight: var(--vfa-font-weight-semibold);
     color: var(--vfa-color-ink-darkest);
+    text-decoration: none;
     margin: 0 0 0.2rem;
+    transition: color var(--vfa-transition);
+}
+
+.name:hover {
+    color: var(--vfa-color-link);
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 .formerName {
@@ -42,6 +44,46 @@
     font-size: 0.875rem;
     color: var(--vfa-color-ink-mid);
     margin: 0;
+}
+
+.description {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--vfa-color-ink-dark);
+    margin: 0.5rem 0 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.readMore {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-link);
+    text-decoration: none;
+}
+
+.readMore:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.accessibility {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--vfa-color-ink-dark);
+    margin: 0.5rem 0 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--vfa-color-warm-border-light);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 @media (max-width: 640px) {

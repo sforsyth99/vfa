@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetVenues } from '../../api/venues/useGetVenues';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { htmlToText } from '../../utils/htmlToText';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
+import { VenueMapRow } from '../../components/VenueMapRow/VenueMapRow';
 import styles from './Venues.module.css';
 
 export default function VenuesPage() {
@@ -30,21 +32,36 @@ export default function VenuesPage() {
             const title = decodeHtmlEntities(venue.title?.rendered ?? d.name);
             const buildingLine = [d.building, d.room].filter(Boolean).join(', ');
             const addressLine = [d.street_address, d.city].filter(Boolean).join(', ');
+            const descriptionText = d.description ? htmlToText(d.description) : '';
+            const accessibilityText = d.accessibility ? htmlToText(d.accessibility) : '';
 
             return (
-              <li key={venue.id}>
-                <Link to={`/venues/${venue.slug}`} className={styles.item}>
-                  <p className={styles.name}>
+              <li key={venue.id} className={styles.item}>
+                <VenueMapRow venue={d}>
+                  <Link to={`/venues/${venue.slug}`} className={styles.name}>
                     {title}
                     {d.alternate_name && (
                       <span className={styles.formerName}>
                         {intl.formatMessage({ id: 'venue.formerly' }, { name: d.alternate_name })}
                       </span>
                     )}
-                  </p>
+                  </Link>
                   {buildingLine && <p className={styles.detail}>{buildingLine}</p>}
                   {addressLine && <p className={styles.detail}>{addressLine}</p>}
-                </Link>
+                  {descriptionText && <p className={styles.description}>{descriptionText}</p>}
+                  {accessibilityText && (
+                    <p className={styles.accessibility}>{accessibilityText}</p>
+                  )}
+                  {(descriptionText || accessibilityText) && (
+                    <Link
+                      to={`/venues/${venue.slug}`}
+                      className={styles.readMore}
+                      aria-label={intl.formatMessage({ id: 'venues.readMoreLabel' }, { name: title })}
+                    >
+                      {intl.formatMessage({ id: 'venues.readMore' })}
+                    </Link>
+                  )}
+                </VenueMapRow>
               </li>
             );
           })}

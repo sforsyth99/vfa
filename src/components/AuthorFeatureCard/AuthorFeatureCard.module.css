@@ -76,8 +76,10 @@
     position: absolute;
     bottom: 5%;
     right: 5%;
-    height: 55%;
+    max-height: 55%;
+    max-width: 40%;
     width: auto;
+    height: auto;
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
     border-radius: 3px;
     z-index: 4;
@@ -85,7 +87,7 @@
 
 .banner {
     background: var(--vfa-color-2026-indigo);
-    padding: 1.25rem 1.75rem 1.25rem;
+    padding: 0.875rem 1.1rem;
 }
 
 .eventList {
@@ -109,7 +111,7 @@
 }
 
 .title {
-    font-size: 1.15rem;
+    font-size: 0.875rem;
     font-weight: var(--vfa-font-weight-bold);
     color: var(--vfa-color-text-light);
     margin: 0 0 0.3rem;
@@ -129,11 +131,11 @@
 
 @media (max-width: 640px) {
     .banner {
-        padding: 1rem 1.25rem;
+        padding: 0.75rem 0.9rem;
     }
 
     .title {
-        font-size: 1rem;
+        font-size: 0.8rem;
     }
 
     .subtitle {

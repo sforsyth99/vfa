@@ -9,7 +9,7 @@ import { Container } from '../../components/Container/Container';
 import { SectionTitle } from '../../components/SectionTitle/SectionTitle';
 import { BookLink } from '../../components/BookLink/BookLink';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
-import { eventPath } from '../../utils/eventPath';
+import { EventLink } from '../../components/EventLink/EventLink';
 import posterSrc from '../../assets/VFA_KidsFest.jpg';
 import styles from './KidsFest2026.module.css';
 
@@ -103,7 +103,7 @@ function KidsFestEvents() {
               {intl.formatMessage({ id: 'kidsfest2026.mainEvent.eyebrow' })}
             </p>
             <h3 className={styles.mainEventTitle}>
-              <Link to={eventPath(mainEvent.slug, mainEvent.event_data.is_kidfest)}>{title}</Link>
+              <EventLink slug={mainEvent.slug} isKidfest={mainEvent.event_data.is_kidfest} eventbriteUrl={mainEvent.event_data.eventbrite_url}>{title}</EventLink>
             </h3>
             <p className={styles.mainEventMeta}>
               {timeStr}{venue?.name ? ` · ${venue.name}` : ''}
@@ -121,7 +121,7 @@ function KidsFestEvents() {
       {otherEvents.length > 0 && (
         <ul className={styles.eventList}>
           {otherEvents.map((event) => {
-            const { time_start, time_end, venue, age_range, event_type, tickets } = event.event_data;
+            const { time_start, time_end, venue, age_range, event_type, tickets, eventbrite_url } = event.event_data;
             const isWorkshop = event_type === 'workshop';
             const timeStr = time_start
               ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
@@ -141,12 +141,12 @@ function KidsFestEvents() {
                   <span className={styles.eventPrice}>{price}</span>
                 </div>
                 <h3 className={styles.eventTitle}>
-                  <Link to={eventPath(event.slug, event.event_data.is_kidfest)}>{title}</Link>
+                  <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventbriteUrl={eventbrite_url}>{title}</EventLink>
                 </h3>
                 {venue?.name && <p className={styles.eventVenue}>{venue.name}</p>}
-                <Link to={eventPath(event.slug, event.event_data.is_kidfest)} className={styles.eventLink}>
+                <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventbriteUrl={eventbrite_url} className={styles.eventLink}>
                   {intl.formatMessage({ id: 'kidsfest2026.events.details' })}
-                </Link>
+                </EventLink>
               </li>
             );
           })}

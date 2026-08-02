@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetPerson } from '../../api/people/useGetPerson.ts';
 import { eventPath } from '../../utils/eventPath.ts';
+import { EventLink } from '../../components/EventLink/EventLink.tsx';
 import { useGetPersonEvents, type PersonEvent } from '../../api/people/useGetPersonEvents.ts';
 import { useGetPersonBooks, type PersonBook } from '../../api/people/useGetPersonBooks.ts';
 import { useGetPersonInterviews, type PersonInterview } from '../../api/people/useGetPersonInterview.ts';
@@ -14,6 +15,7 @@ import { BookLink } from '../../components/BookLink/BookLink.tsx';
 import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
+import { PageLoader } from '../../components/PageLoader/PageLoader';
 import styles from './Person.module.css';
 
 interface AuthorMetaProps {
@@ -58,9 +60,9 @@ function AuthorMeta({ name, firstName, name_pronunciation, alternate_name, bio, 
         </Link>
       ))}
       {events && events.length > 0 && events.map((event) => (
-        <Link key={event.id} to={eventPath(event.slug, event.is_kidfest)} className={styles.websiteLink}>
+        <EventLink key={event.id} slug={event.slug} isKidfest={event.is_kidfest} eventbriteUrl={event.eventbrite_url} className={styles.websiteLink}>
           {intl.formatMessage({ id: 'person.eventLink' }, { firstName, eventTitle: event.title })}
-        </Link>
+        </EventLink>
       ))}
       {!isKidfest && firstBook && (
         <BookLink slug={firstBook.slug} munrosUrl={firstBook.munros_url} className={styles.websiteLink}>
@@ -81,7 +83,7 @@ export default function PersonPage() {
   const name = decodeHtmlEntities(person?.title?.rendered ?? '');
   usePageTitle(person ? name : null);
 
-  if (isLoading) return <div><FormattedMessage id="person.loading" /></div>;
+  if (isLoading) return <PageLoader />;
   if (error || !person) return <div><FormattedMessage id="person.notFound" /></div>;
 
   const { alternate_name, name_pronunciation, bio, website_url, photo, kidfest_years, kidfest_photo } = person.person_data;
@@ -142,6 +144,7 @@ export default function PersonPage() {
                   }),
                 ] : [],
                 to: eventPath(event.slug, event.is_kidfest),
+                href: event.eventbrite_url || undefined,
               }))}
               className={styles.eventFeatureCard}
             />

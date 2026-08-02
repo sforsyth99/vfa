@@ -169,6 +169,14 @@
     color: var(--vfa-color-ink-mid);
 }
 
+.rowSummary {
+    font-size: 0.8rem;
+    color: var(--vfa-color-ink-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .rowVenue {
     font-size: 0.8rem;
     color: var(--vfa-color-ink-light);

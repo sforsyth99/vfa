@@ -195,16 +195,34 @@ function EventRow({ event }: { event: FestivalEvent }) {
     pop.style.bottom = 'auto';
   };
 
+  const inner = (
+    <>
+      <span className={styles.rowTime}>{timeStr}</span>
+      <span className={styles.rowTitleGroup}>
+        <span className={styles.rowTitle}>{title}</span>
+        {rowSubtitle && <span className={styles.rowAuthors}>{rowSubtitle}</span>}
+        {d.summary && <span className={styles.rowSummary}>{d.summary}</span>}
+      </span>
+      {venueLabel && <span className={styles.rowVenue}>{venueLabel}</span>}
+    </>
+  );
+
   return (
     <li className={styles.row} onMouseMove={handleMouseMove}>
-      <Link to={eventPath(event.slug, event.event_data.is_kidfest)} className={styles.rowLink}>
-        <span className={styles.rowTime}>{timeStr}</span>
-        <span className={styles.rowTitleGroup}>
-          <span className={styles.rowTitle}>{title}</span>
-          {rowSubtitle && <span className={styles.rowAuthors}>{rowSubtitle}</span>}
-        </span>
-        {venueLabel && <span className={styles.rowVenue}>{venueLabel}</span>}
-      </Link>
+      {d.eventbrite_url ? (
+        <a
+          href={d.eventbrite_url}
+          className={styles.rowLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {inner}
+        </a>
+      ) : (
+        <Link to={eventPath(event.slug, event.event_data.is_kidfest)} className={styles.rowLink}>
+          {inner}
+        </Link>
+      )}
       <EventPopover event={event} popoverRef={popoverRef} />
     </li>
   );

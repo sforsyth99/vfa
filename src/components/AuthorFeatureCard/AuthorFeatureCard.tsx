@@ -5,6 +5,7 @@ export interface CardEvent {
   title: string;
   subtitleLines?: string[];
   to: string;
+  href?: string;
 }
 
 interface Props {
@@ -39,14 +40,23 @@ export function AuthorFeatureCard({
 
   const bannerContent = isMultiEvent ? (
     <div className={styles.eventList}>
-      {events.map((event, i) => (
-        <Link key={i} to={event.to} className={styles.eventEntry}>
-          <p className={styles.title}>{event.title}</p>
-          {event.subtitleLines?.map((line, j) => (
-            <p key={j} className={styles.subtitle}>{line}</p>
-          ))}
-        </Link>
-      ))}
+      {events.map((event, i) =>
+        event.href ? (
+          <a key={i} href={event.href} target="_blank" rel="noopener noreferrer" className={styles.eventEntry}>
+            <p className={styles.title}>{event.title}</p>
+            {event.subtitleLines?.map((line, j) => (
+              <p key={j} className={styles.subtitle}>{line}</p>
+            ))}
+          </a>
+        ) : (
+          <Link key={i} to={event.to} className={styles.eventEntry}>
+            <p className={styles.title}>{event.title}</p>
+            {event.subtitleLines?.map((line, j) => (
+              <p key={j} className={styles.subtitle}>{line}</p>
+            ))}
+          </Link>
+        )
+      )}
     </div>
   ) : (
     <>
@@ -80,9 +90,11 @@ export function AuthorFeatureCard({
     </>
   );
 
+  const singleHref = events?.[0]?.href;
   const singleTo = events?.[0]?.to ?? to;
 
   if (isMultiEvent) return <div className={rootClass}>{inner}</div>;
+  if (singleHref) return <a href={singleHref} target="_blank" rel="noopener noreferrer" className={rootClass}>{inner}</a>;
   if (singleTo) return <Link to={singleTo} className={rootClass}>{inner}</Link>;
   return <div className={rootClass}>{inner}</div>;
 }

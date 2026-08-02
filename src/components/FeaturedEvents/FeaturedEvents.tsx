@@ -4,6 +4,7 @@ import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEve
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { eventPath } from '../../utils/eventPath';
+import { EventLink } from '../EventLink/EventLink';
 import styles from './FeaturedEvents.module.css';
 
 function formatTime(t: string): string {
@@ -71,7 +72,7 @@ export function FeaturedEvents() {
                     </div>
                   </div>
                   <h3 className={styles.cardTitle}>
-                    <Link to={eventPath(event.slug, event.event_data.is_kidfest)}>{title}</Link>
+                    <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventbriteUrl={eventbrite_url}>{title}</EventLink>
                   </h3>
                   {summary && <p className={styles.cardSummary}>{summary}</p>}
                   {authors.map((author) => {

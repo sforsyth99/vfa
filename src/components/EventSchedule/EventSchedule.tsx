@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
-import { eventPath } from '../../utils/eventPath';
+import { EventLink } from '../EventLink/EventLink';
 import styles from './EventSchedule.module.css';
 
 function formatTime(t: string): string {
@@ -42,7 +42,7 @@ function ScheduleTable({
       </thead>
       <tbody>
         {events.map((event) => {
-          const { event_date, time_start, time_end, venue, tickets, hosts, hosted_by } =
+          const { event_date, time_start, time_end, venue, tickets, hosts, hosted_by, eventbrite_url } =
             event.event_data;
           const timeStr = time_start
             ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
@@ -82,9 +82,9 @@ function ScheduleTable({
                 {timeStr || '—'}
               </td>
               <td className={styles.scheduleName} data-label={eventLabel}>
-                <Link to={eventPath(event.slug, event.event_data.is_kidfest)}>
+                <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventbriteUrl={eventbrite_url}>
                   {decodeHtmlEntities(event.title?.rendered ?? '')}
-                </Link>
+                </EventLink>
               </td>
               <td className={styles.scheduleLocation} data-label={locationLabel}>
                 {location}
@@ -191,7 +191,7 @@ export function EventSchedule({
           </div>
           <ul className={styles.onlineList}>
             {online.map((event) => {
-              const { event_date, time_start, time_end, online_url } = event.event_data;
+              const { event_date, time_start, time_end, online_url, eventbrite_url: ebUrl } = event.event_data;
               const dateStr = event_date
                 ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', {
                     weekday: 'short',
@@ -208,12 +208,14 @@ export function EventSchedule({
                   <div className={styles.onlineEventMeta}>
                     {[dateStr, timeStr].filter(Boolean).join(' · ')}
                   </div>
-                  <Link
-                    to={eventPath(event.slug, event.event_data.is_kidfest)}
+                  <EventLink
+                    slug={event.slug}
+                    isKidfest={event.event_data.is_kidfest}
+                    eventbriteUrl={ebUrl}
                     className={styles.onlineEventTitle}
                   >
                     {title}
-                  </Link>
+                  </EventLink>
                   {online_url && (
                     <a
                       href={online_url}
