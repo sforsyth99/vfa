@@ -114,9 +114,14 @@ strategy is chosen, give the archives the most aggressive caching — there's no
 Once caching is on (layers 2–4), an edit in `/wp-admin` won't show publicly until the
 cache updates. Three ways to handle it, from best to simplest:
 
-- **Save-triggered purge (best UX).** A small WordPress hook on `save_post` calls the
-  cache/CDN's purge API, dropping the stale copy. The next visitor re-warms it within
-  seconds. Organizers never think about caching — edits "just appear."
+- **Save-triggered purge (best UX) — implemented in the `vfa-cache` plugin.** On any
+  content change (`save_post`, trash/delete, term edits) it busts the **entire**
+  Cloudflare zone via the purge API, so the next visitor re-warms the cache within
+  seconds. Organizers never think about caching — edits "just appear." Full-cache-bust
+  is deliberate: simple and reliable, and saves are infrequent so the cost is nil.
+  Credentials live in `wp-config.php` (`VFA_CLOUDFLARE_ZONE_ID` / `VFA_CLOUDFLARE_API_TOKEN`),
+  never in the plugin. Inert until those are set; status + a manual purge button live at
+  **Tools → VFA Cache**, and a failed purge raises an admin notice.
 - **Short TTL.** Set a modest expiry (e.g. 5–15 min) so edits surface on their own
   shortly after saving. No hook needed; slight delay.
 - **Manual purge button.** Organizers click "purge" after a big update. Simple, but
@@ -178,6 +183,10 @@ and traffic goes straight to the origin again.
   registers the custom `vfa/v1` routes and REST fields.
 - **Editor UI (WordPress):** `Wordpress/vfa-meta-boxes/vfa-meta-boxes.php` — the
   meta-box editing screens organizers use in `/wp-admin`.
+- **Cache purge (WordPress):** `Wordpress/vfa-cache/vfa-cache.php` — busts the
+  Cloudflare cache on content change; status/manual purge at Tools → VFA Cache.
+- **REST cache headers (WordPress):** the `rest_post_dispatch` filter at the bottom of
+  `vfa-custom-fields.php` sends `Cache-Control` on public GET reads.
 - **Go-live / DNS / security headers:** tracked in the project go-live checklist
   (includes the MX-preservation warning and CSP recommendation).
 
