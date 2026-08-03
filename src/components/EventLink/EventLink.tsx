@@ -4,13 +4,17 @@ import { eventPath } from '../../utils/eventPath';
 
 interface Props {
   slug: string;
-  isKidfest: boolean;
+  isKidfest?: boolean;
+  eventType?: string;
   eventbriteUrl?: string | null;
   className?: string;
   children: ReactNode;
 }
 
-export function EventLink({ slug, isKidfest, eventbriteUrl, className, children }: Props) {
+export function EventLink({ slug, isKidfest, eventType, eventbriteUrl, className, children }: Props) {
+  if (isKidfest && eventType === 'author_fair') {
+    return <Link to="/kidsfest2026" className={className}>{children}</Link>;
+  }
   if (eventbriteUrl) {
     return (
       <a href={eventbriteUrl} target="_blank" rel="noopener noreferrer" className={className}>
@@ -19,7 +23,7 @@ export function EventLink({ slug, isKidfest, eventbriteUrl, className, children 
     );
   }
   return (
-    <Link to={eventPath(slug, isKidfest)} className={className}>
+    <Link to={eventPath(slug)} className={className}>
       {children}
     </Link>
   );

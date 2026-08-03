@@ -28,7 +28,8 @@ function vfa_mb_config(): array {
                 ['id' => 'title',          'name' => 'Title',         'type' => 'text',   'required' => true],
                 ['id' => 'festival_year',  'name' => 'Festival Year', 'type' => 'number', 'std' => date('Y'), 'min' => 2020, 'max' => 2099],
                 ['id' => 'author',         'name' => 'Author(s)',     'type' => 'post',   'post_type' => ['people'], 'multiple' => true],
-                ['id' => 'book',           'name' => 'Book',          'type' => 'post',   'post_type' => ['books']],
+                ['id' => 'book', 'name' => 'Book Override', 'type' => 'post', 'post_type' => ['books'],
+                 'desc' => 'Optional. Leave blank to use the author\'s first book automatically.'],
                 ['type' => 'section', 'name' => 'Content'],
                 ['id' => 'intro',          'name' => 'Intro',         'type' => 'wysiwyg'],
                 [

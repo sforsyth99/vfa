@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
@@ -8,6 +7,7 @@ import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
+import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard';
 import styles from './Interviews.module.css';
 
 export default function InterviewsPage() {
@@ -28,8 +28,14 @@ export default function InterviewsPage() {
 
   const filtered = useMemo(() => {
     if (!interviews) return [];
-    if (!activeYear) return interviews;
-    return interviews.filter(i => i.interview_data?.festival_year === activeYear);
+    const byYear = !activeYear ? interviews : interviews.filter(i => i.interview_data?.festival_year === activeYear);
+    return [...byYear].sort((a, b) => {
+      const surnameOf = (iv: typeof a) => {
+        const name = sortBySurname(iv.interview_data?.authors ?? [])[0]?.name ?? iv.title?.rendered ?? '';
+        return name.split(' ').slice(-1)[0].toLowerCase();
+      };
+      return surnameOf(a).localeCompare(surnameOf(b));
+    });
   }, [interviews, activeYear]);
 
   return (
@@ -58,42 +64,29 @@ export default function InterviewsPage() {
         <QueryState isLoading={false} isError={false} isEmpty={true} loadingId="interviews.loading" emptyId="interviews.emptyYear" emptyValues={{ year: activeYear ?? '' }} />
       )}
       {interviews && interviews.length > 0 && filtered.length > 0 && (
-        <ul className={styles.list}>
+        <ul className={styles.grid}>
           {filtered.map((interview) => {
             const data = interview.interview_data;
-            const cover = data?.book_cover;
             const authors = sortBySurname(data?.authors ?? []);
             const primaryAuthor = authors[0];
             const authorLabel = authors.length > 0
               ? authors.map(a => a.name).join(' & ')
               : decodeHtmlEntities(interview.title?.rendered ?? '');
-
-            const rawText = (data?.intro || data?.question?.[0] || '').replace(/<[^>]+>/g, '').trim();
-            const snippet = rawText.slice(0, 55);
-            const isMissing = !snippet;
-
-            const initials = authorLabel.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+            const isKidfest = (primaryAuthor?.kidfest_years?.length ?? 0) > 0;
+            const photo = (!isKidfest && primaryAuthor?.photo_square) || primaryAuthor?.photo;
+            const bookCover = data?.book_cover;
 
             return (
               <li key={interview.id}>
-                <Link to={`/interviews/${interview.slug}`} className={styles.item}>
-                  <div className={styles.authorPhoto}>
-                    {primaryAuthor?.photo
-                      ? <img src={primaryAuthor.photo[0]} alt="" aria-hidden="true" loading="lazy" />
-                      : <div className={styles.authorPhotoPlaceholder} aria-hidden="true">{initials}</div>
-                    }
-                  </div>
-                  {cover
-                    ? <img src={cover[0]} alt="" className={styles.cover} loading="lazy" />
-                    : <div className={styles.coverPlaceholder} aria-hidden="true" />
-                  }
-                  <div className={styles.itemText}>
-                    <p className={styles.itemName}>{authorLabel}</p>
-                    <p className={isMissing ? styles.itemMissing : styles.itemIntro}>
-                      {isMissing ? <FormattedMessage id="interviews.noContent" /> : <>{snippet}{rawText.length > 55 ? '…' : ''}</>}
-                    </p>
-                  </div>
-                </Link>
+                <AuthorFeatureCard
+                  photoSrc={photo ? photo[0] : null}
+                  photoAlt={authorLabel}
+                  bookCoverSrc={bookCover ? bookCover[0] : null}
+                  bookCoverAlt={data?.book_title ?? ''}
+                  title={authorLabel}
+                  to={`/interviews/${interview.slug}`}
+                  contain={isKidfest}
+                />
               </li>
             );
           })}

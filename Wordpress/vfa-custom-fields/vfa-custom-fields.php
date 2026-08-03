@@ -153,9 +153,27 @@ add_action('rest_api_init', function() {
         'get_callback' => function($post) {
             $author_ids    = get_post_meta($post['id'], 'author', false);
             $festival_year = (int) get_post_meta($post['id'], 'festival_year', true) ?: null;
-            $book_id       = (int) get_post_meta($post['id'], 'book', true) ?: null;
-            $book_title    = $book_id ? get_the_title($book_id) : null;
-            $book_cover    = $book_id
+
+            // Use the override book if set, otherwise fall back to the first author's first book.
+            $book_id = (int) get_post_meta($post['id'], 'book', true) ?: null;
+            if ( ! $book_id && ! empty($author_ids) ) {
+                $first_author_id = (int) $author_ids[0];
+                $default_books   = get_posts([
+                    'post_type'   => 'books',
+                    'numberposts' => 1,
+                    'orderby'     => 'date',
+                    'order'       => 'ASC',
+                    'meta_query'  => [
+                        ['key' => 'authors', 'value' => $first_author_id, 'type' => 'NUMERIC'],
+                    ],
+                ]);
+                if ( ! empty($default_books) ) {
+                    $book_id = $default_books[0]->ID;
+                }
+            }
+
+            $book_title = $book_id ? get_the_title($book_id) : null;
+            $book_cover = $book_id
                 ? wp_get_attachment_image_src(get_post_meta($book_id, 'cover_image', true), 'large') ?: null
                 : null;
             return [

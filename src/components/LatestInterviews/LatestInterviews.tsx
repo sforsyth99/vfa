@@ -6,7 +6,7 @@ import { sortBySurname } from '../../utils/sortBySurname';
 import { AuthorFeatureCard } from '../AuthorFeatureCard/AuthorFeatureCard';
 import styles from './LatestInterviews.module.css';
 
-const COUNT = 3;
+const COUNT = 8;
 
 export function LatestInterviews() {
   const { data: interviews, isLoading } = useGetInterviews();
@@ -40,6 +40,7 @@ export function LatestInterviews() {
                 bookCoverAlt={interview.interview_data?.book_title ?? ''}
                 title={authorLabel}
                 to={`/interviews/${interview.slug}`}
+                contain={(primaryAuthor?.kidfest_years?.length ?? 0) > 0}
               />
             </li>
           );

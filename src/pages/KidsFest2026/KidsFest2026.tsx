@@ -103,7 +103,7 @@ function KidsFestEvents() {
               {intl.formatMessage({ id: 'kidsfest2026.mainEvent.eyebrow' })}
             </p>
             <h3 className={styles.mainEventTitle}>
-              <EventLink slug={mainEvent.slug} isKidfest={mainEvent.event_data.is_kidfest} eventbriteUrl={mainEvent.event_data.eventbrite_url}>{title}</EventLink>
+              <EventLink slug={mainEvent.slug} isKidfest={mainEvent.event_data.is_kidfest} eventType={mainEvent.event_data.event_type} eventbriteUrl={mainEvent.event_data.eventbrite_url}>{title}</EventLink>
             </h3>
             <p className={styles.mainEventMeta}>
               {timeStr}{venue?.name ? ` · ${venue.name}` : ''}
@@ -141,10 +141,10 @@ function KidsFestEvents() {
                   <span className={styles.eventPrice}>{price}</span>
                 </div>
                 <h3 className={styles.eventTitle}>
-                  <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventbriteUrl={eventbrite_url}>{title}</EventLink>
+                  <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url}>{title}</EventLink>
                 </h3>
                 {venue?.name && <p className={styles.eventVenue}>{venue.name}</p>}
-                <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventbriteUrl={eventbrite_url} className={styles.eventLink}>
+                <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url} className={styles.eventLink}>
                   {intl.formatMessage({ id: 'kidsfest2026.events.details' })}
                 </EventLink>
               </li>

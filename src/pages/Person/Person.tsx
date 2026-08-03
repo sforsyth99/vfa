@@ -1,17 +1,15 @@
 import { Link, useParams } from 'react-router-dom';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetPerson } from '../../api/people/useGetPerson.ts';
-import { eventPath } from '../../utils/eventPath.ts';
-import { EventLink } from '../../components/EventLink/EventLink.tsx';
-import { useGetPersonEvents, type PersonEvent } from '../../api/people/useGetPersonEvents.ts';
-import { useGetPersonBooks, type PersonBook } from '../../api/people/useGetPersonBooks.ts';
-import { useGetPersonInterviews, type PersonInterview } from '../../api/people/useGetPersonInterview.ts';
+import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
+import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
+import { type PersonInterview, useGetPersonInterviews, } from '../../api/people/useGetPersonInterview.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { isSafeUrl } from '../../utils/isSafeUrl.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
-import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
 import { BookLink } from '../../components/BookLink/BookLink.tsx';
+import { EventInfoCard } from '../../components/EventInfoCard/EventInfoCard.tsx';
 import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
@@ -26,48 +24,66 @@ interface AuthorMetaProps {
   bio?: string | null;
   website_url?: string | null;
   interviews?: PersonInterview[];
-  events?: PersonEvent[];
-  firstBook?: PersonBook;
-  isKidfest: boolean;
 }
 
-function AuthorMeta({ name, firstName, name_pronunciation, alternate_name, bio, website_url, interviews, events, firstBook, isKidfest }: AuthorMetaProps) {
+function AuthorMeta({
+  name,
+  firstName,
+  name_pronunciation,
+  alternate_name,
+  bio,
+  website_url,
+  interviews,
+}: AuthorMetaProps) {
   const intl = useIntl();
+  const hasLinks = (website_url && isSafeUrl(website_url)) || (interviews && interviews.length > 0);
   return (
     <>
-      <Eyebrow><FormattedMessage id="person.eyebrow" /></Eyebrow>
+      <Eyebrow>
+        <FormattedMessage id="person.eyebrow" />
+      </Eyebrow>
       <PageTitle>{name}</PageTitle>
       {name_pronunciation && <p className={styles.pronunciation}>{name_pronunciation}</p>}
       {alternate_name && <p className={styles.alternateName}>{alternate_name}</p>}
-      {bio && <div className={styles.bio} dangerouslySetInnerHTML={{ __html: sanitizeHtml(bio) }} />}
-      {website_url && isSafeUrl(website_url) && (
-        <a href={website_url} className={styles.websiteLink}>
-          <FormattedMessage id="person.websiteLink" />
-        </a>
+      {bio && (
+        <div className={styles.bio} dangerouslySetInnerHTML={{ __html: sanitizeHtml(bio) }} />
       )}
-      {interviews && interviews.length > 0 && interviews.map((interview) => (
-        <Link key={interview.id} to={`/interviews/${interview.slug}`} className={styles.websiteLink}>
-          {interview.book_title ? (
-            <FormattedMessage
-              id="person.interviewLink.withBook"
-              values={{ firstName, bookTitle: <em>{interview.book_title}</em> }}
-            />
-          ) : interview.festival_year ? (
-            intl.formatMessage({ id: 'person.interviewLink.withYear' }, { year: interview.festival_year })
-          ) : (
-            intl.formatMessage({ id: 'person.interviewLink.generic' })
+      {hasLinks && (
+        <div className={styles.metaLinks}>
+          {website_url && isSafeUrl(website_url) && (
+            <a
+              href={website_url}
+              className={styles.metaLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FormattedMessage id="person.websiteLink" />
+            </a>
           )}
-        </Link>
-      ))}
-      {events && events.length > 0 && events.map((event) => (
-        <EventLink key={event.id} slug={event.slug} isKidfest={event.is_kidfest} eventbriteUrl={event.eventbrite_url} className={styles.websiteLink}>
-          {intl.formatMessage({ id: 'person.eventLink' }, { firstName, eventTitle: event.title })}
-        </EventLink>
-      ))}
-      {!isKidfest && firstBook && (
-        <BookLink slug={firstBook.slug} munrosUrl={firstBook.munros_url} className={styles.websiteLink}>
-          {intl.formatMessage({ id: 'person.bookLink' }, { bookTitle: firstBook.title })}
-        </BookLink>
+          {interviews &&
+            interviews.length > 0 &&
+            interviews.map((interview) => (
+              <Link
+                key={interview.id}
+                to={`/interviews/${interview.slug}`}
+                className={styles.metaLink}
+              >
+                {interview.book_title ? (
+                  <FormattedMessage
+                    id="person.interviewLink.withBook"
+                    values={{ firstName, bookTitle: <em>{interview.book_title}</em> }}
+                  />
+                ) : interview.festival_year ? (
+                  intl.formatMessage(
+                    { id: 'person.interviewLink.withYear' },
+                    { year: interview.festival_year, firstName },
+                  )
+                ) : (
+                  intl.formatMessage({ id: 'person.interviewLink.generic' })
+                )}
+              </Link>
+            ))}
+        </div>
       )}
     </>
   );
@@ -84,79 +100,142 @@ export default function PersonPage() {
   usePageTitle(person ? name : null);
 
   if (isLoading) return <PageLoader />;
-  if (error || !person) return <div><FormattedMessage id="person.notFound" /></div>;
+  if (error || !person)
+    return (
+      <div>
+        <FormattedMessage id="person.notFound" />
+      </div>
+    );
 
-  const { alternate_name, name_pronunciation, bio, website_url, photo, kidfest_years, kidfest_photo } = person.person_data;
+  const {
+    alternate_name,
+    name_pronunciation,
+    bio,
+    website_url,
+    photo,
+    kidfest_years,
+    kidfest_photo,
+  } = person.person_data;
 
   const isKidfest = kidfest_years?.length > 0;
-  const firstBook = books?.[0];
-  const kidsBook = books?.find(b => b.categories?.includes('children')) ?? firstBook;
+  const kidsBooks = (books ?? []).filter(
+    (b): b is typeof b & { cover_image: [string, number, number, boolean] } => !!b.cover_image,
+  );
   const photoSrc = photo ? photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
-  const kidfestPhotoSrc = kidfest_photo ? kidfest_photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
+  const kidfestPhotoSrc = kidfest_photo
+    ? kidfest_photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1')
+    : null;
   const firstName = name.split(' ')[0];
 
-  const adultHasEvents = !isKidfest && !!events?.length;
-
-  const authorMeta = (
-    <AuthorMeta
-      name={name}
-      firstName={firstName}
-      name_pronunciation={name_pronunciation}
-      alternate_name={alternate_name}
-      bio={bio}
-      website_url={website_url}
-      interviews={interviews}
-      events={events}
-      firstBook={firstBook}
-      isKidfest={isKidfest}
-    />
-  );
+  const displayBooks = isKidfest ? [] : (books ?? []).filter((b) => b.cover_image);
+  const adultEvents = isKidfest ? [] : (events ?? []);
+  const showBottomCards = isKidfest || displayBooks.length > 0 || adultEvents.length > 0;
 
   return (
     <main id="main-content" className={styles.page}>
+      {/* ── Hero: narrow two-column ───────────────────── */}
       <Container narrow>
-      {isKidfest && (kidfestPhotoSrc || kidsBook?.cover_image) && (
-        <div className={styles.kidsHero}>
-          {kidfestPhotoSrc && (
-            <img src={kidfestPhotoSrc} alt={name} className={styles.kidsHeroImg} />
-          )}
-          {kidsBook?.cover_image && (
-            <BookLink slug={kidsBook.slug} munrosUrl={kidsBook.munros_url}>
-              <img src={kidsBook.cover_image[0]} alt={kidsBook.title} className={styles.kidsHeroImg} />
-            </BookLink>
-          )}
-        </div>
-      )}
+        {isKidfest && (kidfestPhotoSrc || kidsBooks.length > 0) && (
+          <div className={styles.kidsHero}>
+            {kidfestPhotoSrc && (
+              <img src={kidfestPhotoSrc} alt={name} className={styles.kidsHeroImg} />
+            )}
+            {kidsBooks.map((book) => (
+              <BookLink key={book.id} slug={book.slug} munrosUrl={book.munros_url}>
+                <img src={book.cover_image[0]} alt={book.title} className={styles.kidsHeroImg} />
+              </BookLink>
+            ))}
+          </div>
+        )}
 
-      {adultHasEvents ? (
-        <div className={styles.adultHero}>
-          <div className={styles.eventFeatureCards}>
-            <AuthorFeatureCard
-              photoSrc={photoSrc}
-              photoAlt={name}
-              bookCoverSrc={firstBook?.cover_image ? firstBook.cover_image[0] : null}
-              bookCoverAlt={firstBook?.title}
-              events={events!.map((event) => ({
-                title: event.title,
-                subtitleLines: event.event_date ? [
-                  new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
-                    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
-                  }),
-                ] : [],
-                to: eventPath(event.slug, event.is_kidfest),
-                href: event.eventbrite_url || undefined,
-              }))}
-              className={styles.eventFeatureCard}
+        <div className={!isKidfest && photoSrc ? styles.adultHero : styles.profile}>
+          {!isKidfest && photoSrc && (
+            <div className={styles.photoCol}>
+              <img src={photoSrc} alt={name} className={styles.authorPhoto} loading="eager" />
+            </div>
+          )}
+          <div className={styles.meta}>
+            <AuthorMeta
+              name={name}
+              firstName={firstName}
+              name_pronunciation={name_pronunciation}
+              alternate_name={alternate_name}
+              bio={bio}
+              website_url={website_url}
+              interviews={interviews}
             />
           </div>
-          <div className={styles.meta}>{authorMeta}</div>
         </div>
-      ) : (
-        <div className={styles.profile}>
-          <div className={styles.meta}>{authorMeta}</div>
-        </div>
-      )}
       </Container>
+
+      {/* ── Full-width: events + books ────────────────── */}
+      {showBottomCards && (
+        <Container narrow className={styles.bottomSection}>
+          <div className={styles.bottomCards}>
+            {displayBooks.length > 0 && (
+              <div
+                className={`${styles.booksCol}${adultEvents.length > 1 ? ` ${styles.booksColTop}` : ''}`}
+              >
+                {displayBooks.map((book) => (
+                  <BookLink
+                    key={book.id}
+                    slug={book.slug}
+                    munrosUrl={book.munros_url}
+                    className={styles.bookCard}
+                  >
+                    <img
+                      src={(book.cover_image as [string, number, number, boolean])[0]}
+                      alt={book.title}
+                      className={styles.bookCoverImg}
+                      loading="lazy"
+                    />
+                    <span className={styles.bookCta}>
+                      {book.munros_url ? (
+                        <FormattedMessage
+                          id="person.bookBuy"
+                          values={{ bookTitle: <em>{book.title}</em> }}
+                        />
+                      ) : (
+                        <FormattedMessage id="person.bookLearnMore" />
+                      )}
+                    </span>
+                  </BookLink>
+                ))}
+              </div>
+            )}
+            {adultEvents.length > 0 && (
+              <div className={styles.eventsCol}>
+                {adultEvents.map((event) => (
+                  <EventInfoCard key={event.id} event={event} name={name} />
+                ))}
+              </div>
+            )}
+            {isKidfest && (
+              <div className={styles.eventsCol}>
+                <div className={styles.kidsfestCard}>
+                  <p className={styles.kidsfestCardEyebrow}>
+                    <FormattedMessage id="person.kidsfestCard.eyebrow" values={{ firstName: name }} />
+                  </p>
+                  <p className={styles.kidsfestCardTitle}>
+                    <FormattedMessage id="kidsfest.heading" />
+                  </p>
+                  <p className={styles.kidsfestCardDate}>
+                    <FormattedMessage id="kidsfest.date" />
+                    {' · '}
+                    <FormattedMessage id="kidsfest.time" />
+                  </p>
+                  <p className={styles.kidsfestCardDate}>
+                    <FormattedMessage id="kidsfest.venue" />
+                  </p>
+                  <Link to="/kidsfest2026" className={styles.kidsfestCardButton}>
+                    <FormattedMessage id="person.kidsfestCard.cta" />
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        </Container>
+      )}
     </main>
   );
 }

@@ -1,10 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
-import { useGetPersonEvents, type PersonEvent } from '../../api/people/useGetPersonEvents.ts';
+import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
-import { eventPath } from '../../utils/eventPath.ts';
-import { EventLink } from '../../components/EventLink/EventLink.tsx';
+import { EventInfoCard } from '../../components/EventInfoCard/EventInfoCard.tsx';
 import { sortBySurname } from '../../utils/sortBySurname.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
@@ -14,44 +13,6 @@ import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { PageLoader } from '../../components/PageLoader/PageLoader';
 import styles from './Interview.module.css';
 
-function UpcomingEventCard({ event, firstName }: { event: PersonEvent; firstName: string }) {
-  const intl = useIntl();
-  return (
-    <div className={styles.eventCard}>
-      <p className={styles.eventCardEyebrow}>
-        {intl.formatMessage({ id: 'interview.seeLive' }, { firstName })}
-      </p>
-      <p className={styles.eventCardTitle}>
-        <EventLink slug={event.slug} isKidfest={event.is_kidfest} eventbriteUrl={event.eventbrite_url}>{event.title}</EventLink>
-      </p>
-      {event.event_date && (
-        <p className={styles.eventCardDate}>
-          {new Date(event.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
-            weekday: 'long',
-            month: 'long',
-            day: 'numeric',
-          })}
-          {event.time_start && ` · ${event.time_start} PT`}
-        </p>
-      )}
-      {event.venue_name && <p className={styles.eventCardVenue}>{event.venue_name}</p>}
-      {event.eventbrite_url ? (
-        <a
-          href={event.eventbrite_url}
-          className={styles.eventCardButton}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FormattedMessage id="interview.getTickets" />
-        </a>
-      ) : (
-        <Link to={eventPath(event.slug, event.is_kidfest)} className={styles.eventCardButton}>
-          <FormattedMessage id="interview.learnMore" />
-        </Link>
-      )}
-    </div>
-  );
-}
 
 function getInitials(name: string): string {
   return name
@@ -97,8 +58,6 @@ export default function InterviewPage() {
   const displayName = authorNames;
   const authorInitials = getInitials(primaryAuthor?.name || displayName);
   const interviewerInitials = interviewer_name ? getInitials(interviewer_name) : 'Q';
-  const firstName = displayName.split(' ')[0];
-
   const today = new Date().toISOString().slice(0, 10);
   const upcomingEvents = personEvents?.filter((e) => e.event_date >= today) ?? [];
 
@@ -130,7 +89,7 @@ export default function InterviewPage() {
           {upcomingEvents.length > 0 && (
             <div className={styles.eventCards}>
               {upcomingEvents.map((event) => (
-                <UpcomingEventCard key={event.id} event={event} firstName={firstName} />
+                <EventInfoCard key={event.id} event={event} name={displayName} />
               ))}
             </div>
           )}
@@ -151,23 +110,31 @@ export default function InterviewPage() {
 
       <div className={styles.qa}>
         {question.map((q, i) => {
+          const a = answer?.[i] ?? '';
           const img = question_image?.[i];
+          const hasQ = !!q?.trim();
+          const hasA = !!a?.trim();
+          if (!hasQ && !hasA) return null;
           return (
             <div key={i} className={styles.pair}>
-              <div className={styles.question}>
-                <span className={styles.qMark}>
-                  {i === 0 && interviewer_name
-                    ? `${interviewer_name} (${interviewerInitials}):`
-                    : `${interviewerInitials}:`}
-                </span>
-                <div className={styles.qText} dangerouslySetInnerHTML={{ __html: sanitizeHtml(q) }} />
-              </div>
-              <div className={styles.answer}>
-                <span className={styles.aMark}>
-                  {i === 0 ? `${displayName} (${authorInitials}):` : `${authorInitials}:`}
-                </span>
-                <div className={styles.aText} dangerouslySetInnerHTML={{ __html: sanitizeHtml(answer[i]) }} />
-              </div>
+              {hasQ && (
+                <div className={styles.question}>
+                  <span className={styles.qMark}>
+                    {i === 0 && interviewer_name
+                      ? `${interviewer_name} (${interviewerInitials}):`
+                      : `${interviewerInitials}:`}
+                  </span>
+                  <div className={styles.qText} dangerouslySetInnerHTML={{ __html: sanitizeHtml(q) }} />
+                </div>
+              )}
+              {hasA && (
+                <div className={styles.answer}>
+                  <span className={styles.aMark}>
+                    {i === 0 ? `${displayName} (${authorInitials}):` : `${authorInitials}:`}
+                  </span>
+                  <div className={styles.aText} dangerouslySetInnerHTML={{ __html: sanitizeHtml(a) }} />
+                </div>
+              )}
               {img && <img src={img[0]} alt="" className={styles.pairImage} />}
             </div>
           );
