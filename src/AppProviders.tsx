@@ -11,7 +11,6 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: import.meta.env.DEV ? 0 : 60 * 60 * 1000,
       gcTime: 60 * 60 * 1000,
-      refetchOnWindowFocus: false,
     },
   },
 });
