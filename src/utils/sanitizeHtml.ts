@@ -3,5 +3,8 @@ import { WP_ORIGIN } from '../api/commonTypes.ts';
 
 export function sanitizeHtml(html: string): string {
   const rewritten = html.replaceAll(WP_ORIGIN, '');
-  return DOMPurify.sanitize(rewritten);
+  return DOMPurify.sanitize(rewritten, {
+    FORBID_TAGS: ['font'],
+    FORBID_ATTR: ['style', 'color', 'face', 'size'],
+  });
 }
