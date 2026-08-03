@@ -270,6 +270,54 @@
     margin: 0;
 }
 
+/* Rich-text formatting from CMS — font/color is controlled by parent, not the editor */
+
+.intro a,
+.aText a,
+.qText a,
+.interviewerBio a {
+    color: var(--vfa-color-2026-indigo);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.intro a:hover,
+.aText a:hover,
+.qText a:hover,
+.interviewerBio a:hover {
+    opacity: var(--vfa-opacity-hover);
+}
+
+.intro ul,
+.intro ol,
+.aText ul,
+.aText ol,
+.interviewerBio ul,
+.interviewerBio ol {
+    display: block;
+    margin: 0.5em 0;
+    padding-left: 1.5em;
+}
+
+.intro li,
+.aText li,
+.interviewerBio li {
+    display: list-item;
+    margin-bottom: 0.25em;
+}
+
+.intro ul,
+.aText ul,
+.interviewerBio ul {
+    list-style: disc;
+}
+
+.intro ol,
+.aText ol,
+.interviewerBio ol {
+    list-style: decimal;
+}
+
 .pairImage {
     display: block;
     max-width: 100%;
