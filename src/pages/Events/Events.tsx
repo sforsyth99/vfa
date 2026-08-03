@@ -5,6 +5,7 @@ import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEve
 import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import type { PersonData } from '../../api/people/peopleTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { sortBySurname } from '../../utils/sortBySurname';
 import { eventPath } from '../../utils/eventPath';
 import { usePageTitle } from '../../utils/usePageTitle';
@@ -132,7 +133,7 @@ function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef:
           </>
         );
       })()}
-      {d.summary && <p className={styles.popoverSummary}>{d.summary}</p>}
+      {d.description && <div className={styles.popoverSummary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(d.description) }} />}
       {(() => {
         const hasInPerson = d.tickets?.some((t) => t.type === 'in_person');
         const hasOnline = d.tickets?.some((t) => t.type === 'online');
@@ -201,15 +202,18 @@ function EventRow({ event }: { event: FestivalEvent }) {
       <span className={styles.rowTitleGroup}>
         <span className={styles.rowTitle}>{title}</span>
         {rowSubtitle && <span className={styles.rowAuthors}>{rowSubtitle}</span>}
-        {d.summary && <span className={styles.rowSummary}>{d.summary}</span>}
       </span>
       {venueLabel && <span className={styles.rowVenue}>{venueLabel}</span>}
     </>
   );
 
+  const isKidsfestMain = d.is_kidfest && d.event_type === 'author_fair';
+
   return (
     <li className={styles.row} onMouseMove={handleMouseMove}>
-      {d.eventbrite_url ? (
+      {isKidsfestMain ? (
+        <Link to="/kidsfest2026" className={styles.rowLink}>{inner}</Link>
+      ) : d.eventbrite_url ? (
         <a
           href={d.eventbrite_url}
           className={styles.rowLink}
@@ -219,7 +223,7 @@ function EventRow({ event }: { event: FestivalEvent }) {
           {inner}
         </a>
       ) : (
-        <Link to={eventPath(event.slug, event.event_data.is_kidfest)} className={styles.rowLink}>
+        <Link to={eventPath(event.slug)} className={styles.rowLink}>
           {inner}
         </Link>
       )}

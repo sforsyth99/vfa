@@ -2,61 +2,107 @@
     padding-block: 3rem 5rem;
 }
 
-.grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-    margin-top: 2rem;
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
+.item {
+    display: grid;
+    grid-template-columns: 80px 85px 1fr;
+    align-items: start;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
     text-decoration: none;
-    width: 110px;
+    color: inherit;
+    transition: opacity var(--vfa-transition);
+}
+
+.list li:first-child .item {
+    border-top: 1px solid var(--vfa-color-warm-border-light);
+}
+
+.item:hover {
+    opacity: var(--vfa-opacity-hover);
+}
+
+/* ── Photo ───────────────────────────────────────────── */
+
+.photoWrap {
+    width: 80px;
+    height: 110px;
+    flex-shrink: 0;
 }
 
 .photo {
     display: block;
-    width: 110px;
+    width: 80px;
     height: 110px;
     object-fit: cover;
     object-position: top center;
-    border-radius: var(--vfa-radius-circle);
-    box-shadow: var(--vfa-shadow-sm);
-    transition: transform var(--vfa-transition), box-shadow var(--vfa-transition);
-}
-
-.card:hover .photo {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+    border-radius: var(--vfa-radius-sm);
 }
 
 .placeholder {
-    width: 110px;
+    width: 80px;
     height: 110px;
-    border-radius: var(--vfa-radius-circle);
+    border-radius: var(--vfa-radius-sm);
     background: var(--vfa-color-2026-indigo);
     color: var(--vfa-color-text-light);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-weight: var(--vfa-font-weight-semibold);
 }
 
-.name {
-    font-size: 0.8rem;
-    font-weight: var(--vfa-font-weight-medium);
-    color: var(--vfa-color-ink-darkest);
-    text-align: center;
-    line-height: 1.3;
+/* ── Info ────────────────────────────────────────────── */
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 0.2rem;
+    min-width: 0;
 }
 
-.card:hover .name {
-    color: var(--vfa-color-2026-indigo-mid);
+.name {
+    font-family: var(--vfa-font-display);
+    font-size: 1.15rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-darkest);
+    margin: 0;
+    line-height: 1.25;
+}
+
+.bio {
+    font-size: 0.875rem;
+    color: var(--vfa-color-ink-mid);
+    line-height: 1.55;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ── Book cover ──────────────────────────────────────── */
+
+.bookWrap {
+    width: 85px;
+    height: 110px;
+}
+
+.bookCover {
+    display: block;
+    width: 85px;
+    height: 110px;
+    object-fit: contain;
+    object-position: left center;
+    border-radius: var(--vfa-radius-sm);
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
 }
 
 @media (max-width: 640px) {
@@ -64,13 +110,29 @@
         padding-block: 2rem 3rem;
     }
 
-    .card {
-        width: 90px;
+    .item {
+        grid-template-columns: 60px 65px 1fr;
+        gap: 0.75rem;
+    }
+
+    .photoWrap {
+        width: 60px;
+        height: 82px;
     }
 
     .photo,
     .placeholder {
-        width: 90px;
-        height: 90px;
+        width: 60px;
+        height: 82px;
+    }
+
+    .bookWrap {
+        width: 65px;
+        height: 82px;
+    }
+
+    .bookCover {
+        width: 65px;
+        height: 82px;
     }
 }

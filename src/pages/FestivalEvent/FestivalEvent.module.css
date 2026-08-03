@@ -60,11 +60,15 @@
   margin: 0.5rem 0 0;
 }
 
+.headerPrice {
+  color: var(--vfa-color-ink-darkest);
+}
+
 .description {
   font-size: var(--vfa-font-size-base);
   line-height: var(--vfa-line-height-body);
   color: var(--vfa-color-ink-dark);
-  margin: 1.5rem 0 0;
+  margin: 1.5rem 0 2rem;
   white-space: pre-line;
 }
 
@@ -351,60 +355,21 @@
   margin: 0;
 }
 
-/* ── Tickets ─────────────────────────────────────────── */
-
-.ticketCategory {
-  font-size: var(--vfa-font-size-eyebrow);
-  font-weight: var(--vfa-font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--vfa-letter-spacing-eyebrow);
-  color: var(--vfa-color-ink-light);
-  margin: 1rem 0 0.4rem;
-}
-
-.ticketList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.ticketRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  font-size: 0.9375rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px dotted var(--vfa-color-warm-border);
-  max-width: 320px;
-}
-
-.ticketTier {
-  color: var(--vfa-color-ink-dark);
-}
-
-.ticketPrice {
-  font-weight: var(--vfa-font-weight-semibold);
-  color: var(--vfa-color-ink-darkest);
-  font-family: var(--vfa-font-display);
-}
-
 .eventbriteLink {
   display: inline-block;
-  margin-top: 1rem;
-  font-size: var(--vfa-font-size-sm);
-  font-weight: var(--vfa-font-weight-semibold);
+  margin-left: 0.75rem;
+  padding: 0.45em 1.2em;
+  background: var(--vfa-color-2026-indigo);
   color: var(--vfa-color-text-light);
-  background: var(--vfa-color-forest-dark);
+  font-weight: var(--vfa-font-weight-bold);
+  font-size: 0.95em;
+  border-radius: var(--vfa-radius-md);
   text-decoration: none;
-  padding: 0.65rem 1.25rem;
-  border-radius: var(--vfa-radius-sm);
-  letter-spacing: 0.02em;
-  transition: opacity var(--vfa-transition);
+  white-space: nowrap;
+  transition: background var(--vfa-transition-base);
 }
 
 .eventbriteLink:hover {
-  opacity: 0.85;
+  background: var(--vfa-color-2026-indigo-mid);
+  color: var(--vfa-color-text-light);
 }

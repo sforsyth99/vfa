@@ -59,6 +59,21 @@ function LabelledCard({ label, children }: { label: string; children: React.Reac
   );
 }
 
+function formatEventPrice(tickets: { type: string; tier: string; price: string }[], freeLabel: string): string {
+  const all = tickets ?? [];
+  const inPerson = all.filter((t) => t.type === 'in_person');
+  const relevant = inPerson.length > 0 ? inPerson : all.filter((t) => t.type === 'online');
+  if (relevant.length === 0) return freeLabel;
+  const isSliding = relevant.some((t) => /sliding/i.test(t.tier));
+  const nums = relevant.flatMap((t) => (t.price.match(/\d+(\.\d+)?/g) ?? []).map(Number));
+  if (nums.length === 0 || nums.every((n) => n === 0)) return isSliding ? 'Sliding Scale' : freeLabel;
+  const nonZero = nums.filter((n) => n > 0);
+  const min = nums.includes(0) ? 0 : Math.min(...nonZero);
+  const max = Math.max(...nonZero);
+  const range = min === max ? `$${min}` : `$${min}–$${max}`;
+  return isSliding ? `Sliding Scale · ${range}` : range;
+}
+
 const EVENT_TYPE_KEYS: Record<string, string> = {
   conversation: 'festivalEvent.type.conversation',
   panel: 'festivalEvent.type.panel',
@@ -123,45 +138,7 @@ export default function FestivalEventPage() {
       ? styles.locationBadgeOnline
       : styles.locationBadgeInPerson;
 
-  const ticketsBlock = (tickets.length > 0 || eventbrite_url) && (
-    <div className={styles.section}>
-      <h2 className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.tickets' })}</h2>
-      {(['in_person', 'online'] as const).map((type) => {
-        const group = tickets.filter((t) => t.type === type);
-        if (group.length === 0) return null;
-        const hasOtherType = tickets.some((t) => t.type !== type);
-        return (
-          <div key={type}>
-            {hasOtherType && (
-              <p className={styles.ticketCategory}>
-                {type === 'in_person'
-                  ? intl.formatMessage({ id: 'festivalEvent.tickets.inPerson' })
-                  : intl.formatMessage({ id: 'festivalEvent.tickets.online' })}
-              </p>
-            )}
-            <ul className={styles.ticketList}>
-              {group.map((ticket, i) => (
-                <li key={i} className={styles.ticketRow}>
-                  <span className={styles.ticketTier}>{ticket.tier}</span>
-                  <span className={styles.ticketPrice}>{ticket.price}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      })}
-      {eventbrite_url && (
-        <a
-          href={eventbrite_url}
-          className={styles.eventbriteLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FormattedMessage id="festivalEvent.buyTickets" />
-        </a>
-      )}
-    </div>
-  );
+  const price = formatEventPrice(tickets, intl.formatMessage({ id: 'events.free' }));
 
   return (
     <main id="main-content" className={styles.page}>
@@ -179,15 +156,19 @@ export default function FestivalEventPage() {
         <p className={styles.datetime}>
           {event_date}
           {timeRange ? ` · ${timeRange}` : ''}
+          {price && <> · <span className={styles.headerPrice}>{price}</span></>}
         </p>
       )}
       {locationMode && (
         <p className={`${styles.locationBadge} ${locationBadgeClass}`}>{locationMode}</p>
       )}
       {age_range && <p className={styles.ageRange}>{age_range}</p>}
-      {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
+      {eventbrite_url && (
+        <a href={eventbrite_url} className={styles.eventbriteLink} target="_blank" rel="noopener noreferrer">
+          <FormattedMessage id="festivalEvent.buyTickets" />
+        </a>
+      )}
       {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
-
       {(authors.length > 0 ||
         moderator.length > 0 ||
         curator.length > 0 ||
@@ -226,7 +207,7 @@ export default function FestivalEventPage() {
         </div>
       )}
 
-      {ticketsBlock}
+      {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
 
       {(venue || online_url) && (
         <div className={styles.section}>

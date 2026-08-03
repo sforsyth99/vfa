@@ -72,7 +72,7 @@ export function FeaturedEvents() {
                     </div>
                   </div>
                   <h3 className={styles.cardTitle}>
-                    <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventbriteUrl={eventbrite_url}>{title}</EventLink>
+                    <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url}>{title}</EventLink>
                   </h3>
                   {summary && <p className={styles.cardSummary}>{summary}</p>}
                   {authors.map((author) => {
@@ -89,12 +89,14 @@ export function FeaturedEvents() {
                       </Link>
                     );
                   })}
-                  {eventbrite_url ? (
+                  {event.event_data.is_kidfest && event.event_data.event_type === 'author_fair' ? (
+                    <Link to="/kidsfest2026" className={styles.cardCta}>{ctaLabel}</Link>
+                  ) : eventbrite_url ? (
                     <a href={eventbrite_url} target="_blank" rel="noopener noreferrer" className={styles.cardCta}>
                       {ctaLabel}
                     </a>
                   ) : (
-                    <Link to={eventPath(event.slug, event.event_data.is_kidfest)} className={styles.cardCta}>
+                    <Link to={eventPath(event.slug)} className={styles.cardCta}>
                       {ctaLabel}
                     </Link>
                   )}

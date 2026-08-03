@@ -58,7 +58,7 @@ export const WithInterviews: Story = {
   play: async ({ canvas }) => {
     const list = await canvas.findByRole('list');
     await expect(list).toBeVisible();
-    await expect(canvas.getAllByRole('listitem')).toHaveLength(3);
+    await expect(canvas.getAllByRole('listitem')).toHaveLength(4);
   },
 };
 
