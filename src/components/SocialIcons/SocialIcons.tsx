@@ -1,3 +1,4 @@
+import { track } from '../../utils/analytics';
 import styles from './SocialIcons.module.css';
 
 const socials = [
@@ -99,6 +100,7 @@ function SocialIcons() {
           rel="noopener noreferrer"
           className={styles.socialLink}
           aria-label={name}
+          onClick={() => track({ name: 'social_click', event_label: name })}
         >
           {icon}
         </a>

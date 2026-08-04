@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import styles from './Header.module.css';
 import logo from '../../assets/VFA_Logo.png';
 import { PRIMARY_NAV } from '../../config/menus';
+import { track } from '../../utils/analytics';
 import { SearchWidget } from '../SearchWidget/SearchWidget';
 
 const DONATE_URL = 'https://www.canadahelps.org/en/charities/victoria-festival-of-authors-society/';
@@ -45,6 +46,7 @@ function Header() {
             target="_blank"
             rel="noopener noreferrer"
             className={styles.donateMobile}
+            onClick={() => track({ name: 'donate_click', event_location: 'header_mobile' })}
           >
             {donateLabel}
           </a>
@@ -54,6 +56,7 @@ function Header() {
           target="_blank"
           rel="noopener noreferrer"
           className={styles.donateButton}
+          onClick={() => track({ name: 'donate_click', event_location: 'header_desktop' })}
         >
           {donateLabel}
         </a>

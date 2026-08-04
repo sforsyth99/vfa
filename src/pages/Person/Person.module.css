@@ -168,6 +168,15 @@
     .bottomCards {
         flex-direction: column;
     }
+
+    .booksCol {
+        align-self: center;
+    }
+
+    .eventsCol {
+        width: 100%;
+        min-width: unset;
+    }
 }
 
 /* ── Kids Hero ───────────────────────────────────────── */

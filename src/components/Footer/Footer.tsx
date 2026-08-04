@@ -7,6 +7,7 @@ import calfStampSrc from '../../assets/CALF-Member_Stamp_Primary.png';
 import SocialIcons from '../SocialIcons/SocialIcons';
 import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
 import { FOOTER_NAV } from '../../config/menus';
+import { track } from '../../utils/analytics';
 
 const sponsorImages = import.meta.glob('../../assets/sponsors/*.{png,jpg,jpeg,svg}', { eager: true, import: 'default' });
 const sponsorLogos: string[] = Object.values(sponsorImages) as string[];
@@ -25,7 +26,13 @@ function Footer() {
               {group.items.map((item) => (
                 <li key={item.to}>
                   {item.external ? (
-                    <a href={item.to} target="_blank" rel="noopener noreferrer" className={styles.footerNavLink}>
+                    <a
+                      href={item.to}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.footerNavLink}
+                      onClick={item.trackingLabel === 'donate' ? () => track({ name: 'donate_click', event_location: 'footer' }) : undefined}
+                    >
                       {item.label}
                     </a>
                   ) : (
@@ -39,7 +46,7 @@ function Footer() {
       </nav>
 
       <div className={styles.newsletterSocialRow}>
-        <NewsletterSignup />
+        <NewsletterSignup location="footer" />
         <SocialIcons />
       </div>
 

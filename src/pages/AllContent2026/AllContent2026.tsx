@@ -196,6 +196,7 @@ function BookCoverGrid({ books }: { books: Book[] }) {
             key={book.id}
             slug={book.slug}
             munrosUrl={book.book_data?.munros_url}
+            bookTitle={title}
             className={styles.bookCover}
           >
             {cover ? (

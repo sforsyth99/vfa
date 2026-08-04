@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { BookLink } from '../../components/BookLink/BookLink';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetBook } from '../../api/books/useGetBook.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
@@ -64,9 +65,9 @@ export default function BookPage() {
           {ageLabel && <p className={styles.ageRange}>{ageLabel}</p>}
           {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
           {munros_url && (
-            <a href={munros_url} className={styles.buyLink} target="_blank" rel="noopener noreferrer">
+            <BookLink slug={slug!} munrosUrl={munros_url} bookTitle={title} className={styles.buyLink}>
               <FormattedMessage id="book.buyOnline" />
-            </a>
+            </BookLink>
           )}
         </div>
       </div>

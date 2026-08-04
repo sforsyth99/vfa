@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { track } from '../../utils/analytics';
 import styles from './NewsletterSignup.module.css';
 
 const MAILCHIMP_URL =
   'https://victoriafestivalofauthors.us9.list-manage.com/subscribe/post-json?u=fbfc40b39233dc1e19afef78d&id=e836a773c9&f_id=0076e8e3f0';
 
-function NewsletterSignup() {
+function NewsletterSignup({ location }: { location: 'footer' | 'homepage' }) {
   const intl = useIntl();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -20,6 +21,7 @@ function NewsletterSignup() {
     const callbackName = `mc_cb_${Date.now()}`;
     (window as unknown as Record<string, unknown>)[callbackName] = (data: { result: string; msg: string }) => {
       if (data.result === 'success') {
+        track({ name: 'newsletter_signup', event_location: location });
         setStatus('success');
         setMessage(intl.formatMessage({ id: 'newsletter.success' }));
         setEmail('');

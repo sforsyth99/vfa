@@ -3,12 +3,15 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { useGetKidfestAuthors } from '../../api/people/useGetKidfestAuthors';
 import { CURRENT_YEAR } from '../../config/festival';
+import { type FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import { useGetBooks } from '../../api/books/useGetBooks';
 import { Container } from '../../components/Container/Container';
 import { SectionTitle } from '../../components/SectionTitle/SectionTitle';
 import { BookLink } from '../../components/BookLink/BookLink';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { track } from '../../utils/analytics';
+import { downloadIcs } from '../../utils/downloadIcs';
 import { EventLink } from '../../components/EventLink/EventLink';
 import posterSrc from '../../assets/VFA_KidsFest.jpg';
 import styles from './KidsFest2026.module.css';
@@ -20,8 +23,27 @@ function formatTime(t: string): string {
   return `${h % 12 || 12}:${m.toString().padStart(2, '0')} ${period}`;
 }
 
-function KidsFestHero() {
+function KidsFestHero({ mainEvent }: { mainEvent: FestivalEvent | null }) {
   const intl = useIntl();
+
+  const handleAddToCalendar = () => {
+    if (!mainEvent) return;
+    const { event_date, time_start, time_end, venue } = mainEvent.event_data;
+    const title = decodeHtmlEntities(mainEvent.title?.rendered ?? '');
+    const locationParts = [venue?.name, venue?.street_address, venue?.city, venue?.province].filter(Boolean);
+    track({ name: 'add_to_calendar', event_label: title, event_location: 'hero' });
+    downloadIcs({
+      title,
+      date: event_date,
+      timeStart: time_start,
+      timeEnd: time_end,
+      location: locationParts.join(', '),
+      description: intl.formatMessage({ id: 'kidsfest2026.mainEvent.description' }),
+      filename: 'kidsfest-2026.ics',
+      uid: 'kidsfest-2026-main@victoriafestivalofauthors.ca',
+    });
+  };
+
   return (
     <section className={styles.hero}>
       <div className={styles.heroInner}>
@@ -63,15 +85,22 @@ function KidsFestHero() {
               </dd>
             </div>
           </dl>
+          {mainEvent && (
+            <button
+              className={styles.heroCalendarButton}
+              onClick={handleAddToCalendar}
+            >
+              {intl.formatMessage({ id: 'kidsfest2026.mainEvent.addToCalendar' })}
+            </button>
+          )}
         </div>
       </div>
     </section>
   );
 }
 
-function KidsFestEvents() {
+function KidsFestEvents({ events, isLoading }: { events: FestivalEvent[] | undefined; isLoading: boolean }) {
   const intl = useIntl();
-  const { data: events, isLoading } = useGetFestivalEvents();
 
   if (isLoading) return <p>{intl.formatMessage({ id: 'kidsfest2026.events.loading' })}</p>;
 
@@ -97,6 +126,13 @@ function KidsFestEvents() {
           ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
           : '';
         const title = decodeHtmlEntities(mainEvent.title?.rendered ?? '');
+        const locationParts = [
+          venue?.name,
+          venue?.street_address,
+          venue?.city,
+          venue?.province,
+        ].filter(Boolean);
+
         return (
           <div className={styles.mainEventCard}>
             <p className={styles.mainEventEyebrow}>
@@ -111,9 +147,30 @@ function KidsFestEvents() {
             <p className={styles.mainEventDescription}>
               {intl.formatMessage({ id: 'kidsfest2026.mainEvent.description' })}
             </p>
-            <span className={styles.mainEventFree}>
-              {intl.formatMessage({ id: 'kidsfest2026.mainEvent.free' })}
-            </span>
+            <div className={styles.mainEventActions}>
+              <span className={styles.mainEventFree}>
+                {intl.formatMessage({ id: 'kidsfest2026.mainEvent.free' })}
+              </span>
+              <button
+                className={styles.calendarButton}
+                onClick={() => {
+                  track({ name: 'add_to_calendar', event_label: title, event_location: 'event_card' });
+                  downloadIcs({
+                    title,
+                    date: mainEvent.event_data.event_date,
+                    timeStart: mainEvent.event_data.time_start,
+                    timeEnd: mainEvent.event_data.time_end,
+                    location: locationParts.join(', '),
+                    description: intl.formatMessage({ id: 'kidsfest2026.mainEvent.description' }),
+                    filename: 'kidsfest-2026.ics',
+                    uid: `kidsfest-2026-main@victoriafestivalofauthors.ca`,
+                  });
+                }}
+                aria-label={intl.formatMessage({ id: 'kidsfest2026.mainEvent.addToCalendar' })}
+              >
+                {intl.formatMessage({ id: 'kidsfest2026.mainEvent.addToCalendar' })}
+              </button>
+            </div>
           </div>
         );
       })()}
@@ -218,6 +275,7 @@ function KidsBooks() {
             key={book.id}
             slug={book.slug}
             munrosUrl={book.book_data?.munros_url}
+            bookTitle={title}
             className={styles.bookItem}
           >
             {cover ? (
@@ -244,15 +302,20 @@ export default function KidsFest2026Page() {
   const intl = useIntl();
   usePageTitle(intl.formatMessage({ id: 'kidsfest2026.pageTitle' }));
 
+  const { data: events, isLoading } = useGetFestivalEvents();
+  const mainEvent = (events ?? []).find(
+    (e) => e.event_data.is_kidfest && e.event_data.event_type === 'author_fair',
+  ) ?? null;
+
   return (
     <main id="main-content">
-      <KidsFestHero />
+      <KidsFestHero mainEvent={mainEvent} />
       <Container>
         <section className={styles.section}>
           <SectionTitle>
             <FormattedMessage id="kidsfest2026.events.heading" />
           </SectionTitle>
-          <KidsFestEvents />
+          <KidsFestEvents events={events} isLoading={isLoading} />
         </section>
         <KidsFestAuthors />
         <section className={styles.section}>
