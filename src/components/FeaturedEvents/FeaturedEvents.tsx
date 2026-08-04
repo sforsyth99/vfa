@@ -79,10 +79,9 @@ export function FeaturedEvents() {
                   {authors.map((author) => {
                     const iv = interviewByAuthor.get(author.id);
                     if (!iv) return null;
-                    const firstName = author.name.split(' ')[0];
                     const bookTitle = iv.interview_data.book_title;
                     const label = bookTitle
-                      ? intl.formatMessage({ id: 'person.interviewLink.withBook' }, { firstName, bookTitle })
+                      ? intl.formatMessage({ id: 'person.interviewLink.withBook' }, { name: author.name, bookTitle })
                       : intl.formatMessage({ id: 'person.interviewLink.generic' });
                     return (
                       <Link key={author.id} to={`/interviews/${iv.slug}`} className={styles.cardInterviewLink}>

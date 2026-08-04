@@ -27,9 +27,13 @@ export function EventInfoCard({ event, name }: Props) {
         {intl.formatMessage({ id: 'interview.seeLive' }, { firstName: name })}
       </p>
       <p className={styles.title}>
-        <EventLink slug={event.slug} isKidfest={event.is_kidfest} eventbriteUrl={event.eventbrite_url} eventTitle={event.title}>
-          {event.title}
-        </EventLink>
+        {event.is_kidfest ? (
+          <Link to="/kidsfest2026">{event.title}</Link>
+        ) : (
+          <EventLink slug={event.slug} eventbriteUrl={event.eventbrite_url} eventTitle={event.title}>
+            {event.title}
+          </EventLink>
+        )}
       </p>
       {dateStr && (
         <p className={styles.date}>
@@ -38,7 +42,11 @@ export function EventInfoCard({ event, name }: Props) {
         </p>
       )}
       {event.venue_name && <p className={styles.venue}>{event.venue_name}</p>}
-      {event.eventbrite_url ? (
+      {event.is_kidfest ? (
+        <Link to="/kidsfest2026" className={styles.button}>
+          <FormattedMessage id="interview.learnMore" />
+        </Link>
+      ) : event.eventbrite_url ? (
         <EventbriteLink href={event.eventbrite_url} eventTitle={event.title} className={styles.button}>
           <FormattedMessage id="interview.getTickets" />
         </EventbriteLink>

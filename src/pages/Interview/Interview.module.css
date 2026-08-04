@@ -39,6 +39,10 @@
     flex-shrink: 0;
 }
 
+.headerImgLink {
+    display: contents;
+}
+
 .headerImg {
     display: block;
     height: 260px;
@@ -269,4 +273,24 @@
     max-width: 100%;
     margin-top: 1.5rem;
     border-radius: var(--vfa-radius-sm);
+}
+
+/* Media embeds injected from CMS content */
+:global(.yt-embed) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+    border-radius: var(--vfa-radius-sm);
+    margin-block: 1.5rem;
+}
+
+:global(.apple-podcast-embed) {
+    display: block;
+    width: 100%;
+    max-width: 660px;
+    border: none;
+    border-radius: 12px;
+    margin-block: 1.5rem;
+    overflow: hidden;
 }

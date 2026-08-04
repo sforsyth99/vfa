@@ -2,17 +2,25 @@ import { Link, useParams } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
 import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
+import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { EventInfoCard } from '../../components/EventInfoCard/EventInfoCard.tsx';
 import { sortBySurname } from '../../utils/sortBySurname.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml.ts';
+import { injectYouTubeEmbeds } from '../../utils/injectYouTubeEmbeds.ts';
+import { injectApplePodcastEmbeds } from '../../utils/injectApplePodcastEmbeds.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
+import { BookLink } from '../../components/BookLink/BookLink';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { PageLoader } from '../../components/PageLoader/PageLoader';
 import styles from './Interview.module.css';
 
+
+function richHtml(html: string): string {
+  return injectApplePodcastEmbeds(injectYouTubeEmbeds(sanitizeHtml(html)));
+}
 
 function getInitials(name: string): string {
   return name
@@ -30,6 +38,7 @@ export default function InterviewPage() {
   const authors = sortBySurname(interview?.interview_data?.authors ?? []);
   const primaryAuthor = authors[0];
   const { data: personEvents } = useGetPersonEvents(primaryAuthor?.id);
+  const { data: personBooks } = useGetPersonBooks(primaryAuthor?.id);
   const authorNames =
     authors.map((a) => a.name).join(' & ') || decodeHtmlEntities(interview?.title?.rendered ?? '');
   usePageTitle(
@@ -60,6 +69,10 @@ export default function InterviewPage() {
   const interviewerInitials = interviewer_name ? getInitials(interviewer_name) : 'Q';
   const today = new Date().toISOString().slice(0, 10);
   const upcomingEvents = personEvents?.filter((e) => e.event_date >= today) ?? [];
+  const { book_title } = interview.interview_data;
+  const linkedBook = personBooks?.find((b) =>
+    book_title ? b.title.toLowerCase() === book_title.toLowerCase() : true,
+  ) ?? personBooks?.[0];
 
   return (
     <main id="main-content" className={styles.page}>
@@ -82,7 +95,13 @@ export default function InterviewPage() {
               <img src={primaryAuthor.photo[0]} alt={displayName} className={styles.headerImg} />
             )}
             {book_cover && (
-              <img src={book_cover[0]} alt={intl.formatMessage({ id: 'interview.bookCoverAlt' })} className={styles.headerImg} />
+              linkedBook ? (
+                <BookLink slug={linkedBook.slug} munrosUrl={linkedBook.munros_url} bookTitle={book_title ?? undefined} className={styles.headerImgLink}>
+                  <img src={book_cover[0]} alt={intl.formatMessage({ id: 'interview.bookCoverAlt' })} className={styles.headerImg} />
+                </BookLink>
+              ) : (
+                <img src={book_cover[0]} alt={intl.formatMessage({ id: 'interview.bookCoverAlt' })} className={styles.headerImg} />
+              )
             )}
           </div>
 
@@ -106,7 +125,7 @@ export default function InterviewPage() {
         )}
       </header>
 
-      {intro && <div className={styles.intro} dangerouslySetInnerHTML={{ __html: sanitizeHtml(intro) }} />}
+      {intro && <div className={styles.intro} dangerouslySetInnerHTML={{ __html: richHtml(intro) }} />}
 
       <div className={styles.qa}>
         {question.map((q, i) => {
@@ -132,7 +151,7 @@ export default function InterviewPage() {
                   <span className={styles.aMark}>
                     {i === 0 ? `${displayName} (${authorInitials}):` : `${authorInitials}:`}
                   </span>
-                  <div className={styles.aText} dangerouslySetInnerHTML={{ __html: sanitizeHtml(a) }} />
+                  <div className={styles.aText} dangerouslySetInnerHTML={{ __html: richHtml(a) }} />
                 </div>
               )}
               {img && <img src={img[0]} alt="" className={styles.pairImage} />}
