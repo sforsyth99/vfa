@@ -67,9 +67,20 @@
     text-decoration: none;
 }
 
+.readMore::after {
+    content: '›';
+  margin-left: 0.25em;
+    display: inline-block;
+    transition: transform var(--vfa-transition);
+}
+
 .readMore:hover {
     text-decoration: underline;
     text-underline-offset: 3px;
+}
+
+.readMore:hover::after {
+    transform: translateX(2px);
 }
 
 .accessibility {

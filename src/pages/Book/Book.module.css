@@ -110,6 +110,17 @@
   transition: opacity var(--vfa-transition);
 }
 
+.buyLink::after {
+  content: '›';
+  margin-left: 0.25em;
+  display: inline-block;
+  transition: transform var(--vfa-transition);
+}
+
 .buyLink:hover {
   opacity: 0.85;
+}
+
+.buyLink:hover::after {
+  transform: translateX(2px);
 }

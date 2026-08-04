@@ -161,8 +161,19 @@
     text-decoration: none;
 }
 
+.cardCta::after {
+    content: '›';
+  margin-left: 0.25em;
+    display: inline-block;
+    transition: transform var(--vfa-transition);
+}
+
 .cardCta:hover {
     text-decoration: underline;
+}
+
+.cardCta:hover::after {
+    transform: translateX(2px);
 }
 
 /* ── Right image panel ────────────────────────────────── */

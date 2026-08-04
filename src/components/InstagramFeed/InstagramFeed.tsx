@@ -1,5 +1,6 @@
 import { useIntl } from 'react-intl';
 import { useGetInstagramFeed } from '../../api/instagram/useGetInstagramFeed';
+import { track } from '../../utils/analytics';
 import styles from './InstagramFeed.module.css';
 
 export function InstagramFeed() {
@@ -27,6 +28,7 @@ export function InstagramFeed() {
                 rel="noopener noreferrer"
                 className={styles.post}
                 aria-label={intl.formatMessage({ id: 'instagram.postLinkLabel' }, { caption: captionSnippet })}
+                onClick={() => track({ name: 'social_click', event_label: `instagram_post_${post.id}` })}
               >
                 <img
                   src={post.mediaUrl}
@@ -50,6 +52,7 @@ export function InstagramFeed() {
         target="_blank"
         rel="noopener noreferrer"
         className={styles.viewMore}
+        onClick={() => track({ name: 'social_click', event_label: 'instagram_link' })}
       >
         {intl.formatMessage({ id: 'instagram.viewMore' }, { handle: data.username })}
       </a>

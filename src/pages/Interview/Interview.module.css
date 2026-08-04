@@ -104,9 +104,20 @@
     transition: opacity var(--vfa-transition);
 }
 
+.bioLink::after {
+    content: '›';
+  margin-left: 0.25em;
+    display: inline-block;
+    transition: transform var(--vfa-transition);
+}
+
 .bioLink:hover {
     opacity: var(--vfa-opacity-hover-strong);
     text-decoration: none;
+}
+
+.bioLink:hover::after {
+    transform: translateX(2px);
 }
 
 
