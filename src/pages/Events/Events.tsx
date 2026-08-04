@@ -28,30 +28,34 @@ function formatTime(t: string): string {
   return `${h % 12 || 12}:${m.toString().padStart(2, '0')} ${period}`;
 }
 
-function formatEventPrice(tickets: { type: string; tier: string; price: string }[], freeLabel: string): string {
-  const all = tickets ?? [];
-  const inPerson = all.filter((t) => t.type === 'in_person');
-  // Fall back to online tickets when no in-person tickets exist
-  const relevant = inPerson.length > 0 ? inPerson : all.filter((t) => t.type === 'online');
-
-  if (relevant.length === 0) return freeLabel;
-
-  const isSliding = relevant.some((t) => /sliding/i.test(t.tier));
-
-  // Extract every number from every price string (handles "$5 - $20", "$30", "30", "@20" typos)
-  const nums = relevant.flatMap((t) =>
-    (t.price.match(/\d+(\.\d+)?/g) ?? []).map(Number)
-  );
-
-  // All zeros (or no numbers) means free
-  if (nums.length === 0 || nums.every((n) => n === 0)) return isSliding ? 'Sliding Scale' : freeLabel;
-
+function formatPriceGroup(
+  group: { tier: string; price: string }[],
+  freeLabel: string,
+): string | null {
+  if (group.length === 0) return null;
+  const nums = group.flatMap((t) => (t.price.match(/\d+(\.\d+)?/g) ?? []).map(Number));
+  if (nums.length === 0 || nums.every((n) => n === 0)) return freeLabel;
   const nonZero = nums.filter((n) => n > 0);
   const min = nums.includes(0) ? 0 : Math.min(...nonZero);
   const max = Math.max(...nonZero);
-  const range = min === max ? `$${min}` : `$${min}–$${max}`;
+  return min === max ? `$${min}` : `$${min}–$${max}`;
+}
 
-  return isSliding ? `Sliding Scale · ${range}` : range;
+function formatEventPrice(
+  tickets: { type: string; tier: string; price: string }[],
+  freeLabel: string,
+): { primary: string; secondary?: string } {
+  const all = tickets ?? [];
+  const inPerson = all.filter((t) => t.type === 'in_person');
+  const online = all.filter((t) => t.type === 'online');
+
+  const inPersonStr = formatPriceGroup(inPerson, freeLabel);
+  const onlineStr = formatPriceGroup(online, freeLabel);
+
+  if (inPersonStr && onlineStr) {
+    return { primary: `In person ${inPersonStr}`, secondary: `Online ${onlineStr}` };
+  }
+  return { primary: inPersonStr ?? onlineStr ?? freeLabel };
 }
 
 function formatVenueLabel(
@@ -100,7 +104,7 @@ function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef:
   const title = decodeHtmlEntities(event.title?.rendered ?? '');
   const authorNames = formatNames(sortBySurname(d.authors ?? [])) || formatNames(sortBySurname(d.hosts ?? []));
   const modNames = formatNames(sortBySurname(d.moderator ?? []));
-  const price = formatEventPrice(d.tickets, intl.formatMessage({ id: 'events.free' }));
+  const { primary: pricePrimary, secondary: priceSecondary } = formatEventPrice(d.tickets, intl.formatMessage({ id: 'events.free' }));
   const timeStr = d.time_start
     ? d.time_end
       ? `${formatTime(d.time_start)} – ${formatTime(d.time_end)}`
@@ -138,7 +142,7 @@ function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef:
         const hasInPerson = d.tickets?.some((t) => t.type === 'in_person');
         const hasOnline = d.tickets?.some((t) => t.type === 'online');
         const locationMode = hasInPerson && hasOnline
-          ? intl.formatMessage({ id: 'events.locationInPersonAndOnline' })
+          ? ''
           : hasOnline
             ? intl.formatMessage({ id: 'events.locationOnline' })
             : hasInPerson
@@ -151,7 +155,8 @@ function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef:
             <div className={styles.popoverMeta}>
               {timeStr && <span>{timeStr}</span>}
               {locationMode && <span>{locationMode}</span>}
-              {price && <span>{price}</span>}
+              {pricePrimary && <span>{pricePrimary}</span>}
+              {priceSecondary && <span>{priceSecondary}</span>}
             </div>
             {venueLine && <p className={styles.popoverVenueAddress}>{venueLine}</p>}
           </>

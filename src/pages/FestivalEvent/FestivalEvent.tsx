@@ -12,6 +12,7 @@ import type { PersonData } from '../../api/people/peopleTypes.ts';
 import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
 import { VenueMapRow } from '../../components/VenueMapRow/VenueMapRow.tsx';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
+import { EventbriteLink } from '../../components/EventbriteLink/EventbriteLink';
 import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
@@ -164,9 +165,9 @@ export default function FestivalEventPage() {
       )}
       {age_range && <p className={styles.ageRange}>{age_range}</p>}
       {eventbrite_url && (
-        <a href={eventbrite_url} className={styles.eventbriteLink} target="_blank" rel="noopener noreferrer">
+        <EventbriteLink href={eventbrite_url} eventTitle={decodeHtmlEntities(event.title?.rendered ?? '')} className={styles.eventbriteLink}>
           <FormattedMessage id="festivalEvent.buyTickets" />
-        </a>
+        </EventbriteLink>
       )}
       {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
       {(authors.length > 0 ||

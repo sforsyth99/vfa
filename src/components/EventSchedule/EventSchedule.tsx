@@ -82,7 +82,7 @@ function ScheduleTable({
                 {timeStr || '—'}
               </td>
               <td className={styles.scheduleName} data-label={eventLabel}>
-                <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url}>
+                <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url} eventTitle={decodeHtmlEntities(event.title?.rendered ?? '')}>
                   {decodeHtmlEntities(event.title?.rendered ?? '')}
                 </EventLink>
               </td>
@@ -213,6 +213,7 @@ export function EventSchedule({
                     isKidfest={event.event_data.is_kidfest}
                     eventType={event.event_data.event_type}
                     eventbriteUrl={ebUrl}
+                    eventTitle={title}
                     className={styles.onlineEventTitle}
                   >
                     {title}

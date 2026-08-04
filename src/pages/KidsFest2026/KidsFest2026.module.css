@@ -88,6 +88,25 @@
     font-size: var(--vfa-font-size-sm);
 }
 
+.heroCalendarButton {
+    display: inline-block;
+    margin-top: 1.5rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    color: var(--vfa-color-text-light);
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    border-radius: var(--vfa-radius-pill);
+    padding: 0.4em 1.1em;
+    cursor: pointer;
+    transition: background var(--vfa-transition), border-color var(--vfa-transition);
+}
+
+.heroCalendarButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.75);
+}
+
 /* ── Page sections ────────────────────────────────────── */
 
 .section {
@@ -157,6 +176,13 @@
     margin: 0 0 1rem;
 }
 
+.mainEventActions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
 .mainEventFree {
     display: inline-block;
     background: rgba(255, 255, 255, 0.12);
@@ -165,6 +191,24 @@
     font-weight: var(--vfa-font-weight-semibold);
     border-radius: var(--vfa-radius-pill);
     padding: 0.25em 0.9em;
+}
+
+.calendarButton {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: var(--vfa-color-text-light);
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    border-radius: var(--vfa-radius-pill);
+    padding: 0.25em 0.9em;
+    cursor: pointer;
+    transition: background var(--vfa-transition), border-color var(--vfa-transition);
+}
+
+.calendarButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.65);
 }
 
 /* ── Event cards ──────────────────────────────────────── */

@@ -8,6 +8,7 @@ import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { isSafeUrl } from '../../utils/isSafeUrl.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
+import { type PersonBook } from '../../api/people/useGetPersonBooks.ts';
 import { BookLink } from '../../components/BookLink/BookLink.tsx';
 import { EventInfoCard } from '../../components/EventInfoCard/EventInfoCard.tsx';
 import { Container } from '../../components/Container/Container';
@@ -24,6 +25,7 @@ interface AuthorMetaProps {
   bio?: string | null;
   website_url?: string | null;
   interviews?: PersonInterview[];
+  books?: PersonBook[];
 }
 
 function AuthorMeta({
@@ -34,6 +36,7 @@ function AuthorMeta({
   bio,
   website_url,
   interviews,
+  books,
 }: AuthorMetaProps) {
   const intl = useIntl();
   const hasLinks = (website_url && isSafeUrl(website_url)) || (interviews && interviews.length > 0);
@@ -68,19 +71,24 @@ function AuthorMeta({
                 to={`/interviews/${interview.slug}`}
                 className={styles.metaLink}
               >
-                {interview.book_title ? (
-                  <FormattedMessage
-                    id="person.interviewLink.withBook"
-                    values={{ firstName, bookTitle: <em>{interview.book_title}</em> }}
-                  />
-                ) : interview.festival_year ? (
-                  intl.formatMessage(
-                    { id: 'person.interviewLink.withYear' },
-                    { year: interview.festival_year, firstName },
-                  )
-                ) : (
-                  intl.formatMessage({ id: 'person.interviewLink.generic' })
-                )}
+                {(() => {
+                  const bookTitle = interview.book_title ?? books?.[0]?.title ?? null;
+                  if (bookTitle) {
+                    return (
+                      <FormattedMessage
+                        id="person.interviewLink.withBook"
+                        values={{ name, bookTitle: <em>{bookTitle}</em> }}
+                      />
+                    );
+                  }
+                  if (interview.festival_year) {
+                    return intl.formatMessage(
+                      { id: 'person.interviewLink.withYear' },
+                      { year: interview.festival_year, firstName },
+                    );
+                  }
+                  return intl.formatMessage({ id: 'person.interviewLink.generic' });
+                })()}
               </Link>
             ))}
         </div>
@@ -141,7 +149,7 @@ export default function PersonPage() {
               <img src={kidfestPhotoSrc} alt={name} className={styles.kidsHeroImg} />
             )}
             {kidsBooks.map((book) => (
-              <BookLink key={book.id} slug={book.slug} munrosUrl={book.munros_url}>
+              <BookLink key={book.id} slug={book.slug} munrosUrl={book.munros_url} bookTitle={book.title}>
                 <img src={book.cover_image[0]} alt={book.title} className={styles.kidsHeroImg} />
               </BookLink>
             ))}
@@ -163,6 +171,7 @@ export default function PersonPage() {
               bio={bio}
               website_url={website_url}
               interviews={interviews}
+              books={books ?? []}
             />
           </div>
         </div>
@@ -181,6 +190,7 @@ export default function PersonPage() {
                     key={book.id}
                     slug={book.slug}
                     munrosUrl={book.munros_url}
+                    bookTitle={book.title}
                     className={styles.bookCard}
                   >
                     <img

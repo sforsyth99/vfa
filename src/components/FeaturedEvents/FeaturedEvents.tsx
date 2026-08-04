@@ -5,6 +5,7 @@ import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { eventPath } from '../../utils/eventPath';
 import { EventLink } from '../EventLink/EventLink';
+import { EventbriteLink } from '../EventbriteLink/EventbriteLink';
 import styles from './FeaturedEvents.module.css';
 
 function formatTime(t: string): string {
@@ -72,7 +73,7 @@ export function FeaturedEvents() {
                     </div>
                   </div>
                   <h3 className={styles.cardTitle}>
-                    <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url}>{title}</EventLink>
+                    <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url} eventTitle={title}>{title}</EventLink>
                   </h3>
                   {summary && <p className={styles.cardSummary}>{summary}</p>}
                   {authors.map((author) => {
@@ -92,9 +93,9 @@ export function FeaturedEvents() {
                   {event.event_data.is_kidfest && event.event_data.event_type === 'author_fair' ? (
                     <Link to="/kidsfest2026" className={styles.cardCta}>{ctaLabel}</Link>
                   ) : eventbrite_url ? (
-                    <a href={eventbrite_url} target="_blank" rel="noopener noreferrer" className={styles.cardCta}>
+                    <EventbriteLink href={eventbrite_url} eventTitle={title} className={styles.cardCta}>
                       {ctaLabel}
-                    </a>
+                    </EventbriteLink>
                   ) : (
                     <Link to={eventPath(event.slug)} className={styles.cardCta}>
                       {ctaLabel}

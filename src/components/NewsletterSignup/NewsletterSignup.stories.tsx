@@ -4,6 +4,7 @@ import NewsletterSignup from './NewsletterSignup';
 
 const meta = {
   component: NewsletterSignup,
+  args: { location: 'footer' },
 } satisfies Meta<typeof NewsletterSignup>;
 
 export default meta;

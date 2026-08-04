@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { eventPath } from '../../utils/eventPath';
 import { EventLink } from '../EventLink/EventLink';
+import { EventbriteLink } from '../EventbriteLink/EventbriteLink';
 import type { PersonEvent } from '../../api/people/useGetPersonEvents';
 import styles from './EventInfoCard.module.css';
 
@@ -26,7 +27,7 @@ export function EventInfoCard({ event, name }: Props) {
         {intl.formatMessage({ id: 'interview.seeLive' }, { firstName: name })}
       </p>
       <p className={styles.title}>
-        <EventLink slug={event.slug} isKidfest={event.is_kidfest} eventbriteUrl={event.eventbrite_url}>
+        <EventLink slug={event.slug} isKidfest={event.is_kidfest} eventbriteUrl={event.eventbrite_url} eventTitle={event.title}>
           {event.title}
         </EventLink>
       </p>
@@ -38,14 +39,9 @@ export function EventInfoCard({ event, name }: Props) {
       )}
       {event.venue_name && <p className={styles.venue}>{event.venue_name}</p>}
       {event.eventbrite_url ? (
-        <a
-          href={event.eventbrite_url}
-          className={styles.button}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <EventbriteLink href={event.eventbrite_url} eventTitle={event.title} className={styles.button}>
           <FormattedMessage id="interview.getTickets" />
-        </a>
+        </EventbriteLink>
       ) : (
         <Link to={eventPath(event.slug)} className={styles.button}>
           <FormattedMessage id="interview.learnMore" />

@@ -17,7 +17,7 @@ export function HomeNewsletter() {
             </p>
           </div>
           <div className={styles.form}>
-            <NewsletterSignup />
+            <NewsletterSignup location="homepage" />
           </div>
         </div>
       </Container>
