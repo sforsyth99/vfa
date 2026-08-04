@@ -140,8 +140,19 @@
     white-space: nowrap;
 }
 
+.onlineEventJoin::after {
+    content: '›';
+  margin-left: 0.25em;
+    display: inline-block;
+    transition: transform var(--vfa-transition);
+}
+
 .onlineEventJoin:hover {
     text-decoration: underline;
+}
+
+.onlineEventJoin:hover::after {
+    transform: translateX(2px);
 }
 
 @media (max-width: 640px) {

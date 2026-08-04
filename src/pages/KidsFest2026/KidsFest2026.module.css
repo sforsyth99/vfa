@@ -310,8 +310,19 @@
     text-decoration: none;
 }
 
+.eventLink::after {
+    content: '›';
+  margin-left: 0.25em;
+    display: inline-block;
+    transition: transform var(--vfa-transition);
+}
+
 .eventLink:hover {
     text-decoration: underline;
+}
+
+.eventLink:hover::after {
+    transform: translateX(2px);
 }
 
 /* ── Authors ──────────────────────────────────────────── */

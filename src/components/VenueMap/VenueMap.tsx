@@ -1,6 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import type { VenueData } from '../../api/venues/venueTypes.ts';
 import styles from './VenueMap.module.css';
+
+// Leaflet's default icon assets don't resolve correctly through Vite's bundler,
+// so we point directly to the CDN copies.
+const markerIcon = L.icon({
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 interface Coords {
   lat: number;
@@ -14,7 +28,6 @@ function buildAddress(venue: VenueData): string {
 }
 
 function buildGeocodingQuery(venue: VenueData): string {
-  // Omit postal code — it can confuse geocoders
   return [venue.street_address, venue.city, venue.province, venue.country]
     .filter(Boolean)
     .join(', ');
@@ -23,6 +36,8 @@ function buildGeocodingQuery(venue: VenueData): string {
 export default function VenueMap({ venue }: { venue: VenueData }) {
   const [coords, setCoords] = useState<Coords | null>(null);
   const [failed, setFailed] = useState(false);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const leafletRef = useRef<L.Map | null>(null);
 
   const address = buildAddress(venue);
   const geocodingQuery = buildGeocodingQuery(venue);
@@ -55,6 +70,29 @@ export default function VenueMap({ venue }: { venue: VenueData }) {
     return () => controller.abort();
   }, [geocodingQuery]);
 
+  useEffect(() => {
+    if (!coords || !mapRef.current) return;
+
+    const map = L.map(mapRef.current, { zoomControl: true, scrollWheelZoom: false }).setView(
+      [coords.lat, coords.lon],
+      16
+    );
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+    }).addTo(map);
+
+    L.marker([coords.lat, coords.lon], { icon: markerIcon }).addTo(map);
+
+    leafletRef.current = map;
+
+    return () => {
+      map.remove();
+      leafletRef.current = null;
+    };
+  }, [coords]);
+
   if (!address) return null;
 
   if (failed) {
@@ -65,7 +103,7 @@ export default function VenueMap({ venue }: { venue: VenueData }) {
         rel="noopener noreferrer"
         className={styles.fallbackLink}
       >
-        View on map →
+        View on map
       </a>
     );
   }
@@ -73,25 +111,17 @@ export default function VenueMap({ venue }: { venue: VenueData }) {
   if (!coords) return null;
 
   const { lat, lon } = coords;
-  const delta = 0.004;
-  const bbox = `${lon - delta},${lat - delta},${lon + delta},${lat + delta}`;
-  const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`;
 
   return (
     <div className={styles.wrap}>
-      <iframe
-        src={src}
-        title={`Map of ${venue.name}`}
-        className={styles.map}
-        loading="lazy"
-      />
+      <div ref={mapRef} className={styles.map} />
       <a
         href={`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=16/${lat}/${lon}`}
         target="_blank"
         rel="noopener noreferrer"
         className={styles.osmLink}
       >
-        View larger map →
+        View larger map
       </a>
     </div>
   );

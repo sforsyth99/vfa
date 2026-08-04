@@ -279,8 +279,19 @@
     transition: opacity var(--vfa-transition);
 }
 
+.seeAll::after {
+    content: '›';
+  margin-left: 0.25em;
+    display: inline-block;
+    transition: transform var(--vfa-transition);
+}
+
 .seeAll:hover {
     opacity: 0.65;
+}
+
+.seeAll:hover::after {
+    transform: translateX(2px);
 }
 
 .section {

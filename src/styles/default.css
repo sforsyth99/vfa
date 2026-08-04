@@ -1,7 +1,7 @@
 :root {
     /* ── Fonts ───────────────────────────────────────────── */
     --vfa-font-body: 'Inter', Arial, sans-serif;
-    --vfa-font-display: 'Playfair Display', Georgia, serif;
+    --vfa-font-display: 'DM Sans', Arial, sans-serif;
 
     /* ── Font sizes ──────────────────────────────────────── */
     --vfa-font-size-eyebrow: 0.7rem; /* uppercase labels, section tags */

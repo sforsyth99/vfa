@@ -179,9 +179,20 @@
   text-decoration: none;
 }
 
+.venueAccessibilityMore::after {
+  content: '›';
+  margin-left: 0.25em;
+  display: inline-block;
+  transition: transform var(--vfa-transition);
+}
+
 .venueAccessibilityMore:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.venueAccessibilityMore:hover::after {
+  transform: translateX(2px);
 }
 
 .onlineLink {
@@ -195,9 +206,20 @@
   transition: opacity var(--vfa-transition);
 }
 
+.onlineLink::after {
+  content: '›';
+  margin-left: 0.25em;
+  display: inline-block;
+  transition: transform var(--vfa-transition);
+}
+
 .onlineLink:hover {
   opacity: var(--vfa-opacity-hover-strong);
   text-decoration: none;
+}
+
+.onlineLink:hover::after {
+  transform: translateX(2px);
 }
 
 /* ── People ──────────────────────────────────────────── */

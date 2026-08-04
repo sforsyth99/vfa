@@ -100,7 +100,7 @@ function SocialIcons() {
           rel="noopener noreferrer"
           className={styles.socialLink}
           aria-label={name}
-          onClick={() => track({ name: 'social_click', event_label: name })}
+          onClick={() => track({ name: 'social_click', event_label: name === 'Instagram' ? 'instagram_icon' : name })}
         >
           {icon}
         </a>
