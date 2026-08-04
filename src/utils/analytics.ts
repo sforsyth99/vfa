@@ -7,7 +7,7 @@ declare global {
 // Add new event types here as tracking grows.
 // Each union member's properties map directly to GA4 event parameters.
 type TrackableEvent =
-  | { name: 'add_to_calendar'; event_label: string; event_location: 'hero' | 'event_card' }
+  | { name: 'add_to_calendar'; event_label: string; event_location: 'hero' | 'event_card' | 'home_promo' }
   | { name: 'eventbrite_click'; event_label: string }
   | { name: 'munros_click'; event_label: string }
   | { name: 'social_click'; event_label: string }
