@@ -18,6 +18,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+    min-width: 0;
 }
 
 .eyebrow {
@@ -50,6 +51,7 @@
     margin: 0;
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .eventItem {
@@ -58,6 +60,7 @@
     gap: 0.15rem;
     padding: 0.75rem 0;
     border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    min-width: 0;
 }
 
 .eventItem:first-child {
@@ -98,8 +101,12 @@
 .eventMeta {
     font-size: var(--vfa-font-size-xs);
     color: var(--vfa-color-ink-mid);
-    white-space: nowrap;
     padding-top: 0.2em;
+}
+
+/* Only keep nowrap when meta is inline next to the title (online callout on desktop) */
+.eventTitleRow .eventMeta {
+    white-space: nowrap;
 }
 
 @media (max-width: 640px) {
@@ -110,5 +117,21 @@
     .inner {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+
+    /* Stretch children to the column width so heading text wraps correctly */
+    .intro {
+        align-items: stretch;
+    }
+
+    /* Stack date below title on mobile instead of squeezing inline */
+    .eventTitleRow {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+    }
+
+    /* Allow inline meta to wrap when stacked on mobile */
+    .eventTitleRow .eventMeta {
+        white-space: normal;
     }
 }
