@@ -46,7 +46,9 @@ function Footer() {
       </nav>
 
       <div className={styles.newsletterSocialRow}>
-        <NewsletterSignup location="footer" />
+        <div className={styles.newsletterWrapper}>
+          <NewsletterSignup location="footer" />
+        </div>
         <SocialIcons />
       </div>
 

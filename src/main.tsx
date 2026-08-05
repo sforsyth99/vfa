@@ -8,6 +8,8 @@ import './styles/global.css';
 import { AppProviders } from './AppProviders';
 import App from './App.tsx';
 
+history.scrollRestoration = 'manual';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <IntlProvider locale="en" messages={messages} defaultLocale="en">
