@@ -60,6 +60,17 @@
   "newsletter.success": "Thanks for subscribing!",
   "newsletter.errorFallback": "Something went wrong. Please try again.",
 
+  "home.callouts.label": "Event highlights",
+  "home.callouts.workshops.eyebrow": "Writing Workshops",
+  "home.callouts.workshops.heading": "Treat yourself to a writing workshop",
+  "home.callouts.workshops.tagline": "Spend some time refining your writing at one of our in-person workshops.",
+  "home.callouts.online.eyebrow": "Watch Online",
+  "home.callouts.online.heading": "Can't make it in person?",
+  "home.callouts.online.tagline": "Join us from anywhere! Select events are available to watch online.",
+  "home.callouts.workshops.hostedBy": "with {names}",
+  "home.callouts.online.featuring": "featuring {names}",
+  "home.callouts.seeAll": "See all events",
+
   "home.featuredEvents": "Featured Events",
   "home.upcomingEvents": "Upcoming Events",
   "home.noEvents": "No upcoming events. Check back soon or sign up for our newsletter!",

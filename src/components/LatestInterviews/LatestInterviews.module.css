@@ -20,7 +20,7 @@
 
 .footer {
     margin-top: 2rem;
-    text-align: center;
+    text-align: left;
 }
 
 .viewAll {
@@ -35,12 +35,6 @@
 
 .viewAll:hover {
     color: var(--vfa-color-ink-darkest);
-}
-
-@media (max-width: 900px) {
-    .grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
 }
 
 @media (max-width: 640px) {

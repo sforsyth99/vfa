@@ -1,0 +1,114 @@
+.section {
+    background: var(--vfa-color-background);
+    padding-block: 3.5rem;
+}
+
+.inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    max-width: var(--vfa-width-site);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    align-items: start;
+}
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.eyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-forest-mid);
+    margin: 0;
+}
+
+.heading {
+    font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-text-heading);
+    margin: 0;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.tagline {
+    font-size: var(--vfa-font-size-base);
+    color: var(--vfa-color-ink-mid);
+    margin: 0.25rem 0 0.5rem;
+    line-height: var(--vfa-line-height-body);
+}
+
+.eventList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.eventItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+}
+
+.eventItem:first-child {
+    padding-top: 0;
+    border-top: 1px solid var(--vfa-color-warm-border-light);
+}
+
+.eventItem:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.eventTitleRow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    column-gap: 0.75rem;
+}
+
+.eventTitle {
+    font-size: var(--vfa-font-size-base);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-link);
+    text-decoration: none;
+}
+
+.eventTitle:hover,
+.eventTitle:focus {
+    color: var(--vfa-color-link-hover);
+    text-decoration: underline;
+}
+
+.eventHost {
+    font-size: var(--vfa-font-size-xs);
+    color: var(--vfa-color-ink-mid);
+}
+
+.eventMeta {
+    font-size: var(--vfa-font-size-xs);
+    color: var(--vfa-color-ink-mid);
+    white-space: nowrap;
+    padding-top: 0.2em;
+}
+
+@media (max-width: 640px) {
+    .section {
+        padding-block: 2.5rem;
+    }
+
+    .inner {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}

@@ -4,9 +4,10 @@ import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { sortBySurname } from '../../utils/sortBySurname';
 import { AuthorFeatureCard } from '../AuthorFeatureCard/AuthorFeatureCard';
+import { CARD_PALETTE } from '../AuthorFeatureCard/cardPalette';
 import styles from './LatestInterviews.module.css';
 
-const COUNT = 8;
+const COUNT = 4;
 
 export function LatestInterviews() {
   const { data: interviews, isLoading } = useGetInterviews();
@@ -31,6 +32,7 @@ export function LatestInterviews() {
             : decodeHtmlEntities(interview.title?.rendered ?? '');
 
           const bookCover = interview.interview_data?.book_cover;
+          const palette = CARD_PALETTE[latest.indexOf(interview) % CARD_PALETTE.length];
           return (
             <li key={interview.id}>
               <AuthorFeatureCard
@@ -41,6 +43,8 @@ export function LatestInterviews() {
                 title={authorLabel}
                 to={`/interviews/${interview.slug}`}
                 contain={(primaryAuthor?.kidfest_years?.length ?? 0) > 0}
+                accentColor={palette.accentColor}
+                lightAccent={palette.lightAccent}
               />
             </li>
           );

@@ -1,4 +1,6 @@
+import type React from 'react';
 import { Link } from 'react-router-dom';
+
 import styles from './AuthorFeatureCard.module.css';
 
 export interface CardEvent {
@@ -21,6 +23,8 @@ interface Props {
   events?: CardEvent[];
   contain?: boolean;
   className?: string;
+  accentColor?: string;
+  lightAccent?: boolean;
 }
 
 export function AuthorFeatureCard({
@@ -34,9 +38,14 @@ export function AuthorFeatureCard({
   events,
   contain = false,
   className,
+  accentColor,
+  lightAccent = false,
 }: Props) {
   const isMultiEvent = events && events.length > 1;
   const rootClass = [styles.card, isMultiEvent && styles.cardMulti, className].filter(Boolean).join(' ');
+  const accentStyle = accentColor
+    ? ({ ['--card-accent' as string]: accentColor } as React.CSSProperties)
+    : undefined;
 
   const bannerContent = isMultiEvent ? (
     <div className={styles.eventList}>
@@ -84,7 +93,7 @@ export function AuthorFeatureCard({
           <img src={bookCoverSrc} alt={bookCoverAlt} className={styles.bookCover} loading="lazy" />
         )}
       </div>
-      <div className={styles.banner}>
+      <div className={[styles.banner, lightAccent && styles.bannerLight].filter(Boolean).join(' ')}>
         {bannerContent}
       </div>
     </>
@@ -93,8 +102,8 @@ export function AuthorFeatureCard({
   const singleHref = events?.[0]?.href;
   const singleTo = events?.[0]?.to ?? to;
 
-  if (isMultiEvent) return <div className={rootClass}>{inner}</div>;
-  if (singleHref) return <a href={singleHref} target="_blank" rel="noopener noreferrer" className={rootClass}>{inner}</a>;
-  if (singleTo) return <Link to={singleTo} className={rootClass}>{inner}</Link>;
-  return <div className={rootClass}>{inner}</div>;
+  if (isMultiEvent) return <div className={rootClass} style={accentStyle}>{inner}</div>;
+  if (singleHref) return <a href={singleHref} target="_blank" rel="noopener noreferrer" className={rootClass} style={accentStyle}>{inner}</a>;
+  if (singleTo) return <Link to={singleTo} className={rootClass} style={accentStyle}>{inner}</Link>;
+  return <div className={rootClass} style={accentStyle}>{inner}</div>;
 }

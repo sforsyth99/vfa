@@ -10,6 +10,7 @@ import { htmlToText } from '../../utils/htmlToText.ts';
 import { sortBySurname } from '../../utils/sortBySurname.ts';
 import type { PersonData } from '../../api/people/peopleTypes.ts';
 import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
+import { CARD_PALETTE } from '../../components/AuthorFeatureCard/cardPalette.ts';
 import { VenueMapRow } from '../../components/VenueMapRow/VenueMapRow.tsx';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { EventbriteLink } from '../../components/EventbriteLink/EventbriteLink';
@@ -19,11 +20,12 @@ import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { PageLoader } from '../../components/PageLoader/PageLoader';
 import styles from './FestivalEvent.module.css';
 
-function AuthorCard({ person }: { person: PersonData }) {
+function AuthorCard({ person, colorIndex }: { person: PersonData; colorIndex: number }) {
   const isKidfest = person.kidfest_years?.length > 0;
   const photo = isKidfest ? (person.kidfest_photo || person.photo) : person.photo;
   const { data: books = [] } = useGetPersonBooks(person.id);
   const firstCover = books.find((b) => b.cover_image)?.cover_image;
+  const palette = CARD_PALETTE[colorIndex % CARD_PALETTE.length];
 
   return (
     <AuthorFeatureCard
@@ -34,11 +36,15 @@ function AuthorCard({ person }: { person: PersonData }) {
       to={person.slug ? `/people/${person.slug}` : undefined}
       contain={isKidfest}
       className={styles.authorCard}
+      accentColor={palette.accentColor}
+      lightAccent={palette.lightAccent}
     />
   );
 }
 
-function StaffCard({ person }: { person: PersonData }) {
+function StaffCard({ person, colorIndex }: { person: PersonData; colorIndex: number }) {
+  const palette = CARD_PALETTE[colorIndex % CARD_PALETTE.length];
+
   return (
     <AuthorFeatureCard
       photoSrc={person.photo ? person.photo[0] : null}
@@ -47,6 +53,8 @@ function StaffCard({ person }: { person: PersonData }) {
       title={person.name}
       to={person.slug ? `/people/${person.slug}` : undefined}
       className={styles.authorCard}
+      accentColor={palette.accentColor}
+      lightAccent={palette.lightAccent}
     />
   );
 }
@@ -114,6 +122,15 @@ export default function FestivalEventPage() {
     musician,
   } = event.event_data;
 
+  const allPeople = [
+    ...sortBySurname(authors),
+    ...sortBySurname(moderator),
+    ...sortBySurname(curator),
+    ...sortBySurname(musician),
+    ...hosts,
+  ];
+  const personColorIndex = new Map(allPeople.map((p, i) => [p.id, i]));
+
   const timeRange = time_start
     ? `${time_start}${time_end ? ` – ${time_end}` : ''} PT`
     : null;
@@ -180,27 +197,27 @@ export default function FestivalEventPage() {
           <div className={styles.peopleFlow}>
             {sortBySurname(authors).map((a) => (
               <LabelledCard key={a.id} label={intl.formatMessage({ id: 'festivalEvent.people.author' })}>
-                <AuthorCard person={a} />
+                <AuthorCard person={a} colorIndex={personColorIndex.get(a.id) ?? 0} />
               </LabelledCard>
             ))}
             {sortBySurname(moderator).map((p) => (
               <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.moderator' })}>
-                <StaffCard person={p} />
+                <StaffCard person={p} colorIndex={personColorIndex.get(p.id) ?? 0} />
               </LabelledCard>
             ))}
             {sortBySurname(curator).map((p) => (
               <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.curator' })}>
-                <StaffCard person={p} />
+                <StaffCard person={p} colorIndex={personColorIndex.get(p.id) ?? 0} />
               </LabelledCard>
             ))}
             {sortBySurname(musician).map((p) => (
               <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.musician' })}>
-                <StaffCard person={p} />
+                <StaffCard person={p} colorIndex={personColorIndex.get(p.id) ?? 0} />
               </LabelledCard>
             ))}
             {hosts.map((p) => (
               <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.hostedBy' })}>
-                <StaffCard person={p} />
+                <StaffCard person={p} colorIndex={personColorIndex.get(p.id) ?? 0} />
               </LabelledCard>
             ))}
           </div>

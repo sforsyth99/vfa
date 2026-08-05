@@ -4,6 +4,7 @@ import { InstagramFeed } from '../../components/InstagramFeed/InstagramFeed';
 import { Hero } from '../../components/Hero/Hero';
 import { KidsFestPromo } from '../../components/KidsFestPromo/KidsFestPromo';
 import { HomeNewsletter } from '../../components/HomeNewsletter/HomeNewsletter';
+import { HomeWorkshopCallout, HomeOnlineCallout } from '../../components/HomeEventCallouts/HomeEventCallouts';
 import { LatestInterviews } from '../../components/LatestInterviews/LatestInterviews';
 
 export default function HomePage() {
@@ -12,10 +13,12 @@ export default function HomePage() {
       <Hero />
       <FeaturedEvents />
       <KidsFestPromo />
+      <HomeWorkshopCallout />
+      <HomeNewsletter />
       <Container>
         <LatestInterviews />
       </Container>
-      <HomeNewsletter />
+      <HomeOnlineCallout />
       <Container>
         <InstagramFeed />
       </Container>
