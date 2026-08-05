@@ -8,6 +8,7 @@ import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
 import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard';
+import { CARD_PALETTE } from '../../components/AuthorFeatureCard/cardPalette';
 import styles from './Interviews.module.css';
 
 export default function InterviewsPage() {
@@ -65,7 +66,7 @@ export default function InterviewsPage() {
       )}
       {interviews && interviews.length > 0 && filtered.length > 0 && (
         <ul className={styles.grid}>
-          {filtered.map((interview) => {
+          {filtered.map((interview, index) => {
             const data = interview.interview_data;
             const authors = sortBySurname(data?.authors ?? []);
             const primaryAuthor = authors[0];
@@ -75,6 +76,7 @@ export default function InterviewsPage() {
             const isKidfest = (primaryAuthor?.kidfest_years?.length ?? 0) > 0;
             const photo = (!isKidfest && primaryAuthor?.photo_square) || primaryAuthor?.photo;
             const bookCover = data?.book_cover;
+            const palette = CARD_PALETTE[index % CARD_PALETTE.length];
 
             return (
               <li key={interview.id}>
@@ -86,6 +88,8 @@ export default function InterviewsPage() {
                   title={authorLabel}
                   to={`/interviews/${interview.slug}`}
                   contain={isKidfest}
+                  accentColor={palette.accentColor}
+                  lightAccent={palette.lightAccent}
                 />
               </li>
             );

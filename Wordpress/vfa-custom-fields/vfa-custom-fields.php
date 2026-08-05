@@ -2,10 +2,14 @@
 /**
  * Plugin Name: VFA Custom Fields
  * Description: Custom fields for interviews, people, venues, and events.
- * Version: 2.1.0
+ * Version: 2.2.7
  */
 
 if (!defined('ABSPATH')) exit;
+
+// Cache key includes the version so uploading a new plugin version
+// automatically invalidates the old cached newsletter response.
+define('VFA_NEWSLETTER_CACHE_KEY', 'vfa_newsletter_227');
 
 add_action('init', function() {
     register_post_type('team_members', [
@@ -81,6 +85,41 @@ function vfa_sync_title_to_post($post_id) {
 }
 add_action('save_post', 'vfa_sync_title_to_post', 20);
 
+
+
+function vfa_extract_newsletter_excerpt(string $html, int $max_chars): string {
+    if (!$html) return '';
+
+    $doc = new DOMDocument('1.0', 'UTF-8');
+    libxml_use_internal_errors(true);
+    $doc->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' . $html);
+    libxml_clear_errors();
+
+    $xpath = new DOMXPath($doc);
+
+    // Remove nodes whose text content must not appear in the excerpt.
+    $to_remove = array_merge(
+        // Stylesheet and script content
+        iterator_to_array($xpath->query('//style | //script | //head')),
+        // Mailchimp hidden preheader text (display:none in inline style)
+        iterator_to_array($xpath->query('//*[contains(@style,"display:none")]')),
+        // "View this email in your browser" and similar top-of-email links
+        iterator_to_array($xpath->query(
+            '//a[contains(translate(normalize-space(.),"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz"),"view this email")]'
+        ))
+    );
+    foreach ($to_remove as $node) {
+        if ($node->parentNode) {
+            $node->parentNode->removeChild($node);
+        }
+    }
+
+    $body = $doc->getElementsByTagName('body')->item(0);
+    if (!$body) return '';
+
+    $text = preg_replace('/\s+/', ' ', trim($body->textContent));
+    return strlen($text) > $max_chars ? rtrim(substr($text, 0, $max_chars)) . '…' : $text;
+}
 
 add_action('rest_api_init', function() {
 
@@ -648,6 +687,53 @@ add_action('rest_api_init', function() {
                     'categories'    => get_post_meta($id, 'categories', false),
                 ];
             }, $books);
+        },
+    ]);
+
+    register_rest_route('vfa/v1', '/newsletter/latest', [
+        'methods'             => 'GET',
+        'permission_callback' => '__return_true',
+        'callback'            => function() {
+            $cache_key = VFA_NEWSLETTER_CACHE_KEY;
+            $cached    = get_transient($cache_key);
+            if ($cached !== false) {
+                return $cached;
+            }
+
+            $feed_url = 'https://us9.campaign-archive.com/feed?u=fbfc40b39233dc1e19afef78d&id=e836a773c9';
+            $response = wp_remote_get($feed_url, ['timeout' => 10]);
+
+            if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
+                return new WP_Error('feed_unavailable', 'Could not fetch newsletter feed', ['status' => 502]);
+            }
+
+            libxml_use_internal_errors(true);
+            $xml = simplexml_load_string(wp_remote_retrieve_body($response));
+            libxml_clear_errors();
+
+            if (!$xml || !isset($xml->channel->item[0])) {
+                return new WP_Error('feed_empty', 'Newsletter feed contained no items', ['status' => 502]);
+            }
+
+            $item = $xml->channel->item[0];
+
+            // Prefer content:encoded (full HTML) over description (may be truncated).
+            $ns       = $xml->getNamespaces(true);
+            $children = isset($ns['content']) ? $item->children($ns['content']) : null;
+            $raw_html = ($children && isset($children->encoded))
+                        ? (string) $children->encoded
+                        : (string) $item->description;
+
+            $result = [
+                'title'       => html_entity_decode((string) $item->title, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+                'date'        => (string) $item->pubDate,
+                'archive_url' => (string) $item->link,
+                'content'     => vfa_extract_newsletter_excerpt($raw_html, 400),
+            ];
+
+            set_transient($cache_key, $result, HOUR_IN_SECONDS);
+
+            return $result;
         },
     ]);
 

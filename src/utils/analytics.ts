@@ -12,7 +12,9 @@ type TrackableEvent =
   | { name: 'munros_click'; event_label: string }
   | { name: 'social_click'; event_label: string }
   | { name: 'donate_click'; event_location: 'header_desktop' | 'header_mobile' | 'footer' }
-  | { name: 'newsletter_signup'; event_location: 'footer' | 'homepage' };
+  | { name: 'newsletter_signup'; event_location: 'footer' | 'homepage' }
+  | { name: 'callout_click'; event_label: string; event_location: 'workshop_callout' | 'online_callout' }
+  | { name: 'newsletter_read_full'; event_location: 'homepage' };
 
 export function track({ name, ...params }: TrackableEvent): void {
   window.gtag?.('event', name, params);

@@ -1,5 +1,6 @@
 .card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     border-radius: var(--vfa-radius-card);
     overflow: hidden;
     text-decoration: none;
@@ -28,7 +29,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--vfa-color-2026-indigo);
+    background: var(--card-accent, var(--vfa-color-2026-indigo));
     clip-path: polygon(70% 0%, 100% 0%, 100% 100%, 63% 100%);
     z-index: 2;
 }
@@ -86,8 +87,9 @@
 }
 
 .banner {
-    background: var(--vfa-color-2026-indigo);
+    background: var(--card-accent, var(--vfa-color-2026-indigo));
     padding: 0.875rem 1.1rem;
+    flex: 1;
 }
 
 .eventList {
@@ -110,19 +112,21 @@
     opacity: var(--vfa-opacity-hover);
 }
 
+.bannerLight .title,
+.bannerLight .subtitle {
+    color: var(--vfa-color-ink-darkest);
+}
+
 .title {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: var(--vfa-font-weight-bold);
     color: var(--vfa-color-text-light);
     margin: 0 0 0.3rem;
     line-height: 1.25;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .subtitle {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: var(--vfa-font-weight-semibold);
     color: var(--vfa-color-text-light);
     margin: 0.1rem 0 0;
@@ -135,10 +139,10 @@
     }
 
     .title {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     .subtitle {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
     }
 }

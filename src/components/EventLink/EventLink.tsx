@@ -10,12 +10,13 @@ interface Props {
   eventbriteUrl?: string | null;
   eventTitle?: string;
   className?: string;
+  onClick?: () => void;
   children: ReactNode;
 }
 
-export function EventLink({ slug, isKidfest, eventType, eventbriteUrl, eventTitle, className, children }: Props) {
+export function EventLink({ slug, isKidfest, eventType, eventbriteUrl, eventTitle, className, onClick, children }: Props) {
   if (isKidfest && eventType === 'author_fair') {
-    return <Link to="/kidsfest2026" className={className}>{children}</Link>;
+    return <Link to="/kidsfest2026" className={className} onClick={onClick}>{children}</Link>;
   }
   if (eventbriteUrl) {
     return (
@@ -24,14 +25,17 @@ export function EventLink({ slug, isKidfest, eventType, eventbriteUrl, eventTitl
         target="_blank"
         rel="noopener noreferrer"
         className={className}
-        onClick={() => track({ name: 'eventbrite_click', event_label: eventTitle ?? slug })}
+        onClick={() => {
+          track({ name: 'eventbrite_click', event_label: eventTitle ?? slug });
+          onClick?.();
+        }}
       >
         {children}
       </a>
     );
   }
   return (
-    <Link to={eventPath(slug)} className={className}>
+    <Link to={eventPath(slug)} className={className} onClick={onClick}>
       {children}
     </Link>
   );

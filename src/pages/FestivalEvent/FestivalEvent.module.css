@@ -226,21 +226,27 @@
 
 .peopleFlow {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  align-items: stretch;
+  justify-content: center;
 }
 
 .labelledCard {
   display: flex;
   flex-direction: column;
-  width: 200px;
-  flex-shrink: 0;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: calc((100% - 2 * 1rem) / 3);
 }
 
 @media (max-width: 640px) {
+  .peopleFlow {
+    flex-wrap: wrap;
+  }
+
   .labelledCard {
-    width: 100%;
+    flex: 0 0 calc(50% - 0.5rem);
   }
 }
 
@@ -310,6 +316,7 @@
 
 .authorCard {
   width: 100%;
+  flex: 1;
 }
 
 .hostedByText {

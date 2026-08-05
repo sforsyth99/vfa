@@ -3,45 +3,54 @@
     padding-block: 4rem;
 }
 
-.inner {
-    display: flex;
-    align-items: center;
-    gap: 4rem;
+.content {
+    max-width: 680px;
 }
 
-.text {
-    flex: 1;
+.eyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-accent);
+    margin: 0 0 0.75rem;
 }
 
-.heading {
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
+.issueTitle {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
     font-weight: var(--vfa-font-weight-bold);
     color: var(--vfa-color-text-light);
+    margin: 0 0 1.25rem;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.editorialContent {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: var(--vfa-font-size-md);
+    line-height: var(--vfa-line-height-body);
     margin: 0 0 1rem;
-    line-height: 1.2;
 }
 
-.body {
-    font-size: 1.05rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin: 0;
-    line-height: 1.7;
+.readFullLink {
+    display: inline-block;
+    color: var(--vfa-color-accent);
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    letter-spacing: 0.02em;
 }
 
-.form {
-    flex: 0 0 420px;
+.readFullLink::after {
+    content: ' ›';
 }
 
-@media (max-width: 768px) {
-    .inner {
-        flex-direction: column;
-        gap: 2rem;
-    }
+.readFullLink:hover {
+    opacity: var(--vfa-opacity-hover);
+}
 
-    .form {
-        flex: unset;
-        width: 100%;
-    }
+.signupBelowNewsletter {
+    margin-top: 2rem;
 }
 
 @media (max-width: 640px) {

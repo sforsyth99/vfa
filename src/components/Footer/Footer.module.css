@@ -20,6 +20,11 @@
     border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.newsletterWrapper {
+    flex: 1;
+    max-width: 520px;
+}
+
 .footerNav {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -159,6 +164,11 @@
         align-items: center;
         gap: 1.5rem;
         padding: 1.5rem 1rem;
+    }
+
+    .newsletterWrapper {
+        width: 100%;
+        max-width: 100%;
     }
 
     .sponsorsContainer {
