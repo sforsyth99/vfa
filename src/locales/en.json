@@ -149,6 +149,9 @@
   "interviews.error": "Error loading interviews.",
   "interviews.empty": "No interviews yet.",
   "interviews.emptyYear": "No interviews for {year}.",
+  "interviews.card.label": "Read interview with {name}",
+  "interviews.card.interviewedBy": "Interviewed by {name}",
+  "interviews.kids.heading": "KidsFest Authors",
   "interviews.noContent": "No content yet.",
 
   "person.loading": "Loading…",

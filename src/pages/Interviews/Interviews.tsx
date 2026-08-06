@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { sortBySurname } from '../../utils/sortBySurname';
@@ -7,8 +8,6 @@ import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
-import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard';
-import { CARD_PALETTE } from '../../components/AuthorFeatureCard/cardPalette';
 import styles from './Interviews.module.css';
 
 export default function InterviewsPage() {
@@ -39,63 +38,126 @@ export default function InterviewsPage() {
     });
   }, [interviews, activeYear]);
 
+  const adultInterviews = useMemo(() => filtered.filter(i => (i.interview_data?.authors?.[0]?.kidfest_years?.length ?? 0) === 0), [filtered]);
+  const kidsInterviews = useMemo(() => filtered.filter(i => (i.interview_data?.authors?.[0]?.kidfest_years?.length ?? 0) > 0), [filtered]);
+
   return (
     <main id="main-content" className={styles.page}>
       <Container>
-      <PageTitle><FormattedMessage id="interviews.heading" /></PageTitle>
+        <PageTitle><FormattedMessage id="interviews.heading" /></PageTitle>
 
-      <QueryState isLoading={isLoading} isError={isError} isEmpty={!isLoading && !isError && !interviews?.length} loadingId="interviews.loading" errorId="interviews.error" emptyId="interviews.empty" />
+        <QueryState isLoading={isLoading} isError={isError} isEmpty={!isLoading && !isError && !interviews?.length} loadingId="interviews.loading" errorId="interviews.error" emptyId="interviews.empty" />
 
-      {interviews && interviews.length > 0 && years.length > 1 && (
-        <div className={styles.yearFilter} role="group" aria-label={intl.formatMessage({ id: 'interviews.yearFilter.label' })}>
-          {years.map(year => (
-            <button
-              key={year}
-              className={year === activeYear ? styles.yearButtonActive : styles.yearButton}
-              onClick={() => setSelectedYear(year)}
-              aria-pressed={year === activeYear}
-            >
-              {year}
-            </button>
-          ))}
-        </div>
-      )}
+        {interviews && interviews.length > 0 && years.length > 1 && (
+          <div className={styles.yearFilter} role="group" aria-label={intl.formatMessage({ id: 'interviews.yearFilter.label' })}>
+            {years.map(year => (
+              <button
+                key={year}
+                className={year === activeYear ? styles.yearButtonActive : styles.yearButton}
+                onClick={() => setSelectedYear(year)}
+                aria-pressed={year === activeYear}
+              >
+                {year}
+              </button>
+            ))}
+          </div>
+        )}
 
-      {interviews && interviews.length > 0 && filtered.length === 0 && (
-        <QueryState isLoading={false} isError={false} isEmpty={true} loadingId="interviews.loading" emptyId="interviews.emptyYear" emptyValues={{ year: activeYear ?? '' }} />
-      )}
-      {interviews && interviews.length > 0 && filtered.length > 0 && (
-        <ul className={styles.grid}>
-          {filtered.map((interview, index) => {
-            const data = interview.interview_data;
-            const authors = sortBySurname(data?.authors ?? []);
-            const primaryAuthor = authors[0];
-            const authorLabel = authors.length > 0
-              ? authors.map(a => a.name).join(' & ')
-              : decodeHtmlEntities(interview.title?.rendered ?? '');
-            const isKidfest = (primaryAuthor?.kidfest_years?.length ?? 0) > 0;
-            const photo = (!isKidfest && primaryAuthor?.photo_square) || primaryAuthor?.photo;
-            const bookCover = data?.book_cover;
-            const palette = CARD_PALETTE[index % CARD_PALETTE.length];
+        {interviews && interviews.length > 0 && filtered.length === 0 && (
+          <QueryState isLoading={false} isError={false} isEmpty={true} loadingId="interviews.loading" emptyId="interviews.emptyYear" emptyValues={{ year: activeYear ?? '' }} />
+        )}
 
-            return (
-              <li key={interview.id}>
-                <AuthorFeatureCard
-                  photoSrc={photo ? photo[0] : null}
-                  photoAlt={authorLabel}
-                  bookCoverSrc={bookCover ? bookCover[0] : null}
-                  bookCoverAlt={data?.book_title ?? ''}
-                  title={authorLabel}
-                  to={`/interviews/${interview.slug}`}
-                  contain={isKidfest}
-                  accentColor={palette.accentColor}
-                  lightAccent={palette.lightAccent}
-                />
-              </li>
-            );
-          })}
-        </ul>
-      )}
+        {interviews && interviews.length > 0 && filtered.length > 0 && (
+          <>
+            {adultInterviews.length > 0 && (
+              <ul className={styles.grid}>
+                {adultInterviews.map((interview) => {
+                  const data = interview.interview_data;
+                  const authors = sortBySurname(data?.authors ?? []);
+                  const primaryAuthor = authors[0];
+                  const authorLabel = authors.length > 0
+                    ? authors.map(a => decodeHtmlEntities(a.name)).join(' & ')
+                    : decodeHtmlEntities(interview.title?.rendered ?? '');
+                  const photoSrc = primaryAuthor?.photo_square
+                    ? primaryAuthor.photo_square[0]
+                    : primaryAuthor?.photo
+                      ? primaryAuthor.photo[0]
+                      : null;
+                  const interviewerName = data?.interviewer_name ?? '';
+                  const initial = authorLabel.trim().charAt(0).toUpperCase();
+
+                  return (
+                    <li key={interview.id}>
+                      <Link
+                        to={`/interviews/${interview.slug}`}
+                        className={styles.interviewCard}
+                        aria-label={intl.formatMessage({ id: 'interviews.card.label' }, { name: authorLabel })}
+                      >
+                        {photoSrc ? (
+                          <div className={styles.photoCircle}>
+                            <img src={photoSrc} alt={authorLabel} />
+                          </div>
+                        ) : (
+                          <div className={styles.photoCircle} aria-hidden="true">
+                            <span className={styles.initial}>{initial}</span>
+                          </div>
+                        )}
+                        <span className={styles.cardName}>{authorLabel}</span>
+                        {interviewerName && (
+                          <span className={styles.interviewerLine}>
+                            <FormattedMessage id="interviews.card.interviewedBy" values={{ name: interviewerName }} />
+                          </span>
+                        )}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+
+            {kidsInterviews.length > 0 && (
+              <section className={styles.kidsSection} aria-labelledby="kids-interviews-heading">
+                <h2 id="kids-interviews-heading" className={styles.kidsHeading}>
+                  <FormattedMessage id="interviews.kids.heading" />
+                </h2>
+                <ul className={styles.kidsGrid}>
+                  {kidsInterviews.map((interview) => {
+                    const data = interview.interview_data;
+                    const authors = sortBySurname(data?.authors ?? []);
+                    const primaryAuthor = authors[0];
+                    const authorLabel = authors.length > 0
+                      ? authors.map(a => decodeHtmlEntities(a.name)).join(' & ')
+                      : decodeHtmlEntities(interview.title?.rendered ?? '');
+                    const photoSrc = primaryAuthor?.photo ? primaryAuthor.photo[0] : null;
+                    const interviewerName = data?.interviewer_name ?? '';
+
+                    return (
+                      <li key={interview.id}>
+                        <Link
+                          to={`/interviews/${interview.slug}`}
+                          className={styles.kidsCard}
+                          aria-label={intl.formatMessage({ id: 'interviews.card.label' }, { name: authorLabel })}
+                        >
+                          {photoSrc ? (
+                            <img src={photoSrc} alt={authorLabel} className={styles.kidsPhoto} />
+                          ) : (
+                            <div className={styles.kidsPhotoPlaceholder} aria-hidden="true" />
+                          )}
+                          <span className={styles.cardName}>{authorLabel}</span>
+                          {interviewerName && (
+                            <span className={styles.interviewerLine}>
+                              <FormattedMessage id="interviews.card.interviewedBy" values={{ name: interviewerName }} />
+                            </span>
+                          )}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            )}
+          </>
+        )}
       </Container>
     </main>
   );
