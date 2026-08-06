@@ -2,14 +2,170 @@
     padding-block: 3rem 5rem;
 }
 
+/* ── Adult interview grid ────────────────────────────── */
+
 .grid {
     list-style: none;
     padding: 0;
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.5rem;
 }
+
+@media (min-width: 901px) {
+    .grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.grid > li {
+    background: var(--vfa-color-surface);
+    border-radius: var(--vfa-radius-card);
+    padding: 1.25rem 0.5rem;
+}
+
+/* ── Adult card ─────────────────────────────────────── */
+
+.interviewCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+.photoCircle {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--vfa-radius-circle);
+    overflow: hidden;
+    border: 4px solid var(--vfa-color-2026-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--vfa-color-forest-bg);
+    transition: border-color var(--vfa-transition), box-shadow var(--vfa-transition);
+}
+
+.photoCircle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform var(--vfa-transition);
+}
+
+.interviewCard:hover .photoCircle {
+    border-color: var(--vfa-color-2026-gold-dark);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.interviewCard:hover .photoCircle img {
+    transform: scale(1.05);
+}
+
+.initial {
+    font-size: 1.75rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-forest-dark);
+    line-height: 1;
+    pointer-events: none;
+}
+
+.cardName {
+    font-size: 0.72rem;
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-ink-darkest);
+    text-align: center;
+    line-height: var(--vfa-line-height-tight);
+    margin-top: 1rem;
+}
+
+.interviewerLine {
+    font-size: 0.68rem;
+    color: var(--vfa-color-ink-mid);
+    text-align: center;
+    line-height: var(--vfa-line-height-tight);
+    font-style: italic;
+    margin-top: 0.2rem;
+}
+
+/* ── KidsFest section ───────────────────────────────── */
+
+.kidsSection {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--vfa-color-warm-border);
+}
+
+.kidsHeading {
+    font-size: 1.1rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-mid);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 1.5rem;
+}
+
+.kidsGrid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.kidsGrid > li {
+    width: 140px;
+    background: var(--vfa-color-surface);
+    border-radius: var(--vfa-radius-card);
+    padding: 1.25rem 0.5rem;
+}
+
+.kidsCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    text-decoration: none;
+}
+
+.kidsPhoto {
+    display: block;
+    height: 140px;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+    object-position: center;
+    transition: transform var(--vfa-transition);
+}
+
+.kidsCard:hover .kidsPhoto {
+    transform: translateY(-3px);
+}
+
+.kidsPhotoPlaceholder {
+    width: 90px;
+    height: 130px;
+    background: var(--vfa-color-forest-pale);
+    border-radius: var(--vfa-radius-sm);
+}
+
+/* ── Year filter ────────────────────────────────────── */
 
 .yearFilter {
     display: flex;
@@ -40,13 +196,42 @@
     border-color: var(--vfa-color-ink-darkest);
 }
 
+/* ── Mobile ─────────────────────────────────────────── */
+
 @media (max-width: 640px) {
     .page {
         padding-block: 2rem 3rem;
     }
 
-    .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .photoCircle {
+        width: 76px;
+        height: 76px;
+        border-width: 3px;
+    }
+
+    .initial {
+        font-size: 1.4rem;
+    }
+
+    .cardName {
+        margin-top: 0.75rem;
+    }
+
+    .kidsSection {
+        margin-top: 2rem;
+        padding-top: 2rem;
+    }
+
+    .kidsGrid {
         gap: 1rem;
+    }
+
+    .kidsGrid > li {
+        width: 110px;
+    }
+
+    .kidsPhoto {
+        height: 115px;
+        max-width: 95px;
     }
 }
