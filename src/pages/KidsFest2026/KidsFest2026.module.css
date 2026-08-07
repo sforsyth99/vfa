@@ -109,8 +109,13 @@
 
 /* ── Page sections ────────────────────────────────────── */
 
-.lightBand {
+.bandWhite {
     background: var(--vfa-color-surface);
+    padding: 0.5rem 0 2rem;
+}
+
+.bandTan {
+    background: var(--vfa-color-background);
     padding: 0.5rem 0 2rem;
 }
 
@@ -336,7 +341,93 @@
     transform: translateX(2px);
 }
 
+/* ── Special Guest ────────────────────────────────────── */
+
+.specialGuestSection {
+    margin: 1.5rem 0 0.5rem;
+    padding: 2rem 2.5rem;
+    background: var(--vfa-color-2026-indigo);
+    border-radius: var(--vfa-radius-lg);
+}
+
+.specialGuestEyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-gold);
+    margin: 0 0 1rem;
+}
+
+.specialGuestInner {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.specialGuestPhotoLink {
+    flex-shrink: 0;
+}
+
+.specialGuestPhoto {
+    display: block;
+    width: 160px;
+    height: auto;
+    border-radius: var(--vfa-radius-md);
+    object-fit: cover;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+.specialGuestContent {
+    flex: 1;
+    min-width: 0;
+}
+
+.specialGuestName {
+    font-family: var(--vfa-font-display);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-text-light);
+    margin: 0 0 0.75rem;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.specialGuestBio {
+    font-size: var(--vfa-font-size-base);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: var(--vfa-line-height-body);
+    margin-bottom: 1.25rem;
+}
+
+.specialGuestBio p {
+    margin: 0 0 0.75em;
+}
+
+.specialGuestBio p:last-child {
+    margin-bottom: 0;
+}
+
+.specialGuestLink {
+    display: inline-block;
+    color: var(--vfa-color-2026-gold);
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.specialGuestLink:hover {
+    opacity: var(--vfa-opacity-hover);
+}
+
 /* ── Authors ──────────────────────────────────────────── */
+
+.authorsHeading {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-ink-darkest);
+    margin: 0 0 1rem;
+}
 
 .authorGrid {
     display: flex;
@@ -510,5 +601,19 @@
     .eventCard {
         padding: 1rem 1.1rem;
         flex-basis: 100%;
+    }
+
+    .specialGuestSection {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .specialGuestInner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .specialGuestPhoto {
+        width: 130px;
     }
 }

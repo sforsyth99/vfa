@@ -143,6 +143,9 @@
 
   "interviews.latest.heading": "Latest Interviews",
   "interviews.latest.viewAll": "View all interviews",
+  "latestInterviews.prev": "Scroll to previous interviews",
+  "latestInterviews.next": "Scroll to next interviews",
+  "kidsfestInterviews.heading": "KidsFest Author Interviews",
   "interviews.heading": "Interviews",
   "interviews.yearFilter.label": "Filter by year",
   "interviews.loading": "Loading interviews…",
@@ -259,6 +262,7 @@
   "kidsfest2026.workshop.badge": "Workshop",
   "kidsfest2026.event.ageRange": "Ages {range}",
   "kidsfest2026.elders.heading": "Special Guest",
+  "kidsfest2026.specialGuest.readMore": "Learn more about {name}",
   "kidsfest2026.authors.heading": "Meet the Authors",
   "kidsfest2026.authors.loading": "Loading authors…",
   "kidsfest2026.books.heading": "Featured Books",
