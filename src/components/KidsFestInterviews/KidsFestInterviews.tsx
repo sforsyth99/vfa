@@ -1,14 +1,12 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { sortBySurname } from '../../utils/sortBySurname';
-import styles from './LatestInterviews.module.css';
+import styles from './KidsFestInterviews.module.css';
 
-const COUNT = 16;
-
-export function LatestInterviews() {
+export function KidsFestInterviews() {
   const intl = useIntl();
   const { data: interviews, isLoading } = useGetInterviews();
   const trackRef = useRef<HTMLUListElement>(null);
@@ -28,9 +26,11 @@ export function LatestInterviews() {
 
   if (isLoading || !interviews?.length) return null;
 
-  const latest = interviews
-    .filter((i) => (i.interview_data?.authors?.[0]?.kidfest_years?.length ?? 0) === 0)
-    .slice(0, COUNT);
+  const kidsInterviews = interviews.filter(
+    (i) => (i.interview_data?.authors?.[0]?.kidfest_years?.length ?? 0) > 0,
+  );
+
+  if (!kidsInterviews.length) return null;
 
   const scroll = (dir: 'prev' | 'next') => {
     if (!trackRef.current) return;
@@ -39,9 +39,9 @@ export function LatestInterviews() {
   };
 
   return (
-    <section className={styles.section} aria-labelledby="latest-interviews-heading">
-      <h2 id="latest-interviews-heading" className={styles.heading}>
-        <FormattedMessage id="interviews.latest.heading" />
+    <section className={styles.section} aria-labelledby="kidsfest-interviews-heading">
+      <h2 id="kidsfest-interviews-heading" className={styles.heading}>
+        <FormattedMessage id="kidsfestInterviews.heading" />
       </h2>
 
       <div
@@ -59,20 +59,16 @@ export function LatestInterviews() {
         </button>
 
         <ul className={styles.track} ref={trackRef} onScroll={updateScrollState}>
-          {latest.map((interview) => {
+          {kidsInterviews.map((interview) => {
             const data = interview.interview_data;
             const authors = sortBySurname(data?.authors ?? []);
             const primaryAuthor = authors[0];
             const authorLabel = authors.length > 0
               ? authors.map(a => decodeHtmlEntities(a.name)).join(' & ')
               : decodeHtmlEntities(interview.title?.rendered ?? '');
-            const photoSrc = primaryAuthor?.photo_square
-              ? primaryAuthor.photo_square[0]
-              : primaryAuthor?.photo
-                ? primaryAuthor.photo[0]
-                : null;
+            const photoSrc = primaryAuthor?.photo ? primaryAuthor.photo[0] : null;
             const interviewerName = data?.interviewer_name ?? '';
-            const initial = authorLabel.trim().charAt(0).toUpperCase();
+            const interviewerAge = data?.interviewer_age ?? null;
 
             return (
               <li key={interview.id} className={styles.item}>
@@ -82,18 +78,17 @@ export function LatestInterviews() {
                   aria-label={intl.formatMessage({ id: 'interviews.card.label' }, { name: authorLabel })}
                 >
                   {photoSrc ? (
-                    <div className={styles.photoCircle}>
-                      <img src={photoSrc} alt={authorLabel} />
-                    </div>
+                    <img src={photoSrc} alt={authorLabel} className={styles.photo} loading="lazy" />
                   ) : (
-                    <div className={styles.photoCircle} aria-hidden="true">
-                      <span className={styles.initial}>{initial}</span>
-                    </div>
+                    <div className={styles.photoPlaceholder} aria-hidden="true" />
                   )}
                   <span className={styles.cardName}>{authorLabel}</span>
                   {interviewerName && (
                     <span className={styles.interviewerLine}>
-                      <FormattedMessage id="interviews.card.interviewedBy" values={{ name: interviewerName }} />
+                      <FormattedMessage
+                        id={interviewerAge ? 'interviews.card.interviewedByAge' : 'interviews.card.interviewedBy'}
+                        values={{ name: interviewerName, age: interviewerAge }}
+                      />
                     </span>
                   )}
                 </Link>

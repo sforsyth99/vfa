@@ -109,8 +109,18 @@
 
 /* ── Page sections ────────────────────────────────────── */
 
+.bandWhite {
+    background: var(--vfa-color-surface);
+    padding: 1.5rem 0 2.5rem;
+}
+
+.bandTan {
+    background: var(--vfa-color-background);
+    padding: 1.5rem 0 2.5rem;
+}
+
 .section {
-    margin: 2.5rem 0;
+    margin: 0;
 }
 
 .empty {
@@ -218,7 +228,7 @@
     padding: 0;
     margin: 1rem 0 0;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 1.25rem;
 }
 
@@ -228,6 +238,8 @@
     border-radius: var(--vfa-radius-card);
     padding: 1.25rem 1.5rem;
     box-shadow: var(--vfa-shadow-card);
+    flex: 1 1 calc(50% - 0.625rem);
+    min-width: 0;
 }
 
 .eventMeta {
@@ -299,8 +311,12 @@
 .eventSummary {
     font-size: var(--vfa-font-size-sm);
     color: var(--vfa-color-ink-dark);
-    margin: 0 0 0.75rem;
+    margin: 0.3rem 0 0.6rem;
     line-height: var(--vfa-line-height-body);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .eventLink {
@@ -325,7 +341,141 @@
     transform: translateX(2px);
 }
 
+/* ── Author strip ─────────────────────────────────────── */
+
+.authorStripList {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.authorStripItem {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100px;
+    display: block;
+}
+
+.authorStripPhoto {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: contain;
+    object-position: top center;
+    border-radius: var(--vfa-radius-sm);
+    transition: transform var(--vfa-transition), opacity var(--vfa-transition);
+}
+
+.authorStripItem:hover .authorStripPhoto,
+.authorStripItem:hover .authorStripPlaceholder {
+    transform: translateY(-2px);
+    opacity: 0.85;
+}
+
+.authorStripPlaceholder {
+    width: 100%;
+    height: 70px;
+    border-radius: var(--vfa-radius-sm);
+    background: var(--vfa-color-forest-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-forest-dark);
+}
+
+/* ── Special Guest ────────────────────────────────────── */
+
+.specialGuestSection {
+    margin: 1.5rem 0 0.5rem;
+    padding: 2rem 2.5rem;
+    background: var(--vfa-color-2026-indigo);
+    border-radius: var(--vfa-radius-lg);
+}
+
+.specialGuestEyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-gold);
+    margin: 0 0 1rem;
+}
+
+.specialGuestInner {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.specialGuestPhotoLink {
+    flex-shrink: 0;
+}
+
+.specialGuestPhoto {
+    display: block;
+    width: 160px;
+    height: auto;
+    border-radius: var(--vfa-radius-md);
+    object-fit: cover;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+.specialGuestContent {
+    flex: 1;
+    min-width: 0;
+}
+
+.specialGuestName {
+    font-family: var(--vfa-font-display);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-text-light);
+    margin: 0 0 0.75rem;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.specialGuestBio {
+    font-size: var(--vfa-font-size-base);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: var(--vfa-line-height-body);
+    margin-bottom: 1.25rem;
+}
+
+.specialGuestBio p {
+    margin: 0 0 0.75em;
+}
+
+.specialGuestBio p:last-child {
+    margin-bottom: 0;
+}
+
+.specialGuestLink {
+    display: inline-block;
+    color: var(--vfa-color-2026-gold);
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.specialGuestLink:hover {
+    opacity: var(--vfa-opacity-hover);
+}
+
 /* ── Authors ──────────────────────────────────────────── */
+
+.authorsHeading {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-ink-darkest);
+    margin: 0 0 1rem;
+}
 
 .authorGrid {
     display: flex;
@@ -498,5 +648,20 @@
 
     .eventCard {
         padding: 1rem 1.1rem;
+        flex-basis: 100%;
+    }
+
+    .specialGuestSection {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .specialGuestInner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .specialGuestPhoto {
+        width: 130px;
     }
 }

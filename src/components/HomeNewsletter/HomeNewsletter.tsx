@@ -4,6 +4,7 @@ import { Container } from '../Container/Container';
 import { useGetNewsletterPost } from '../../api/posts/useGetNewsletterPost';
 import { extractNewsletterExcerpt } from '../../utils/sanitizeHtml';
 import { track } from '../../utils/analytics';
+import newsletterImg from '../../assets/ire-photocreative.jpeg';
 import styles from './HomeNewsletter.module.css';
 
 export function HomeNewsletter() {
@@ -13,6 +14,7 @@ export function HomeNewsletter() {
   return (
     <section className={styles.section} aria-label={intl.formatMessage({ id: 'newsletter.section.label' })}>
       <Container>
+        <div className={styles.inner}>
         <div className={styles.content}>
           {newsletter && (
             <>
@@ -40,6 +42,10 @@ export function HomeNewsletter() {
           <div className={newsletter ? styles.signupBelowNewsletter : undefined}>
             <NewsletterSignup location="homepage" />
           </div>
+        </div>
+        <div className={styles.imageSide} aria-hidden="true">
+          <img src={newsletterImg} alt="" className={styles.image} />
+        </div>
         </div>
       </Container>
     </section>
