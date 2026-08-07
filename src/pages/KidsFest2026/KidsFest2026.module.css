@@ -661,7 +661,20 @@
         text-align: center;
     }
 
+    .specialGuestBio {
+        text-align: left;
+    }
+
     .specialGuestPhoto {
         width: 130px;
+    }
+
+    .authorStripList {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    .bookGrid {
+        justify-content: center;
     }
 }
