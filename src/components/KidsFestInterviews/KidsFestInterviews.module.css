@@ -1,6 +1,6 @@
 .section {
     padding-block: 2rem 0;
-    --fade-color: var(--vfa-color-surface);
+    --fade-color: var(--vfa-color-background);
 }
 
 .heading {
