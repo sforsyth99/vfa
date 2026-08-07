@@ -1,9 +1,29 @@
 .section {
-    background: var(--vfa-color-2026-indigo);
+    position: relative;
+    overflow: hidden;
     width: 100%;
 }
 
+.bgBlur {
+    position: absolute;
+    inset: -30px;
+    background-size: cover;
+    background-position: center;
+    filter: blur(14px);
+    z-index: 0;
+}
+
+.section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 15, 45, 0.6);
+    z-index: 1;
+}
+
 .inner {
+    position: relative;
+    z-index: 2;
     display: flex;
     align-items: center;
     gap: 4rem;
@@ -22,6 +42,9 @@
 .content {
     flex: 1;
     min-width: 0;
+    background: var(--vfa-color-2026-indigo);
+    border-radius: var(--vfa-radius-lg);
+    padding: 2rem 2.5rem;
 }
 
 .eyebrow {
@@ -165,6 +188,10 @@
 @media (max-width: 640px) {
     .inner {
         padding: 2rem 1rem;
+    }
+
+    .content {
+        padding: 1.5rem 1.25rem;
     }
 
     .poster {

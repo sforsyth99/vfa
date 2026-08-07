@@ -130,6 +130,7 @@ export default function InterviewsPage() {
                       : decodeHtmlEntities(interview.title?.rendered ?? '');
                     const photoSrc = primaryAuthor?.photo ? primaryAuthor.photo[0] : null;
                     const interviewerName = data?.interviewer_name ?? '';
+                    const interviewerAge = data?.interviewer_age ?? null;
 
                     return (
                       <li key={interview.id}>
@@ -146,7 +147,10 @@ export default function InterviewsPage() {
                           <span className={styles.cardName}>{authorLabel}</span>
                           {interviewerName && (
                             <span className={styles.interviewerLine}>
-                              <FormattedMessage id="interviews.card.interviewedBy" values={{ name: interviewerName }} />
+                              <FormattedMessage
+                                id={interviewerAge ? 'interviews.card.interviewedByAge' : 'interviews.card.interviewedBy'}
+                                values={{ name: interviewerName, age: interviewerAge }}
+                              />
                             </span>
                           )}
                         </Link>

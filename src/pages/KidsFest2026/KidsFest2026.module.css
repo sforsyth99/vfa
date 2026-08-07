@@ -109,6 +109,11 @@
 
 /* ── Page sections ────────────────────────────────────── */
 
+.lightBand {
+    background: var(--vfa-color-surface);
+    padding: 0.5rem 0 2rem;
+}
+
 .section {
     margin: 2.5rem 0;
 }
@@ -218,7 +223,7 @@
     padding: 0;
     margin: 1rem 0 0;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 1.25rem;
 }
 
@@ -228,6 +233,8 @@
     border-radius: var(--vfa-radius-card);
     padding: 1.25rem 1.5rem;
     box-shadow: var(--vfa-shadow-card);
+    flex: 1 1 calc(50% - 0.625rem);
+    min-width: 0;
 }
 
 .eventMeta {
@@ -299,8 +306,12 @@
 .eventSummary {
     font-size: var(--vfa-font-size-sm);
     color: var(--vfa-color-ink-dark);
-    margin: 0 0 0.75rem;
+    margin: 0.3rem 0 0.6rem;
     line-height: var(--vfa-line-height-body);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .eventLink {
@@ -498,5 +509,6 @@
 
     .eventCard {
         padding: 1rem 1.1rem;
+        flex-basis: 100%;
     }
 }

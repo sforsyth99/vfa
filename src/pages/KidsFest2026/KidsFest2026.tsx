@@ -178,7 +178,7 @@ function KidsFestEvents({ events, isLoading }: { events: FestivalEvent[] | undef
       {otherEvents.length > 0 && (
         <ul className={styles.eventList}>
           {otherEvents.map((event) => {
-            const { time_start, time_end, venue, age_range, event_type, tickets, eventbrite_url } = event.event_data;
+            const { time_start, time_end, venue, age_range, event_type, tickets, eventbrite_url, summary } = event.event_data;
             const isWorkshop = event_type === 'workshop';
             const timeStr = time_start
               ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
@@ -194,12 +194,13 @@ function KidsFestEvents({ events, isLoading }: { events: FestivalEvent[] | undef
                     </span>
                   )}
                   {timeStr && <span className={styles.eventTime}>{timeStr}</span>}
-                  {age_range && <span className={styles.eventAge}>{age_range}</span>}
+                  {age_range && <span className={styles.eventAge}>{intl.formatMessage({ id: 'kidsfest2026.event.ageRange' }, { range: age_range })}</span>}
                   <span className={styles.eventPrice}>{price}</span>
                 </div>
                 <h3 className={styles.eventTitle}>
                   <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url}>{title}</EventLink>
                 </h3>
+                {summary && <p className={styles.eventSummary}>{summary}</p>}
                 {venue?.name && <p className={styles.eventVenue}>{venue.name}</p>}
                 <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url} className={styles.eventLink}>
                   {intl.formatMessage({ id: 'kidsfest2026.events.details' })}
@@ -317,14 +318,18 @@ export default function KidsFest2026Page() {
           </SectionTitle>
           <KidsFestEvents events={events} isLoading={isLoading} />
         </section>
-        <KidsFestAuthors />
-        <section className={styles.section}>
-          <SectionTitle>
-            <FormattedMessage id="kidsfest2026.books.heading" />
-          </SectionTitle>
-          <KidsBooks />
-        </section>
       </Container>
+      <div className={styles.lightBand}>
+        <Container>
+          <KidsFestAuthors />
+          <section className={styles.section}>
+            <SectionTitle>
+              <FormattedMessage id="kidsfest2026.books.heading" />
+            </SectionTitle>
+            <KidsBooks />
+          </section>
+        </Container>
+      </div>
     </main>
   );
 }

@@ -151,6 +151,7 @@
   "interviews.emptyYear": "No interviews for {year}.",
   "interviews.card.label": "Read interview with {name}",
   "interviews.card.interviewedBy": "Interviewed by {name}",
+  "interviews.card.interviewedByAge": "Interviewed by {name}, age {age}",
   "interviews.kids.heading": "KidsFest Authors",
   "interviews.noContent": "No content yet.",
 
@@ -256,6 +257,7 @@
   "kidsfest2026.mainEvent.free": "Free admission · All ages welcome",
   "kidsfest2026.mainEvent.addToCalendar": "Add to calendar",
   "kidsfest2026.workshop.badge": "Workshop",
+  "kidsfest2026.event.ageRange": "Ages {range}",
   "kidsfest2026.elders.heading": "Special Guest",
   "kidsfest2026.authors.heading": "Meet the Authors",
   "kidsfest2026.authors.loading": "Loading authors…",

@@ -865,6 +865,512 @@ function vfa_mb_sanitize(string $type, $value): string {
     }
 }
 
+// ─── Draft Preview ────────────────────────────────────────────────────────────
+
+define('VFA_PREVIEW_TYPES', ['interviews', 'people', 'festival_events', 'venues', 'books', 'team_members']);
+
+// Generate a stable token on first save for any supported post type.
+add_action('save_post', function(int $post_id) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (wp_is_post_revision($post_id)) return;
+    if (!in_array(get_post_type($post_id), VFA_PREVIEW_TYPES)) return;
+    if (!get_post_meta($post_id, '_vfa_preview_token', true)) {
+        update_post_meta($post_id, '_vfa_preview_token', bin2hex(random_bytes(16)));
+    }
+}, 5);
+
+// Deactivate the preview link when the post goes live.
+add_action('transition_post_status', function(string $new_status, string $old_status, WP_Post $post) {
+    if ($new_status === 'publish' && in_array($post->post_type, VFA_PREVIEW_TYPES)) {
+        delete_post_meta($post->ID, '_vfa_preview_token');
+    }
+}, 10, 3);
+
+// Show a clickable preview link in the Publish box (drafts only).
+add_action('post_submitbox_misc_actions', function(WP_Post $post) {
+    if (!in_array($post->post_type, VFA_PREVIEW_TYPES)) return;
+    if (get_post_status($post->ID) === 'publish') return;
+    $token = get_post_meta($post->ID, '_vfa_preview_token', true);
+    if (!$token) return;
+    $url = add_query_arg('vfa_preview', $token, home_url('/'));
+    echo '<div class="misc-pub-section">';
+    echo '<span style="font-weight:600;">Draft preview:</span> ';
+    echo '<a href="' . esc_url($url) . '" target="_blank" rel="noopener noreferrer">Open preview</a>';
+    echo '</div>';
+});
+
+// Serve the preview page when ?vfa_preview=<token> is requested.
+add_action('template_redirect', function() {
+    if (empty($_GET['vfa_preview'])) return;
+    $token = sanitize_text_field(wp_unslash($_GET['vfa_preview']));
+    if (!preg_match('/^[0-9a-f]{32}$/', $token)) return;
+
+    global $wpdb;
+    $post_id = $wpdb->get_var($wpdb->prepare(
+        "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_vfa_preview_token' AND meta_value = %s LIMIT 1",
+        $token
+    ));
+
+    if (!$post_id) {
+        wp_die('Preview not found.', 'Not Found', ['response' => 404]);
+    }
+
+    $post = get_post((int) $post_id);
+    if (!$post || $post->post_status === 'publish') {
+        wp_die('This preview link is no longer active — the post has been published.', 'Preview Unavailable', ['response' => 410]);
+    }
+
+    switch ($post->post_type) {
+        case 'interviews':      vfa_render_interview_preview($post);   break;
+        case 'people':          vfa_render_person_preview($post);      break;
+        case 'festival_events': vfa_render_event_preview($post);       break;
+        case 'venues':          vfa_render_venue_preview($post);       break;
+        case 'books':           vfa_render_book_preview($post);        break;
+        case 'team_members':    vfa_render_team_member_preview($post); break;
+        default:                wp_die('Preview not available.', 'Preview Unavailable');
+    }
+    exit;
+});
+
+function vfa_preview_css(): string {
+    return '
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; font-size: 18px; line-height: 1.7; color: #1a1a1a; background: #fff; }
+.banner { background: #1d4480; color: #fff; padding: 10px 24px; font-family: sans-serif; font-size: 13px; }
+.container { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+h1 { font-size: 1.9em; line-height: 1.2; margin-bottom: 10px; }
+.meta { font-family: sans-serif; font-size: 14px; color: #666; margin-bottom: 36px; }
+.meta span + span::before { content: " \B7 "; }
+.section-label { font-family: sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #888; margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid #e0e0e0; }
+.field { margin-bottom: 12px; }
+.field-label { font-family: sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #888; margin-bottom: 3px; }
+.photo-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.photo-item { display: flex; flex-direction: column; gap: 4px; }
+.photo-item img { max-width: 160px; max-height: 200px; width: auto; height: auto; border: 1px solid #e0e0e0; border-radius: 4px; display: block; }
+.photo-item span { font-family: sans-serif; font-size: 11px; color: #888; text-align: center; }
+.qa-item { margin-bottom: 40px; }
+.qa-question { font-weight: 700; font-style: italic; margin-bottom: 10px; }
+.qa-question p { margin: 0; }
+.qa-answer p + p { margin-top: 12px; }
+.qa-image { margin: 12px 0; }
+.qa-image img { max-width: 100%; height: auto; border-radius: 4px; }
+.interviewer { margin-top: 40px; background: #f7f7f7; border-left: 3px solid #1d4480; padding: 20px 24px; }
+.interviewer-name { font-family: sans-serif; font-weight: 700; margin-bottom: 2px; }
+.interviewer-age { font-family: sans-serif; font-size: 13px; color: #666; margin-bottom: 10px; }
+.cover-img { margin-bottom: 20px; }
+.cover-img img { max-width: 160px; height: auto; border: 1px solid #e0e0e0; border-radius: 4px; }
+.ticket-table { width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 15px; margin-top: 8px; }
+.ticket-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #888; padding: 6px 10px; border-bottom: 2px solid #e0e0e0; }
+.ticket-table td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; }
+p + p { margin-top: 12px; }
+';
+}
+
+function vfa_preview_open(string $page_title): void {
+    header('Content-Type: text/html; charset=utf-8');
+    ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Preview: <?php echo esc_html($page_title ?: '(untitled)'); ?></title>
+<style><?php echo vfa_preview_css(); ?></style>
+</head>
+<body>
+<div class="banner">DRAFT PREVIEW &mdash; not public. Link deactivates when published.</div>
+<div class="container">
+<?php
+}
+
+function vfa_preview_close(): void {
+    echo '</div></body></html>';
+}
+
+function vfa_preview_person_names(array $ids): array {
+    $names = [];
+    foreach ($ids as $id) {
+        if (!$id) continue;
+        $name = get_post_meta((int) $id, 'title', true);
+        if (!$name) {
+            $p = get_post((int) $id);
+            $name = $p ? $p->post_title : '';
+        }
+        if ($name) $names[] = $name;
+    }
+    return $names;
+}
+
+function vfa_render_interview_preview(WP_Post $post): void {
+    $id = $post->ID;
+    $title           = get_post_meta($id, 'title', true) ?: $post->post_title;
+    $festival_year   = get_post_meta($id, 'festival_year', true);
+    $author_ids      = get_post_meta($id, 'author', false);
+    $book_id         = get_post_meta($id, 'book', true);
+    $intro           = get_post_meta($id, 'intro', true);
+    $questions       = get_post_meta($id, 'question', false);
+    $answers         = get_post_meta($id, 'answer', false);
+    $question_images = get_post_meta($id, 'question_image', false);
+    $iname           = get_post_meta($id, 'interviewer_name', true);
+    $iage            = get_post_meta($id, 'interviewer_age', true);
+    $ibio            = get_post_meta($id, 'interviewer_bio', true);
+
+    $author_names = vfa_preview_person_names((array) $author_ids);
+
+    $book_title = '';
+    if ($book_id) {
+        $book_title = get_post_meta((int) $book_id, 'title', true);
+        if (!$book_title) {
+            $bp = get_post((int) $book_id);
+            $book_title = $bp ? $bp->post_title : '';
+        }
+    }
+
+    vfa_preview_open($title);
+    ?>
+<h1><?php echo esc_html($title ?: '(untitled)'); ?></h1>
+<div class="meta">
+    <?php if ($festival_year): ?><span>Festival Year: <?php echo esc_html($festival_year); ?></span><?php endif; ?>
+    <?php if ($author_names): ?><span>Author(s): <?php echo esc_html(implode(', ', $author_names)); ?></span><?php endif; ?>
+    <?php if ($book_title): ?><span>Book: <?php echo esc_html($book_title); ?></span><?php endif; ?>
+</div>
+<?php if ($intro): ?>
+<div class="section-label">Intro</div>
+<div><?php echo wp_kses_post($intro); ?></div>
+<?php endif; ?>
+<?php if (!empty($questions)): ?>
+<div class="section-label">Q&amp;A</div>
+<?php foreach ($questions as $i => $q):
+    $a      = $answers[$i] ?? '';
+    $img_id = $question_images[$i] ?? '';
+    if (!$q && !$a) continue; ?>
+<div class="qa-item">
+    <?php if ($q): ?><div class="qa-question"><?php echo wp_kses_post($q); ?></div><?php endif; ?>
+    <?php if ($img_id): $img_url = wp_get_attachment_image_url((int) $img_id, 'medium');
+        if ($img_url): ?><div class="qa-image"><img src="<?php echo esc_url($img_url); ?>" alt=""></div><?php endif; endif; ?>
+    <?php if ($a): ?><div class="qa-answer"><?php echo wp_kses_post($a); ?></div><?php endif; ?>
+</div>
+<?php endforeach; endif; ?>
+<?php if ($iname || $ibio): ?>
+<div class="interviewer">
+    <?php if ($iname): ?><div class="interviewer-name"><?php echo esc_html($iname); ?></div><?php endif; ?>
+    <?php if ($iage): ?><div class="interviewer-age">Age: <?php echo esc_html($iage); ?></div><?php endif; ?>
+    <?php if ($ibio): ?><div><?php echo wp_kses_post($ibio); ?></div><?php endif; ?>
+</div>
+<?php endif;
+    vfa_preview_close();
+}
+
+function vfa_render_person_preview(WP_Post $post): void {
+    $id = $post->ID;
+    $title          = get_post_meta($id, 'title', true) ?: $post->post_title;
+    $alt_name       = get_post_meta($id, 'alternate_name', true);
+    $pronunciation  = get_post_meta($id, 'name_pronunciation', true);
+    $pronouns_key   = get_post_meta($id, 'pronouns', true);
+    $pronouns_other = get_post_meta($id, 'pronouns_other', true);
+    $bio            = get_post_meta($id, 'bio', true);
+    $website_url    = get_post_meta($id, 'website_url', true);
+
+    $pronouns_map = [
+        'she_her' => 'She/Her', 'he_him' => 'He/Him', 'they_them' => 'They/Them',
+        'she_they' => 'She/They', 'he_they' => 'He/They', 'ze_zir' => 'Ze/Zir', 'other' => 'Other',
+    ];
+    $pronouns_label = $pronouns_key === 'other' ? $pronouns_other : ($pronouns_map[$pronouns_key] ?? '');
+
+    $year_fields = [
+        'author_years' => 'Author', 'kidfest_years' => 'Kidfest', 'elder_years' => 'Elder',
+        'moderator_years' => 'Moderator', 'curator_years' => 'Curator', 'musician_years' => 'Musician',
+    ];
+
+    vfa_preview_open($title);
+    ?>
+<h1><?php echo esc_html($title ?: '(untitled)'); ?></h1>
+<div class="meta">
+    <?php if ($alt_name): ?><span>Also known as: <?php echo esc_html($alt_name); ?></span><?php endif; ?>
+    <?php if ($pronunciation): ?><span>Pronunciation: <?php echo esc_html($pronunciation); ?></span><?php endif; ?>
+    <?php if ($pronouns_label): ?><span>Pronouns: <?php echo esc_html($pronouns_label); ?></span><?php endif; ?>
+    <?php if ($website_url): ?><span><a href="<?php echo esc_url($website_url); ?>"><?php echo esc_html($website_url); ?></a></span><?php endif; ?>
+</div>
+<?php
+$photos = ['photo' => '7×10', 'photo_square' => 'Square', 'kidfest_photo' => 'Kidfest'];
+$photo_items = [];
+foreach ($photos as $field_id => $label) {
+    $att_id = get_post_meta($id, $field_id, true);
+    if ($att_id) {
+        $url = wp_get_attachment_image_url((int) $att_id, 'medium');
+        if ($url) $photo_items[] = ['url' => $url, 'label' => $label];
+    }
+}
+if ($photo_items): ?>
+<div class="photo-row">
+    <?php foreach ($photo_items as $pi): ?>
+    <div class="photo-item"><img src="<?php echo esc_url($pi['url']); ?>" alt=""><span><?php echo esc_html($pi['label']); ?></span></div>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
+<?php if ($bio): ?>
+<div class="section-label">Bio</div>
+<div><?php echo wp_kses_post($bio); ?></div>
+<?php endif; ?>
+<?php
+$year_rows = [];
+foreach ($year_fields as $field_id => $label) {
+    $years = get_post_meta($id, $field_id, false);
+    if (!empty($years)) $year_rows[] = $label . ': ' . implode(', ', $years);
+}
+if ($year_rows): ?>
+<div class="section-label">Festival Years</div>
+<?php foreach ($year_rows as $row): ?><div><?php echo esc_html($row); ?></div><?php endforeach;
+endif;
+    vfa_preview_close();
+}
+
+function vfa_render_event_preview(WP_Post $post): void {
+    $id = $post->ID;
+    $title          = get_post_meta($id, 'title', true) ?: $post->post_title;
+    $event_date     = get_post_meta($id, 'event_date', true);
+    $time_start     = get_post_meta($id, 'time_start', true);
+    $time_end       = get_post_meta($id, 'time_end', true);
+    $venue_id       = get_post_meta($id, 'venue', true);
+    $eventbrite_url = get_post_meta($id, 'eventbrite_url', true);
+    $event_img_id   = get_post_meta($id, 'event_image', true);
+    $summary        = get_post_meta($id, 'summary', true);
+    $description    = get_post_meta($id, 'description', true);
+    $is_featured    = get_post_meta($id, 'is_featured', true);
+    $is_kidfest     = get_post_meta($id, 'is_kidfest', true);
+    $age_range      = get_post_meta($id, 'age_range', true);
+    $event_type_key = get_post_meta($id, 'event_type', true);
+    $extra_info     = get_post_meta($id, 'extra_info', true);
+    $hosted_by      = get_post_meta($id, 'hosted_by', true);
+
+    $author_ids    = get_post_meta($id, 'authors', false);
+    $moderator_ids = get_post_meta($id, 'moderator', false);
+    $curator_ids   = get_post_meta($id, 'curator', false);
+    $musician_ids  = get_post_meta($id, 'musician', false);
+    $host_ids      = get_post_meta($id, 'hosts', false);
+
+    $ticket_types  = get_post_meta($id, 'ticket_type', false);
+    $ticket_tiers  = get_post_meta($id, 'ticket_tier', false);
+    $ticket_prices = get_post_meta($id, 'ticket_price', false);
+
+    $event_type_map = [
+        'conversation' => 'Conversation', 'panel' => 'Panel', 'walk' => 'Walk',
+        'workshop' => 'Workshop', 'author_fair' => 'Author Fair',
+    ];
+    $event_type_label = $event_type_map[$event_type_key] ?? '';
+
+    $venue_name = '';
+    if ($venue_id) {
+        $vname    = get_post_meta((int) $venue_id, 'title', true);
+        if (!$vname) { $vp = get_post((int) $venue_id); $vname = $vp ? $vp->post_title : ''; }
+        $building = get_post_meta((int) $venue_id, 'building', true);
+        $room     = get_post_meta((int) $venue_id, 'room', true);
+        $venue_name = implode(', ', array_filter([$vname, $building, $room]));
+    }
+
+    $time_str = $time_start && $time_end ? $time_start . ' – ' . $time_end : $time_start;
+
+    vfa_preview_open($title);
+    ?>
+<h1><?php echo esc_html($title ?: '(untitled)'); ?></h1>
+<div class="meta">
+    <?php if ($event_date): ?><span><?php echo esc_html($event_date); ?><?php if ($time_str): ?> at <?php echo esc_html($time_str); endif; ?></span><?php endif; ?>
+    <?php if ($venue_name): ?><span><?php echo esc_html($venue_name); ?></span><?php endif; ?>
+    <?php if ($event_type_label): ?><span><?php echo esc_html($event_type_label); ?></span><?php endif; ?>
+    <?php if ($is_featured === '1'): ?><span>Featured</span><?php endif; ?>
+    <?php if ($is_kidfest === '1'): ?><span>KidsFest</span><?php endif; ?>
+    <?php if ($age_range): ?><span><?php echo esc_html($age_range); ?></span><?php endif; ?>
+</div>
+<?php if ($event_img_id): $img_url = wp_get_attachment_image_url((int) $event_img_id, 'medium');
+    if ($img_url): ?><div class="cover-img"><img src="<?php echo esc_url($img_url); ?>" alt=""></div><?php endif; endif; ?>
+<?php if ($summary): ?>
+<div class="section-label">Summary</div>
+<div><?php echo esc_html($summary); ?></div>
+<?php endif; ?>
+<?php if ($description): ?>
+<div class="section-label">Description</div>
+<div><?php echo wp_kses_post($description); ?></div>
+<?php endif; ?>
+<?php
+$people_sections = [
+    'Authors'    => vfa_preview_person_names((array) $author_ids),
+    'Moderators' => vfa_preview_person_names((array) $moderator_ids),
+    'Curators'   => vfa_preview_person_names((array) $curator_ids),
+    'Musicians'  => vfa_preview_person_names((array) $musician_ids),
+    'Hosts'      => vfa_preview_person_names((array) $host_ids),
+];
+$has_people = (bool) array_filter($people_sections) || $hosted_by;
+if ($has_people): ?>
+<div class="section-label">People</div>
+<?php foreach ($people_sections as $label => $names):
+    if (!$names) continue; ?>
+<div class="field"><div class="field-label"><?php echo esc_html($label); ?></div><?php echo esc_html(implode(', ', $names)); ?></div>
+<?php endforeach;
+if ($hosted_by): ?>
+<div class="field"><div class="field-label">Hosted By</div><?php echo esc_html($hosted_by); ?></div>
+<?php endif; endif; ?>
+<?php if ($extra_info): ?>
+<div class="section-label">Extra Information</div>
+<div><?php echo esc_html($extra_info); ?></div>
+<?php endif; ?>
+<?php if ($eventbrite_url): ?>
+<div class="section-label">Links</div>
+<div><a href="<?php echo esc_url($eventbrite_url); ?>">Eventbrite</a></div>
+<?php endif; ?>
+<?php if (!empty($ticket_types)): ?>
+<div class="section-label">Tickets</div>
+<table class="ticket-table">
+<thead><tr><th>Type</th><th>Tier</th><th>Price</th></tr></thead>
+<tbody>
+<?php $ticket_type_labels = ['in_person' => 'In-Person', 'online' => 'Online'];
+foreach ($ticket_types as $i => $tt):
+    $tier = $ticket_tiers[$i] ?? ''; $price = $ticket_prices[$i] ?? '';
+    if (!$tt && !$tier && !$price) continue; ?>
+<tr><td><?php echo esc_html($ticket_type_labels[$tt] ?? $tt); ?></td><td><?php echo esc_html($tier); ?></td><td><?php echo esc_html($price); ?></td></tr>
+<?php endforeach; ?>
+</tbody></table>
+<?php endif;
+    vfa_preview_close();
+}
+
+function vfa_render_venue_preview(WP_Post $post): void {
+    $id = $post->ID;
+    $title         = get_post_meta($id, 'title', true) ?: $post->post_title;
+    $alt_name      = get_post_meta($id, 'alternate_name', true);
+    $pronunciation = get_post_meta($id, 'name_pronunciation', true);
+    $building      = get_post_meta($id, 'building', true);
+    $room          = get_post_meta($id, 'room', true);
+    $street        = get_post_meta($id, 'street_address', true);
+    $city          = get_post_meta($id, 'city', true);
+    $province      = get_post_meta($id, 'province', true);
+    $postal_code   = get_post_meta($id, 'postal_code', true);
+    $country       = get_post_meta($id, 'country', true);
+    $phone         = get_post_meta($id, 'phone', true);
+    $website_url   = get_post_meta($id, 'website_url', true);
+    $description   = get_post_meta($id, 'description', true);
+    $accessibility = get_post_meta($id, 'accessibility', true);
+
+    $province_map = [
+        'AB' => 'Alberta', 'BC' => 'British Columbia', 'MB' => 'Manitoba', 'NB' => 'New Brunswick',
+        'NL' => 'Newfoundland and Labrador', 'NS' => 'Nova Scotia', 'NT' => 'Northwest Territories',
+        'NU' => 'Nunavut', 'ON' => 'Ontario', 'PE' => 'Prince Edward Island',
+        'QC' => 'Quebec', 'SK' => 'Saskatchewan', 'YT' => 'Yukon',
+    ];
+    $address_parts = array_filter([$street, $city, $province_map[$province] ?? $province, $postal_code, $country]);
+
+    vfa_preview_open($title);
+    ?>
+<h1><?php echo esc_html($title ?: '(untitled)'); ?></h1>
+<div class="meta">
+    <?php if ($alt_name): ?><span>Formerly: <?php echo esc_html($alt_name); ?></span><?php endif; ?>
+    <?php if ($pronunciation): ?><span>Pronunciation: <?php echo esc_html($pronunciation); ?></span><?php endif; ?>
+</div>
+<?php if ($building || $room || $address_parts || $phone || $website_url): ?>
+<div class="section-label">Location</div>
+<?php if ($building): ?><div><?php echo esc_html($building); ?></div><?php endif; ?>
+<?php if ($room): ?><div><?php echo esc_html($room); ?></div><?php endif; ?>
+<?php if ($address_parts): ?><div><?php echo esc_html(implode(', ', $address_parts)); ?></div><?php endif; ?>
+<?php if ($phone): ?><div><?php echo esc_html($phone); ?></div><?php endif; ?>
+<?php if ($website_url): ?><div><a href="<?php echo esc_url($website_url); ?>"><?php echo esc_html($website_url); ?></a></div><?php endif; ?>
+<?php endif; ?>
+<?php if ($description): ?>
+<div class="section-label">Description</div>
+<div><?php echo wp_kses_post($description); ?></div>
+<?php endif; ?>
+<?php if ($accessibility): ?>
+<div class="section-label">Accessibility</div>
+<div><?php echo wp_kses_post($accessibility); ?></div>
+<?php endif;
+    vfa_preview_close();
+}
+
+function vfa_render_book_preview(WP_Post $post): void {
+    $id = $post->ID;
+    $title        = get_post_meta($id, 'title', true) ?: $post->post_title;
+    $subtitle     = get_post_meta($id, 'subtitle', true);
+    $author_ids   = get_post_meta($id, 'authors', false);
+    $cover_id     = get_post_meta($id, 'cover_image', true);
+    $buy_url      = get_post_meta($id, 'munros_url', true);
+    $year         = get_post_meta($id, 'festival_year', true);
+    $description  = get_post_meta($id, 'description', true);
+    $cats         = get_post_meta($id, 'categories', false);
+    $add_authors  = get_post_meta($id, 'additional_authors', true);
+    $illustrators = get_post_meta($id, 'illustrators', true);
+    $age_min      = get_post_meta($id, 'age_min', true);
+    $age_max      = get_post_meta($id, 'age_max', true);
+
+    $cat_map = [
+        'children' => 'Children', 'immigrant' => 'Immigration', 'lgbt' => 'LGBT',
+        'indigenous' => 'Indigenous', 'romance' => 'Romance', 'comedy' => 'Comedy',
+        'illustrated' => 'Illustrated', 'mystery' => 'Mystery', 'nature' => 'Nature',
+        'poetry' => 'Poetry', 'social_justice' => 'Social Justice',
+    ];
+    $author_names = vfa_preview_person_names((array) $author_ids);
+    $cat_labels   = array_values(array_filter(array_map(fn($c) => $cat_map[$c] ?? '', (array) $cats)));
+    $age_str      = $age_min && $age_max ? 'Ages ' . $age_min . '–' . $age_max : ($age_min ? 'Ages ' . $age_min . '+' : '');
+
+    vfa_preview_open($title);
+    ?>
+<?php if ($cover_id): $cover_url = wp_get_attachment_image_url((int) $cover_id, 'medium');
+    if ($cover_url): ?><div class="cover-img"><img src="<?php echo esc_url($cover_url); ?>" alt=""></div><?php endif; endif; ?>
+<h1><?php echo esc_html($title ?: '(untitled)'); ?></h1>
+<?php if ($subtitle): ?><div style="font-size:1.1em;color:#555;margin-bottom:8px;"><?php echo esc_html($subtitle); ?></div><?php endif; ?>
+<div class="meta">
+    <?php if ($author_names): ?><span><?php echo esc_html(implode(', ', $author_names)); ?></span><?php endif; ?>
+    <?php if ($add_authors): ?><span>Also: <?php echo esc_html($add_authors); ?></span><?php endif; ?>
+    <?php if ($illustrators): ?><span>Illustrated by: <?php echo esc_html($illustrators); ?></span><?php endif; ?>
+    <?php if ($year): ?><span>Festival Year: <?php echo esc_html($year); ?></span><?php endif; ?>
+    <?php if ($cat_labels): ?><span><?php echo esc_html(implode(', ', $cat_labels)); ?></span><?php endif; ?>
+    <?php if ($age_str): ?><span><?php echo esc_html($age_str); ?></span><?php endif; ?>
+    <?php if ($buy_url): ?><span><a href="<?php echo esc_url($buy_url); ?>">Buy online</a></span><?php endif; ?>
+</div>
+<?php if ($description): ?>
+<div class="section-label">Description</div>
+<div><?php echo wp_kses_post($description); ?></div>
+<?php endif;
+    vfa_preview_close();
+}
+
+function vfa_render_team_member_preview(WP_Post $post): void {
+    $id = $post->ID;
+    $title          = get_post_meta($id, 'title', true) ?: $post->post_title;
+    $pronouns_key   = get_post_meta($id, 'pronouns', true);
+    $pronouns_other = get_post_meta($id, 'pronouns_other', true);
+    $position       = get_post_meta($id, 'position', true);
+    $team_role      = get_post_meta($id, 'team_role', true);
+    $photo_id       = get_post_meta($id, 'photo', true);
+    $term_start     = get_post_meta($id, 'term_start', true);
+    $term_end       = get_post_meta($id, 'term_end', true);
+    $description    = get_post_meta($id, 'description', true);
+
+    $pronouns_map = [
+        'she_her' => 'She/Her', 'he_him' => 'He/Him', 'they_them' => 'They/Them',
+        'she_they' => 'She/They', 'he_they' => 'He/They', 'ze_zir' => 'Ze/Zir', 'other' => 'Other',
+    ];
+    $pronouns_label = $pronouns_key === 'other' ? $pronouns_other : ($pronouns_map[$pronouns_key] ?? '');
+    $role_map       = ['staff' => 'Staff', 'board' => 'Board', 'honorary' => 'Honorary'];
+    $role_label     = $role_map[$team_role] ?? '';
+    $term_str       = $term_start && $term_end ? $term_start . '–' . $term_end : ($term_start ? 'From ' . $term_start : '');
+
+    vfa_preview_open($title);
+    ?>
+<?php if ($photo_id): $photo_url = wp_get_attachment_image_url((int) $photo_id, 'medium');
+    if ($photo_url): ?><div class="cover-img"><img src="<?php echo esc_url($photo_url); ?>" alt=""></div><?php endif; endif; ?>
+<h1><?php echo esc_html($title ?: '(untitled)'); ?></h1>
+<div class="meta">
+    <?php if ($position): ?><span><?php echo esc_html($position); ?></span><?php endif; ?>
+    <?php if ($role_label): ?><span><?php echo esc_html($role_label); ?></span><?php endif; ?>
+    <?php if ($pronouns_label): ?><span><?php echo esc_html($pronouns_label); ?></span><?php endif; ?>
+    <?php if ($term_str): ?><span>Term: <?php echo esc_html($term_str); ?></span><?php endif; ?>
+</div>
+<?php if ($description): ?>
+<div class="section-label">Description</div>
+<div><?php echo wp_kses_post($description); ?></div>
+<?php endif;
+    vfa_preview_close();
+}
+
 // ─── Assets ──────────────────────────────────────────────────────────────────
 
 add_action('admin_enqueue_scripts', function(string $hook) {

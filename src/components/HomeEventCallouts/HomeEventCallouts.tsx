@@ -120,7 +120,7 @@ export function HomeWorkshopCallout() {
 
   return (
     <section className={styles.section} aria-labelledby="workshop-callout-heading">
-      <div className={styles.inner}>
+      <div className={`${styles.inner} ${styles.workshopCard}`}>
         <div className={styles.intro}>
           <p className={styles.eyebrow}>
             <FormattedMessage id="home.callouts.workshops.eyebrow" />
@@ -168,7 +168,7 @@ export function HomeOnlineCallout() {
 
   return (
     <section className={styles.section} aria-labelledby="online-callout-heading">
-      <div className={styles.inner}>
+      <div className={`${styles.inner} ${styles.workshopCard}`}>
         <div className={styles.intro}>
           <p className={styles.eyebrow}>
             <FormattedMessage id="home.callouts.online.eyebrow" />

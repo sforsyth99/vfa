@@ -45,6 +45,13 @@
     line-height: var(--vfa-line-height-body);
 }
 
+.workshopCard {
+    background: var(--vfa-color-surface);
+    border-radius: 1.5rem;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+}
+
 .eventList {
     list-style: none;
     padding: 0;
@@ -65,7 +72,6 @@
 
 .eventItem:first-child {
     padding-top: 0;
-    border-top: 1px solid var(--vfa-color-warm-border-light);
 }
 
 .eventItem:last-child {
@@ -117,6 +123,11 @@
     .inner {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+
+    .workshopCard {
+        border-radius: 1rem;
+        padding: 1.5rem 1.25rem;
     }
 
     /* Stretch children to the column width so heading text wraps correctly */
