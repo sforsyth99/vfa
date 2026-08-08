@@ -3,6 +3,12 @@
     padding-block: 3.5rem;
 }
 
+.sectionDark {
+    background: var(--vfa-color-footer-bg);
+    padding-block: 3.5rem;
+
+}
+
 .inner {
     display: grid;
     grid-template-columns: 1fr 2fr;

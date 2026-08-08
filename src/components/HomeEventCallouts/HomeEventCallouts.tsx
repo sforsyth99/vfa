@@ -10,7 +10,9 @@ const MAX_WORKSHOPS = 5;
 
 function formatShortDate(dateStr: string): string {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-CA', {
-    weekday: 'short', month: 'short', day: 'numeric',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
   });
 }
 
@@ -47,8 +49,16 @@ function EventList({
       {events.map((event) => {
         const title = decodeHtmlEntities(event.title?.rendered ?? '');
         const {
-          event_date, event_type, is_kidfest, eventbrite_url,
-          hosts, hosted_by, authors, time_start, time_end, venue,
+          event_date,
+          event_type,
+          is_kidfest,
+          eventbrite_url,
+          hosts,
+          hosted_by,
+          authors,
+          time_start,
+          time_end,
+          venue,
         } = event.event_data;
         const hostNames = [
           ...(hosts ?? []).map((h) => h.name),
@@ -135,7 +145,9 @@ export function HomeWorkshopCallout() {
         <EventList
           events={workshops}
           showHost
-          onEventClick={(title) => track({ name: 'callout_click', event_label: title, event_location: 'workshop_callout' })}
+          onEventClick={(title) =>
+            track({ name: 'callout_click', event_label: title, event_location: 'workshop_callout' })
+          }
         />
       </div>
     </section>
@@ -167,7 +179,7 @@ export function HomeOnlineCallout() {
   if (!online.length) return null;
 
   return (
-    <section className={styles.section} aria-labelledby="online-callout-heading">
+    <section className={styles.sectionDark} aria-labelledby="online-callout-heading">
       <div className={`${styles.inner} ${styles.workshopCard}`}>
         <div className={styles.intro}>
           <p className={styles.eyebrow}>
@@ -185,7 +197,9 @@ export function HomeOnlineCallout() {
           showAuthors
           showVenue={false}
           inlineMeta
-          onEventClick={(title) => track({ name: 'callout_click', event_label: title, event_location: 'online_callout' })}
+          onEventClick={(title) =>
+            track({ name: 'callout_click', event_label: title, event_location: 'online_callout' })
+          }
         />
       </div>
     </section>

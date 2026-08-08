@@ -1,5 +1,4 @@
 .section {
-    background: var(--vfa-color-warm-bg);
     border-top: 1px solid var(--vfa-color-warm-border-light);
     border-bottom: 1px solid var(--vfa-color-warm-border-light);
     padding: 3rem 0;
@@ -163,7 +162,7 @@
 
 .cardCta::after {
     content: '›';
-  margin-left: 0.25em;
+    margin-left: 0.25em;
     display: inline-block;
     transition: transform var(--vfa-transition);
 }
