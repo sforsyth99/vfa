@@ -99,6 +99,8 @@
     --vfa-color-2026-slate: #3d5a6e;
     --vfa-color-2026-coral: #c84a1c;
     --vfa-color-2026-coral-pale: #ffeee8;
+    --vfa-color-2026-gold-pale: #fff8e6;
+    --vfa-color-2026-slate-pale: #e8eff8;
 
     /* ── Colors: footer ──────────────────────────────────── */
     --vfa-color-footer-bg: var(--vfa-color-2026-indigo);

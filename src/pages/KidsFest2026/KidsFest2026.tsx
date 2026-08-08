@@ -120,6 +120,9 @@ function KidsFestWorkshops({ events, isLoading }: { events: FestivalEvent[] | un
 
   return (
     <section className={styles.workshopsSection} aria-labelledby="workshops-heading">
+      <p className={styles.workshopsEyebrow}>
+        {intl.formatMessage({ id: 'kidsfest2026.workshops.eyebrow' })}
+      </p>
       <h2 id="workshops-heading" className={styles.workshopsHeading}>
         {intl.formatMessage({ id: 'kidsfest2026.workshops.heading' })}
       </h2>
@@ -211,11 +214,6 @@ function KidsFestReadBooks() {
   const kidsBooks = books.filter((b) => b.book_data?.categories?.includes('children'));
   if (!kidsBooks.length) return null;
 
-  const topRow = kidsBooks.slice(0, 5);
-  const midLeft = kidsBooks[5] ?? null;
-  const midRight = kidsBooks[6] ?? null;
-  const bottomRow = kidsBooks.slice(7, 12);
-
   const renderCover = (book: typeof kidsBooks[0]) => {
     const cover = book.book_data?.cover_image;
     const title = decodeHtmlEntities(book.title?.rendered ?? '');
@@ -239,21 +237,19 @@ function KidsFestReadBooks() {
 
   return (
     <section className={styles.rbSection} aria-labelledby="read-books-heading">
+      <div className={styles.rbSectionHeader}>
+        <p className={styles.rbEyebrow}>
+          {intl.formatMessage({ id: 'kidsfest2026.readBooks.eyebrow' })}
+        </p>
+        <h2 id="read-books-heading" className={styles.rbTitle}>
+          {intl.formatMessage({ id: 'kidsfest2026.readBooks.title' })}
+        </h2>
+        <p className={styles.rbBlurb}>
+          {intl.formatMessage({ id: 'kidsfest2026.readBooks.blurb' })}
+        </p>
+      </div>
       <div className={styles.rbGrid}>
-        {topRow.map(renderCover)}
-
-        {midLeft ? renderCover(midLeft) : <div aria-hidden="true" />}
-        <div className={styles.rbTextCell}>
-          <p className={styles.rbReadThe}>
-            {intl.formatMessage({ id: 'kidsfest2026.readBooks.readThe' })}
-          </p>
-          <h2 id="read-books-heading" className={styles.rbBooks}>
-            {intl.formatMessage({ id: 'kidsfest2026.readBooks.books' })}
-          </h2>
-        </div>
-        {midRight ? renderCover(midRight) : <div aria-hidden="true" />}
-
-        {bottomRow.map(renderCover)}
+        {kidsBooks.slice(0, 12).map(renderCover)}
       </div>
     </section>
   );
@@ -349,7 +345,7 @@ export default function KidsFest2026Page() {
         </Container>
       </div>
 
-      <div className={styles.bandTan}>
+      <div className={styles.bandCedar}>
         <Container>
           <KidsFestSpecialGuest />
         </Container>
