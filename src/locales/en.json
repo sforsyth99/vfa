@@ -131,6 +131,7 @@
   "events.free": "Free",
   "events.details": "Details",
   "events.preseason": "Pre-season Events",
+  "events.festival": "Festival Events",
   "events.past": "View past events",
   "events.rowFeaturing": "Featuring {names}",
   "events.rowMod": "Moderated by {name}",

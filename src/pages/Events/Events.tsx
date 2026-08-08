@@ -12,7 +12,6 @@ import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
-import { FESTIVAL_START } from '../../config/festival';
 import styles from './Events.module.css';
 
 function formatDayHeading(dateStr: string): string {
@@ -20,6 +19,7 @@ function formatDayHeading(dateStr: string): string {
     weekday: 'long', month: 'long', day: 'numeric',
   });
 }
+
 
 function formatTime(t: string): string {
   if (!t) return '';
@@ -263,11 +263,7 @@ function Events() {
       return (a.event_data.time_start || '').localeCompare(b.event_data.time_start || '');
     });
 
-  const preseason = upcoming.filter((e) => e.event_data.event_date < FESTIVAL_START);
-  const festival = upcoming.filter((e) => e.event_data.event_date >= FESTIVAL_START);
-
-  // Group festival events by date
-  const byDay = festival.reduce<Map<string, FestivalEvent[]>>((map, e) => {
+  const byDay = upcoming.reduce<Map<string, FestivalEvent[]>>((map, e) => {
     const date = e.event_data.event_date;
     if (!map.has(date)) map.set(date, []);
     map.get(date)!.push(e);
@@ -280,13 +276,6 @@ function Events() {
         <PageTitle><FormattedMessage id="events.heading" /></PageTitle>
 
         <QueryState isLoading={isLoading} isError={!!error} isEmpty={!isLoading && !error && upcoming.length === 0} loadingId="events.loading" errorId="events.error" emptyId="events.empty" />
-
-        {preseason.length > 0 && (
-          <EventGroup
-            heading={intl.formatMessage({ id: 'events.preseason' })}
-            events={preseason}
-          />
-        )}
 
         {[...byDay.entries()].map(([date, dayEvents]) => (
           <EventGroup
