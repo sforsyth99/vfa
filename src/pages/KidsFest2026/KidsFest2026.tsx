@@ -345,7 +345,7 @@ export default function KidsFest2026Page() {
         </Container>
       </div>
 
-      <div className={styles.bandCedar}>
+      <div className={styles.bandTan}>
         <Container>
           <KidsFestSpecialGuest />
         </Container>
@@ -357,7 +357,7 @@ export default function KidsFest2026Page() {
         </Container>
       </div>
 
-      <div className={styles.bandTan}>
+      <div className={styles.bandPencil}>
         <Container>
           <KidsFestInterviews />
         </Container>
