@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) exit;
 
 // Cache key includes the version so uploading a new plugin version
 // automatically invalidates the old cached newsletter response.
-define('VFA_NEWSLETTER_CACHE_KEY', 'vfa_newsletter_228');
+define('VFA_NEWSLETTER_CACHE_KEY', 'vfa_newsletter_230');
 
 add_action('init', function() {
     register_post_type('team_members', [
@@ -740,10 +740,26 @@ add_action('rest_api_init', function() {
                 return new WP_Error('feed_empty', 'Newsletter feed contained no items', ['status' => 502]);
             }
 
-            $item = null;
+            // Collect up to 12 items to detect resends by duplicate title
+            $candidates = [];
             foreach ($xml->channel->item as $candidate) {
-                $title = (string) $candidate->title;
-                if (stripos($title, 'resend') !== 0) {
+                $candidates[] = $candidate;
+                if (count($candidates) >= 12) break;
+            }
+            $all_titles = array_map(fn($c) => strtolower(trim((string) $c->title)), $candidates);
+
+            // First item whose title doesn't appear elsewhere in the sample is the real latest
+            $item = null;
+            foreach ($candidates as $idx => $candidate) {
+                $title = $all_titles[$idx];
+                $seen_elsewhere = false;
+                foreach ($all_titles as $j => $other) {
+                    if ($j !== $idx && $other === $title) {
+                        $seen_elsewhere = true;
+                        break;
+                    }
+                }
+                if (!$seen_elsewhere) {
                     $item = $candidate;
                     break;
                 }
