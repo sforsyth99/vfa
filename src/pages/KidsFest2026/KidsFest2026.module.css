@@ -19,6 +19,7 @@
     flex: 1;
     min-width: 0;
     background: var(--vfa-color-surface);
+    border: 5px solid var(--vfa-color-2026-gold);
     border-radius: var(--vfa-radius-lg);
     padding: 2rem 2.5rem;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
@@ -29,7 +30,7 @@
     font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: var(--vfa-letter-spacing-eyebrow);
     text-transform: uppercase;
-    color: var(--vfa-color-2026-indigo);
+    color: var(--vfa-color-2026-gold-dark);
     margin: 0 0 0.75rem;
 }
 
@@ -90,7 +91,7 @@
     font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--vfa-color-2026-indigo);
+    color: var(--vfa-color-2026-gold-dark);
     flex-shrink: 0;
     width: 3.5rem;
 }
