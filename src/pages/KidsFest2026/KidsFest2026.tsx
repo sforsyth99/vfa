@@ -179,6 +179,9 @@ function KidsFestSpecialGuest() {
       <p className={styles.specialGuestEyebrow}>
         {intl.formatMessage({ id: 'kidsfest2026.elders.heading' })}
       </p>
+      <h2 id="special-guest-heading" className={styles.specialGuestName}>
+        {guest.name}
+      </h2>
       <div className={styles.specialGuestInner}>
         {photo && (
           <img
@@ -188,17 +191,12 @@ function KidsFestSpecialGuest() {
             loading="lazy"
           />
         )}
-        <div className={styles.specialGuestContent}>
-          <h2 id="special-guest-heading" className={styles.specialGuestName}>
-            {guest.name}
-          </h2>
-          {guest.bio && (
-            <div
-              className={styles.specialGuestBio}
-              dangerouslySetInnerHTML={{ __html: sanitizeHtml(guest.bio) }}
-            />
-          )}
-        </div>
+        {guest.bio && (
+          <div
+            className={styles.specialGuestBio}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(guest.bio) }}
+          />
+        )}
       </div>
     </section>
   );
