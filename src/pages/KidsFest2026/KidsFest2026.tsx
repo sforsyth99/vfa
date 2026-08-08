@@ -15,7 +15,6 @@ import { downloadIcs } from '../../utils/downloadIcs';
 import { EventLink } from '../../components/EventLink/EventLink';
 import { KidsFestInterviews } from '../../components/KidsFestInterviews/KidsFestInterviews';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
-import posterSrc from '../../assets/VFA_KidsFest.jpg';
 import styles from './KidsFest2026.module.css';
 
 function formatTime(t: string): string {
@@ -49,11 +48,6 @@ function KidsFestHero({ mainEvent }: { mainEvent: FestivalEvent | null }) {
   return (
     <section className={styles.hero}>
       <div className={styles.heroInner}>
-        <img
-          src={posterSrc}
-          alt={intl.formatMessage({ id: 'kidsfest.posterAlt' })}
-          className={styles.heroPoster}
-        />
         <div className={styles.heroContent}>
           <p className={styles.heroEyebrow}>
             {intl.formatMessage({ id: 'kidsfest.eyebrow' })}

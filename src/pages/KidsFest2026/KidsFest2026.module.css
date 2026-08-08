@@ -2,23 +2,17 @@
 
 .hero {
     width: 100%;
-    background: var(--vfa-color-background);
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)),
+        url('../../assets/kids-books.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
 .heroInner {
-    display: flex;
-    align-items: center;
-    gap: 4rem;
-    max-width: var(--vfa-width-site);
+    max-width: 780px;
     margin: 0 auto;
     padding: 3.5rem 2.5rem;
-}
-
-.heroPoster {
-    width: 280px;
-    flex-shrink: 0;
-    border-radius: var(--vfa-radius-lg);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
 
 .heroContent {
@@ -278,7 +272,7 @@
 
 .eventLink::after {
     content: '›';
-  margin-left: 0.25em;
+    margin-left: 0.25em;
     display: inline-block;
     transition: transform var(--vfa-transition);
 }
@@ -748,27 +742,11 @@
 
 @media (max-width: 768px) {
     .heroInner {
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
         padding: 2.5rem 1.5rem;
-        text-align: center;
-    }
-
-    .heroPoster {
-        width: 220px;
     }
 
     .heroHeading {
         font-size: 2.2rem;
-    }
-
-    .heroDetailRow {
-        justify-content: center;
-    }
-
-    .heroDetailLabel {
-        width: auto;
     }
 }
 
@@ -779,10 +757,6 @@
 
     .heroContent {
         padding: 1.5rem 1.25rem;
-    }
-
-    .heroPoster {
-        width: 180px;
     }
 
     .heroHeading {
