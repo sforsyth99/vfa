@@ -5,6 +5,18 @@ import type { VenueData } from '../venues/venueTypes.ts';
 export const FESTIVAL_EVENTS_PATH = 'festival_events';
 export const FESTIVAL_EVENTS_URL = `${BASE_URL}/${FESTIVAL_EVENTS_PATH}`;
 
+export interface RelatedEventSummary {
+  id: number;
+  slug: string;
+  title: string;
+  event_date: string;
+  time_start: string;
+  event_type: string;
+  is_kidfest: boolean;
+  venue_name: string | null;
+  eventbrite_url: string;
+}
+
 export interface EventData {
   is_featured: boolean;
   is_kidfest: boolean;
@@ -28,6 +40,7 @@ export interface EventData {
   moderator: PersonData[];
   curator: PersonData[];
   musician: PersonData[];
+  related_events?: RelatedEventSummary[];
 }
 
 export interface FestivalEvent {

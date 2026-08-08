@@ -155,7 +155,7 @@
   "interviews.card.label": "Read interview with {name}",
   "interviews.card.interviewedBy": "Interviewed by {name}",
   "interviews.card.interviewedByAge": "Interviewed by {name}, age {age}",
-  "interviews.kids.heading": "KidsFest Authors",
+  "interviews.kids.heading": "KidsFest Author Interviews",
   "interviews.noContent": "No content yet.",
 
   "person.loading": "Loading…",
@@ -205,6 +205,8 @@
   "festivalEvent.joinOnline": "Join online",
   "festivalEvent.venueFormerly": "formerly {name}",
   "festivalEvent.eventbriteImageAlt": "Eventbrite waiting room",
+  "festivalEvent.relatedEvents.heading": "You may also like",
+  "festivalEvent.relatedEvents.details": "Event details",
 
   "book.loading": "Loading…",
   "book.notFound": "Book not found",

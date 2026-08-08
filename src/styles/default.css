@@ -64,8 +64,8 @@
     /* ── Colors: primary ─────────────────────────────────── */
     --vfa-color-primary: #1d3d2f;
     --vfa-color-primary-dark: #153028;
-    --vfa-color-secondary: #f0ece8;
-    --vfa-color-background: #f0ece8;
+    --vfa-color-secondary: #d4cfc8;
+    --vfa-color-background: #d4cfc8;
     --vfa-color-surface: #fff;
     --vfa-color-text: #222;
     --vfa-color-text-light: #fff;
@@ -109,11 +109,11 @@
     --vfa-color-warm-border-light: #e8e4e0; /* header, list borders */
     --vfa-color-warm-border-mid: #c8c2bc; /* filter button borders */
     --vfa-color-warm-border-faint: #c4bfc8; /* bio link border */
-    --vfa-color-warm-bg: #f0ece8; /* hover backgrounds */
+    --vfa-color-warm-bg: #d4cfc8; /* hover backgrounds */
     --vfa-color-warm-card-bg: #d6d0c8; /* BlurImageCard background */
 
     /* ── Colors: UI surfaces & misc ─────────────────────── */
-    --vfa-color-bg-page: #f0ece8;
+    --vfa-color-bg-page: #d4cfc8;
     --vfa-color-bg-hover: #f0f0f0;
     --vfa-color-border-light: #ddd;
     --vfa-color-border-faint: #eee;

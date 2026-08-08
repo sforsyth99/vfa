@@ -1,8 +1,8 @@
 /* ── Hero ─────────────────────────────────────────────── */
 
 .hero {
-    background: var(--vfa-color-2026-indigo);
     width: 100%;
+    background: var(--vfa-color-background);
 }
 
 .heroInner {
@@ -24,6 +24,10 @@
 .heroContent {
     flex: 1;
     min-width: 0;
+    background: var(--vfa-color-surface);
+    border-radius: var(--vfa-radius-lg);
+    padding: 2rem 2.5rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
 }
 
 .heroEyebrow {
@@ -31,7 +35,7 @@
     font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: var(--vfa-letter-spacing-eyebrow);
     text-transform: uppercase;
-    color: var(--vfa-color-2026-gold);
+    color: var(--vfa-color-2026-indigo);
     margin: 0 0 0.75rem;
 }
 
@@ -46,9 +50,9 @@
 
 .heroBadge {
     display: inline-block;
-    background: rgba(196, 168, 130, 0.12);
-    border: 1px solid var(--vfa-color-2026-gold);
-    color: var(--vfa-color-2026-gold);
+    background: rgba(66, 66, 79, 0.1);
+    border: 1px solid rgba(66, 66, 79, 0.4);
+    color: var(--vfa-color-2026-indigo);
     font-size: var(--vfa-font-size-eyebrow);
     font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.1em;
@@ -63,13 +67,13 @@
     font-size: 2.8rem;
     font-weight: var(--vfa-font-weight-bold);
     line-height: var(--vfa-line-height-title);
-    color: var(--vfa-color-text-light);
+    color: var(--vfa-color-2026-indigo);
     margin: 0 0 1rem;
 }
 
 .heroTagline {
     font-size: var(--vfa-font-size-md);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--vfa-color-2026-indigo);
     margin: 0 0 1.75rem;
     line-height: var(--vfa-line-height-body);
 }
@@ -92,14 +96,14 @@
     font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--vfa-color-2026-gold);
+    color: var(--vfa-color-2026-indigo);
     flex-shrink: 0;
     width: 3.5rem;
 }
 
 .heroDetailValue {
     font-size: var(--vfa-font-size-base);
-    color: var(--vfa-color-text-light);
+    color: var(--vfa-color-2026-indigo);
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -107,15 +111,15 @@
 }
 
 .heroAddress {
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(66, 66, 79, 0.7);
     font-size: var(--vfa-font-size-sm);
 }
 
 .heroCalendarButton {
     display: inline-block;
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    color: var(--vfa-color-text-light);
+    border: 1px solid rgba(66, 66, 79, 0.4);
+    color: var(--vfa-color-2026-indigo);
     font-size: var(--vfa-font-size-sm);
     font-weight: var(--vfa-font-weight-semibold);
     border-radius: var(--vfa-radius-pill);
@@ -125,8 +129,8 @@
 }
 
 .heroCalendarButton:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.75);
+    background: rgba(66, 66, 79, 0.08);
+    border-color: rgba(66, 66, 79, 0.7);
 }
 
 /* ── Page sections ────────────────────────────────────── */
@@ -771,6 +775,10 @@
 @media (max-width: 640px) {
     .heroInner {
         padding: 2rem 1rem;
+    }
+
+    .heroContent {
+        padding: 1.5rem 1.25rem;
     }
 
     .heroPoster {
