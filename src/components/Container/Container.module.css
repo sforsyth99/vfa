@@ -1,6 +1,6 @@
 .container {
     width: 100%;
-    max-width: var(--vfa-width-site);
+    max-width: var(--vfa-width-page);
     margin-inline: auto;
     padding-inline: var(--vfa-padding-x);
 }

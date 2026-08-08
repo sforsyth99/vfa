@@ -9,22 +9,34 @@
 }
 
 .dayHeading {
-    font-size: 1rem;
+    font-family: var(--vfa-font-display), serif;
+    font-size: 1.45rem;
     font-weight: var(--vfa-font-weight-semibold);
     color: var(--vfa-color-ink-darkest);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 0 0 0.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--vfa-color-2026-indigo);
+    margin: 0 0 0.6rem;
+    line-height: 1.2;
 }
 
-/* ── Event rows ──────────────────────────────────────── */
+/* ── Event list card ─────────────────────────────────── */
 
 .rowList {
     list-style: none;
     margin: 0;
     padding: 0;
+    background: var(--vfa-color-surface);
+    border-radius: var(--vfa-radius-card);
+}
+
+.row:first-child .rowLink {
+    border-radius: var(--vfa-radius-card) var(--vfa-radius-card) 0 0;
+}
+
+.row:last-child .rowLink {
+    border-radius: 0 0 var(--vfa-radius-card) var(--vfa-radius-card);
+}
+
+.row:first-child:last-child .rowLink {
+    border-radius: var(--vfa-radius-card);
 }
 
 .row {
@@ -32,7 +44,74 @@
     position: relative;
 }
 
-/* ── Hover popover ───────────────────────────────────────── */
+.row:last-child {
+    border-bottom: none;
+}
+
+/* ── Row link ────────────────────────────────────────── */
+
+.rowLink {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background var(--vfa-transition);
+    border-left: 3px solid transparent;
+}
+
+.rowLink:hover {
+    background: var(--vfa-color-forest-bg);
+    border-left-color: var(--vfa-color-2026-indigo);
+    text-decoration: none;
+}
+
+/* ── Time ────────────────────────────────────────────── */
+
+.rowTime {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-2026-indigo);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── Title + authors ─────────────────────────────────── */
+
+.rowTitleGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.rowTitle {
+    font-family: var(--vfa-font-display), serif;
+    font-size: 1rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-darkest);
+    line-height: 1.3;
+}
+
+.rowAuthors {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+    line-height: 1.4;
+}
+
+/* ── Venue ───────────────────────────────────────────── */
+
+.rowVenue {
+    font-size: var(--vfa-font-size-xs);
+    color: var(--vfa-color-ink-light);
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-align: right;
+}
+
+/* ── Hover popover ───────────────────────────────────── */
 
 .popover {
     position: absolute;
@@ -144,53 +223,6 @@
     overflow: hidden;
 }
 
-.rowLink {
-    display: grid;
-    grid-template-columns: 6rem 1fr auto;
-    align-items: start;
-    gap: 0.75rem;
-    padding: 0.75rem 0;
-    text-decoration: none;
-    color: inherit;
-    transition: opacity var(--vfa-transition);
-}
-
-.rowLink:hover {
-    opacity: var(--vfa-opacity-hover);
-}
-
-.rowTime {
-    font-size: 0.85rem;
-    color: var(--vfa-color-ink-mid);
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.rowTitleGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    min-width: 0;
-}
-
-.rowTitle {
-    font-size: 0.95rem;
-    font-weight: var(--vfa-font-weight-medium);
-    color: var(--vfa-color-ink-darkest);
-}
-
-.rowAuthors {
-    font-size: 0.8rem;
-    color: var(--vfa-color-ink-mid);
-}
-
-.rowVenue {
-    font-size: 0.8rem;
-    color: var(--vfa-color-ink-light);
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
 /* ── Past events link ────────────────────────────────── */
 
 .pastLink {
@@ -214,9 +246,19 @@
         padding-block: 2rem 3rem;
     }
 
+    .dayHeading {
+        font-size: 1.2rem;
+    }
+
     .rowLink {
-        grid-template-columns: 5rem 1fr;
-        grid-template-rows: auto auto;
+        grid-template-columns: 4.5rem 1fr;
+        align-items: start;
+        padding: 0.85rem 1rem;
+        gap: 0.75rem;
+    }
+
+    .rowVenue {
+        display: none;
     }
 }
 

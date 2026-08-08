@@ -39,7 +39,6 @@ export default function InterviewsPage() {
   }, [interviews, activeYear]);
 
   const adultInterviews = useMemo(() => filtered.filter(i => (i.interview_data?.authors?.[0]?.kidfest_years?.length ?? 0) === 0), [filtered]);
-  const kidsInterviews = useMemo(() => filtered.filter(i => (i.interview_data?.authors?.[0]?.kidfest_years?.length ?? 0) > 0), [filtered]);
 
   return (
     <main id="main-content" className={styles.page}>
@@ -115,51 +114,6 @@ export default function InterviewsPage() {
               </ul>
             )}
 
-            {kidsInterviews.length > 0 && (
-              <section className={styles.kidsSection} aria-labelledby="kids-interviews-heading">
-                <h2 id="kids-interviews-heading" className={styles.kidsHeading}>
-                  <FormattedMessage id="interviews.kids.heading" />
-                </h2>
-                <ul className={styles.kidsGrid}>
-                  {kidsInterviews.map((interview) => {
-                    const data = interview.interview_data;
-                    const authors = sortBySurname(data?.authors ?? []);
-                    const primaryAuthor = authors[0];
-                    const authorLabel = authors.length > 0
-                      ? authors.map(a => decodeHtmlEntities(a.name)).join(' & ')
-                      : decodeHtmlEntities(interview.title?.rendered ?? '');
-                    const photoSrc = primaryAuthor?.photo ? primaryAuthor.photo[0] : null;
-                    const interviewerName = data?.interviewer_name ?? '';
-                    const interviewerAge = data?.interviewer_age ?? null;
-
-                    return (
-                      <li key={interview.id}>
-                        <Link
-                          to={`/interviews/${interview.slug}`}
-                          className={styles.kidsCard}
-                          aria-label={intl.formatMessage({ id: 'interviews.card.label' }, { name: authorLabel })}
-                        >
-                          {photoSrc ? (
-                            <img src={photoSrc} alt={authorLabel} className={styles.kidsPhoto} />
-                          ) : (
-                            <div className={styles.kidsPhotoPlaceholder} aria-hidden="true" />
-                          )}
-                          <span className={styles.cardName}>{authorLabel}</span>
-                          {interviewerName && (
-                            <span className={styles.interviewerLine}>
-                              <FormattedMessage
-                                id={interviewerAge ? 'interviews.card.interviewedByAge' : 'interviews.card.interviewedBy'}
-                                values={{ name: interviewerName, age: interviewerAge }}
-                              />
-                            </span>
-                          )}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
-            )}
           </>
         )}
       </Container>

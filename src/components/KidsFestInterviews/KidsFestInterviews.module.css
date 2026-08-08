@@ -1,5 +1,5 @@
 .section {
-    max-width: 800px;
+    max-width: var(--vfa-width-page);
     margin-inline: auto;
     padding: 2rem 2.5rem;
     background: var(--vfa-color-surface);

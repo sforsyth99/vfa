@@ -165,7 +165,7 @@
 /* ── Workshops ────────────────────────────────────────── */
 
 .workshopsSection {
-    max-width: 800px;
+    max-width: var(--vfa-width-page);
     margin-inline: auto;
 }
 
@@ -318,7 +318,7 @@
 /* ── Special Guest ────────────────────────────────────── */
 
 .specialGuestSection {
-    max-width: 800px;
+    max-width: var(--vfa-width-page);
     margin: 1.5rem auto 0.5rem;
     padding: 2rem 2.5rem;
     background: var(--vfa-color-surface);
@@ -537,7 +537,7 @@
 .maSection {
     border-radius: var(--vfa-radius-lg);
     padding: 2rem 2rem 1.75rem;
-    max-width: 800px;
+    max-width: var(--vfa-width-page);
     margin-inline: auto;
     background-image: url('../../assets/notepaper.jpg');
     background-size: cover;
@@ -689,7 +689,7 @@
 /* ── Read the Books ───────────────────────────────────── */
 
 .rbSection {
-    max-width: 800px;
+    max-width: var(--vfa-width-page);
     margin-inline: auto;
     padding: 2rem 0 1.75rem;
 }
@@ -726,8 +726,8 @@
 .rbGrid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1.75rem;
-    padding: 1rem 0.5rem 1.5rem;
+    gap: 1.1rem;
+    padding: 1.25rem 0.5rem 2rem;
 }
 
 .rbPhotoCell {
@@ -741,25 +741,19 @@
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.rbPhotoCell:nth-child(4n+1) {
-    background: var(--vfa-color-2026-coral-pale);
-    transform: rotate(-2.5deg);
-}
+/* Background colours — cycle of 4 */
+.rbPhotoCell:nth-child(4n+1) { background: var(--vfa-color-2026-coral-pale); }
+.rbPhotoCell:nth-child(4n+2) { background: var(--vfa-color-2026-gold-pale); }
+.rbPhotoCell:nth-child(4n+3) { background: var(--vfa-color-forest-bg); }
+.rbPhotoCell:nth-child(4n)   { background: var(--vfa-color-2026-slate-pale); }
 
-.rbPhotoCell:nth-child(4n+2) {
-    background: var(--vfa-color-2026-gold-pale);
-    transform: rotate(1.8deg);
-}
-
-.rbPhotoCell:nth-child(4n+3) {
-    background: var(--vfa-color-forest-bg);
-    transform: rotate(-1.5deg);
-}
-
-.rbPhotoCell:nth-child(4n) {
-    background: var(--vfa-color-2026-slate-pale);
-    transform: rotate(2.2deg);
-}
+/* Rotations + vertical offsets — cycle of 6, out of sync with colours */
+.rbPhotoCell:nth-child(6n+1) { transform: rotate(-5deg)   translateY(-8px); }
+.rbPhotoCell:nth-child(6n+2) { transform: rotate(3.5deg)  translateY(7px); }
+.rbPhotoCell:nth-child(6n+3) { transform: rotate(-2deg)   translateY(11px); }
+.rbPhotoCell:nth-child(6n+4) { transform: rotate(6deg)    translateY(-5px); }
+.rbPhotoCell:nth-child(6n+5) { transform: rotate(-4.5deg) translateY(3px); }
+.rbPhotoCell:nth-child(6n)   { transform: rotate(2.5deg)  translateY(-11px); }
 
 .rbPhotoCell:hover {
     transform: rotate(0deg) translateY(-6px);

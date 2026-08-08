@@ -2,75 +2,169 @@
     padding-block: 3rem 5rem;
 }
 
+/* ── A–Z jump nav ────────────────────────────────────── */
+
+.jumpNav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem;
+    position: sticky;
+    top: 73px;
+    z-index: 10;
+    background: var(--vfa-color-background);
+    padding: 0.5rem 0 0.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.jumpLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--vfa-radius-md);
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-forest-dark);
+    text-decoration: none;
+    background: var(--vfa-color-surface);
+    border: 1px solid var(--vfa-color-warm-border-light);
+    transition: background var(--vfa-transition), color var(--vfa-transition), border-color var(--vfa-transition);
+}
+
+.jumpLink:hover {
+    background: var(--vfa-color-forest-dark);
+    color: var(--vfa-color-text-light);
+    border-color: var(--vfa-color-forest-dark);
+}
+
+/* ── List panel ──────────────────────────────────────── */
+
+.listPanel {
+    background: var(--vfa-color-surface);
+    border-radius: var(--vfa-radius-card);
+    overflow: hidden;
+}
+
+/* ── Letter section scroll offset (accounts for sticky header) ── */
+
+.letterSection {
+    scroll-margin-top: 120px;
+}
+
+/* ── Letter divider ──────────────────────────────────── */
+
+.letterDivider {
+    padding: 0.35rem 1.5rem;
+    background: var(--vfa-color-background);
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-bold);
+    letter-spacing: 0.2em;
+    color: var(--vfa-color-ink-mid);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+}
+
+/* ── List ────────────────────────────────────────────── */
+
 .list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/* ── Row ─────────────────────────────────────────────── */
+
 .item {
-    display: grid;
-    grid-template-columns: 80px 85px 1fr;
-    align-items: start;
+    display: flex;
+    align-items: center;
     gap: 1.25rem;
-    padding: 1.25rem 0;
+    padding: 1rem 1.5rem;
     border-bottom: 1px solid var(--vfa-color-warm-border-light);
     text-decoration: none;
     color: inherit;
-    transition: opacity var(--vfa-transition);
+    transition: background var(--vfa-transition);
 }
 
-.list li:first-child .item {
-    border-top: 1px solid var(--vfa-color-warm-border-light);
+.list li:last-child .item {
+    border-bottom: none;
 }
 
 .item:hover {
-    opacity: var(--vfa-opacity-hover);
+    background: var(--vfa-color-forest-bg);
+    text-decoration: none;
+}
+
+/* ── Visual group: photo + book(s) side by side ──────── */
+
+.visual {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
 }
 
 /* ── Photo ───────────────────────────────────────────── */
 
 .photoWrap {
-    width: 80px;
-    height: 110px;
+    width: 64px;
+    height: 64px;
     flex-shrink: 0;
 }
 
 .photo {
     display: block;
-    width: 80px;
-    height: 110px;
+    width: 64px;
+    height: 64px;
     object-fit: cover;
     object-position: top center;
-    border-radius: var(--vfa-radius-sm);
+    border-radius: var(--vfa-radius-circle);
+    border: 2px solid var(--vfa-color-2026-gold);
 }
 
 .placeholder {
-    width: 80px;
-    height: 110px;
-    border-radius: var(--vfa-radius-sm);
-    background: var(--vfa-color-2026-indigo);
-    color: var(--vfa-color-text-light);
+    width: 64px;
+    height: 64px;
+    border-radius: var(--vfa-radius-circle);
+    background: var(--vfa-color-forest-pale);
+    color: var(--vfa-color-forest-dark);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
+    font-size: 0.9rem;
     font-weight: var(--vfa-font-weight-semibold);
+    border: 2px solid var(--vfa-color-2026-gold);
+}
+
+/* ── Book covers ─────────────────────────────────────── */
+
+.books {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.bookCover {
+    height: 72px;
+    width: auto;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.18));
 }
 
 /* ── Info ────────────────────────────────────────────── */
 
 .info {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    padding-top: 0.2rem;
+    gap: 0.3rem;
     min-width: 0;
 }
 
 .name {
     font-family: var(--vfa-font-display);
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: var(--vfa-font-weight-semibold);
     color: var(--vfa-color-ink-darkest);
     margin: 0;
@@ -78,7 +172,7 @@
 }
 
 .bio {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: var(--vfa-color-ink-mid);
     line-height: 1.55;
     margin: 0;
@@ -88,21 +182,19 @@
     overflow: hidden;
 }
 
-/* ── Book cover ──────────────────────────────────────── */
+/* ── Chevron ─────────────────────────────────────────── */
 
-.bookWrap {
-    width: 85px;
-    height: 110px;
+.chevron {
+    color: var(--vfa-color-warm-border-mid);
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    transition: color var(--vfa-transition), transform var(--vfa-transition);
+    line-height: 1;
 }
 
-.bookCover {
-    display: block;
-    width: 85px;
-    height: 110px;
-    object-fit: contain;
-    object-position: left center;
-    border-radius: var(--vfa-radius-sm);
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+.item:hover .chevron {
+    color: var(--vfa-color-forest-dark);
+    transform: translateX(2px);
 }
 
 @media (max-width: 640px) {
@@ -111,28 +203,30 @@
     }
 
     .item {
-        grid-template-columns: 60px 65px 1fr;
         gap: 0.75rem;
+        padding: 0.85rem 1rem;
     }
 
-    .photoWrap {
-        width: 60px;
-        height: 82px;
+    .photoWrap, .photo, .placeholder {
+        width: 50px;
+        height: 50px;
     }
 
-    .photo,
     .placeholder {
-        width: 60px;
-        height: 82px;
-    }
-
-    .bookWrap {
-        width: 65px;
-        height: 82px;
+        font-size: 0.8rem;
     }
 
     .bookCover {
-        width: 65px;
-        height: 82px;
+        height: 54px;
+    }
+
+    .letterDivider {
+        padding: 0.3rem 1rem;
+    }
+
+    .jumpLink {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.75rem;
     }
 }
