@@ -2,14 +2,14 @@
 /**
  * Plugin Name: VFA Custom Fields
  * Description: Custom fields for interviews, people, venues, and events.
- * Version: 2.2.7
+ * Version: 2.2.8
  */
 
 if (!defined('ABSPATH')) exit;
 
 // Cache key includes the version so uploading a new plugin version
 // automatically invalidates the old cached newsletter response.
-define('VFA_NEWSLETTER_CACHE_KEY', 'vfa_newsletter_227');
+define('VFA_NEWSLETTER_CACHE_KEY', 'vfa_newsletter_228');
 
 add_action('init', function() {
     register_post_type('team_members', [
@@ -361,6 +361,31 @@ add_action('rest_api_init', function() {
                 'musician'  => array_values(array_filter(array_map(
                                    'vfa_get_person_data', get_post_meta($id, 'musician', false)
                                ))),
+                'related_events' => (function() use ($id) {
+                    $related_ids = array_map('intval', array_filter(get_post_meta($id, 'related_events', false)));
+                    if (empty($related_ids)) return [];
+                    return array_values(array_filter(array_map(function($rel_id) {
+                        $post = get_post($rel_id);
+                        if (!$post || $post->post_status !== 'publish') return null;
+                        $venue_id = get_post_meta($rel_id, 'venue', true);
+                        $venue_name = null;
+                        if ($venue_id) {
+                            $venue_post = get_post((int) $venue_id);
+                            $venue_name = $venue_post ? $venue_post->post_title : null;
+                        }
+                        return [
+                            'id'            => $rel_id,
+                            'slug'          => $post->post_name,
+                            'title'         => $post->post_title,
+                            'event_date'    => get_post_meta($rel_id, 'event_date', true),
+                            'time_start'    => get_post_meta($rel_id, 'time_start', true),
+                            'event_type'    => get_post_meta($rel_id, 'event_type', true) ?: '',
+                            'is_kidfest'    => (bool) get_post_meta($rel_id, 'is_kidfest', true),
+                            'venue_name'    => $venue_name,
+                            'eventbrite_url' => get_post_meta($rel_id, 'eventbrite_url', true),
+                        ];
+                    }, $related_ids)));
+                })(),
             ];
         },
         'schema' => null,
@@ -715,7 +740,17 @@ add_action('rest_api_init', function() {
                 return new WP_Error('feed_empty', 'Newsletter feed contained no items', ['status' => 502]);
             }
 
-            $item = $xml->channel->item[0];
+            $item = null;
+            foreach ($xml->channel->item as $candidate) {
+                $title = (string) $candidate->title;
+                if (stripos($title, 'resend') !== 0) {
+                    $item = $candidate;
+                    break;
+                }
+            }
+            if (!$item) {
+                return new WP_Error('feed_empty', 'Newsletter feed contained no eligible items', ['status' => 502]);
+            }
 
             // Prefer content:encoded (full HTML) over description (may be truncated).
             $ns       = $xml->getNamespaces(true);
@@ -738,6 +773,61 @@ add_action('rest_api_init', function() {
     ]);
 
 });
+
+// ─── Related Events meta box ─────────────────────────────────────────────────
+
+add_action('add_meta_boxes', function() {
+    add_meta_box(
+        'vfa_related_events',
+        'You May Also Like (select up to 3)',
+        'vfa_related_events_meta_box',
+        'festival_events',
+        'normal',
+        'default'
+    );
+});
+
+function vfa_related_events_meta_box($post) {
+    wp_nonce_field('vfa_related_events_nonce', 'vfa_related_events_nonce');
+    $selected = array_map('intval', get_post_meta($post->ID, 'related_events', false));
+
+    $all_events = get_posts([
+        'post_type'      => 'festival_events',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'orderby'        => 'meta_value',
+        'meta_key'       => 'event_date',
+        'order'          => 'ASC',
+        'exclude'        => [$post->ID],
+    ]);
+
+    echo '<p style="color:#666;margin:0 0 8px;">Search and select related events to show at the bottom of this event page.</p>';
+    echo '<select name="vfa_related_events[]" id="vfa_related_events" class="vfa-post-select" multiple placeholder="Search events…">';
+    foreach ($all_events as $ev) {
+        $date  = get_post_meta($ev->ID, 'event_date', true);
+        $label = esc_html($ev->post_title) . ($date ? ' — ' . esc_html($date) : '');
+        $sel   = in_array($ev->ID, $selected, true) ? ' selected' : '';
+        echo '<option value="' . esc_attr($ev->ID) . '"' . $sel . '>' . $label . '</option>';
+    }
+    echo '</select>';
+}
+
+add_action('save_post', function($post_id) {
+    if (!isset($_POST['vfa_related_events_nonce'])) return;
+    if (!wp_verify_nonce($_POST['vfa_related_events_nonce'], 'vfa_related_events_nonce')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+    if (get_post_type($post_id) !== 'festival_events') return;
+
+    delete_post_meta($post_id, 'related_events');
+
+    if (!empty($_POST['vfa_related_events'])) {
+        $ids = array_map('intval', (array) $_POST['vfa_related_events']);
+        foreach (array_filter($ids) as $rel_id) {
+            add_post_meta($post_id, 'related_events', $rel_id);
+        }
+    }
+}, 25);
 
 // ─── REST API cache headers ──────────────────────────────────────────────────
 //

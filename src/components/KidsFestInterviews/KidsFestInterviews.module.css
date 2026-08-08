@@ -1,4 +1,6 @@
 .section {
+    max-width: 800px;
+    margin-inline: auto;
     padding-block: 2rem 0;
     --fade-color: var(--vfa-color-background);
 }

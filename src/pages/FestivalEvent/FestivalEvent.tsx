@@ -9,6 +9,7 @@ import { isSafeUrl } from '../../utils/isSafeUrl.ts';
 import { htmlToText } from '../../utils/htmlToText.ts';
 import { sortBySurname } from '../../utils/sortBySurname.ts';
 import type { PersonData } from '../../api/people/peopleTypes.ts';
+import type { RelatedEventSummary } from '../../api/festivalEvents/festivalEventTypes.ts';
 import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeatureCard.tsx';
 import { CARD_PALETTE } from '../../components/AuthorFeatureCard/cardPalette.ts';
 import { VenueMapRow } from '../../components/VenueMapRow/VenueMapRow.tsx';
@@ -120,6 +121,7 @@ export default function FestivalEventPage() {
     moderator,
     curator,
     musician,
+    related_events,
   } = event.event_data;
 
   const allPeople = [
@@ -227,6 +229,40 @@ export default function FestivalEventPage() {
 
       {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
 
+      {related_events && related_events.length > 0 && (
+        <div className={styles.relatedSection}>
+          <h2 className={styles.relatedHeading}>
+            {intl.formatMessage({ id: 'festivalEvent.relatedEvents.heading' })}
+          </h2>
+          <ul className={styles.relatedList}>
+            {related_events.map((rel: RelatedEventSummary) => (
+              <li key={rel.id} className={styles.relatedCard}>
+                {rel.event_type && (
+                  <p className={styles.relatedEyebrow}>
+                    {rel.is_kidfest
+                      ? intl.formatMessage({ id: 'festivalEvent.type.kidfest' }, { label: intl.formatMessage({ id: EVENT_TYPE_KEYS[rel.event_type] ?? 'festivalEvent.type.default' }) })
+                      : intl.formatMessage({ id: EVENT_TYPE_KEYS[rel.event_type] ?? 'festivalEvent.type.default' })}
+                  </p>
+                )}
+                <h3 className={styles.relatedTitle}>
+                  <Link to={`/festival-events/${rel.slug}`} className={styles.relatedTitleLink}>
+                    {rel.title}
+                  </Link>
+                </h3>
+                {(rel.event_date || rel.venue_name) && (
+                  <p className={styles.relatedMeta}>
+                    {[rel.event_date, rel.venue_name].filter(Boolean).join(' · ')}
+                  </p>
+                )}
+                <Link to={`/festival-events/${rel.slug}`} className={styles.relatedDetailsLink}>
+                  {intl.formatMessage({ id: 'festivalEvent.relatedEvents.details' })}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {(venue || online_url) && (
         <div className={styles.section}>
           <h2 className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.venue' })}</h2>
@@ -283,6 +319,7 @@ export default function FestivalEventPage() {
           )}
         </div>
       )}
+
       </Container>
     </main>
   );

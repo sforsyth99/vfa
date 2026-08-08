@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { useGetKidfestAuthors } from '../../api/people/useGetKidfestAuthors';
+import { type PersonData } from '../../api/people/peopleTypes';
 import { CURRENT_YEAR } from '../../config/festival';
 import { type FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import { useGetBooks } from '../../api/books/useGetBooks';
 import { Container } from '../../components/Container/Container';
-import { SectionTitle } from '../../components/SectionTitle/SectionTitle';
 import { BookLink } from '../../components/BookLink/BookLink';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { track } from '../../utils/analytics';
@@ -15,7 +15,6 @@ import { downloadIcs } from '../../utils/downloadIcs';
 import { EventLink } from '../../components/EventLink/EventLink';
 import { KidsFestInterviews } from '../../components/KidsFestInterviews/KidsFestInterviews';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
-import posterSrc from '../../assets/VFA_KidsFest.jpg';
 import styles from './KidsFest2026.module.css';
 
 function formatTime(t: string): string {
@@ -49,11 +48,6 @@ function KidsFestHero({ mainEvent }: { mainEvent: FestivalEvent | null }) {
   return (
     <section className={styles.hero}>
       <div className={styles.heroInner}>
-        <img
-          src={posterSrc}
-          alt={intl.formatMessage({ id: 'kidsfest.posterAlt' })}
-          className={styles.heroPoster}
-        />
         <div className={styles.heroContent}>
           <p className={styles.heroEyebrow}>
             {intl.formatMessage({ id: 'kidsfest.eyebrow' })}
@@ -87,14 +81,19 @@ function KidsFestHero({ mainEvent }: { mainEvent: FestivalEvent | null }) {
               </dd>
             </div>
           </dl>
-          {mainEvent && (
-            <button
-              className={styles.heroCalendarButton}
-              onClick={handleAddToCalendar}
-            >
-              {intl.formatMessage({ id: 'kidsfest2026.mainEvent.addToCalendar' })}
-            </button>
-          )}
+          <div className={styles.heroActions}>
+            <p className={styles.heroBadge}>
+              {intl.formatMessage({ id: 'kidsfest2026.mainEvent.free' })}
+            </p>
+            {mainEvent && (
+              <button
+                className={styles.heroCalendarButton}
+                onClick={handleAddToCalendar}
+              >
+                {intl.formatMessage({ id: 'kidsfest2026.mainEvent.addToCalendar' })}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </section>
@@ -110,93 +109,6 @@ function sortKidfestEvents(events: FestivalEvent[] | undefined) {
     });
 }
 
-function KidsFestMainEvent({ events, isLoading }: { events: FestivalEvent[] | undefined; isLoading: boolean }) {
-  const intl = useIntl();
-  const { data: authorData } = useGetKidfestAuthors(CURRENT_YEAR);
-  const stripAuthors = (authorData ?? [])
-    .filter((a) => !(a.elder_years?.includes(CURRENT_YEAR)))
-    .sort((a, b) => {
-      const surname = (name: string) => name.trim().split(/\s+/).at(-1)!.toLowerCase();
-      return surname(a.name).localeCompare(surname(b.name));
-    });
-
-  if (isLoading) return <p>{intl.formatMessage({ id: 'kidsfest2026.events.loading' })}</p>;
-
-  const sorted = sortKidfestEvents(events);
-  if (!sorted.length) {
-    return <p className={styles.empty}>{intl.formatMessage({ id: 'kidsfest2026.events.empty' })}</p>;
-  }
-
-  const mainEvent = sorted.find((e) => e.event_data.event_type === 'author_fair');
-  if (!mainEvent) return null;
-
-  const { time_start, time_end, venue } = mainEvent.event_data;
-  const timeStr = time_start
-    ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
-    : '';
-  const title = decodeHtmlEntities(mainEvent.title?.rendered ?? '');
-  const locationParts = [venue?.name, venue?.street_address, venue?.city, venue?.province].filter(Boolean);
-
-  return (
-    <div className={styles.eventsWrapper}>
-      <div className={styles.mainEventCard}>
-        <p className={styles.mainEventEyebrow}>
-          {intl.formatMessage({ id: 'kidsfest2026.mainEvent.eyebrow' })}
-        </p>
-        <h3 className={styles.mainEventTitle}>
-          <EventLink slug={mainEvent.slug} isKidfest={mainEvent.event_data.is_kidfest} eventType={mainEvent.event_data.event_type} eventbriteUrl={mainEvent.event_data.eventbrite_url}>{title}</EventLink>
-        </h3>
-        <p className={styles.mainEventMeta}>
-          {timeStr}{venue?.name ? ` · ${venue.name}` : ''}
-        </p>
-        <p className={styles.mainEventDescription}>
-          {intl.formatMessage({ id: 'kidsfest2026.mainEvent.description' })}
-        </p>
-        <div className={styles.mainEventActions}>
-          <span className={styles.mainEventFree}>
-            {intl.formatMessage({ id: 'kidsfest2026.mainEvent.free' })}
-          </span>
-          <button
-            className={styles.calendarButton}
-            onClick={() => {
-              track({ name: 'add_to_calendar', event_label: title, event_location: 'event_card' });
-              downloadIcs({
-                title,
-                date: mainEvent.event_data.event_date,
-                timeStart: mainEvent.event_data.time_start,
-                timeEnd: mainEvent.event_data.time_end,
-                location: locationParts.join(', '),
-                description: intl.formatMessage({ id: 'kidsfest2026.mainEvent.description' }),
-                filename: 'kidsfest-2026.ics',
-                uid: `kidsfest-2026-main@victoriafestivalofauthors.ca`,
-              });
-            }}
-            aria-label={intl.formatMessage({ id: 'kidsfest2026.mainEvent.addToCalendar' })}
-          >
-            {intl.formatMessage({ id: 'kidsfest2026.mainEvent.addToCalendar' })}
-          </button>
-        </div>
-      </div>
-
-      {stripAuthors.length > 0 && (
-        <ul className={styles.authorStripList} aria-label={intl.formatMessage({ id: 'kidsfest2026.authors.heading' })}>
-          {stripAuthors.map((author) => (
-            <li key={author.id}>
-              <Link to={`/people/${author.slug}`} aria-label={author.name} className={styles.authorStripItem}>
-                {author.photo ? (
-                  <img src={author.photo[0]} alt={author.name} className={styles.authorStripPhoto} loading="lazy" />
-                ) : (
-                  <div className={styles.authorStripPlaceholder} aria-hidden="true">{author.name.trim().charAt(0)}</div>
-                )}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
 function KidsFestWorkshops({ events, isLoading }: { events: FestivalEvent[] | undefined; isLoading: boolean }) {
   const intl = useIntl();
 
@@ -207,7 +119,14 @@ function KidsFestWorkshops({ events, isLoading }: { events: FestivalEvent[] | un
   if (!otherEvents.length) return null;
 
   return (
-    <ul className={styles.eventList}>
+    <section className={styles.workshopsSection} aria-labelledby="workshops-heading">
+      <h2 id="workshops-heading" className={styles.workshopsHeading}>
+        {intl.formatMessage({ id: 'kidsfest2026.workshops.heading' })}
+      </h2>
+      <p className={styles.workshopsBlurb}>
+        {intl.formatMessage({ id: 'kidsfest2026.workshops.description' })}
+      </p>
+      <ul className={styles.eventList}>
       {otherEvents.map((event) => {
         const { time_start, time_end, venue, age_range, event_type, tickets, eventbrite_url, summary } = event.event_data;
         const isWorkshop = event_type === 'workshop';
@@ -239,7 +158,8 @@ function KidsFestWorkshops({ events, isLoading }: { events: FestivalEvent[] | un
           </li>
         );
       })}
-    </ul>
+      </ul>
+    </section>
   );
 }
 
@@ -284,7 +204,8 @@ function KidsFestSpecialGuest() {
   );
 }
 
-function KidsBooks() {
+function KidsFestReadBooks() {
+  const intl = useIntl();
   const { data: books, isLoading } = useGetBooks();
 
   if (isLoading || !books?.length) return null;
@@ -292,36 +213,122 @@ function KidsBooks() {
   const kidsBooks = books.filter((b) => b.book_data?.categories?.includes('children'));
   if (!kidsBooks.length) return null;
 
+  const topRow = kidsBooks.slice(0, 5);
+  const midLeft = kidsBooks[5] ?? null;
+  const midRight = kidsBooks[6] ?? null;
+  const bottomRow = kidsBooks.slice(7, 12);
+
+  const renderCover = (book: typeof kidsBooks[0]) => {
+    const cover = book.book_data?.cover_image;
+    const title = decodeHtmlEntities(book.title?.rendered ?? '');
+    return (
+      <BookLink
+        key={book.id}
+        slug={book.slug}
+        munrosUrl={book.book_data?.munros_url}
+        bookTitle={title}
+        aria-label={title}
+        className={styles.rbPhotoCell}
+      >
+        {cover ? (
+          <img src={cover[0]} alt="" aria-hidden="true" loading="lazy" className={styles.rbCover} />
+        ) : (
+          <div className={styles.rbPlaceholder} aria-hidden="true" />
+        )}
+      </BookLink>
+    );
+  };
+
   return (
-    <div className={styles.bookGrid}>
-      {kidsBooks.map((book) => {
-        const cover = book.book_data?.cover_image;
-        const title = decodeHtmlEntities(book.title?.rendered ?? '');
-        return (
-          <BookLink
-            key={book.id}
-            slug={book.slug}
-            munrosUrl={book.book_data?.munros_url}
-            bookTitle={title}
-            className={styles.bookItem}
-          >
-            {cover ? (
-              <img src={cover[0]} alt="" aria-hidden="true" loading="lazy" className={styles.bookCover} />
-            ) : (
-              <div className={styles.bookCoverPlaceholder} aria-hidden="true" />
-            )}
-            <p className={styles.bookTitle}>{title}</p>
-            {(() => {
-              const authorNames = (book.book_data?.authors ?? []).map((a) => a.name);
-              if (book.book_data?.additional_authors) authorNames.push(book.book_data.additional_authors);
-              return authorNames.length > 0
-                ? <p className={styles.bookAuthor}>by {authorNames.join(', ')}</p>
-                : null;
-            })()}
-          </BookLink>
-        );
-      })}
-    </div>
+    <section className={styles.rbSection} aria-labelledby="read-books-heading">
+      <div className={styles.rbGrid}>
+        {topRow.map(renderCover)}
+
+        {midLeft ? renderCover(midLeft) : <div aria-hidden="true" />}
+        <div className={styles.rbTextCell}>
+          <p className={styles.rbReadThe}>
+            {intl.formatMessage({ id: 'kidsfest2026.readBooks.readThe' })}
+          </p>
+          <h2 id="read-books-heading" className={styles.rbBooks}>
+            {intl.formatMessage({ id: 'kidsfest2026.readBooks.books' })}
+          </h2>
+        </div>
+        {midRight ? renderCover(midRight) : <div aria-hidden="true" />}
+
+        {bottomRow.map(renderCover)}
+      </div>
+    </section>
+  );
+}
+
+function KidsFestMeetAuthors() {
+  const intl = useIntl();
+  const { data: authorData } = useGetKidfestAuthors(CURRENT_YEAR);
+
+  const authors = (authorData ?? [])
+    .filter((a) => !(a.elder_years?.includes(CURRENT_YEAR)))
+    .sort((a, b) => {
+      const surname = (name: string) => name.trim().split(/\s+/).at(-1)!.toLowerCase();
+      return surname(a.name).localeCompare(surname(b.name));
+    });
+
+  if (!authors.length) return null;
+
+  const topRow = authors.slice(0, 5);
+  const midLeft = authors[5] ?? null;
+  const bottomRow = authors.slice(6, 11);
+
+  const renderPhoto = (author: PersonData) => {
+    const photoSrc = author.kidfest_photo || author.photo;
+    return (
+      <Link
+        key={author.id}
+        to={`/people/${author.slug}`}
+        className={styles.maPhotoCell}
+      >
+        {photoSrc ? (
+          <img src={photoSrc[0]} alt="" aria-hidden="true" className={styles.maPhoto} loading="lazy" />
+        ) : (
+          <div className={styles.maPlaceholder} aria-hidden="true">
+            {author.name.trim().charAt(0)}
+          </div>
+        )}
+        <p className={styles.maAuthorName}>{author.name}</p>
+      </Link>
+    );
+  };
+
+  return (
+    <section className={styles.maSection} aria-labelledby="meet-authors-heading">
+      <div className={styles.maGrid}>
+        {topRow.map(renderPhoto)}
+
+        {midLeft ? renderPhoto(midLeft) : <div aria-hidden="true" />}
+        <div className={styles.maTextCell}>
+          <p className={styles.maMeetThe}>
+            {intl.formatMessage({ id: 'kidsfest2026.meetAuthors.meetThe' })}
+          </p>
+          <h2 id="meet-authors-heading" className={styles.maAuthors}>
+            {intl.formatMessage({ id: 'kidsfest2026.meetAuthors.authors' })}
+          </h2>
+          <p className={styles.maTextDate}>
+            {intl.formatMessage({ id: 'kidsfest.date' })} · {intl.formatMessage({ id: 'kidsfest.time' })}
+          </p>
+          <p className={styles.maTextVenue}>
+            {intl.formatMessage({ id: 'kidsfest.venue' })}
+          </p>
+          <p className={styles.maTextFree}>
+            {intl.formatMessage({ id: 'kidsfest2026.meetAuthors.free' })}
+          </p>
+        </div>
+
+        {bottomRow.map(renderPhoto)}
+      </div>
+
+      <p className={styles.maDescription}>
+        {intl.formatMessage({ id: 'kidsfest2026.mainEvent.description' })}
+      </p>
+    </section>
   );
 }
 
@@ -338,20 +345,9 @@ export default function KidsFest2026Page() {
     <main id="main-content">
       <KidsFestHero mainEvent={mainEvent} />
 
-      <div className={styles.bandTan}>
-        <Container>
-          <section className={styles.section}>
-            <SectionTitle>
-              <FormattedMessage id="kidsfest2026.events.heading" />
-            </SectionTitle>
-            <KidsFestMainEvent events={events} isLoading={isLoading} />
-          </section>
-        </Container>
-      </div>
-
       <div className={styles.bandWhite}>
         <Container>
-          <KidsFestWorkshops events={events} isLoading={isLoading} />
+          <KidsFestMeetAuthors />
         </Container>
       </div>
 
@@ -363,18 +359,19 @@ export default function KidsFest2026Page() {
 
       <div className={styles.bandWhite}>
         <Container>
-          <KidsFestInterviews />
+          <KidsFestWorkshops events={events} isLoading={isLoading} />
         </Container>
       </div>
 
       <div className={styles.bandTan}>
         <Container>
-          <section className={styles.section}>
-            <SectionTitle>
-              <FormattedMessage id="kidsfest2026.books.heading" />
-            </SectionTitle>
-            <KidsBooks />
-          </section>
+          <KidsFestInterviews />
+        </Container>
+      </div>
+
+      <div className={styles.bandWhite}>
+        <Container>
+          <KidsFestReadBooks />
         </Container>
       </div>
     </main>

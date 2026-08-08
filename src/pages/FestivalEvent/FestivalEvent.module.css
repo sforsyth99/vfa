@@ -402,3 +402,97 @@
   background: var(--vfa-color-2026-indigo-mid);
   color: var(--vfa-color-text-light);
 }
+
+/* ── Related events ──────────────────────────────────── */
+
+.relatedSection {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--vfa-color-warm-border);
+}
+
+.relatedHeading {
+  font-family: var(--vfa-font-display);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: var(--vfa-font-weight-bold);
+  color: var(--vfa-color-ink-darkest);
+  margin: 0 0 1.5rem;
+}
+
+.relatedList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.relatedCard {
+  flex: 1 1 calc(33.333% - 1rem);
+  min-width: 220px;
+  background: var(--vfa-color-surface);
+  border: 1px solid var(--vfa-color-warm-border-light);
+  border-radius: var(--vfa-radius-card);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--vfa-shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.relatedEyebrow {
+  font-size: var(--vfa-font-size-eyebrow);
+  font-weight: var(--vfa-font-weight-semibold);
+  letter-spacing: var(--vfa-letter-spacing-eyebrow);
+  text-transform: uppercase;
+  color: var(--vfa-color-forest-mid);
+  margin: 0;
+}
+
+.relatedTitle {
+  font-family: var(--vfa-font-display);
+  font-size: 1.05rem;
+  font-weight: var(--vfa-font-weight-semibold);
+  margin: 0.1rem 0 0;
+  line-height: var(--vfa-line-height-tight);
+}
+
+.relatedTitleLink {
+  color: var(--vfa-color-ink-darkest);
+  text-decoration: none;
+}
+
+.relatedTitleLink:hover {
+  color: var(--vfa-color-2026-indigo);
+  text-decoration: underline;
+}
+
+.relatedMeta {
+  font-size: var(--vfa-font-size-sm);
+  color: var(--vfa-color-ink-mid);
+  margin: 0.15rem 0 0;
+}
+
+.relatedDetailsLink {
+  font-size: var(--vfa-font-size-sm);
+  font-weight: var(--vfa-font-weight-medium);
+  color: var(--vfa-color-2026-indigo);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+
+.relatedDetailsLink::after {
+  content: ' ›';
+}
+
+.relatedDetailsLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .relatedCard {
+    flex-basis: 100%;
+  }
+}
