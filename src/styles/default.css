@@ -38,8 +38,9 @@
     --vfa-z-overlay: 1000;
 
     /* ── Layout ──────────────────────────────────────────── */
-    --vfa-width-content: 780px; /* most pages */
-    --vfa-width-site: 1200px; /* header, footer */
+    --vfa-width-content: 780px; /* reading pages: bio, interview, book */
+    --vfa-width-page: 860px;   /* default content pages: listings, events */
+    --vfa-width-site: 1200px;  /* header, footer, full-bleed promo */
     --vfa-padding-page: 4rem 2rem 6rem; /* standard page padding */
     --vfa-padding-x: 2rem;
 
@@ -65,7 +66,7 @@
     --vfa-color-primary: #1d3d2f;
     --vfa-color-primary-dark: #153028;
     --vfa-color-secondary: #d4cfc8;
-    --vfa-color-background: #d4cfc8;
+    --vfa-color-background: #f0ece8;
     --vfa-color-surface: #fff;
     --vfa-color-text: #222;
     --vfa-color-text-light: #fff;
@@ -117,7 +118,7 @@
     --vfa-color-warm-card-bg: #d6d0c8; /* BlurImageCard background */
 
     /* ── Colors: UI surfaces & misc ─────────────────────── */
-    --vfa-color-bg-page: #d4cfc8;
+    --vfa-color-bg-page: #f0ece8;
     --vfa-color-bg-hover: #f0f0f0;
     --vfa-color-border-light: #ddd;
     --vfa-color-border-faint: #eee;

@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 3rem;
-    max-width: var(--vfa-width-site);
+    max-width: var(--vfa-width-page);
     margin: 0 auto;
     padding: 0 1.5rem;
     align-items: start;

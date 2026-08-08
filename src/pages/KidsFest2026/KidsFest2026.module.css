@@ -165,7 +165,7 @@
 /* ── Workshops ────────────────────────────────────────── */
 
 .workshopsSection {
-    max-width: 800px;
+    max-width: var(--vfa-width-page);
     margin-inline: auto;
 }
 
@@ -318,7 +318,7 @@
 /* ── Special Guest ────────────────────────────────────── */
 
 .specialGuestSection {
-    max-width: 800px;
+    max-width: var(--vfa-width-page);
     margin: 1.5rem auto 0.5rem;
     padding: 2rem 2.5rem;
     background: var(--vfa-color-surface);
@@ -537,7 +537,7 @@
 .maSection {
     border-radius: var(--vfa-radius-lg);
     padding: 2rem 2rem 1.75rem;
-    max-width: 800px;
+    max-width: var(--vfa-width-page);
     margin-inline: auto;
     background-image: url('../../assets/notepaper.jpg');
     background-size: cover;
@@ -689,7 +689,7 @@
 /* ── Read the Books ───────────────────────────────────── */
 
 .rbSection {
-    max-width: 800px;
+    max-width: var(--vfa-width-page);
     margin-inline: auto;
     padding: 2rem 0 1.75rem;
 }
