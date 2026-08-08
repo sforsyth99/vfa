@@ -2,9 +2,8 @@
 
 .hero {
     width: 100%;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)),
-        url('../../assets/kids-books.jpg');
+    background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)),
+    url('../../assets/kids-books.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -142,11 +141,20 @@
 
 .bandCedar {
     background-color: var(--vfa-color-background);
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.70), rgba(255, 255, 255, 0.70)),
-        url('../../assets/cedar-tree.jpg');
+    background-image: linear-gradient(rgba(255, 255, 255, 0.70), rgba(255, 255, 255, 0.70)),
+    url('../../assets/cedar-tree.jpg');
     background-size: cover;
     background-position: center;
+    padding: 1.5rem 0 2.5rem;
+}
+
+.bandPencil {
+    background-color: var(--vfa-color-surface);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url('../../assets/open-books2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 1.5rem 0 2.5rem;
 }
 
@@ -733,10 +741,25 @@
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.rbPhotoCell:nth-child(4n+1) { background: var(--vfa-color-2026-coral-pale); transform: rotate(-2.5deg); }
-.rbPhotoCell:nth-child(4n+2) { background: var(--vfa-color-2026-gold-pale); transform: rotate(1.8deg); }
-.rbPhotoCell:nth-child(4n+3) { background: var(--vfa-color-forest-bg); transform: rotate(-1.5deg); }
-.rbPhotoCell:nth-child(4n)   { background: var(--vfa-color-2026-slate-pale); transform: rotate(2.2deg); }
+.rbPhotoCell:nth-child(4n+1) {
+    background: var(--vfa-color-2026-coral-pale);
+    transform: rotate(-2.5deg);
+}
+
+.rbPhotoCell:nth-child(4n+2) {
+    background: var(--vfa-color-2026-gold-pale);
+    transform: rotate(1.8deg);
+}
+
+.rbPhotoCell:nth-child(4n+3) {
+    background: var(--vfa-color-forest-bg);
+    transform: rotate(-1.5deg);
+}
+
+.rbPhotoCell:nth-child(4n) {
+    background: var(--vfa-color-2026-slate-pale);
+    transform: rotate(2.2deg);
+}
 
 .rbPhotoCell:hover {
     transform: rotate(0deg) translateY(-6px);
@@ -780,6 +803,10 @@
 }
 
 @media (max-width: 640px) {
+    .bandPencil {
+        background-image: none;
+    }
+
     .heroInner {
         padding: 2rem 1rem;
     }
