@@ -40,9 +40,15 @@ export function KidsFestInterviews() {
 
   return (
     <section className={styles.section} aria-labelledby="kidsfest-interviews-heading">
+      <p className={styles.eyebrow}>
+        <FormattedMessage id="kidsfestInterviews.eyebrow" />
+      </p>
       <h2 id="kidsfest-interviews-heading" className={styles.heading}>
         <FormattedMessage id="kidsfestInterviews.heading" />
       </h2>
+      <p className={styles.blurb}>
+        <FormattedMessage id="kidsfestInterviews.blurb" />
+      </p>
 
       <div
         className={styles.carouselWrapper}
@@ -78,7 +84,9 @@ export function KidsFestInterviews() {
                   aria-label={intl.formatMessage({ id: 'interviews.card.label' }, { name: authorLabel })}
                 >
                   {photoSrc ? (
-                    <img src={photoSrc} alt={authorLabel} className={styles.photo} loading="lazy" />
+                    <div className={styles.polaroid}>
+                      <img src={photoSrc} alt={authorLabel} className={styles.photo} loading="lazy" />
+                    </div>
                   ) : (
                     <div className={styles.photoPlaceholder} aria-hidden="true" />
                   )}

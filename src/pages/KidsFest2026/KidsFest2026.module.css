@@ -140,6 +140,16 @@
     padding: 1.5rem 0 2.5rem;
 }
 
+.bandCedar {
+    background-color: var(--vfa-color-background);
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.70), rgba(255, 255, 255, 0.70)),
+        url('../../assets/cedar-tree.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 1.5rem 0 2.5rem;
+}
+
 .section {
     margin: 0;
 }
@@ -149,6 +159,15 @@
 .workshopsSection {
     max-width: 800px;
     margin-inline: auto;
+}
+
+.workshopsEyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-gold-dark);
+    margin: 0 0 0.4rem;
 }
 
 .workshopsHeading {
@@ -180,6 +199,8 @@
 .eventCard {
     background: var(--vfa-color-surface);
     border: 1px solid var(--vfa-color-warm-border-light);
+    border-top: 4px solid var(--vfa-color-2026-gold);
+    border-bottom: 4px solid var(--vfa-color-2026-gold);
     border-radius: var(--vfa-radius-card);
     padding: 1.25rem 1.5rem;
     box-shadow: var(--vfa-shadow-card);
@@ -217,8 +238,8 @@
     font-weight: var(--vfa-font-weight-semibold);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--vfa-color-text-light);
-    background: var(--vfa-color-2026-indigo);
+    color: var(--vfa-color-ink-darkest);
+    background: var(--vfa-color-2026-gold);
     border-radius: var(--vfa-radius-pill);
     padding: 0.15em 0.7em;
 }
@@ -660,28 +681,67 @@
 /* ── Read the Books ───────────────────────────────────── */
 
 .rbSection {
-    border-radius: var(--vfa-radius-lg);
-    padding: 2rem 2rem 1.75rem;
     max-width: 800px;
     margin-inline: auto;
+    padding: 2rem 0 1.75rem;
+}
+
+.rbSectionHeader {
+    margin: 0 0 1.75rem;
+}
+
+.rbEyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-gold-dark);
+    margin: 0 0 0.4rem;
+}
+
+.rbTitle {
+    font-family: var(--vfa-font-display);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-ink-darkest);
+    margin: 0 0 0.5rem;
+    line-height: var(--vfa-line-height-title);
+}
+
+.rbBlurb {
+    font-size: var(--vfa-font-size-base);
+    color: var(--vfa-color-ink-mid);
+    line-height: var(--vfa-line-height-body);
+    margin: 0;
 }
 
 .rbGrid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 0.5rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.75rem;
+    padding: 1rem 0.5rem 1.5rem;
 }
 
 .rbPhotoCell {
     display: block;
     text-decoration: none;
-    transition: transform var(--vfa-transition), opacity var(--vfa-transition);
     min-width: 0;
+    border-radius: var(--vfa-radius-card);
+    padding: 0.75rem 0.75rem 1rem;
+    box-shadow: var(--vfa-shadow-card);
+    position: relative;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+.rbPhotoCell:nth-child(4n+1) { background: var(--vfa-color-2026-coral-pale); transform: rotate(-2.5deg); }
+.rbPhotoCell:nth-child(4n+2) { background: var(--vfa-color-2026-gold-pale); transform: rotate(1.8deg); }
+.rbPhotoCell:nth-child(4n+3) { background: var(--vfa-color-forest-bg); transform: rotate(-1.5deg); }
+.rbPhotoCell:nth-child(4n)   { background: var(--vfa-color-2026-slate-pale); transform: rotate(2.2deg); }
+
 .rbPhotoCell:hover {
-    transform: translateY(-2px);
-    opacity: 0.85;
+    transform: rotate(0deg) translateY(-6px);
+    box-shadow: var(--vfa-shadow-card-hover);
+    z-index: 2;
 }
 
 .rbCover {
@@ -691,7 +751,6 @@
     object-fit: contain;
     object-position: center;
     border-radius: var(--vfa-radius-sm);
-    box-shadow: var(--vfa-shadow-md);
 }
 
 .rbPlaceholder {
@@ -706,37 +765,6 @@
     font-size: 1.25rem;
     font-weight: var(--vfa-font-weight-semibold);
     color: var(--vfa-color-forest-dark);
-}
-
-.rbTextCell {
-    grid-column: 2 / 5;
-    grid-row: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0.25rem 0.5rem;
-    text-align: center;
-}
-
-.rbReadThe {
-    font-size: var(--vfa-font-size-sm);
-    font-weight: var(--vfa-font-weight-semibold);
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--vfa-color-ink-mid);
-    margin: 0 0 0.15rem;
-}
-
-.rbBooks {
-    font-family: var(--vfa-font-display);
-    font-size: clamp(2rem, 4.5vw, 3.75rem);
-    font-weight: var(--vfa-font-weight-bold);
-    color: var(--vfa-color-2026-indigo);
-    margin: 0;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
 }
 
 /* ── Mobile ───────────────────────────────────────────── */
@@ -785,6 +813,7 @@
 
     .specialGuestPhoto {
         width: 130px;
+        height: 155px;
     }
 
     .bookGrid {
@@ -818,29 +847,20 @@
         padding: 1.25rem 1.25rem 1.5rem;
     }
 
-    .rbGrid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.35rem;
-    }
-
-    .rbPhotoCell {
-        flex: 0 0 calc(20% - 0.28rem);
-    }
-
-    .rbTextCell {
-        flex: 0 0 100%;
-        order: -1;
-        grid-column: unset;
-        grid-row: unset;
-        padding: 0.5rem 0 0.75rem;
-    }
-
-    .rbBooks {
-        font-size: 2rem;
-    }
-
     .rbSection {
-        padding: 1.25rem 1.25rem 1.5rem;
+        padding: 1.25rem 0 1.5rem;
+    }
+
+    .rbGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        padding: 0.5rem 0 1rem;
+    }
+
+    .rbPhotoCell:nth-child(4n+1),
+    .rbPhotoCell:nth-child(4n+2),
+    .rbPhotoCell:nth-child(4n+3),
+    .rbPhotoCell:nth-child(4n) {
+        transform: none;
     }
 }
