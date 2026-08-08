@@ -715,7 +715,17 @@ add_action('rest_api_init', function() {
                 return new WP_Error('feed_empty', 'Newsletter feed contained no items', ['status' => 502]);
             }
 
-            $item = $xml->channel->item[0];
+            $item = null;
+            foreach ($xml->channel->item as $candidate) {
+                $title = (string) $candidate->title;
+                if (stripos($title, 'resend') !== 0) {
+                    $item = $candidate;
+                    break;
+                }
+            }
+            if (!$item) {
+                return new WP_Error('feed_empty', 'Newsletter feed contained no eligible items', ['status' => 502]);
+            }
 
             // Prefer content:encoded (full HTML) over description (may be truncated).
             $ns       = $xml->getNamespaces(true);

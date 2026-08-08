@@ -1,29 +1,11 @@
 .section {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-}
-
-.bgBlur {
-    position: absolute;
-    inset: -30px;
     background-size: cover;
     background-position: center;
-    filter: blur(14px);
-    z-index: 0;
-}
-
-.section::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(20, 15, 45, 0.6);
-    z-index: 1;
+    width: 100%;
 }
 
 .inner {
     position: relative;
-    z-index: 2;
     display: flex;
     align-items: center;
     gap: 4rem;

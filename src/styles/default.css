@@ -2,6 +2,7 @@
     /* ── Fonts ───────────────────────────────────────────── */
     --vfa-font-body: 'Inter', Arial, sans-serif;
     --vfa-font-display: 'DM Sans', Arial, sans-serif;
+    --vfa-font-typewriter: 'Courier Prime', 'Courier New', Courier, monospace;
 
     /* ── Font sizes ──────────────────────────────────────── */
     --vfa-font-size-eyebrow: 0.7rem; /* uppercase labels, section tags */

@@ -33,8 +33,11 @@ export function KidsFestPromo() {
   };
 
   return (
-    <section className={styles.section} aria-labelledby="kidsfest-heading">
-      <div className={styles.bgBlur} style={{ backgroundImage: `url(${posterSrc})` }} aria-hidden="true" />
+    <section
+      className={styles.section}
+      aria-labelledby="kidsfest-heading"
+      style={{ backgroundImage: `linear-gradient(rgba(66,66,79,0.78), rgba(66,66,79,0.78)), url(${posterSrc})` }}
+    >
       <div className={styles.inner}>
         <img
           src={posterSrc}
