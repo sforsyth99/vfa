@@ -218,6 +218,15 @@ function EventRow({ event }: { event: FestivalEvent }) {
     <li className={styles.row} onMouseMove={handleMouseMove}>
       {isKidsfestMain ? (
         <Link to="/kidsfest2026" className={styles.rowLink}>{inner}</Link>
+      ) : d.eventbrite_url ? (
+        <a
+          href={d.eventbrite_url}
+          className={styles.rowLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {inner}
+        </a>
       ) : (
         <Link to={eventPath(event.slug)} className={styles.rowLink}>
           {inner}

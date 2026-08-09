@@ -52,6 +52,7 @@ function EventList({
           event_date,
           event_type,
           is_kidfest,
+          eventbrite_url,
           hosts,
           hosted_by,
           authors,
@@ -79,6 +80,8 @@ function EventList({
             slug={event.slug}
             isKidfest={is_kidfest}
             eventType={event_type}
+            eventbriteUrl={eventbrite_url}
+            eventTitle={title}
             className={styles.eventTitle}
             onClick={onEventClick ? () => onEventClick(title) : undefined}
           >

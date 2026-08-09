@@ -131,7 +131,7 @@ function KidsFestWorkshops({ events, isLoading }: { events: FestivalEvent[] | un
       </p>
       <ul className={styles.eventList}>
       {otherEvents.map((event) => {
-        const { time_start, time_end, venue, age_range, event_type, tickets, summary } = event.event_data;
+        const { time_start, time_end, venue, age_range, event_type, tickets, eventbrite_url, summary } = event.event_data;
         const isWorkshop = event_type === 'workshop';
         const timeStr = time_start
           ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
@@ -151,11 +151,11 @@ function KidsFestWorkshops({ events, isLoading }: { events: FestivalEvent[] | un
               <span className={styles.eventPrice}>{price}</span>
             </div>
             <h3 className={styles.eventTitle}>
-              <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type}>{title}</EventLink>
+              <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url}>{title}</EventLink>
             </h3>
             {summary && <p className={styles.eventSummary}>{summary}</p>}
             {venue?.name && <p className={styles.eventVenue}>{venue.name}</p>}
-            <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} className={styles.eventLink}>
+            <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url} className={styles.eventLink}>
               {intl.formatMessage({ id: 'kidsfest2026.events.details' })}
             </EventLink>
           </li>

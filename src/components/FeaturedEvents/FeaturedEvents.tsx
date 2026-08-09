@@ -5,6 +5,7 @@ import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { eventPath } from '../../utils/eventPath';
 import { EventLink } from '../EventLink/EventLink';
+import { EventbriteLink } from '../EventbriteLink/EventbriteLink';
 import styles from './FeaturedEvents.module.css';
 
 function formatTime(t: string): string {
@@ -44,7 +45,7 @@ export function FeaturedEvents() {
         </h2>
         <ul className={styles.list}>
           {featured.map((event) => {
-            const { event_date, time_start, time_end, venue, summary, tickets, authors, event_image } = event.event_data;
+            const { event_date, time_start, time_end, venue, summary, eventbrite_url, tickets, authors, event_image } = event.event_data;
             const inPersonTicket = tickets.find((t) => t.type === 'in_person');
             const rawPrice = inPersonTicket?.price;
             const price = rawPrice ? `$${rawPrice}` : 'Free';
@@ -72,7 +73,7 @@ export function FeaturedEvents() {
                     </div>
                   </div>
                   <h3 className={styles.cardTitle}>
-                    <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type}>{title}</EventLink>
+                    <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url} eventTitle={title}>{title}</EventLink>
                   </h3>
                   {summary && <p className={styles.cardSummary}>{summary}</p>}
                   {authors.map((author) => {
@@ -90,6 +91,10 @@ export function FeaturedEvents() {
                   })}
                   {event.event_data.is_kidfest && event.event_data.event_type === 'author_fair' ? (
                     <Link to="/kidsfest2026" className={styles.cardCta}>{ctaLabel}</Link>
+                  ) : eventbrite_url ? (
+                    <EventbriteLink href={eventbrite_url} eventTitle={title} className={styles.cardCta}>
+                      {ctaLabel}
+                    </EventbriteLink>
                   ) : (
                     <Link to={eventPath(event.slug)} className={styles.cardCta}>
                       {ctaLabel}
