@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { track } from '../../utils/analytics';
 import styles from './EventbriteWidget.module.css';
@@ -17,8 +17,10 @@ declare global {
 }
 
 function extractEventbriteId(url: string): string | null {
-  const match = url.match(/(\d+)(?:[?#]|$)/);
-  return match ? match[1] : null;
+  // Grab all runs of 6+ digits; the last one is the event ID.
+  // Handles trailing slashes, query strings, and .ca/.com domains.
+  const matches = [...url.matchAll(/\d{6,}/g)];
+  return matches.length > 0 ? matches[matches.length - 1][0] : null;
 }
 
 interface Props {
@@ -29,13 +31,17 @@ interface Props {
 
 export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Props) {
   const [loadError, setLoadError] = useState(false);
-  const eventId = eventbriteUrl ? extractEventbriteId(eventbriteUrl) : null;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const eventId = eventbriteUrl ? extractEventbriteId(eventbriteUrl.trim()) : null;
   const containerId = eventId ? `eb-widget-${eventId}` : '';
 
   useEffect(() => {
     if (!eventId || !containerId) return;
 
+    let cancelled = false;
+
     const initWidget = () => {
+      if (cancelled || !containerRef.current) return;
       window.EBWidgets?.createWidget({
         widgetType: 'checkout',
         eventId,
@@ -48,21 +54,26 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
 
     if (window.EBWidgets) {
       initWidget();
-      return;
+      return () => { cancelled = true; };
     }
 
     const existing = document.querySelector<HTMLScriptElement>('script[src*="eb_widgets"]');
     if (existing) {
       existing.addEventListener('load', initWidget);
-      return () => existing.removeEventListener('load', initWidget);
+      return () => {
+        cancelled = true;
+        existing.removeEventListener('load', initWidget);
+      };
     }
 
     const script = document.createElement('script');
     script.src = 'https://www.eventbrite.com/static/widgets/eb_widgets.js';
     script.async = true;
     script.onload = initWidget;
-    script.onerror = () => setLoadError(true);
+    script.onerror = () => { if (!cancelled) setLoadError(true); };
     document.body.appendChild(script);
+
+    return () => { cancelled = true; };
   }, [eventId, containerId, eventTitle]);
 
   if (!eventbriteUrl) {
@@ -88,5 +99,5 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
     );
   }
 
-  return <div id={containerId} className={styles.widget} />;
+  return <div ref={containerRef} id={containerId} className={styles.widget} />;
 }
