@@ -16,6 +16,60 @@
 
 /* ── Title block ─────────────────────────────────────── */
 
+.ticketBox {
+  background: var(--vfa-color-surface);
+  border: 2px solid var(--vfa-color-2026-gold);
+  border-radius: var(--vfa-radius-lg);
+  padding: 1.25rem 1.5rem 1.5rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+/* ── Two-column layout ───────────────────────────────── */
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 2.5rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+.mainCol {
+  order: 1;
+  min-width: 0;
+}
+
+.mainCol > .section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.sidebarCol {
+  order: 2;
+  position: sticky;
+  top: 5.5rem;
+}
+
+@media (max-width: 640px) {
+  .twoCol {
+    display: block;
+  }
+
+  .sidebarCol {
+    position: static;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.ticketBoxVenue {
+  font-size: var(--vfa-font-size-sm);
+  color: var(--vfa-color-ink-mid);
+  margin: 0;
+}
 
 .datetime {
   font-size: var(--vfa-font-size-base);
@@ -113,6 +167,11 @@
   color: var(--vfa-color-forest-mid);
   font-weight: var(--vfa-font-weight-semibold);
   margin: 0 0 1rem;
+}
+
+.venueBand {
+  background: var(--vfa-color-surface);
+  margin-top: 2rem;
 }
 
 /* ── Venue ───────────────────────────────────────────── */
@@ -226,7 +285,7 @@
 
 .peopleFlow {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 1rem;
   align-items: stretch;
   justify-content: center;
@@ -235,16 +294,17 @@
 .labelledCard {
   display: flex;
   flex-direction: column;
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 1 1 100px;
+  min-width: 100px;
   max-width: calc((100% - 2 * 1rem) / 3);
 }
 
-@media (max-width: 640px) {
-  .peopleFlow {
-    flex-wrap: wrap;
-  }
+.peopleFlowWide .labelledCard {
+  flex: 1 1 calc(33.333% - 0.667rem);
+  max-width: calc(33.333% - 0.667rem);
+}
 
+@media (max-width: 640px) {
   .labelledCard {
     flex: 0 0 calc(50% - 0.5rem);
   }
@@ -432,7 +492,7 @@
   flex: 1 1 calc(33.333% - 1rem);
   min-width: 220px;
   background: var(--vfa-color-surface);
-  border: 1px solid var(--vfa-color-warm-border-light);
+  border: 2px solid var(--vfa-color-2026-gold);
   border-radius: var(--vfa-radius-card);
   padding: 1.25rem 1.5rem;
   box-shadow: var(--vfa-shadow-card);
