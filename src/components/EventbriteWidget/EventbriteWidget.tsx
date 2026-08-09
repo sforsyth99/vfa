@@ -9,8 +9,10 @@ declare global {
       createWidget: (options: {
         widgetType: 'checkout';
         eventId: string;
-        iframeContainerId: string;
+        iframeContainerId?: string;
         iframeContainerHeight?: number;
+        modal?: boolean;
+        modalTriggerElementId?: string;
         onOrderComplete?: () => void;
       }) => void;
     };
