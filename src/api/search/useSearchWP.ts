@@ -14,7 +14,7 @@ export interface SearchResult {
 
 const SUBTYPE_PREFIX: Record<string, string> = {
   interview:       '/interviews',
-  festival_events: '/festival-events',
+  festival_events: '/events',
   people:          '/people',
   venues:          '/venues',
   books:           '/books',

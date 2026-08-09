@@ -8,6 +8,8 @@ import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { isSafeUrl } from '../../utils/isSafeUrl.ts';
 import { htmlToText } from '../../utils/htmlToText.ts';
+import { eventPath } from '../../utils/eventPath.ts';
+import { track } from '../../utils/analytics.ts';
 import { sortBySurname } from '../../utils/sortBySurname.ts';
 import type { PersonData } from '../../api/people/peopleTypes.ts';
 import type { RelatedEventSummary } from '../../api/festivalEvents/festivalEventTypes.ts';
@@ -194,13 +196,15 @@ export default function FestivalEventPage() {
         {!isPast && currentIndex !== -1 && futureEvents.length > 1 && (
           <nav className={styles.eventNavTop} aria-label={intl.formatMessage({ id: 'festivalEvent.nav.label' })}>
             {prevEvent && (
-              <Link to={`/festival-events/${prevEvent.slug}`} className={styles.eventNavTopLink}>
+              <Link to={eventPath(prevEvent.slug)} className={styles.eventNavTopLink}
+                onClick={() => track({ name: 'prev_next_nav', event_label: prevEvent.slug, event_location: 'top', content_type: 'event' })}>
                 <span className={styles.eventNavTopArrow}>‹</span>
                 {intl.formatMessage({ id: 'festivalEvent.nav.previous' })}
               </Link>
             )}
             {nextEvent && (
-              <Link to={`/festival-events/${nextEvent.slug}`} className={styles.eventNavTopLink}>
+              <Link to={eventPath(nextEvent.slug)} className={styles.eventNavTopLink}
+                onClick={() => track({ name: 'prev_next_nav', event_label: nextEvent.slug, event_location: 'top', content_type: 'event' })}>
                 {intl.formatMessage({ id: 'festivalEvent.nav.next' })}
                 <span className={styles.eventNavTopArrow}>›</span>
               </Link>
@@ -325,7 +329,7 @@ export default function FestivalEventPage() {
                         </p>
                       )}
                       <h3 className={styles.relatedTitle}>
-                        <Link to={`/festival-events/${rel.slug}`} className={styles.relatedTitleLink}>
+                        <Link to={eventPath(rel.slug)} className={styles.relatedTitleLink}>
                           {rel.title}
                         </Link>
                       </h3>
@@ -334,7 +338,7 @@ export default function FestivalEventPage() {
                           {[rel.event_date, rel.venue_name].filter(Boolean).join(' · ')}
                         </p>
                       )}
-                      <Link to={`/festival-events/${rel.slug}`} className={styles.relatedDetailsLink}>
+                      <Link to={eventPath(rel.slug)} className={styles.relatedDetailsLink}>
                         {intl.formatMessage({ id: 'festivalEvent.relatedEvents.details' })}
                       </Link>
                     </li>
@@ -418,7 +422,8 @@ export default function FestivalEventPage() {
           ) : (
             <div className={styles.eventNavPrevNext}>
               {prevEvent && (
-                <Link to={`/festival-events/${prevEvent.slug}`} className={styles.eventNavPrev}>
+                <Link to={eventPath(prevEvent.slug)} className={styles.eventNavPrev}
+                  onClick={() => track({ name: 'prev_next_nav', event_label: prevEvent.slug, event_location: 'bottom', content_type: 'event' })}>
                   <span className={styles.eventNavArrow}>‹</span>
                   <span className={styles.eventNavLabel}>
                     <span className={styles.eventNavHint}>{intl.formatMessage({ id: 'festivalEvent.nav.previous' })}</span>
@@ -427,7 +432,8 @@ export default function FestivalEventPage() {
                 </Link>
               )}
               {nextEvent && (
-                <Link to={`/festival-events/${nextEvent.slug}`} className={styles.eventNavNext}>
+                <Link to={eventPath(nextEvent.slug)} className={styles.eventNavNext}
+                  onClick={() => track({ name: 'prev_next_nav', event_label: nextEvent.slug, event_location: 'bottom', content_type: 'event' })}>
                   <span className={styles.eventNavLabel}>
                     <span className={styles.eventNavHint}>{intl.formatMessage({ id: 'festivalEvent.nav.next' })}</span>
                     <span className={styles.eventNavTitle}>{decodeHtmlEntities(nextEvent.title?.rendered ?? '')}</span>

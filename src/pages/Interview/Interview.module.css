@@ -285,6 +285,109 @@
     margin-block: 1.5rem;
 }
 
+/* ── Interview prev/next nav ─────────────────────────── */
+
+.interviewNavTop {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.interviewNavTopLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-size: 0.75rem;
+    font-weight: var(--vfa-font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--vfa-color-ink-light);
+    text-decoration: none;
+    transition: color var(--vfa-transition);
+}
+
+.interviewNavTopLink:hover {
+    color: var(--vfa-color-ink-darkest);
+}
+
+.interviewNavArrow {
+    font-size: 1.1em;
+    color: var(--vfa-color-2026-gold-dark);
+}
+
+.interviewNav {
+    border-top: 1px solid var(--vfa-color-warm-border);
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+}
+
+.interviewNavPrevNext {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.interviewNavPrev,
+.interviewNavNext {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--vfa-color-ink-darkest);
+    max-width: 45%;
+    transition: opacity var(--vfa-transition);
+}
+
+.interviewNavPrev:hover,
+.interviewNavNext:hover {
+    opacity: 0.7;
+}
+
+.interviewNavNext {
+    margin-left: auto;
+    text-align: right;
+}
+
+.interviewNavLabel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.interviewNavHint {
+    font-size: 0.7rem;
+    font-weight: var(--vfa-font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--vfa-color-ink-light);
+}
+
+.interviewNavTitle {
+    font-size: 0.875rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    line-height: 1.3;
+}
+
+@media (max-width: 640px) {
+    .interviewNavPrevNext {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .interviewNavNext {
+        margin-left: 0;
+        text-align: left;
+        flex-direction: row-reverse;
+    }
+
+    .interviewNavPrev,
+    .interviewNavNext {
+        max-width: 100%;
+    }
+}
+
 :global(.apple-podcast-embed) {
     display: block;
     width: 100%;

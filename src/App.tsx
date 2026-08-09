@@ -38,7 +38,7 @@ function App() {
           <Route path="/interviews" element={<InterviewsPage />} />
           <Route path="/interviews/:slug" element={<InterviewPage />} />
           <Route path="/people/:slug" element={<PersonPage />} />
-          <Route path="/festival-events/:slug" element={<FestivalEventPage />} />
+          <Route path="/events/:slug" element={<FestivalEventPage />} />
           <Route path="/venues/:slug" element={<VenuePage />} />
           <Route path="/books/:slug" element={<BookPage />} />
           <Route path="/kidsfest2026" element={<KidsFest2026Page />} />
