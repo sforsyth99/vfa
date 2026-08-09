@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
+import { useGetInterviews } from '../../api/interviews/useGetInterviews.ts';
 import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
 import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
@@ -10,6 +11,7 @@ import { sanitizeHtml } from '../../utils/sanitizeHtml.ts';
 import { injectYouTubeEmbeds } from '../../utils/injectYouTubeEmbeds.ts';
 import { injectApplePodcastEmbeds } from '../../utils/injectApplePodcastEmbeds.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
+import { track } from '../../utils/analytics.ts';
 import { Container } from '../../components/Container/Container';
 import { BookLink } from '../../components/BookLink/BookLink';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
@@ -35,6 +37,7 @@ export default function InterviewPage() {
   const intl = useIntl();
   const { slug } = useParams<{ slug: string }>();
   const { data: interview, isLoading, error } = useGetInterview({ slug: slug! });
+  const { data: allInterviews } = useGetInterviews();
   const authors = sortBySurname(interview?.interview_data?.authors ?? []);
   const primaryAuthor = authors[0];
   const { data: personEvents } = useGetPersonEvents(primaryAuthor?.id);
@@ -74,9 +77,46 @@ export default function InterviewPage() {
     book_title ? b.title.toLowerCase() === book_title.toLowerCase() : true,
   ) ?? personBooks?.[0];
 
+  const festivalYear = interview.interview_data.festival_year;
+  const isKidsInterview = interviewer_age != null;
+  const yearPeers = (allInterviews ?? [])
+    .filter((iv) =>
+      iv.interview_data.festival_year === festivalYear &&
+      festivalYear !== null &&
+      (iv.interview_data.interviewer_age != null) === isKidsInterview,
+    )
+    .sort((a, b) => b.date.localeCompare(a.date));
+  const currentIndex = yearPeers.findIndex((iv) => iv.slug === slug);
+  const prevInterview = currentIndex > 0 ? yearPeers[currentIndex - 1] : yearPeers[yearPeers.length - 1];
+  const nextInterview = currentIndex < yearPeers.length - 1 ? yearPeers[currentIndex + 1] : yearPeers[0];
+  const showNav = yearPeers.length > 1 && currentIndex !== -1;
+
+  const interviewNavName = (iv: typeof yearPeers[0]) => {
+    const ivAuthors = sortBySurname(iv.interview_data.authors ?? []);
+    return ivAuthors.length > 0 ? ivAuthors.map((a) => a.name).join(' & ') : decodeHtmlEntities(iv.title?.rendered ?? '');
+  };
+
   return (
     <main id="main-content" className={styles.page}>
       <Container narrow>
+        {showNav && (
+          <nav className={styles.interviewNavTop} aria-label={intl.formatMessage({ id: 'interview.nav.label' })}>
+            {prevInterview && (
+              <Link to={`/interviews/${prevInterview.slug}`} className={`${styles.interviewNavTopLink} ${styles.interviewNavTopLinkPrev}`}
+                onClick={() => track({ name: 'prev_next_nav', event_label: prevInterview.slug, event_location: 'top', content_type: 'interview' })}>
+                <span className={styles.interviewNavArrow}>‹</span>
+                {intl.formatMessage({ id: 'interview.nav.previous' })}
+              </Link>
+            )}
+            {nextInterview && (
+              <Link to={`/interviews/${nextInterview.slug}`} className={`${styles.interviewNavTopLink} ${styles.interviewNavTopLinkNext}`}
+                onClick={() => track({ name: 'prev_next_nav', event_label: nextInterview.slug, event_location: 'top', content_type: 'interview' })}>
+                {intl.formatMessage({ id: 'interview.nav.next' })}
+                <span className={styles.interviewNavArrow}>›</span>
+              </Link>
+            )}
+          </nav>
+        )}
       <header className={styles.header}>
         <div className={styles.titleBlock}>
           <Eyebrow><FormattedMessage id="interview.eyebrow" /></Eyebrow>
@@ -169,6 +209,32 @@ export default function InterviewPage() {
           <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(interviewer_bio) }} />
         </div>
       )}
+        {showNav && (
+          <nav className={styles.interviewNav} aria-label={intl.formatMessage({ id: 'interview.nav.label' })}>
+            <div className={styles.interviewNavPrevNext}>
+              {prevInterview && (
+                <Link to={`/interviews/${prevInterview.slug}`} className={styles.interviewNavPrev}
+                  onClick={() => track({ name: 'prev_next_nav', event_label: prevInterview.slug, event_location: 'bottom', content_type: 'interview' })}>
+                  <span className={styles.interviewNavArrow}>‹</span>
+                  <span className={styles.interviewNavLabel}>
+                    <span className={styles.interviewNavHint}>{intl.formatMessage({ id: 'interview.nav.previous' })}</span>
+                    <span className={styles.interviewNavTitle}>{interviewNavName(prevInterview)}</span>
+                  </span>
+                </Link>
+              )}
+              {nextInterview && (
+                <Link to={`/interviews/${nextInterview.slug}`} className={styles.interviewNavNext}
+                  onClick={() => track({ name: 'prev_next_nav', event_label: nextInterview.slug, event_location: 'bottom', content_type: 'interview' })}>
+                  <span className={styles.interviewNavLabel}>
+                    <span className={styles.interviewNavHint}>{intl.formatMessage({ id: 'interview.nav.next' })}</span>
+                    <span className={styles.interviewNavTitle}>{interviewNavName(nextInterview)}</span>
+                  </span>
+                  <span className={styles.interviewNavArrow}>›</span>
+                </Link>
+              )}
+            </div>
+          </nav>
+        )}
       </Container>
     </main>
   );

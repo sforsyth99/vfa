@@ -136,7 +136,9 @@ function KidsFestWorkshops({ events, isLoading }: { events: FestivalEvent[] | un
         const timeStr = time_start
           ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
           : '';
-        const price = tickets.find((t) => t.type === 'in_person')?.price || tickets[0]?.price || 'Free';
+        const priceTicket = tickets.find((t) => t.type === 'in_person') ?? tickets[0];
+        const priceMin = priceTicket?.price_min ?? null;
+        const price = priceMin === null ? null : priceMin === 0 ? 'Free' : `$${Number.isInteger(priceMin) ? priceMin : priceMin.toFixed(2)}`;
         const title = decodeHtmlEntities(event.title?.rendered ?? '');
         return (
           <li key={event.id} className={styles.eventCard}>

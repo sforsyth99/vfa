@@ -37,6 +37,7 @@ interface Props {
 
 export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Props) {
   const [loadError, setLoadError] = useState(false);
+  const [isMobile] = useState(() => window.matchMedia('(max-width: 640px)').matches);
   const eventId = eventbriteUrl ? extractEventbriteId(eventbriteUrl.trim()) : null;
   const triggerId = eventId ? `eb-modal-trigger-${eventId}` : '';
   const scriptDomain = eventbriteUrl ? extractEventbriteDomain(eventbriteUrl) : 'www.eventbrite.com';
@@ -93,7 +94,7 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
     );
   }
 
-  if (!eventId || loadError) {
+  if (!eventId || loadError || isMobile) {
     return (
       <a
         href={eventbriteUrl}

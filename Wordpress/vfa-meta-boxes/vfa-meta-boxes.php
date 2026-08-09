@@ -224,7 +224,7 @@ function vfa_mb_config(): array {
                     'desc' => 'Highlight this event in the "Featured Events" section on the homepage. Use for off-season promotions.',
                 ],
 
-                // ── KidsFest ─────────────────────────────────────────────────
+                // ── KidsFest ────────────No─────────────────────────────────────
                 ['type' => 'section', 'name' => 'KidsFest'],
                 [
                     'id'   => 'is_kidfest',
@@ -274,10 +274,18 @@ function vfa_mb_config(): array {
                             'desc' => 'e.g. "Low income", "General", "Supporter"',
                         ],
                         [
-                            'id'   => 'ticket_price',
+                            'id'   => 'ticket_price_min',
                             'name' => 'Price',
-                            'type' => 'text',
-                            'desc' => 'e.g. "$10" or "Free"',
+                            'type' => 'number',
+                            'min'  => 0,
+                            'desc' => 'Ticket price in dollars. Use 0 for free.',
+                        ],
+                        [
+                            'id'   => 'ticket_price_max',
+                            'name' => 'Max Price',
+                            'type' => 'number',
+                            'min'  => 0,
+                            'desc' => 'Optional. Set only if this tier has a price range (e.g. sliding scale).',
                         ],
                     ],
                 ],
@@ -759,6 +767,11 @@ function vfa_mb_render_cg_sub_field(array $field, $value, bool $is_template = fa
             }
             echo '</select>';
             break;
+        case 'number':
+            $min = isset($field['min']) ? ' min="' . (int)$field['min'] . '"' : '';
+            $max = isset($field['max']) ? ' max="' . (int)$field['max'] . '"' : '';
+            echo '<input type="number" name="' . esc_attr($field['id']) . '[]" value="' . esc_attr($value) . '" class="small-text"' . $min . $max . '>';
+            break;
         case 'image_advanced':
             vfa_mb_render_image($field['id'], $value, $field['id'] . '[]');
             break;
@@ -853,7 +866,7 @@ function vfa_mb_sanitize(string $type, $value): string {
         case 'textarea':     return sanitize_textarea_field($value);
         case 'wysiwyg':      return wp_kses_post($value);
         case 'url':          return (filter_var($value, FILTER_VALIDATE_URL) !== false) ? esc_url_raw($value) : '';
-        case 'number':       return is_numeric($value) ? (string)(int)$value : '';
+        case 'number':       return is_numeric($value) ? (string)(float)$value : '';
         case 'checkbox':     return $value === '1' ? '1' : '0';
         case 'select':       return sanitize_text_field($value);
         case 'date':         return preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : '';

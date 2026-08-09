@@ -1,0 +1,16 @@
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+.block {
+  background: linear-gradient(
+    90deg,
+    var(--vfa-color-warm-border-light) 25%,
+    var(--vfa-color-background)        50%,
+    var(--vfa-color-warm-border-light) 75%
+  );
+  background-size: 1200px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--vfa-radius-md);
+}

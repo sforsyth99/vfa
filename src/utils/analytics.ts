@@ -15,7 +15,8 @@ type TrackableEvent =
   | { name: 'donate_click'; event_location: 'header_desktop' | 'header_mobile' | 'footer' }
   | { name: 'newsletter_signup'; event_location: 'footer' | 'homepage' }
   | { name: 'callout_click'; event_label: string; event_location: 'workshop_callout' | 'online_callout' }
-  | { name: 'newsletter_read_full'; event_location: 'homepage' };
+  | { name: 'newsletter_read_full'; event_location: 'homepage' }
+  | { name: 'prev_next_nav'; event_label: string; event_location: 'top' | 'bottom'; content_type: 'event' | 'interview' };
 
 export function track({ name, ...params }: TrackableEvent): void {
   window.gtag?.('event', name, params);

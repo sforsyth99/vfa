@@ -206,6 +206,37 @@
     display: block;
 }
 
+/* ── Skeleton ─────────────────────────────────────────── */
+
+.skeletonEyebrow {
+    height: 0.75rem;
+    width: 100px;
+    margin-bottom: 0.75rem;
+}
+
+.skeletonHeading {
+    height: 2rem;
+    width: 50%;
+    margin-bottom: 2rem;
+}
+
+.skeletonList {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.skeletonCard {
+    flex: 1;
+    height: 200px;
+    border-radius: var(--vfa-radius-card);
+}
+
+@media (max-width: 640px) {
+    .skeletonList {
+        flex-direction: column;
+    }
+}
+
 /* ── Mobile ───────────────────────────────────────────── */
 
 @media (max-width: 640px) {
