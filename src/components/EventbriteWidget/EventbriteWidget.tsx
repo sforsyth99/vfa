@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { track } from '../../utils/analytics';
 import styles from './EventbriteWidget.module.css';
@@ -31,7 +31,6 @@ interface Props {
 
 export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Props) {
   const [loadError, setLoadError] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
   const eventId = eventbriteUrl ? extractEventbriteId(eventbriteUrl.trim()) : null;
   const containerId = eventId ? `eb-widget-${eventId}` : '';
 
@@ -41,7 +40,8 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
     let cancelled = false;
 
     const initWidget = () => {
-      if (cancelled || !containerRef.current) return;
+      if (cancelled) return;
+      if (!document.getElementById(containerId)) return;
       window.EBWidgets?.createWidget({
         widgetType: 'checkout',
         eventId,
@@ -99,5 +99,5 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
     );
   }
 
-  return <div ref={containerRef} id={containerId} className={styles.widget} />;
+  return <div id={containerId} className={styles.widget} />;
 }
