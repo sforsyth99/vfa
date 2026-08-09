@@ -78,8 +78,13 @@ export default function InterviewPage() {
   ) ?? personBooks?.[0];
 
   const festivalYear = interview.interview_data.festival_year;
+  const isKidsInterview = interviewer_age != null;
   const yearPeers = (allInterviews ?? [])
-    .filter((iv) => iv.interview_data.festival_year === festivalYear && festivalYear !== null)
+    .filter((iv) =>
+      iv.interview_data.festival_year === festivalYear &&
+      festivalYear !== null &&
+      (iv.interview_data.interviewer_age != null) === isKidsInterview,
+    )
     .sort((a, b) => b.date.localeCompare(a.date));
   const currentIndex = yearPeers.findIndex((iv) => iv.slug === slug);
   const prevInterview = currentIndex > 0 ? yearPeers[currentIndex - 1] : yearPeers[yearPeers.length - 1];
@@ -97,14 +102,14 @@ export default function InterviewPage() {
         {showNav && (
           <nav className={styles.interviewNavTop} aria-label={intl.formatMessage({ id: 'interview.nav.label' })}>
             {prevInterview && (
-              <Link to={`/interviews/${prevInterview.slug}`} className={styles.interviewNavTopLink}
+              <Link to={`/interviews/${prevInterview.slug}`} className={`${styles.interviewNavTopLink} ${styles.interviewNavTopLinkPrev}`}
                 onClick={() => track({ name: 'prev_next_nav', event_label: prevInterview.slug, event_location: 'top', content_type: 'interview' })}>
                 <span className={styles.interviewNavArrow}>‹</span>
                 {intl.formatMessage({ id: 'interview.nav.previous' })}
               </Link>
             )}
             {nextInterview && (
-              <Link to={`/interviews/${nextInterview.slug}`} className={styles.interviewNavTopLink}
+              <Link to={`/interviews/${nextInterview.slug}`} className={`${styles.interviewNavTopLink} ${styles.interviewNavTopLinkNext}`}
                 onClick={() => track({ name: 'prev_next_nav', event_label: nextInterview.slug, event_location: 'top', content_type: 'interview' })}>
                 {intl.formatMessage({ id: 'interview.nav.next' })}
                 <span className={styles.interviewNavArrow}>›</span>

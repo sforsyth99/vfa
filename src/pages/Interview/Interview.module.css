@@ -313,6 +313,19 @@
 .interviewNavArrow {
     font-size: 1.1em;
     color: var(--vfa-color-2026-gold-dark);
+    display: inline-block;
+    text-decoration: none !important;
+    transition: transform var(--vfa-transition);
+}
+
+.interviewNavNext:hover .interviewNavArrow,
+.interviewNavTopLink.interviewNavTopLinkNext:hover .interviewNavArrow {
+    transform: translateX(2px);
+}
+
+.interviewNavPrev:hover .interviewNavArrow,
+.interviewNavTopLink.interviewNavTopLinkPrev:hover .interviewNavArrow {
+    transform: translateX(-2px);
 }
 
 .interviewNav {

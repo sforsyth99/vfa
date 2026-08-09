@@ -49,7 +49,7 @@ const EVENTS: FestivalEvent[] = [
   makeEvent(3, 'Fiction Techniques', { event_type: 'workshop', event_date: '2026-10-15' }),
   makeEvent(4, 'Poets in Conversation', {
     event_date: '2026-10-13',
-    tickets: [{ type: 'online', tier: '', price: '' }],
+    tickets: [{ type: 'online', tier: '', price_min: null, price_max: null }],
     online_url: 'https://example.com/stream',
   }),
   makeEvent(5, 'Science Writing Today', {

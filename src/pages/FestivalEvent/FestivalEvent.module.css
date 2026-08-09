@@ -635,6 +635,17 @@
 .eventNavTopArrow {
   font-size: 1.1em;
   color: var(--vfa-color-2026-gold-dark);
+  display: inline-block;
+  text-decoration: none !important;
+  transition: transform var(--vfa-transition);
+}
+
+.eventNavTopLinkNext:hover .eventNavTopArrow {
+  transform: translateX(2px);
+}
+
+.eventNavTopLinkPrev:hover .eventNavTopArrow {
+  transform: translateX(-2px);
 }
 
 /* ── Event prev/next nav ─────────────────────────────── */
@@ -678,6 +689,17 @@
   line-height: 1;
   color: var(--vfa-color-2026-gold-dark);
   flex-shrink: 0;
+  display: inline-block;
+  text-decoration: none !important;
+  transition: transform var(--vfa-transition);
+}
+
+.eventNavNext:hover .eventNavArrow {
+  transform: translateX(2px);
+}
+
+.eventNavPrev:hover .eventNavArrow {
+  transform: translateX(-2px);
 }
 
 .eventNavLabel {

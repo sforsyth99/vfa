@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
@@ -174,7 +174,27 @@ function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef:
   );
 }
 
-function EventRow({ event }: { event: FestivalEvent }) {
+const FILTER_CHIP_GROUPS: { id: string; labelId: string }[][] = [
+  [
+    { id: 'talk',     labelId: 'events.filter.talk' },
+    { id: 'walk',     labelId: 'events.filter.walk' },
+    { id: 'workshop', labelId: 'festivalEvent.type.workshop' },
+  ],
+  [
+    { id: 'online',    labelId: 'events.filter.online' },
+    { id: 'in_person', labelId: 'events.filter.inPerson' },
+  ],
+];
+
+function eventMatchesFilter(event: FestivalEvent, filterId: string): boolean {
+  const d = event.event_data;
+  if (filterId === 'talk')      return d.event_type === 'panel' || d.event_type === 'conversation';
+  if (filterId === 'online')    return d.tickets.some((t) => t.type === 'online') || !!d.online_url;
+  if (filterId === 'in_person') return d.tickets.some((t) => t.type === 'in_person');
+  return d.event_type === filterId;
+}
+
+function EventRow({ event, dimmed, highlighted }: { event: FestivalEvent; dimmed: boolean; highlighted: boolean }) {
   const intl = useIntl();
   const popoverRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -206,6 +226,7 @@ function EventRow({ event }: { event: FestivalEvent }) {
   };
 
   const handleTitleEnter = () => {
+    if (dimmed) return;
     timerRef.current = setTimeout(() => setPopoverActive(true), 175);
   };
 
@@ -233,7 +254,7 @@ function EventRow({ event }: { event: FestivalEvent }) {
 
   return (
     <li
-      className={`${styles.row}${popoverActive ? ` ${styles.rowPopoverActive}` : ''}`}
+      className={`${styles.row}${popoverActive ? ` ${styles.rowPopoverActive}` : ''}${dimmed ? ` ${styles.rowDimmed}` : ''}${highlighted ? ` ${styles.rowHighlighted}` : ''}`}
       onMouseMove={handleMouseMove}
     >
       {isKidsfestMain ? (
@@ -248,12 +269,16 @@ function EventRow({ event }: { event: FestivalEvent }) {
   );
 }
 
-function EventGroup({ heading, events }: { heading: string; events: FestivalEvent[] }) {
+function EventGroup({ heading, events, activeFilters }: { heading: string; events: FestivalEvent[]; activeFilters: Set<string> }) {
   return (
     <section className={styles.group} aria-labelledby={`day-${heading}`}>
       <h2 id={`day-${heading}`} className={styles.dayHeading}>{heading}</h2>
       <ul className={styles.rowList}>
-        {events.map((e) => <EventRow key={e.id} event={e} />)}
+        {events.map((e) => {
+          const matches = activeFilters.size > 0 && [...activeFilters].some((f) => eventMatchesFilter(e, f));
+          const dimmed = activeFilters.size > 0 && !matches;
+          return <EventRow key={e.id} event={e} dimmed={dimmed} highlighted={matches} />;
+        })}
       </ul>
     </section>
   );
@@ -263,6 +288,15 @@ function Events() {
   const intl = useIntl();
   usePageTitle(intl.formatMessage({ id: 'events.heading' }));
   const { data: events, isLoading, error } = useGetFestivalEvents();
+  const [activeFilters, setActiveFilters] = useState<Set<string>>(new Set());
+
+  const toggleFilter = (id: string) => {
+    setActiveFilters((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
 
   const today = new Date().toISOString().slice(0, 10);
 
@@ -284,7 +318,29 @@ function Events() {
   return (
     <main id="main-content" className={styles.page}>
       <Container>
-        <PageTitle><FormattedMessage id="events.heading" /></PageTitle>
+        <div className={styles.pageTitleWrap}>
+          <PageTitle><FormattedMessage id="events.heading" /></PageTitle>
+        </div>
+
+        {!isLoading && !error && upcoming.length > 0 && (
+          <div className={styles.filterBar} role="group" aria-label={intl.formatMessage({ id: 'events.filter.label' })}>
+            {FILTER_CHIP_GROUPS.map((group, gi) => (
+              <React.Fragment key={gi}>
+                {gi > 0 && <span className={styles.filterDivider} aria-hidden="true" />}
+                {group.map(({ id, labelId }) => (
+                  <button
+                    key={id}
+                    className={styles.filterChip}
+                    aria-pressed={activeFilters.has(id)}
+                    onClick={() => toggleFilter(id)}
+                  >
+                    {intl.formatMessage({ id: labelId })}
+                  </button>
+                ))}
+              </React.Fragment>
+            ))}
+          </div>
+        )}
 
         <QueryState isLoading={isLoading} isError={!!error} isEmpty={!isLoading && !error && upcoming.length === 0} loadingId="events.loading" errorId="events.error" emptyId="events.empty" />
 
@@ -293,6 +349,7 @@ function Events() {
             key={date}
             heading={formatDayHeading(date)}
             events={dayEvents}
+            activeFilters={activeFilters}
           />
         ))}
 

@@ -196,14 +196,14 @@ export default function FestivalEventPage() {
         {!isPast && currentIndex !== -1 && futureEvents.length > 1 && (
           <nav className={styles.eventNavTop} aria-label={intl.formatMessage({ id: 'festivalEvent.nav.label' })}>
             {prevEvent && (
-              <Link to={eventPath(prevEvent.slug)} className={styles.eventNavTopLink}
+              <Link to={eventPath(prevEvent.slug)} className={`${styles.eventNavTopLink} ${styles.eventNavTopLinkPrev}`}
                 onClick={() => track({ name: 'prev_next_nav', event_label: prevEvent.slug, event_location: 'top', content_type: 'event' })}>
                 <span className={styles.eventNavTopArrow}>‹</span>
                 {intl.formatMessage({ id: 'festivalEvent.nav.previous' })}
               </Link>
             )}
             {nextEvent && (
-              <Link to={eventPath(nextEvent.slug)} className={styles.eventNavTopLink}
+              <Link to={eventPath(nextEvent.slug)} className={`${styles.eventNavTopLink} ${styles.eventNavTopLinkNext}`}
                 onClick={() => track({ name: 'prev_next_nav', event_label: nextEvent.slug, event_location: 'top', content_type: 'event' })}>
                 {intl.formatMessage({ id: 'festivalEvent.nav.next' })}
                 <span className={styles.eventNavTopArrow}>›</span>
