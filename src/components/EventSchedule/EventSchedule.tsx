@@ -82,7 +82,7 @@ function ScheduleTable({
                 {timeStr || '—'}
               </td>
               <td className={styles.scheduleName} data-label={eventLabel}>
-                <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} eventbriteUrl={eventbrite_url} eventTitle={decodeHtmlEntities(event.title?.rendered ?? '')}>
+                <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type}>
                   {decodeHtmlEntities(event.title?.rendered ?? '')}
                 </EventLink>
               </td>
@@ -191,7 +191,7 @@ export function EventSchedule({
           </div>
           <ul className={styles.onlineList}>
             {online.map((event) => {
-              const { event_date, time_start, time_end, online_url, eventbrite_url: ebUrl } = event.event_data;
+              const { event_date, time_start, time_end, online_url } = event.event_data;
               const dateStr = event_date
                 ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', {
                     weekday: 'short',
@@ -212,8 +212,6 @@ export function EventSchedule({
                     slug={event.slug}
                     isKidfest={event.event_data.is_kidfest}
                     eventType={event.event_data.event_type}
-                    eventbriteUrl={ebUrl}
-                    eventTitle={title}
                     className={styles.onlineEventTitle}
                   >
                     {title}
