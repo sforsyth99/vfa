@@ -41,7 +41,6 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
 
     const initWidget = () => {
       if (cancelled) return;
-      // Use getElementById to confirm the element is in the DOM — same check Eventbrite does internally.
       if (!document.getElementById(containerId)) return;
       window.EBWidgets?.createWidget({
         widgetType: 'checkout',
