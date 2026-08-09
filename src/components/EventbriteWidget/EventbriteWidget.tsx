@@ -9,8 +9,8 @@ declare global {
       createWidget: (options: {
         widgetType: 'checkout';
         eventId: string;
-        iFrameContainerId: string;
-        iFrameContainerHeight?: number;
+        iframeContainerId: string;
+        iframeContainerHeight?: number;
         onOrderComplete?: () => void;
       }) => void;
     };
@@ -46,8 +46,8 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
       window.EBWidgets?.createWidget({
         widgetType: 'checkout',
         eventId,
-        iFrameContainerId: containerId,
-        iFrameContainerHeight: 425,
+        iframeContainerId: containerId,
+        iframeContainerHeight: 425,
         onOrderComplete: () => {
           track({ name: 'eventbrite_order_complete', event_label: eventTitle });
         },

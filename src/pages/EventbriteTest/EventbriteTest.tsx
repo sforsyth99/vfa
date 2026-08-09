@@ -10,14 +10,14 @@ const CONTAINER_ID = `eventbrite-widget-container-${EVENT_ID}`;
 function WidgetEmbed() {
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://www.eventbrite.com/static/widgets/eb_widgets.js';
+    script.src = 'https://www.eventbrite.ca/static/widgets/eb_widgets.js';
     script.async = true;
     script.onload = () => {
       window.EBWidgets?.createWidget({
         widgetType: 'checkout',
         eventId: EVENT_ID,
-        iFrameContainerId: CONTAINER_ID,
-        iFrameContainerHeight: 425,
+        iframeContainerId: CONTAINER_ID,
+        iframeContainerHeight: 425,
         onOrderComplete: () => console.log('Order complete'),
       });
     };
