@@ -42,7 +42,7 @@ function ScheduleTable({
       </thead>
       <tbody>
         {events.map((event) => {
-          const { event_date, time_start, time_end, venue, tickets, hosts, hosted_by, eventbrite_url } =
+          const { event_date, time_start, time_end, venue, tickets, hosts, hosted_by } =
             event.event_data;
           const timeStr = time_start
             ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
