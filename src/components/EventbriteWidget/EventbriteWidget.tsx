@@ -10,6 +10,7 @@ declare global {
         widgetType: 'checkout';
         eventId: string;
         iFrameContainerId: string;
+        iFrameContainerHeight?: number;
         onOrderComplete?: () => void;
       }) => void;
     };
