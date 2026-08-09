@@ -9,10 +9,10 @@ declare global {
       createWidget: (options: {
         widgetType: 'checkout';
         eventId: string;
-        iframeContainerId?: string;
-        iframeContainerHeight?: number;
         modal?: boolean;
         modalTriggerElementId?: string;
+        iframeContainerId?: string;
+        iframeContainerHeight?: number;
         onOrderComplete?: () => void;
       }) => void;
     };
@@ -20,10 +20,13 @@ declare global {
 }
 
 function extractEventbriteId(url: string): string | null {
-  // Grab all runs of 6+ digits; the last one is the event ID.
-  // Handles trailing slashes, query strings, and .ca/.com domains.
   const matches = [...url.matchAll(/\d{6,}/g)];
   return matches.length > 0 ? matches[matches.length - 1][0] : null;
+}
+
+function extractEventbriteDomain(url: string): string {
+  const match = url.match(/https?:\/\/(www\.[^/]+)/);
+  return match ? match[1] : 'www.eventbrite.com';
 }
 
 interface Props {
@@ -35,21 +38,22 @@ interface Props {
 export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Props) {
   const [loadError, setLoadError] = useState(false);
   const eventId = eventbriteUrl ? extractEventbriteId(eventbriteUrl.trim()) : null;
-  const containerId = eventId ? `eb-widget-${eventId}` : '';
+  const triggerId = eventId ? `eb-modal-trigger-${eventId}` : '';
+  const scriptDomain = eventbriteUrl ? extractEventbriteDomain(eventbriteUrl) : 'www.eventbrite.com';
 
   useEffect(() => {
-    if (!eventId || !containerId) return;
+    if (!eventId || !triggerId) return;
 
     let cancelled = false;
 
     const initWidget = () => {
       if (cancelled) return;
-      if (!document.getElementById(containerId)) return;
+      if (!document.getElementById(triggerId)) return;
       window.EBWidgets?.createWidget({
         widgetType: 'checkout',
         eventId,
-        iframeContainerId: containerId,
-        iframeContainerHeight: 425,
+        modal: true,
+        modalTriggerElementId: triggerId,
         onOrderComplete: () => {
           track({ name: 'eventbrite_order_complete', event_label: eventTitle });
         },
@@ -71,14 +75,14 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
     }
 
     const script = document.createElement('script');
-    script.src = 'https://www.eventbrite.com/static/widgets/eb_widgets.js';
+    script.src = `https://${scriptDomain}/static/widgets/eb_widgets.js`;
     script.async = true;
     script.onload = initWidget;
     script.onerror = () => { if (!cancelled) setLoadError(true); };
     document.body.appendChild(script);
 
     return () => { cancelled = true; };
-  }, [eventId, containerId, eventTitle]);
+  }, [eventId, triggerId, eventTitle, scriptDomain]);
 
   if (!eventbriteUrl) {
     if (!hasTickets) return null;
@@ -95,7 +99,7 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
         href={eventbriteUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className={styles.fallbackLink}
+        className={styles.buyButton}
         onClick={() => track({ name: 'eventbrite_click', event_label: eventTitle })}
       >
         <FormattedMessage id="festivalEvent.buyTickets" />
@@ -103,5 +107,9 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
     );
   }
 
-  return <div id={containerId} className={styles.widget} />;
+  return (
+    <button id={triggerId} type="button" className={styles.buyButton}>
+      <FormattedMessage id="festivalEvent.buyTickets" />
+    </button>
+  );
 }
