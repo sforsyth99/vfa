@@ -14,7 +14,7 @@ import { AuthorFeatureCard } from '../../components/AuthorFeatureCard/AuthorFeat
 import { CARD_PALETTE } from '../../components/AuthorFeatureCard/cardPalette.ts';
 import { VenueMapRow } from '../../components/VenueMapRow/VenueMapRow.tsx';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
-import { EventbriteLink } from '../../components/EventbriteLink/EventbriteLink';
+import { EventbriteWidget } from '../../components/EventbriteWidget/EventbriteWidget';
 import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
@@ -183,11 +183,11 @@ export default function FestivalEventPage() {
         <p className={`${styles.locationBadge} ${locationBadgeClass}`}>{locationMode}</p>
       )}
       {age_range && <p className={styles.ageRange}>{age_range}</p>}
-      {eventbrite_url && (
-        <EventbriteLink href={eventbrite_url} eventTitle={decodeHtmlEntities(event.title?.rendered ?? '')} className={styles.eventbriteLink}>
-          <FormattedMessage id="festivalEvent.buyTickets" />
-        </EventbriteLink>
-      )}
+      <EventbriteWidget
+        eventbriteUrl={eventbrite_url}
+        eventTitle={decodeHtmlEntities(event.title?.rendered ?? '')}
+        hasTickets={tickets.length > 0}
+      />
       {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
       {(authors.length > 0 ||
         moderator.length > 0 ||

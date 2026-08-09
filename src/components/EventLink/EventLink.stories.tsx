@@ -15,10 +15,6 @@ type Story = StoryObj<typeof meta>;
 
 export const InternalLink: Story = {};
 
-export const EventbriteLink: Story = {
-  args: { eventbriteUrl: 'https://www.eventbrite.ca/e/example-123' },
-};
-
 export const KidsfestInternal: Story = {
-  args: { slug: 'kidfest-storytime', isKidfest: true },
+  args: { slug: 'kidfest-storytime', isKidfest: true, eventType: 'author_fair' },
 };
