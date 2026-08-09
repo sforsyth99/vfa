@@ -21,6 +21,7 @@ import VenuesPage from './pages/Venues/Venues';
 import WhoWeArePage from './pages/WhoWeAre/WhoWeAre';
 import StrategicPlanPage from './pages/StrategicPlan/StrategicPlan';
 import ArchivesPage from './pages/Archives/Archives';
+import EventbriteTestPage from './pages/EventbriteTest/EventbriteTest';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="/strategic-plan" element={<StrategicPlanPage />} />
           <Route path="/archives" element={<ArchivesPage />} />
           <Route path="/qa-archive-page" element={<ArchivesPage />} />
+          <Route path="/test-widget" element={<EventbriteTestPage />} />
           <Route path="/:slug" element={<DynamicPage />} />
         </Routes>
       </ErrorBoundary>
