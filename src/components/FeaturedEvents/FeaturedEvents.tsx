@@ -5,6 +5,7 @@ import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { eventPath } from '../../utils/eventPath';
 import { EventLink } from '../EventLink/EventLink';
+import { SkeletonBlock } from '../Skeleton/Skeleton';
 import styles from './FeaturedEvents.module.css';
 
 function formatTime(t: string): string {
@@ -19,7 +20,17 @@ export function FeaturedEvents() {
   const { data: events, isLoading } = useGetFestivalEvents();
   const { data: interviews } = useGetInterviews();
 
-  if (isLoading) return null;
+  if (isLoading) return (
+    <section className={styles.section} aria-busy="true">
+      <div className={styles.inner}>
+        <SkeletonBlock className={styles.skeletonEyebrow} />
+        <SkeletonBlock className={styles.skeletonHeading} />
+        <div className={styles.skeletonList}>
+          {[0, 1, 2].map((i) => <SkeletonBlock key={i} className={styles.skeletonCard} />)}
+        </div>
+      </div>
+    </section>
+  );
 
   // Map author ID → their most recent interview (by festival year)
   const interviewByAuthor = new Map(
@@ -45,9 +56,17 @@ export function FeaturedEvents() {
         <ul className={styles.list}>
           {featured.map((event) => {
             const { event_date, time_start, time_end, venue, summary, tickets, authors, event_image } = event.event_data;
-            const inPersonTicket = tickets.find((t) => t.type === 'in_person');
-            const rawPrice = inPersonTicket?.price;
-            const price = rawPrice ? `$${rawPrice}` : 'Free';
+            const inPersonTickets = tickets.filter((t) => t.type === 'in_person');
+            const relevant = inPersonTickets.length > 0 ? inPersonTickets : tickets;
+            const priced = relevant.filter((t) => t.price_min !== null);
+            const fmt = (n: number) => Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`;
+            const price: string | null = priced.length === 0 ? null : (() => {
+              const mins = priced.map((t) => t.price_min as number);
+              const maxes = priced.map((t) => t.price_max ?? (t.price_min as number));
+              if (maxes.every((n) => n === 0)) return intl.formatMessage({ id: 'events.free' });
+              const lo = Math.min(...mins); const hi = Math.max(...maxes);
+              return lo === hi ? fmt(lo) : `${fmt(lo)}–${fmt(hi)}`;
+            })();
             const dateStr = event_date
               ? new Date(event_date + 'T00:00:00').toLocaleDateString('en-CA', {
                   weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',

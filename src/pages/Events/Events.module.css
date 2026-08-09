@@ -130,7 +130,7 @@
     transition: opacity 0.15s ease, visibility 0.15s ease;
 }
 
-.row:hover .popover {
+.rowPopoverActive .popover {
     opacity: 1;
     visibility: visible;
 }

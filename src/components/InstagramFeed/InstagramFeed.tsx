@@ -1,13 +1,22 @@
 import { useIntl } from 'react-intl';
 import { useGetInstagramFeed } from '../../api/instagram/useGetInstagramFeed';
 import { track } from '../../utils/analytics';
+import { SkeletonBlock } from '../Skeleton/Skeleton';
 import styles from './InstagramFeed.module.css';
 
 export function InstagramFeed() {
   const intl = useIntl();
   const { data, isLoading, isError } = useGetInstagramFeed();
 
-  if (isLoading || isError || !data?.posts?.length) return null;
+  if (isLoading) return (
+    <section className={styles.section} aria-busy="true">
+      <SkeletonBlock className={styles.skeletonHeading} />
+      <div className={styles.skeletonGrid}>
+        {[0, 1, 2].map((i) => <SkeletonBlock key={i} className={styles.skeletonPost} />)}
+      </div>
+    </section>
+  );
+  if (isError || !data?.posts?.length) return null;
 
   const posts = data.posts.slice(0, 3);
   const profileUrl = `https://www.instagram.com/${data.username}/`;

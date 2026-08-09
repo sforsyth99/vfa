@@ -338,16 +338,20 @@ add_action('rest_api_init', function() {
                 'online_url'   => get_post_meta($id, 'online_url', true),
                 'eventbrite_url' => get_post_meta($id, 'eventbrite_url', true),
                 'tickets' => (function() use ($id) {
-                    $types  = get_post_meta($id, 'ticket_type', false);
-                    $tiers  = get_post_meta($id, 'ticket_tier', false);
-                    $prices = get_post_meta($id, 'ticket_price', false);
-                    $count  = max(count($types), count($tiers), count($prices));
+                    $types      = get_post_meta($id, 'ticket_type', false);
+                    $tiers      = get_post_meta($id, 'ticket_tier', false);
+                    $prices_min = get_post_meta($id, 'ticket_price_min', false);
+                    $prices_max = get_post_meta($id, 'ticket_price_max', false);
+                    $count      = max(count($types), count($tiers), count($prices_min));
                     if ($count === 0) return [];
-                    return array_map(function($i) use ($types, $tiers, $prices) {
+                    return array_map(function($i) use ($types, $tiers, $prices_min, $prices_max) {
+                        $raw_min = $prices_min[$i] ?? '';
+                        $raw_max = $prices_max[$i] ?? '';
                         return [
-                            'type'  => $types[$i]  ?? '',
-                            'tier'  => $tiers[$i]  ?? '',
-                            'price' => $prices[$i] ?? '',
+                            'type'      => $types[$i] ?? '',
+                            'tier'      => $tiers[$i] ?? '',
+                            'price_min' => $raw_min !== '' ? (float) $raw_min : null,
+                            'price_max' => $raw_max !== '' ? (float) $raw_max : null,
                         ];
                     }, range(0, $count - 1));
                 })(),

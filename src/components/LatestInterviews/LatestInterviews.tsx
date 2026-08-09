@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { sortBySurname } from '../../utils/sortBySurname';
+import { SkeletonBlock } from '../Skeleton/Skeleton';
 import styles from './LatestInterviews.module.css';
 
 const COUNT = 16;
@@ -26,7 +27,15 @@ export function LatestInterviews() {
     updateScrollState();
   }, [interviews, updateScrollState]);
 
-  if (isLoading || !interviews?.length) return null;
+  if (isLoading) return (
+    <section className={styles.section} aria-busy="true">
+      <SkeletonBlock className={styles.skeletonHeading} />
+      <div className={styles.skeletonTrack}>
+        {[0, 1, 2, 3, 4].map((i) => <SkeletonBlock key={i} className={styles.skeletonCard} />)}
+      </div>
+    </section>
+  );
+  if (!interviews?.length) return null;
 
   const latest = interviews
     .filter((i) => (i.interview_data?.authors?.[0]?.kidfest_years?.length ?? 0) === 0)

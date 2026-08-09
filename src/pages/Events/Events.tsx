@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
@@ -29,20 +29,22 @@ function formatTime(t: string): string {
 }
 
 function formatPriceGroup(
-  group: { tier: string; price: string }[],
+  group: { tier: string; price_min: number | null; price_max: number | null }[],
   freeLabel: string,
 ): string | null {
-  if (group.length === 0) return null;
-  const nums = group.flatMap((t) => (t.price.match(/\d+(\.\d+)?/g) ?? []).map(Number));
-  if (nums.length === 0 || nums.every((n) => n === 0)) return freeLabel;
-  const nonZero = nums.filter((n) => n > 0);
-  const min = nums.includes(0) ? 0 : Math.min(...nonZero);
-  const max = Math.max(...nonZero);
-  return min === max ? `$${min}` : `$${min}–$${max}`;
+  const priced = group.filter((t) => t.price_min !== null);
+  if (priced.length === 0) return null;
+  const fmt = (n: number) => Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`;
+  const mins = priced.map((t) => t.price_min as number);
+  const maxes = priced.map((t) => t.price_max ?? (t.price_min as number));
+  if (maxes.every((n) => n === 0)) return freeLabel;
+  const lo = Math.min(...mins);
+  const hi = Math.max(...maxes);
+  return lo === hi ? fmt(lo) : `${fmt(lo)}–${fmt(hi)}`;
 }
 
 function formatEventPrice(
-  tickets: { type: string; tier: string; price: string }[],
+  tickets: { type: string; tier: string; price_min: number | null; price_max: number | null }[],
   freeLabel: string,
 ): { primary: string; secondary?: string } {
   const all = tickets ?? [];
@@ -175,6 +177,8 @@ function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef:
 function EventRow({ event }: { event: FestivalEvent }) {
   const intl = useIntl();
   const popoverRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [popoverActive, setPopoverActive] = useState(false);
   const d = event.event_data;
   const title = decodeHtmlEntities(event.title?.rendered ?? '');
   const timeStr = d.time_start ? formatTime(d.time_start) : '';
@@ -201,10 +205,23 @@ function EventRow({ event }: { event: FestivalEvent }) {
     pop.style.bottom = 'auto';
   };
 
+  const handleTitleEnter = () => {
+    timerRef.current = setTimeout(() => setPopoverActive(true), 175);
+  };
+
+  const handleTitleLeave = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setPopoverActive(false);
+  };
+
   const inner = (
     <>
       <span className={styles.rowTime}>{timeStr}</span>
-      <span className={styles.rowTitleGroup}>
+      <span
+        className={styles.rowTitleGroup}
+        onMouseEnter={handleTitleEnter}
+        onMouseLeave={handleTitleLeave}
+      >
         <span className={styles.rowTitle}>{title}</span>
         {rowSubtitle && <span className={styles.rowAuthors}>{rowSubtitle}</span>}
       </span>
@@ -215,7 +232,10 @@ function EventRow({ event }: { event: FestivalEvent }) {
   const isKidsfestMain = d.is_kidfest && d.event_type === 'author_fair';
 
   return (
-    <li className={styles.row} onMouseMove={handleMouseMove}>
+    <li
+      className={`${styles.row}${popoverActive ? ` ${styles.rowPopoverActive}` : ''}`}
+      onMouseMove={handleMouseMove}
+    >
       {isKidsfestMain ? (
         <Link to="/kidsfest2026" className={styles.rowLink}>{inner}</Link>
       ) : (

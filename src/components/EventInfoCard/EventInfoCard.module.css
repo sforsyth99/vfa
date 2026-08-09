@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 0.25rem;
   background: var(--vfa-color-surface);
-  border: 1px solid var(--vfa-color-warm-border);
+  border: 2px solid var(--vfa-color-2026-gold);
   border-radius: var(--vfa-radius-lg);
   padding: 1.25rem 1.5rem;
 }

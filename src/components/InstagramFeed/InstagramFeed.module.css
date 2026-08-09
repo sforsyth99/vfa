@@ -73,6 +73,25 @@
   text-decoration: underline;
 }
 
+/* ── Skeleton ──────────────────────────────────────────── */
+
+.skeletonHeading {
+  height: 1.5rem;
+  width: 180px;
+  margin-bottom: 1.25rem;
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.skeletonPost {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--vfa-radius-card);
+}
+
 @media (max-width: 640px) {
   .grid {
     gap: 0.4rem;
