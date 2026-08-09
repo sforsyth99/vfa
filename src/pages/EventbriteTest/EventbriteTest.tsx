@@ -9,9 +9,9 @@ export default function EventbriteTestPage() {
 
   if (isLoading) return <PageLoader />;
 
-  const featured = (events ?? []).find(
-    (e) => e.event_data.is_featured && e.event_data.eventbrite_url,
-  );
+  const featured =
+    (events ?? []).find((e) => e.event_data.is_featured && e.event_data.eventbrite_url) ??
+    (events ?? []).find((e) => e.event_data.eventbrite_url);
 
   if (!featured) {
     return (
