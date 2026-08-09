@@ -1,36 +1,38 @@
 .comingSoon {
   display: inline-block;
-  margin-top: var(--spacing-md, 1.5rem);
-  padding: 0.6rem 1.2rem;
-  border: 2px solid var(--vfa-color-border, currentColor);
-  border-radius: 4px;
-  font-weight: 600;
-  color: var(--vfa-color-text-muted, #666);
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--vfa-color-warm-border);
+  border-radius: var(--vfa-radius-md);
+  font-size: var(--vfa-font-size-sm);
+  font-weight: var(--vfa-font-weight-semibold);
+  color: var(--vfa-color-ink-light);
 }
 
 .buyButton {
   display: inline-block;
-  margin-top: var(--spacing-md, 1.5rem);
-  padding: 0.75rem 1.5rem;
-  background: var(--vfa-color-primary, #000);
-  color: var(--vfa-color-on-primary, #fff);
-  font-weight: 700;
-  font-size: inherit;
+  margin-top: 0.5rem;
+  padding: 0.7rem 1.75rem;
+  background: var(--vfa-color-2026-gold);
+  color: var(--vfa-color-ink-darkest);
+  font-weight: var(--vfa-font-weight-bold);
+  font-size: var(--vfa-font-size-base);
   font-family: inherit;
+  text-align: center;
   text-decoration: none;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--vfa-radius-md);
   cursor: pointer;
+  transition: background var(--vfa-transition);
 }
 
 .buyButton:hover {
-  opacity: 0.85;
+  background: var(--vfa-color-2026-gold-dark);
 }
 
 @media (max-width: 640px) {
   .buyButton {
     display: block;
-    text-align: center;
     width: 100%;
   }
 }
