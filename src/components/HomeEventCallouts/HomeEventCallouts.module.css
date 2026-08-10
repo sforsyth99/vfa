@@ -4,9 +4,10 @@
 }
 
 .sectionDark {
-    background: var(--vfa-color-footer-bg);
+    background-image: url('../../assets/starry-background-sm.jpg');
+    background-size: cover;
+    background-position: center;
     padding-block: 3.5rem;
-
 }
 
 .inner {

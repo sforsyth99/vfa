@@ -7,6 +7,7 @@ import { eventPath } from '../../utils/eventPath';
 import { EventbriteWidget } from '../EventbriteWidget/EventbriteWidget';
 import { SkeletonBlock } from '../Skeleton/Skeleton';
 import type { PersonData } from '../../api/people/peopleTypes';
+import starryBg from '../../assets/starry-background-sm.jpg';
 import styles from './HomeEventBrowser.module.css';
 
 function formatTime(t: string): string {
@@ -116,7 +117,6 @@ export function HomeEventBrowser() {
                 return lo === hi ? fmt(lo) : `${fmt(lo)}–${fmt(hi)}`;
               })();
               const authorNames = formatAuthorNames(d.authors);
-              const eventImageSrc = d.eventbrite_image ? d.eventbrite_image[0] : null;
               const detailPath = d.is_kidfest && d.event_type === 'author_fair'
                 ? '/kidsfest2026'
                 : eventPath(event.slug);
@@ -124,11 +124,9 @@ export function HomeEventBrowser() {
               return (
                 <li key={event.id} className={styles.item}>
                   <div className={styles.card}>
-                    {eventImageSrc && (
-                      <div className={styles.cardBanner}>
-                        <img src={eventImageSrc} alt="" aria-hidden="true" loading="lazy" />
-                      </div>
-                    )}
+                    <div className={styles.cardBanner}>
+                      <img src={starryBg} alt="" aria-hidden="true" />
+                    </div>
                     <div className={styles.cardBody}>
                       <div className={styles.cardMeta}>
                         {dateStr && <span className={styles.cardDate}>{dateStr}</span>}

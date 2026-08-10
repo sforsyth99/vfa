@@ -7,9 +7,7 @@
 }
 
 .inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 2rem;
+    /* full bleed — no max-width, no padding */
 }
 
 .heading {
@@ -17,6 +15,7 @@
     font-size: 1.2rem;
     font-weight: var(--vfa-font-weight-bold);
     margin: 0 0 1.25rem;
+    padding: 0 2rem;
     color: var(--vfa-color-ink-darkest);
 }
 
@@ -26,31 +25,6 @@
     position: relative;
 }
 
-.carouselWrapper::before,
-.carouselWrapper::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 120px;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.25s;
-}
-
-.carouselWrapper::before {
-    left: 0;
-    background: linear-gradient(to right, var(--fade-color) 20%, transparent);
-}
-
-.carouselWrapper::after {
-    right: 0;
-    background: linear-gradient(to left, var(--fade-color) 20%, transparent);
-}
-
-.carouselWrapper[data-can-prev="true"]::before { opacity: 1; }
-.carouselWrapper[data-can-next="true"]::after  { opacity: 1; }
 
 /* ── Arrow buttons ───────────────────────────────────── */
 
@@ -95,8 +69,7 @@
 .track {
     list-style: none;
     margin: 0;
-    /* padding-inline centers first/last cards: (50% of container) − (half of card width) */
-    padding: 0.25rem calc(50% - min(330px, calc(50vw - 2rem - 80px))) 1.5rem;
+    padding: 0.25rem 1.5rem 1.5rem;
     display: flex;
     gap: 1.5rem;
     overflow-x: auto;
@@ -108,7 +81,7 @@
 .track::-webkit-scrollbar { display: none; }
 
 .item {
-    flex: 0 0 min(660px, calc(100vw - 4rem - 160px));
+    flex: 0 0 min(660px, calc(100vw - 160px));
     scroll-snap-align: center;
 }
 
@@ -138,7 +111,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: left 90%;
+    object-position: center;
     display: block;
 }
 
@@ -278,13 +251,12 @@
         padding: 2rem 0;
     }
 
-    .inner {
+    .heading {
         padding: 0 1.25rem;
     }
 
     .item {
-        flex: 0 0 calc(100vw - 2 * 1.25rem - 48px);
-        scroll-snap-align: center;
+        flex: 0 0 calc(100vw - 96px);
     }
 
     .card {
@@ -293,12 +265,34 @@
     }
 
     .cardBanner {
-        flex: none;
-        width: 100%;
-        height: 180px;
+        display: none;
     }
 
     .cardBody {
-        padding: 1.25rem;
+        padding: 0.875rem 1rem;
+    }
+
+    .cardMeta {
+        gap: 0.2rem 0.75rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .cardTitle {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .cardAuthors {
+        margin-bottom: 0.3rem;
+    }
+
+    .cardSummary {
+        -webkit-line-clamp: 2;
+        margin-bottom: 0.6rem;
+    }
+
+    .cardBody .cardActions {
+        margin-top: 0;
+        padding-top: 0;
     }
 }
