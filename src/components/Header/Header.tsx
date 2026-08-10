@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import styles from './Header.module.css';
 import logo from '../../assets/VFA_Logo.png';
@@ -11,6 +11,7 @@ const DONATE_URL = 'https://www.canadahelps.org/en/charities/victoria-festival-o
 
 function Header() {
   const intl = useIntl();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const closeMenu = () => setIsOpen(false);
   const donateLabel = intl.formatMessage({ id: 'nav.donate' });
@@ -28,7 +29,14 @@ function Header() {
         >
           <ul className={styles.navList}>
             {PRIMARY_NAV.map((item) => (
-              <li key={item.to}>
+              <li
+                key={item.to}
+                className={
+                  item.highlightWhenActive && location.pathname === item.to
+                    ? styles.navItemActive
+                    : undefined
+                }
+              >
                 {item.external ? (
                   <a href={item.to} target="_blank" rel="noopener noreferrer" onClick={closeMenu}>
                     {item.label}

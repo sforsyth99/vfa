@@ -326,6 +326,7 @@
   "archives.expand": "Expand {label}",
   "archives.collapse": "Collapse {label}",
   "archives.empty": "No archived interviews found.",
+  "archives.jumpNav.label": "Jump to letter",
   "archives.moreFrom": "More from VFA",
   "archives.youtube": "Watch on YouTube",
   "archives.soundcloud": "Listen on SoundCloud",

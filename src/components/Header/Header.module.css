@@ -58,6 +58,17 @@
     color: var(--vfa-color-2026-indigo);
 }
 
+.navList .navItemActive a {
+    background: var(--vfa-color-2026-indigo);
+    color: var(--vfa-color-text-light);
+    padding: 0.25em 0.7em;
+    border-radius: var(--vfa-radius-md);
+}
+
+.navList .navItemActive a:hover {
+    color: var(--vfa-color-text-light);
+}
+
 .donateButton {
     display: inline-block;
     padding: 0.45em 1.2em;
@@ -179,6 +190,11 @@
         display: block;
         padding: 0.85rem 0;
         font-size: 1.05rem;
+    }
+
+    .navList .navItemActive a {
+        padding: 0.85rem 0;
+        border-radius: 0;
     }
 
     .donateMobile {

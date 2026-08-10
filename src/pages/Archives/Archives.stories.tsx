@@ -8,18 +8,19 @@ const VFA = 'https://api.victoriafestivalofauthors.ca/wp-json/vfa/v1';
 const CATEGORIES = [
   { id: 5, label: 'Q&A 2025', slug: 'qa-2025', count: 3 },
   { id: 4, label: 'Q&A 2024', slug: 'qa-2024', count: 2 },
-  { id: 3, label: 'Q&A 2019 and earlier', slug: 'qa-2019-and-earlier', count: 12 },
 ];
 
-const makePosts = (categoryId: number) => ({
-  items: [
-    { id: categoryId * 10 + 1, slug: `qa-alice-munro-${categoryId}`, title: 'Q&A with Alice Munro', link: `https://victoriafestivalofauthors.ca/qa-alice-munro-${categoryId}/` },
-    { id: categoryId * 10 + 2, slug: `qa-margaret-atwood-${categoryId}`, title: 'Q&A with Margaret Atwood', link: `https://victoriafestivalofauthors.ca/qa-margaret-atwood-${categoryId}/` },
+const POSTS_BY_CATEGORY: Record<number, object[]> = {
+  5: [
+    { id: 51, slug: 'qa-alice-munro', title: 'Q&A with Alice Munro', link: '' },
+    { id: 52, slug: 'qa-zsuzsi-gartner', title: 'Q&A with Zsuzsi Gartner', link: '' },
+    { id: 53, slug: 'qa-robert-bringhurst', title: 'Q&A with Robert Bringhurst', link: '' },
   ],
-  total: 2,
-  total_pages: 1,
-  page: 1,
-});
+  4: [
+    { id: 41, slug: 'qa-margaret-atwood', title: 'Q&A with Margaret Atwood', link: '' },
+    { id: 42, slug: 'qa-eden-robinson', title: 'Q&A with Eden Robinson', link: '' },
+  ],
+};
 
 const meta = {
   component: ArchivesPage,
@@ -33,8 +34,9 @@ export const Default: Story = {
     msw: [
       http.get(`${VFA}/qa-categories`, () => HttpResponse.json(CATEGORIES)),
       http.get(`${VFA}/qa-posts`, ({ request }) => {
-        const categoryId = Number(new URL(request.url).searchParams.get('category_id'));
-        return HttpResponse.json(makePosts(categoryId));
+        const catId = Number(new URL(request.url).searchParams.get('category_id'));
+        const items = POSTS_BY_CATEGORY[catId] ?? [];
+        return HttpResponse.json({ items, total: items.length, total_pages: 1, page: 1 });
       }),
     ],
   },
@@ -42,8 +44,8 @@ export const Default: Story = {
     const heading = await canvas.findByRole('heading', { name: /interview archives/i });
     await expect(heading).toBeVisible();
 
-    const toggle = await canvas.findByRole('button', { name: /expand Q&A 2025/i });
-    await expect(toggle).toBeVisible();
+    const atwood = await canvas.findByText(/Margaret Atwood/i);
+    await expect(atwood).toBeVisible();
   },
 };
 
