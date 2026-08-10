@@ -1,7 +1,8 @@
 import { Container } from '../../components/Container/Container';
-import { FeaturedEvents } from '../../components/FeaturedEvents/FeaturedEvents';
 import { InstagramFeed } from '../../components/InstagramFeed/InstagramFeed';
 import { Hero } from '../../components/Hero/Hero';
+import { HomeAuthorsSpotlight } from '../../components/HomeAuthorsSpotlight/HomeAuthorsSpotlight';
+import { HomeEventBrowser } from '../../components/HomeEventBrowser/HomeEventBrowser';
 import { KidsFestPromo } from '../../components/KidsFestPromo/KidsFestPromo';
 import { HomeNewsletter } from '../../components/HomeNewsletter/HomeNewsletter';
 import { HomeWorkshopCallout, HomeOnlineCallout } from '../../components/HomeEventCallouts/HomeEventCallouts';
@@ -11,8 +12,9 @@ export default function HomePage() {
   return (
     <main id="main-content">
       <Hero />
-      <FeaturedEvents />
+      <HomeEventBrowser />
       <KidsFestPromo />
+      <HomeAuthorsSpotlight />
       <HomeWorkshopCallout />
       <HomeNewsletter />
       <Container>

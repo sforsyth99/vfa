@@ -365,7 +365,7 @@ export default function KidsFest2026Page() {
         </Container>
       </div>
 
-      <div className={styles.bandWhite}>
+      <div className={styles.bandCedar}>
         <Container>
           <KidsFestReadBooks />
         </Container>

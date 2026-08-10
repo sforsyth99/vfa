@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import styles from './Footer.module.css';
+import logoSrc from '../../assets/VFA_Logo.png';
 import titleSponsorSrc from '../../assets/titleSponsor/MunrosBooks.jpg';
 import calfStampSrc from '../../assets/CALF-Member_Stamp_Primary.png';
 import SocialIcons from '../SocialIcons/SocialIcons';
@@ -18,28 +19,43 @@ function Footer() {
 
   return (
     <footer className={styles.footer}>
+      <div className={styles.footerBrand}>
+        <Link to="/" className={styles.footerLogoLink}>
+          <img
+            src={logoSrc}
+            alt={intl.formatMessage({ id: 'app.title' })}
+            className={styles.footerLogo}
+          />
+        </Link>
+      </div>
+
       <nav className={styles.footerNav} aria-label={intl.formatMessage({ id: 'footer.menu.label' })}>
         {FOOTER_NAV.map((group) => (
           <div key={group.heading} className={styles.footerNavGroup}>
             <p className={styles.footerNavHeading}>{group.heading}</p>
             <ul className={styles.footerNavList}>
-              {group.items.map((item) => (
-                <li key={item.to}>
-                  {item.external ? (
-                    <a
-                      href={item.to}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.footerNavLink}
-                      onClick={item.trackingLabel === 'donate' ? () => track({ name: 'donate_click', event_location: 'footer' }) : undefined}
-                    >
-                      {item.label}
-                    </a>
-                  ) : (
-                    <Link to={item.to} className={styles.footerNavLink}>{item.label}</Link>
-                  )}
-                </li>
-              ))}
+              {group.items.map((item) => {
+                const linkClass = item.featured
+                  ? `${styles.footerNavLink} ${styles.footerNavLinkFeatured}`
+                  : styles.footerNavLink;
+                return (
+                  <li key={item.to}>
+                    {item.external ? (
+                      <a
+                        href={item.to}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={linkClass}
+                        onClick={item.trackingLabel === 'donate' ? () => track({ name: 'donate_click', event_location: 'footer' }) : undefined}
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link to={item.to} className={linkClass}>{item.label}</Link>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ))}
@@ -87,12 +103,14 @@ function Footer() {
         </div>
       </div>
 
-      <p className={styles.footerText}>
-        <FormattedMessage id="footer.landAcknowledgement" />
-      </p>
-      <p className={styles.footerText}>
-        <FormattedMessage id="footer.copyright" values={{ year }} />
-      </p>
+      <div className={styles.footerBottom}>
+        <p className={styles.footerAcknowledgement}>
+          <FormattedMessage id="footer.landAcknowledgement" />
+        </p>
+        <p className={styles.footerCopyright}>
+          <FormattedMessage id="footer.copyright" values={{ year }} />
+        </p>
+      </div>
     </footer>
   );
 }

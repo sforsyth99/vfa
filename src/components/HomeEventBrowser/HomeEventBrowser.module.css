@@ -1,0 +1,298 @@
+.section {
+    background: var(--vfa-color-background);
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--vfa-color-warm-border-light);
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    --fade-color: var(--vfa-color-background);
+}
+
+.inner {
+    /* full bleed — no max-width, no padding */
+}
+
+.heading {
+    font-family: var(--vfa-font-display);
+    font-size: 1.2rem;
+    font-weight: var(--vfa-font-weight-bold);
+    margin: 0 0 1.25rem;
+    padding: 0 2rem;
+    color: var(--vfa-color-ink-darkest);
+}
+
+/* ── Carousel wrapper ────────────────────────────────── */
+
+.carouselWrapper {
+    position: relative;
+}
+
+
+/* ── Arrow buttons ───────────────────────────────────── */
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--vfa-color-ink-darkest);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    transition: background var(--vfa-transition-base), box-shadow var(--vfa-transition-base), opacity 0.25s;
+}
+
+.arrow:hover {
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+}
+
+.arrow:disabled {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.arrowPrev { left: 0.75rem; }
+.arrowNext { right: 0.75rem; }
+
+/* ── Carousel track ──────────────────────────────────── */
+
+.track {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 1.5rem 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar { display: none; }
+
+.item {
+    flex: 0 0 min(660px, calc(100vw - 160px));
+    scroll-snap-align: center;
+}
+
+/* ── Event card ──────────────────────────────────────── */
+
+.card {
+    background: var(--vfa-color-surface);
+    border: 1px solid var(--vfa-color-warm-border-light);
+    border-radius: var(--vfa-radius-card);
+    box-shadow: var(--vfa-shadow-card);
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    height: 100%;
+    min-height: 320px;
+}
+
+/* ── Left image panel ────────────────────────────────── */
+
+.cardBanner {
+    flex: 0 0 300px;
+    overflow: hidden;
+    background: var(--vfa-color-warm-border-faint);
+}
+
+.cardBanner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.cardBody {
+    flex: 1;
+    min-width: 0;
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardBody .cardActions {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+.cardMeta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 1rem;
+    margin-bottom: 0.65rem;
+}
+
+.cardDate {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-2026-indigo);
+}
+
+.cardTime {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+    font-variant-numeric: tabular-nums;
+}
+
+.cardVenue {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+}
+
+.cardPrice {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-darkest);
+    background: var(--vfa-color-warm-border-faint);
+    border-radius: var(--vfa-radius-pill);
+    padding: 0.1em 0.65em;
+}
+
+.cardTitle {
+    font-family: var(--vfa-font-display);
+    font-size: 1.2rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    margin: 0 0 0.75rem;
+    line-height: var(--vfa-line-height-tight);
+}
+
+.cardTitle a {
+    color: var(--vfa-color-ink-darkest);
+    text-decoration: none;
+}
+
+.cardTitle a:hover {
+    color: var(--vfa-color-2026-indigo);
+    text-decoration: underline;
+}
+
+.cardAuthors {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+    font-style: italic;
+    margin: 0 0 0.5rem;
+    line-height: var(--vfa-line-height-body);
+}
+
+.cardSummary {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-dark);
+    line-height: var(--vfa-line-height-body);
+    margin: 0 0 1.1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cardActions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+/* Reset margins that EventbriteWidget applies for standalone usage */
+.cardActions > * {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.detailsLink {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-ink-mid);
+    text-decoration: none;
+    transition: color var(--vfa-transition-base);
+}
+
+.detailsLink:hover {
+    color: var(--vfa-color-2026-indigo);
+}
+
+/* ── Skeleton ────────────────────────────────────────── */
+
+.skeletonHeading {
+    height: 1.2rem;
+    width: 140px;
+    margin-bottom: 1.25rem;
+}
+
+.skeletonTrack {
+    display: flex;
+    gap: 1.5rem;
+    overflow: hidden;
+}
+
+.skeletonCard {
+    flex: 0 0 min(720px, calc(100vw - 6rem));
+    height: 320px;
+    border-radius: var(--vfa-radius-card);
+}
+
+/* ── Mobile ──────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+    .section {
+        padding: 2rem 0;
+    }
+
+    .heading {
+        padding: 0 1.25rem;
+    }
+
+    .item {
+        flex: 0 0 calc(100vw - 96px);
+    }
+
+    .card {
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .cardBanner {
+        display: none;
+    }
+
+    .cardBody {
+        padding: 0.875rem 1rem;
+    }
+
+    .cardMeta {
+        gap: 0.2rem 0.75rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .cardTitle {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .cardAuthors {
+        margin-bottom: 0.3rem;
+    }
+
+    .cardSummary {
+        -webkit-line-clamp: 2;
+        margin-bottom: 0.6rem;
+    }
+
+    .cardBody .cardActions {
+        margin-top: 0;
+        padding-top: 0;
+    }
+}

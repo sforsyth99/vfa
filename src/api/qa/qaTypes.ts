@@ -23,3 +23,7 @@ export interface QAPage {
   total_pages: number;
   page: number;
 }
+
+export interface QAPostWithYear extends QAPost {
+  year: number | null;
+}

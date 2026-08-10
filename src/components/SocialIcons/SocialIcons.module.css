@@ -21,8 +21,8 @@
 
 .socialLink:hover,
 .socialLink:focus {
-    background: var(--vfa-color-accent-gold);
-    color: var(--vfa-color-text);
+    background: var(--vfa-color-2026-gold);
+    color: var(--vfa-color-2026-indigo);
     transform: translateY(-2px);
     outline: none;
 }

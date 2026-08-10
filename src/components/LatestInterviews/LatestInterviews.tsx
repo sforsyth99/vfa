@@ -49,9 +49,14 @@ export function LatestInterviews() {
 
   return (
     <section className={styles.section} aria-labelledby="latest-interviews-heading">
-      <h2 id="latest-interviews-heading" className={styles.heading}>
-        <FormattedMessage id="interviews.latest.heading" />
-      </h2>
+      <div className={styles.headingRow}>
+        <h2 id="latest-interviews-heading" className={styles.heading}>
+          <FormattedMessage id="interviews.latest.heading" />
+        </h2>
+        <Link to="/interviews" className={styles.seeAll}>
+          <FormattedMessage id="interviews.latest.viewAll" /> ›
+        </Link>
+      </div>
 
       <div
         className={styles.carouselWrapper}

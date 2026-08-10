@@ -1,104 +1,104 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useGetQACategories } from '../../api/qa/useGetQACategories.ts';
-import { useGetQAPosts } from '../../api/qa/useGetQAPosts.ts';
-import type { QACategory } from '../../api/qa/qaTypes.ts';
+import { useGetAllQAPosts } from '../../api/qa/useGetAllQAPosts.ts';
+import type { QAPostWithYear } from '../../api/qa/qaTypes.ts';
 import { usePageTitle } from '../../utils/usePageTitle.ts';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
 import styles from './Archives.module.css';
 
-function YearSection({ category }: { category: QACategory }) {
-  const intl = useIntl();
-  const [isOpen, setIsOpen] = useState(false);
-  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetQAPosts(category.id, isOpen);
+function cleanTitle(title: string): string {
+  return title.replace(/^Q\s*&\s*A\s+with\s+/i, '').trim();
+}
 
-  const posts = data?.pages.flatMap((p) => p.items) ?? [];
-  const sectionId = `archive-${category.slug}`;
+function surnameInitial(post: QAPostWithYear): string {
+  const name = cleanTitle(post.title);
+  const surname = name.trim().split(/\s+/).pop() ?? name;
+  return surname[0]?.toUpperCase() ?? '#';
+}
 
-  return (
-    <div className={styles.yearSection}>
-      <button
-        className={styles.yearToggle}
-        onClick={() => setIsOpen((o) => !o)}
-        aria-expanded={isOpen}
-        aria-controls={sectionId}
-        aria-label={intl.formatMessage(
-          { id: isOpen ? 'archives.collapse' : 'archives.expand' },
-          { label: category.label }
-        )}
-      >
-        <span className={styles.yearLabel}>{category.label}</span>
-        <span className={styles.yearChevron} aria-hidden="true">
-          {isOpen ? '▲' : '▼'}
-        </span>
-        <span className={styles.yearCount}>
-          <FormattedMessage id="archives.interviewCount" values={{ count: category.count }} />
-        </span>
-      </button>
-
-      <div id={sectionId} className={isOpen ? styles.yearContent : styles.yearContentHidden}>
-        <QueryState
-          isLoading={isLoading}
-          isError={isError}
-          loadingId="archives.interviewsLoading"
-          errorId="archives.interviewsError"
-        />
-
-        {posts.length > 0 && (
-          <ul className={styles.interviewList}>
-            {posts.map((post) => (
-              <li key={post.id} className={styles.interviewItem}>
-                <Link to={`/${post.slug}`} className={styles.interviewLink}>
-                  <span className={styles.interviewAuthor}>{post.title}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {hasNextPage && (
-          <button
-            className={styles.loadMore}
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-          >
-            <FormattedMessage id={isFetchingNextPage ? 'archives.loadingMore' : 'archives.loadMore'} />
-          </button>
-        )}
-      </div>
-    </div>
-  );
+function bySurnameTitle(a: QAPostWithYear, b: QAPostWithYear): number {
+  const nameA = cleanTitle(a.title);
+  const nameB = cleanTitle(b.title);
+  const surA = nameA.trim().split(/\s+/).pop()?.toLowerCase() ?? '';
+  const surB = nameB.trim().split(/\s+/).pop()?.toLowerCase() ?? '';
+  return surA.localeCompare(surB) || nameA.localeCompare(nameB);
 }
 
 export default function ArchivesPage() {
   const intl = useIntl();
   usePageTitle(intl.formatMessage({ id: 'archives.pageTitle' }));
-  const { data: categories, isLoading, isError } = useGetQACategories();
+  const { isLoading, isError, posts } = useGetAllQAPosts();
+
+  const grouped =
+    !isLoading && !isError && posts.length > 0
+      ? [...posts].sort(bySurnameTitle).reduce<Record<string, QAPostWithYear[]>>((acc, post) => {
+          const letter = surnameInitial(post);
+          (acc[letter] ??= []).push(post);
+          return acc;
+        }, {})
+      : null;
+
+  const letters = grouped ? Object.keys(grouped).sort() : [];
 
   return (
     <main id="main-content">
       <Container>
         <div className={styles.page}>
-          <PageTitle><FormattedMessage id="archives.heading" /></PageTitle>
+          <PageTitle>
+            <FormattedMessage id="archives.heading" />
+          </PageTitle>
+
           <QueryState
             isLoading={isLoading}
             isError={isError}
-            isEmpty={categories?.length === 0}
+            isEmpty={!isLoading && !isError && posts.length === 0}
             loadingId="archives.yearsLoading"
             errorId="archives.yearsError"
             emptyId="archives.empty"
           />
-          {categories && categories.length > 0 && (
-            <div className={styles.yearList}>
-              {categories.map((category) => (
-                <YearSection key={category.id} category={category} />
-              ))}
-            </div>
+
+          {grouped && (
+            <>
+              <nav
+                className={styles.jumpNav}
+                aria-label={intl.formatMessage({ id: 'archives.jumpNav.label' })}
+              >
+                {letters.map((letter) => (
+                  <a key={letter} href={`#archive-${letter}`} className={styles.jumpLink}>
+                    {letter}
+                  </a>
+                ))}
+              </nav>
+
+              <div className={styles.listPanel}>
+                {letters.map((letter) => (
+                  <section key={letter} id={`archive-${letter}`} className={styles.letterSection}>
+                    <div className={styles.letterDivider} aria-hidden="true">
+                      {letter}
+                    </div>
+                    <ul className={styles.list}>
+                      {grouped[letter].map((post) => (
+                        <li key={post.id}>
+                          <Link to={`/${post.slug}`} className={styles.item}>
+                            <span className={styles.itemInfo}>
+                              <span className={styles.title}>{cleanTitle(post.title)}</span>
+                              {post.year && (
+                                <span className={styles.year}>({post.year})</span>
+                              )}
+                            </span>
+                            <span className={styles.chevron} aria-hidden="true">›</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                ))}
+              </div>
+            </>
           )}
+
           <div className={styles.socialSection}>
             <p className={styles.socialHeading}>
               <FormattedMessage id="archives.moreFrom" />

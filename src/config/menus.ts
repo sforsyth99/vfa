@@ -3,6 +3,8 @@ export interface NavItem {
   to: string;
   external?: boolean;
   trackingLabel?: string;
+  highlightWhenActive?: boolean;
+  featured?: boolean;
 }
 
 export interface FooterNavGroup {
@@ -15,7 +17,7 @@ export const PRIMARY_NAV: NavItem[] = [
   { label: 'Events', to: '/events' },
   { label: 'Authors', to: '/authors' },
   { label: 'Interviews', to: '/interviews' },
-  { label: 'KidsFest', to: '/kidsfest2026' },
+  { label: 'KidsFest', to: '/kidsfest2026', highlightWhenActive: true },
 ];
 
 // ── Edit these to reorganize the footer nav ───────────────────────────────────
@@ -26,7 +28,7 @@ export const FOOTER_NAV: FooterNavGroup[] = [
       { label: 'Events', to: '/events' },
       { label: 'Authors', to: '/authors' },
       { label: 'Interviews', to: '/interviews' },
-      { label: 'KidsFest', to: '/kidsfest2026' },
+      { label: 'KidsFest', to: '/kidsfest2026', featured: true },
       { label: 'Archives', to: '/archives' },
     ],
   },

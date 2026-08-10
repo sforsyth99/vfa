@@ -42,6 +42,9 @@ function NewsletterSignup({ location }: { location: 'footer' | 'homepage' }) {
   return (
     <div className={styles.newsletter}>
       <p className={styles.title}>{intl.formatMessage({ id: location === 'homepage' ? 'newsletter.title.homepage' : 'newsletter.title' })}</p>
+      {location === 'footer' && (
+        <p className={styles.tagline}>{intl.formatMessage({ id: 'newsletter.footer.tagline' })}</p>
+      )}
       <form onSubmit={handleSubmit} className={styles.form} noValidate>
         {/* Mailchimp honeypot — must stay empty */}
         <div className={styles.honeypot} aria-hidden="true">

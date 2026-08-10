@@ -1,0 +1,94 @@
+/* Only show when the hamburger menu is active (matches Header breakpoint) */
+@media (min-width: 769px) {
+    .section {
+        display: none;
+    }
+}
+
+.section {
+    background: var(--vfa-color-surface);
+    padding: 1.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    max-width: var(--vfa-width-page);
+    margin: 0 auto;
+}
+
+.tile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--vfa-color-background);
+    border: 1px solid var(--vfa-color-warm-border-light);
+    border-radius: var(--vfa-radius-card);
+    text-decoration: none;
+    color: inherit;
+    transition: background var(--vfa-transition-base), border-color var(--vfa-transition-base), box-shadow var(--vfa-transition-base);
+}
+
+.tile:hover {
+    background: var(--vfa-color-forest-bg);
+    border-color: var(--vfa-color-forest-light);
+    box-shadow: var(--vfa-shadow-card);
+}
+
+.tileBody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+}
+
+.tileTitle {
+    font-family: var(--vfa-font-display);
+    font-size: 0.95rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-darkest);
+    line-height: 1.2;
+}
+
+.tileDesc {
+    font-size: var(--vfa-font-size-xs);
+    color: var(--vfa-color-ink-mid);
+    line-height: var(--vfa-line-height-body);
+}
+
+.tileChevron {
+    font-size: 1.5rem;
+    color: var(--vfa-color-warm-border-mid);
+    flex-shrink: 0;
+    line-height: 1;
+    transition: color var(--vfa-transition-base), transform var(--vfa-transition-base);
+}
+
+.tile:hover .tileChevron {
+    color: var(--vfa-color-forest-dark);
+    transform: translateX(3px);
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .section {
+        padding: 1rem;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .tile {
+        padding: 1rem 1.1rem;
+    }
+}
