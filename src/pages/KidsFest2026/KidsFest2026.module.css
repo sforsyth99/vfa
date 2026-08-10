@@ -140,11 +140,7 @@
 }
 
 .bandCedar {
-    background-color: var(--vfa-color-background);
-    background-image: linear-gradient(rgba(255, 255, 255, 0.70), rgba(255, 255, 255, 0.70)),
-    url('../../assets/cedar-tree.jpg');
-    background-size: cover;
-    background-position: center;
+    background: var(--vfa-color-background);
     padding: 1.5rem 0 2.5rem;
 }
 
@@ -696,6 +692,10 @@
 
 .rbSectionHeader {
     margin: 0 0 1.75rem;
+    background: var(--vfa-color-surface);
+    padding: 1.5rem 1.75rem;
+    border-radius: var(--vfa-radius-card);
+    box-shadow: var(--vfa-shadow-card);
 }
 
 .rbEyebrow {
