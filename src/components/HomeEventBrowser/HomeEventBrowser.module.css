@@ -23,6 +23,8 @@
 
 .carouselWrapper {
     position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 
@@ -61,8 +63,13 @@
     pointer-events: none;
 }
 
-.arrowPrev { left: 0.75rem; }
-.arrowNext { right: 0.75rem; }
+.arrowPrev {
+    left: 0.75rem;
+}
+
+.arrowNext {
+    right: 0.75rem;
+}
 
 /* ── Carousel track ──────────────────────────────────── */
 
@@ -71,14 +78,16 @@
     margin: 0;
     padding: 0.25rem 1.5rem 1.5rem;
     display: flex;
-    gap: 1.5rem;
+    gap: 8rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
 }
 
-.track::-webkit-scrollbar { display: none; }
+.track::-webkit-scrollbar {
+    display: none;
+}
 
 .item {
     flex: 0 0 min(660px, calc(100vw - 160px));
@@ -105,14 +114,113 @@
     flex: 0 0 300px;
     overflow: hidden;
     background: var(--vfa-color-warm-border-faint);
+    position: relative;
 }
 
-.cardBanner img {
+.cardBanner > img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
     display: block;
+}
+
+.posterContain {
+    object-fit: contain;
+    object-position: left center;
+    background: var(--vfa-color-surface);
+}
+
+/* ── Author overlay ──────────────────────────────────── */
+
+.avatarOverlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 10px;
+    padding: 1.25rem;
+}
+
+.overlayAvatar {
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+    background: var(--vfa-color-forest-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-forest-dark);
+    aspect-ratio: 7 / 10;
+}
+
+.overlayAvatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+}
+
+/* 2 authors: side-by-side floating cards */
+.avatarOverlay[data-count="2"] .overlayAvatar {
+    width: 120px;
+    font-size: 2rem;
+}
+
+/* 3 authors: 1 on top, 2 on bottom */
+.avatarOverlay[data-count="3"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.avatarOverlay[data-count="3"] .overlayAvatar {
+    width: 100px;
+    font-size: 1.75rem;
+    justify-self: center;
+}
+
+.avatarOverlay[data-count="3"] .overlayAvatar:first-child {
+    grid-column: 1 / -1;
+}
+
+/* 4 authors: full-bleed 2×2 mosaic */
+.avatarOverlay[data-count="4"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1px;
+    padding: 0;
+    background: var(--vfa-color-warm-border-light);
+}
+
+.avatarOverlay[data-count="4"] .overlayAvatar {
+    border-radius: 0;
+    box-shadow: none;
+    aspect-ratio: unset;
+    font-size: 1.75rem;
+}
+
+/* 5 authors: floating cards */
+.avatarOverlay[data-count="5"] .overlayAvatar {
+    width: 76px;
+    font-size: 1.25rem;
+}
+
+/* KidsFest author fair — all authors, 4 per row */
+.avatarOverlayKids {
+    gap: 6px;
+    padding: 0.75rem;
+}
+
+.avatarOverlayKids .overlayAvatar {
+    width: 56px;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 .cardBody {

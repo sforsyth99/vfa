@@ -8,6 +8,8 @@ import { EventbriteWidget } from '../EventbriteWidget/EventbriteWidget';
 import { SkeletonBlock } from '../Skeleton/Skeleton';
 import type { PersonData } from '../../api/people/peopleTypes';
 import starryBg from '../../assets/starry-background-sm.jpg';
+import artWorkshopBg from '../../assets/art-workshop.jpeg';
+import kidsFestPoster from '../../assets/kids-fest-crop.png';
 import styles from './HomeEventBrowser.module.css';
 
 function formatTime(t: string): string {
@@ -117,6 +119,17 @@ export function HomeEventBrowser() {
                 return lo === hi ? fmt(lo) : `${fmt(lo)}–${fmt(hi)}`;
               })();
               const authorNames = formatAuthorNames(d.authors);
+              const isWorkshop = d.event_type === 'workshop';
+              const isKidsFestAuthorFair = d.is_kidfest && d.event_type === 'author_fair';
+              const useKidsFestPoster = isWorkshop && d.is_kidfest;
+              const useArtBg = !useKidsFestPoster && isWorkshop && d.hosts.length === 2;
+              const photoSource = isWorkshop && d.hosts.length === 1 ? d.hosts : d.authors;
+              const avatars = photoSource.slice(0, isKidsFestAuthorFair ? undefined : 5).map((a) => ({
+                name: a.name,
+                initial: a.name.trim().charAt(0).toUpperCase(),
+                src: (Array.isArray(a.photo) ? a.photo[0] : a.photo_square ? a.photo_square[0] : null)
+                  ?.replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') ?? null,
+              }));
               const detailPath = d.is_kidfest && d.event_type === 'author_fair'
                 ? '/kidsfest2026'
                 : eventPath(event.slug);
@@ -125,7 +138,24 @@ export function HomeEventBrowser() {
                 <li key={event.id} className={styles.item}>
                   <div className={styles.card}>
                     <div className={styles.cardBanner}>
-                      <img src={starryBg} alt="" aria-hidden="true" />
+                      <img
+                        src={useKidsFestPoster ? kidsFestPoster : useArtBg ? artWorkshopBg : avatars.length === 1 && avatars[0].src ? avatars[0].src.replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : starryBg}
+                        alt={useKidsFestPoster ? 'KidsFest 2026' : avatars.length === 1 ? avatars[0].name : ''}
+                        aria-hidden={useKidsFestPoster || avatars.length !== 1 ? true : undefined}
+                        className={useKidsFestPoster ? styles.posterContain : undefined}
+                      />
+                      {!useArtBg && !useKidsFestPoster && avatars.length > 1 && (
+                        <div className={`${styles.avatarOverlay}${isKidsFestAuthorFair ? ` ${styles.avatarOverlayKids}` : ''}`} data-count={avatars.length}>
+                          {avatars.map((av, i) => (
+                            <div key={i} className={styles.overlayAvatar}>
+                              {av.src
+                                ? <img src={av.src} alt={av.name} loading="lazy" />
+                                : <span aria-hidden="true">{av.initial}</span>
+                              }
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <div className={styles.cardBody}>
                       <div className={styles.cardMeta}>
