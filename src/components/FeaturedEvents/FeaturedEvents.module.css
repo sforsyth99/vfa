@@ -19,12 +19,34 @@
     margin: 0 0 0.5rem;
 }
 
+.headingRow {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
 .heading {
     font-family: var(--vfa-font-display);
     font-size: 1.6rem;
     font-weight: var(--vfa-font-weight-bold);
-    margin: 0 0 1.75rem;
+    margin: 0;
     line-height: var(--vfa-line-height-tight);
+    color: var(--vfa-color-ink-darkest);
+}
+
+.seeAll {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-forest-dark);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color var(--vfa-transition-base);
+}
+
+.seeAll:hover {
     color: var(--vfa-color-ink-darkest);
 }
 

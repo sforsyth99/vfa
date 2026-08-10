@@ -50,9 +50,14 @@ export function FeaturedEvents() {
     <section className={styles.section} aria-labelledby="featured-events-heading">
       <div className={styles.inner}>
         <p className={styles.eyebrow}><FormattedMessage id="featured.eyebrow" /></p>
-        <h2 id="featured-events-heading" className={styles.heading}>
-          <FormattedMessage id="featured.heading" />
-        </h2>
+        <div className={styles.headingRow}>
+          <h2 id="featured-events-heading" className={styles.heading}>
+            <FormattedMessage id="featured.heading" />
+          </h2>
+          <Link to="/events" className={styles.seeAll}>
+            <FormattedMessage id="featured.seeAll" /> ›
+          </Link>
+        </div>
         <ul className={styles.list}>
           {featured.map((event) => {
             const { event_date, time_start, time_end, venue, summary, tickets, authors, event_image } = event.event_data;

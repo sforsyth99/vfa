@@ -1,3 +1,10 @@
+/* Only show when the hamburger menu is active (matches Header breakpoint) */
+@media (min-width: 769px) {
+    .section {
+        display: none;
+    }
+}
+
 .section {
     background: var(--vfa-color-surface);
     padding: 1.5rem;

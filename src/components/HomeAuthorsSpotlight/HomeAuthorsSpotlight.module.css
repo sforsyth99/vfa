@@ -1,7 +1,14 @@
 .section {
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.5rem;
+}
+
+.inner {
     max-width: var(--vfa-width-page);
     margin: 0 auto;
+    background: var(--vfa-color-surface);
+    border-radius: var(--vfa-radius-card);
+    padding: 2rem 1.5rem;
+    box-shadow: var(--vfa-shadow-card);
     --fade-color: var(--vfa-color-surface);
 }
 
@@ -133,11 +140,8 @@
 }
 
 .item {
-    flex: 0 0 120px;
+    flex: 0 0 150px;
     scroll-snap-align: start;
-    background: var(--vfa-color-background);
-    border-radius: var(--vfa-radius-card);
-    padding: 1.25rem 0.5rem;
 }
 
 /* ── Card ───────────────────────────────────────────── */
@@ -149,20 +153,20 @@
     text-decoration: none;
 }
 
-.photoCircle {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+.photoCard {
+    width: 150px;
+    height: 214px; /* 7:10 ratio */
+    border-radius: var(--vfa-radius-card);
     overflow: hidden;
-    border: 3px solid var(--vfa-color-2026-gold);
+    background: var(--vfa-color-forest-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--vfa-color-forest-bg);
-    transition: border-color var(--vfa-transition-base), box-shadow var(--vfa-transition-base);
+    transition: box-shadow var(--vfa-transition-base), transform var(--vfa-transition-base);
 }
 
-.photoCircle img {
+.photoCard img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -171,17 +175,17 @@
     transition: transform var(--vfa-transition-base);
 }
 
-.card:hover .photoCircle {
-    border-color: var(--vfa-color-2026-gold-dark);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+.card:hover .photoCard {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18), 0 0 0 2px var(--vfa-color-2026-gold);
+    transform: translateY(-3px);
 }
 
-.card:hover .photoCircle img {
-    transform: scale(1.05);
+.card:hover .photoCard img {
+    transform: scale(1.04);
 }
 
 .initial {
-    font-size: 1.5rem;
+    font-size: 3rem;
     font-weight: var(--vfa-font-weight-semibold);
     color: var(--vfa-color-forest-dark);
     line-height: 1;
@@ -189,12 +193,13 @@
 }
 
 .cardName {
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     font-weight: var(--vfa-font-weight-medium);
     color: var(--vfa-color-ink-darkest);
     text-align: center;
     line-height: var(--vfa-line-height-tight);
-    margin-top: 0.75rem;
+    margin-top: 0.65rem;
+    max-width: 150px;
 }
 
 /* ── Skeleton ───────────────────────────────────────── */
@@ -212,17 +217,30 @@
 }
 
 .skeletonCard {
-    flex: 0 0 120px;
-    height: 180px;
+    flex: 0 0 150px;
+    height: 240px;
     border-radius: var(--vfa-radius-card);
 }
 
 @media (max-width: 640px) {
     .section {
-        padding: 2.5rem 1rem;
+        padding: 2rem 1rem;
+    }
+
+    .inner {
+        padding: 1.5rem 1rem;
     }
 
     .item {
-        flex-basis: 100px;
+        flex-basis: 130px;
+    }
+
+    .photoCard {
+        width: 130px;
+        height: 186px;
+    }
+
+    .cardName {
+        max-width: 130px;
     }
 }

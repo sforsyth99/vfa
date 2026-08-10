@@ -46,6 +46,7 @@ export function HomeAuthorsSpotlight() {
 
   return (
     <section className={styles.section} aria-labelledby="authors-spotlight-heading">
+      <div className={styles.inner}>
       <div className={styles.header}>
         <h2 id="authors-spotlight-heading" className={styles.heading}>
           <FormattedMessage id="home.authorsSpotlight.heading" />
@@ -67,10 +68,10 @@ export function HomeAuthorsSpotlight() {
 
         <ul className={styles.track} ref={trackRef} onScroll={updateScrollState}>
           {sorted.map((author) => {
-            const photoSrc = author.photo_square
-              ? author.photo_square[0]
-              : author.photo
-                ? author.photo[0]
+            const photoSrc = author.photo
+              ? author.photo[0]
+              : author.photo_square
+                ? author.photo_square[0]
                 : null;
             const initial = author.name.trim().charAt(0).toUpperCase();
             return (
@@ -80,7 +81,7 @@ export function HomeAuthorsSpotlight() {
                   className={styles.card}
                   aria-label={author.name}
                 >
-                  <div className={styles.photoCircle}>
+                  <div className={styles.photoCard}>
                     {photoSrc ? (
                       <img src={photoSrc} alt="" aria-hidden="true" loading="lazy" />
                     ) : (
@@ -102,6 +103,7 @@ export function HomeAuthorsSpotlight() {
         >
           ›
         </button>
+      </div>
       </div>
     </section>
   );
