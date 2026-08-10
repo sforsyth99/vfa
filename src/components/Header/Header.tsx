@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import styles from './Header.module.css';
 import logo from '../../assets/VFA_Logo.png';
@@ -42,9 +42,15 @@ function Header() {
                     {item.label}
                   </a>
                 ) : (
-                  <Link to={item.to} onClick={closeMenu}>
+                  <NavLink
+                    to={item.to}
+                    onClick={closeMenu}
+                    className={({ isActive }) =>
+                      !item.highlightWhenActive && isActive ? styles.navLinkCurrent : undefined
+                    }
+                  >
                     {item.label}
-                  </Link>
+                  </NavLink>
                 )}
               </li>
             ))}
@@ -59,16 +65,16 @@ function Header() {
             {donateLabel}
           </a>
         </nav>
-        <a
-          href={DONATE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.donateButton}
-          onClick={() => track({ name: 'donate_click', event_location: 'header_desktop' })}
-        >
-          {donateLabel}
-        </a>
         <div className={styles.headerRight}>
+          <a
+            href={DONATE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.donateButton}
+            onClick={() => track({ name: 'donate_click', event_location: 'header_desktop' })}
+          >
+            {donateLabel}
+          </a>
           <SearchWidget />
           <button
             className={`${styles.menuButton} ${isOpen ? styles.menuButtonOpen : ''}`}

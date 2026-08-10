@@ -3,12 +3,19 @@
 }
 
 .title {
-    color: var(--vfa-color-text-light);
-    font-size: 1em;
+    color: var(--vfa-color-2026-gold);
+    font-size: var(--vfa-font-size-eyebrow);
     font-weight: var(--vfa-font-weight-semibold);
-    letter-spacing: 0.04em;
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
     text-transform: uppercase;
-    margin: 0 0 0.75em;
+    margin: 0 0 0.5em;
+}
+
+.tagline {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--vfa-font-size-sm);
+    line-height: var(--vfa-line-height-body);
+    margin: 0 0 1em;
 }
 
 .form {
@@ -47,8 +54,8 @@
 
 .button {
     padding: 0.55em 1.4em;
-    background: var(--vfa-color-surface);
-    color: var(--vfa-color-ink-darkest);
+    background: var(--vfa-color-2026-gold);
+    color: var(--vfa-color-2026-indigo);
     border: none;
     border-radius: var(--vfa-radius-md);
     font-size: 0.95em;
@@ -59,7 +66,7 @@
 }
 
 .button:hover:not(:disabled) {
-    background: var(--vfa-color-secondary);
+    background: var(--vfa-color-2026-gold-dark);
 }
 
 .button:disabled {

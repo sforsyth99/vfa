@@ -58,15 +58,24 @@
     color: var(--vfa-color-2026-indigo);
 }
 
+.navList a.navLinkCurrent {
+    color: var(--vfa-color-2026-indigo);
+    text-decoration: underline;
+    text-decoration-color: var(--vfa-color-2026-gold);
+    text-underline-offset: 5px;
+    text-decoration-thickness: 2px;
+}
+
 .navList .navItemActive a {
-    background: var(--vfa-color-2026-indigo);
-    color: var(--vfa-color-text-light);
+    background: var(--vfa-color-2026-gold);
+    color: var(--vfa-color-2026-indigo);
     padding: 0.25em 0.7em;
     border-radius: var(--vfa-radius-md);
 }
 
 .navList .navItemActive a:hover {
-    color: var(--vfa-color-text-light);
+    color: var(--vfa-color-2026-indigo);
+    opacity: 0.85;
 }
 
 .donateButton {
@@ -80,7 +89,6 @@
     text-decoration: none;
     white-space: nowrap;
     transition: background var(--vfa-transition-base);
-    flex-shrink: 0;
 }
 
 .donateButton:hover,
@@ -195,6 +203,9 @@
     .navList .navItemActive a {
         padding: 0.85rem 0;
         border-radius: 0;
+        background: none;
+        color: var(--vfa-color-2026-gold-dark);
+        opacity: 1;
     }
 
     .donateMobile {

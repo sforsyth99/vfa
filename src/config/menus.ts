@@ -4,6 +4,7 @@ export interface NavItem {
   external?: boolean;
   trackingLabel?: string;
   highlightWhenActive?: boolean;
+  featured?: boolean;
 }
 
 export interface FooterNavGroup {
@@ -27,7 +28,7 @@ export const FOOTER_NAV: FooterNavGroup[] = [
       { label: 'Events', to: '/events' },
       { label: 'Authors', to: '/authors' },
       { label: 'Interviews', to: '/interviews' },
-      { label: 'KidsFest', to: '/kidsfest2026' },
+      { label: 'KidsFest', to: '/kidsfest2026', featured: true },
       { label: 'Archives', to: '/archives' },
     ],
   },
