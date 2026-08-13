@@ -1,0 +1,123 @@
+.page {
+    padding-block: 3rem 5rem;
+}
+
+.empty {
+    color: var(--vfa-color-ink-mid);
+    margin-top: 2rem;
+}
+
+/* ── Grid ───────────────────────────────────────────── */
+
+.grid {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 2rem 1.25rem;
+}
+
+/* ── Card ───────────────────────────────────────────── */
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+.cover {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--vfa-color-forest-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow var(--vfa-transition-base), transform var(--vfa-transition-base);
+}
+
+.cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.card:hover .cover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+}
+
+.placeholder {
+    font-size: 2.5rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-forest-dark);
+    line-height: 1;
+    pointer-events: none;
+}
+
+.title {
+    font-size: 0.8rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-darkest);
+    text-align: center;
+    line-height: var(--vfa-line-height-tight);
+    margin-top: 0.65rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.author {
+    font-size: 0.72rem;
+    color: var(--vfa-color-ink-mid);
+    text-align: center;
+    margin-top: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* ── Skeleton ───────────────────────────────────────── */
+
+.skeletonCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.skeletonCover {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    border-radius: 6px;
+}
+
+.skeletonTitle {
+    height: 0.8rem;
+    width: 80%;
+    border-radius: 4px;
+}
+
+.skeletonAuthor {
+    height: 0.7rem;
+    width: 60%;
+    border-radius: 4px;
+}
+
+@media (max-width: 640px) {
+    .page {
+        padding-block: 2rem 4rem;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 1.5rem 1rem;
+    }
+}

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { htmlToText } from '../../utils/htmlToText';
+import { formatTicketPrice } from '../../utils/formatTicketPrice';
 import { eventPath } from '../../utils/eventPath';
 import { EventbriteWidget } from '../EventbriteWidget/EventbriteWidget';
 import { SkeletonBlock } from '../Skeleton/Skeleton';
@@ -77,14 +79,17 @@ export function HomeEventBrowser() {
 
   if (!upcoming.length) return null;
 
-  const fmt = (n: number) => (Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`);
-
   return (
     <section className={styles.section} aria-labelledby="event-browser-heading">
       <div className={styles.inner}>
-        <h2 id="event-browser-heading" className={styles.heading}>
-          <FormattedMessage id="home.eventBrowser.heading" />
-        </h2>
+        <div className={styles.header}>
+          <h2 id="event-browser-heading" className={styles.heading}>
+            <FormattedMessage id="home.eventBrowser.heading" />
+          </h2>
+          <Link to="/events" className={styles.seeAll}>
+            <FormattedMessage id="home.eventBrowser.viewAll" /> ›
+          </Link>
+        </div>
 
         <div className={styles.carouselWrapper} data-can-prev={canPrev} data-can-next={canNext}>
           <button
@@ -108,19 +113,20 @@ export function HomeEventBrowser() {
               const timeStr = d.time_start
                 ? `${formatTime(d.time_start)}${d.time_end ? ` – ${formatTime(d.time_end)}` : ''}`
                 : '';
-              const inPerson = d.tickets.filter((t) => t.type === 'in_person');
-              const relevant = inPerson.length > 0 ? inPerson : d.tickets;
-              const priced = relevant.filter((t) => t.price_min !== null);
-              const price: string | null = priced.length === 0 ? null : (() => {
-                const mins = priced.map((t) => t.price_min as number);
-                const maxes = priced.map((t) => t.price_max ?? (t.price_min as number));
-                if (maxes.every((n) => n === 0)) return intl.formatMessage({ id: 'events.free' });
-                const lo = Math.min(...mins); const hi = Math.max(...maxes);
-                return lo === hi ? fmt(lo) : `${fmt(lo)}–${fmt(hi)}`;
-              })();
-              const authorNames = formatAuthorNames(d.authors);
               const isWorkshop = d.event_type === 'workshop';
               const isKidsFestAuthorFair = d.is_kidfest && d.event_type === 'author_fair';
+              const freeLabel = intl.formatMessage({ id: 'events.free' });
+              const price = isKidsFestAuthorFair
+                ? freeLabel
+                : formatTicketPrice(d.tickets, freeLabel);
+              const authorNames = formatAuthorNames(d.authors);
+              const hasOnline = d.tickets.some((t) => t.type === 'online');
+              const hasInPerson = d.tickets.some((t) => t.type === 'in_person');
+              const venueStr = d.venue?.name && hasOnline
+                ? intl.formatMessage({ id: 'home.schedule.locationAndOnline' }, { venue: d.venue.name })
+                : hasOnline && !hasInPerson
+                  ? intl.formatMessage({ id: 'home.schedule.locationOnline' })
+                  : d.venue?.name ?? null;
               const useKidsFestPoster = isWorkshop && d.is_kidfest;
               const useArtBg = !useKidsFestPoster && isWorkshop && d.hosts.length === 2;
               const photoSource = isWorkshop && d.hosts.length === 1 ? d.hosts : d.authors;
@@ -161,14 +167,18 @@ export function HomeEventBrowser() {
                       <div className={styles.cardMeta}>
                         {dateStr && <span className={styles.cardDate}>{dateStr}</span>}
                         {timeStr && <span className={styles.cardTime}>{timeStr}</span>}
-                        {d.venue?.name && <span className={styles.cardVenue}>{d.venue.name}</span>}
+                        {venueStr && <span className={styles.cardVenue}>{venueStr}</span>}
                         {price && <span className={styles.cardPrice}>{price}</span>}
                       </div>
                       <h3 className={styles.cardTitle}>
                         <Link to={detailPath}>{title}</Link>
                       </h3>
                       {authorNames && <p className={styles.cardAuthors}>with {authorNames}</p>}
-                      {d.summary && <p className={styles.cardSummary}>{d.summary}</p>}
+                      {d.description && (
+                        <div className={styles.summaryWrap}>
+                          <p className={styles.cardSummary}>{htmlToText(d.description)}</p>
+                        </div>
+                      )}
                       <div className={styles.cardActions}>
                         <EventbriteWidget eventbriteUrl={d.eventbrite_url} eventTitle={title} hasTickets={d.tickets.length > 0} />
                         <Link to={detailPath} className={styles.detailsLink}>

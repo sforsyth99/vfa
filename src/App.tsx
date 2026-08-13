@@ -17,6 +17,7 @@ import VenuePage from './pages/Venue/Venue';
 import BookPage from './pages/Book/Book';
 import KidsFest2026Page from './pages/KidsFest2026/KidsFest2026';
 import AuthorsPage from './pages/Authors/Authors';
+import BooksPage from './pages/Books/Books';
 import VenuesPage from './pages/Venues/Venues';
 import WhoWeArePage from './pages/WhoWeAre/WhoWeAre';
 import StrategicPlanPage from './pages/StrategicPlan/StrategicPlan';
@@ -43,6 +44,7 @@ function App() {
           <Route path="/books/:slug" element={<BookPage />} />
           <Route path="/kidsfest2026" element={<KidsFest2026Page />} />
           <Route path="/authors" element={<AuthorsPage />} />
+          <Route path="/books" element={<BooksPage />} />
           <Route path="/venues" element={<VenuesPage />} />
           <Route path="/who-we-are" element={<WhoWeArePage />} />
           <Route path="/strategic-plan" element={<StrategicPlanPage />} />

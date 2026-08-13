@@ -10,12 +10,34 @@
     /* full bleed — no max-width, no padding */
 }
 
+.header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0 2rem;
+    margin-bottom: 1.25rem;
+}
+
 .heading {
     font-family: var(--vfa-font-display);
     font-size: 1.2rem;
     font-weight: var(--vfa-font-weight-bold);
-    margin: 0 0 1.25rem;
-    padding: 0 2rem;
+    margin: 0;
+    color: var(--vfa-color-ink-darkest);
+}
+
+.seeAll {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-forest-dark);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color var(--vfa-transition-base);
+}
+
+.seeAll:hover {
     color: var(--vfa-color-ink-darkest);
 }
 
@@ -76,7 +98,7 @@
 .track {
     list-style: none;
     margin: 0;
-    padding: 0.25rem 1.5rem 1.5rem;
+    padding: 0.25rem calc(50% - min(330px, calc(50vw - 80px))) 1.5rem;
     display: flex;
     gap: 8rem;
     overflow-x: auto;
@@ -104,8 +126,7 @@
     display: flex;
     flex-direction: row;
     overflow: hidden;
-    height: 100%;
-    min-height: 320px;
+    height: 420px;
 }
 
 /* ── Left image panel ────────────────────────────────── */
@@ -165,26 +186,43 @@
     display: block;
 }
 
-/* 2 authors: side-by-side floating cards */
-.avatarOverlay[data-count="2"] .overlayAvatar {
-    width: 120px;
-    font-size: 2rem;
+/* 2 authors: equal side-by-side mosaic */
+.avatarOverlay[data-count="2"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    padding: 0;
+    background: transparent;
 }
 
-/* 3 authors: 1 on top, 2 on bottom */
+.avatarOverlay[data-count="2"] .overlayAvatar {
+    border-radius: 0;
+    box-shadow: none;
+    aspect-ratio: unset;
+    font-size: 1.75rem;
+}
+
+/* 3 authors: 2-up top row, 3rd photo centered on bottom */
 .avatarOverlay[data-count="3"] {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    padding: 0;
+    background: transparent;
 }
 
 .avatarOverlay[data-count="3"] .overlayAvatar {
-    width: 100px;
+    border-radius: 0;
+    box-shadow: none;
+    aspect-ratio: unset;
     font-size: 1.75rem;
-    justify-self: center;
 }
 
-.avatarOverlay[data-count="3"] .overlayAvatar:first-child {
+.avatarOverlay[data-count="3"] .overlayAvatar:nth-child(3) {
     grid-column: 1 / -1;
+    width: 50%;
+    justify-self: center;
 }
 
 /* 4 authors: full-bleed 2×2 mosaic */
@@ -296,15 +334,29 @@
     line-height: var(--vfa-line-height-body);
 }
 
+.summaryWrap {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.summaryWrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.5em;
+    background: linear-gradient(to bottom, transparent, var(--vfa-color-surface));
+    pointer-events: none;
+}
+
 .cardSummary {
     font-size: var(--vfa-font-size-sm);
     color: var(--vfa-color-ink-dark);
     line-height: var(--vfa-line-height-body);
-    margin: 0 0 1.1rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    margin: 0;
 }
 
 .cardActions {
@@ -369,7 +421,7 @@
 
     .card {
         flex-direction: column;
-        min-height: 0;
+        height: auto;
     }
 
     .cardBanner {
@@ -394,9 +446,9 @@
         margin-bottom: 0.3rem;
     }
 
-    .cardSummary {
-        -webkit-line-clamp: 2;
-        margin-bottom: 0.6rem;
+    .summaryWrap {
+        flex: none;
+        max-height: 7em;
     }
 
     .cardBody .cardActions {
