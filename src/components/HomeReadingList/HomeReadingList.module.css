@@ -1,0 +1,264 @@
+.section {
+    background-image: url('../../assets/starry-background-sm.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 2.5rem 1.5rem;
+}
+
+.inner {
+    max-width: var(--vfa-width-page);
+    margin: 0 auto;
+    background: var(--vfa-color-surface);
+    border-radius: var(--vfa-radius-card);
+    padding: 2rem 1.5rem;
+    box-shadow: var(--vfa-shadow-card);
+    --fade-color: var(--vfa-color-surface);
+}
+
+.header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
+.heading {
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-ink-darkest);
+    margin: 0;
+}
+
+.seeAll {
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-medium);
+    color: var(--vfa-color-forest-dark);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color var(--vfa-transition-base);
+}
+
+.seeAll:hover {
+    color: var(--vfa-color-ink-darkest);
+}
+
+/* ── Carousel wrapper ───────────────────────────────── */
+
+.carouselWrapper {
+    position: relative;
+}
+
+.carouselWrapper::before,
+.carouselWrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+
+.carouselWrapper::before {
+    left: 0;
+    background: linear-gradient(to right, var(--fade-color) 20%, transparent);
+}
+
+.carouselWrapper::after {
+    right: 0;
+    background: linear-gradient(to left, var(--fade-color) 20%, transparent);
+}
+
+.carouselWrapper[data-can-prev="true"]::before {
+    opacity: 1;
+}
+
+.carouselWrapper[data-can-next="true"]::after {
+    opacity: 1;
+}
+
+/* ── Arrow buttons ──────────────────────────────────── */
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--vfa-color-ink-darkest);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    transition: background var(--vfa-transition-base), box-shadow var(--vfa-transition-base), opacity 0.25s;
+}
+
+.arrow:hover {
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+}
+
+.arrow:disabled {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.arrowPrev {
+    left: 0.75rem;
+}
+
+.arrowNext {
+    right: 0.75rem;
+}
+
+/* ── Carousel track ─────────────────────────────────── */
+
+.track {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0 1rem;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+    display: none;
+}
+
+.item {
+    flex: 0 0 130px;
+    scroll-snap-align: start;
+}
+
+/* ── Card ───────────────────────────────────────────── */
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+.cover {
+    width: 130px;
+    height: 185px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--vfa-color-forest-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow var(--vfa-transition-base), transform var(--vfa-transition-base);
+}
+
+.cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.card:hover .cover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    transform: translateY(-3px);
+}
+
+.coverPlaceholder {
+    font-size: 2.5rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-forest-dark);
+    line-height: 1;
+    pointer-events: none;
+}
+
+.cardTitle {
+    font-size: 0.75rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-ink-darkest);
+    text-align: center;
+    line-height: var(--vfa-line-height-tight);
+    margin-top: 0.6rem;
+    max-width: 130px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cardAuthor {
+    font-size: 0.7rem;
+    color: var(--vfa-color-ink-mid);
+    text-align: center;
+    margin-top: 0.2rem;
+    max-width: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Skeleton ───────────────────────────────────────── */
+
+.skeletonHeading {
+    height: 1.75rem;
+    width: 220px;
+    margin-bottom: 1.75rem;
+}
+
+.skeletonTrack {
+    display: flex;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+.skeletonCard {
+    flex: 0 0 130px;
+    height: 210px;
+    border-radius: var(--vfa-radius-card);
+}
+
+@media (max-width: 640px) {
+    .section {
+        padding: 2rem 1rem;
+    }
+
+    .inner {
+        padding: 1.5rem 1rem;
+    }
+
+    .item {
+        flex-basis: 110px;
+    }
+
+    .cover {
+        width: 110px;
+        height: 157px;
+    }
+
+    .cardTitle,
+    .cardAuthor {
+        max-width: 110px;
+    }
+
+    .skeletonCard {
+        flex-basis: 110px;
+        height: 178px;
+    }
+}

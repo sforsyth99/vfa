@@ -81,7 +81,7 @@
 .donateButton {
     display: inline-block;
     padding: 0.45em 1.2em;
-    background: var(--vfa-color-2026-indigo);
+    background: var(--vfa-color-2026-coral);
     color: var(--vfa-color-text-light);
     font-weight: var(--vfa-font-weight-bold);
     font-size: 0.95em;
@@ -93,7 +93,7 @@
 
 .donateButton:hover,
 .donateButton:focus {
-    background: var(--vfa-color-2026-indigo-mid);
+    background: #a83a15;
     color: var(--vfa-color-text-light);
 }
 
@@ -212,8 +212,8 @@
         display: inline-block;
         margin-top: 1.25rem;
         padding: 0.55em 1.4em;
-        background: var(--vfa-color-2026-indigo);
-        color: var(--vfa-color-text-light);
+        background: var(--vfa-color-2026-gold);
+        color: var(--vfa-color-ink-darkest);
         font-weight: var(--vfa-font-weight-bold);
         font-size: 0.95em;
         border-radius: var(--vfa-radius-md);
@@ -222,6 +222,6 @@
     }
 
     .donateMobile:hover {
-        background: var(--vfa-color-2026-indigo-mid);
+        background: var(--vfa-color-2026-gold-dark);
     }
 }

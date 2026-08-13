@@ -5,18 +5,30 @@ import { useGetNewsletterPost } from '../../api/posts/useGetNewsletterPost';
 import { extractNewsletterExcerpt } from '../../utils/sanitizeHtml';
 import { track } from '../../utils/analytics';
 import newsletterImg from '../../assets/ire-photocreative.jpeg';
+import { SkeletonBlock } from '../Skeleton/Skeleton';
 import styles from './HomeNewsletter.module.css';
 
 export function HomeNewsletter() {
   const intl = useIntl();
-  const { data: newsletter } = useGetNewsletterPost();
+  const { data: newsletter, isLoading } = useGetNewsletterPost();
 
   return (
     <section className={styles.section} aria-label={intl.formatMessage({ id: 'newsletter.section.label' })}>
       <Container>
         <div className={styles.inner}>
         <div className={styles.content}>
-          {newsletter && (
+          {isLoading && (
+            <div className={styles.skeleton} aria-busy="true">
+              <SkeletonBlock className={styles.skeletonEyebrow} />
+              <SkeletonBlock className={styles.skeletonTitle} />
+              <SkeletonBlock className={styles.skeletonTitleShort} />
+              <SkeletonBlock className={styles.skeletonBody} />
+              <SkeletonBlock className={styles.skeletonBody} />
+              <SkeletonBlock className={styles.skeletonBodyShort} />
+              <SkeletonBlock className={styles.skeletonLink} />
+            </div>
+          )}
+          {!isLoading && newsletter && (
             <>
               <p className={styles.eyebrow}>
                 <FormattedMessage id="newsletter.fromLatestIssue" />
@@ -39,7 +51,7 @@ export function HomeNewsletter() {
               </a>
             </>
           )}
-          <div className={newsletter ? styles.signupBelowNewsletter : undefined}>
+          <div className={!isLoading && newsletter ? styles.signupBelowNewsletter : undefined}>
             <NewsletterSignup location="homepage" />
           </div>
         </div>

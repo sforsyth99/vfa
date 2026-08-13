@@ -16,6 +16,7 @@ export interface FooterNavGroup {
 export const PRIMARY_NAV: NavItem[] = [
   { label: 'Events', to: '/events' },
   { label: 'Authors', to: '/authors' },
+  { label: 'Books', to: '/books' },
   { label: 'Interviews', to: '/interviews' },
   { label: 'KidsFest', to: '/kidsfest2026', highlightWhenActive: true },
 ];
@@ -27,6 +28,7 @@ export const FOOTER_NAV: FooterNavGroup[] = [
     items: [
       { label: 'Events', to: '/events' },
       { label: 'Authors', to: '/authors' },
+      { label: 'Books', to: '/books' },
       { label: 'Interviews', to: '/interviews' },
       { label: 'KidsFest', to: '/kidsfest2026', featured: true },
       { label: 'Archives', to: '/archives' },

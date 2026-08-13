@@ -213,7 +213,14 @@ function KidsFestReadBooks() {
 
   if (isLoading || !books?.length) return null;
 
-  const kidsBooks = books.filter((b) => b.book_data?.categories?.includes('children'));
+  const kidsBooks = books
+    .filter((b) => b.book_data?.categories?.includes('children'))
+    .sort((a, b) => {
+      const key = (t: string) => t.replace(/^(a|an|the)\s+/i, '').toLowerCase();
+      return key(decodeHtmlEntities(a.title?.rendered ?? '')).localeCompare(
+        key(decodeHtmlEntities(b.title?.rendered ?? '')),
+      );
+    });
   if (!kidsBooks.length) return null;
 
   const renderCover = (book: typeof kidsBooks[0]) => {
