@@ -4,6 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { sortBySurname } from '../../utils/sortBySurname';
+import { SkeletonBlock } from '../Skeleton/Skeleton';
 import styles from './KidsFestInterviews.module.css';
 
 export function KidsFestInterviews() {
@@ -24,7 +25,27 @@ export function KidsFestInterviews() {
     updateScrollState();
   }, [interviews, updateScrollState]);
 
-  if (isLoading || !interviews?.length) return null;
+  if (isLoading) {
+    return (
+      <section className={styles.section} aria-busy="true">
+        <SkeletonBlock className={styles.skeletonEyebrow} />
+        <SkeletonBlock className={styles.skeletonHeading} />
+        <SkeletonBlock className={styles.skeletonBlurb} />
+        <SkeletonBlock className={styles.skeletonBlurbShort} />
+        <div className={styles.skeletonTrack}>
+          {[0, 1, 2, 3, 4].map((i) => (
+            <div key={i} className={styles.skeletonItem}>
+              <SkeletonBlock className={styles.skeletonPhoto} />
+              <SkeletonBlock className={styles.skeletonName} />
+              <SkeletonBlock className={styles.skeletonByline} />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (!interviews?.length) return null;
 
   const kidsInterviews = interviews.filter(
     (i) => (i.interview_data?.authors?.[0]?.kidfest_years?.length ?? 0) > 0,

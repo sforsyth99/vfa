@@ -113,7 +113,8 @@
 
 .eventMeta {
     font-size: var(--vfa-font-size-xs);
-    color: var(--vfa-color-ink-mid);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-2026-indigo);
     padding-top: 0.2em;
 }
 
@@ -121,6 +122,34 @@
 .eventTitleRow .eventMeta {
     white-space: nowrap;
 }
+
+/* ── Skeleton ────────────────────────────────────────── */
+
+.skeletonEyebrow    { height: 0.65rem; width: 90px; margin-bottom: 0.25rem; }
+.skeletonHeading    { height: 1.4rem;  width: 100%; }
+.skeletonHeadingShort { height: 1.4rem; width: 65%; margin-bottom: 0.5rem; }
+.skeletonTagline    { height: 0.85rem; width: 100%; }
+.skeletonTaglineShort { height: 0.85rem; width: 80%; }
+
+.skeletonList {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.skeletonItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+}
+
+.skeletonItem:first-child { padding-top: 0; }
+.skeletonItem:last-child  { border-bottom: none; padding-bottom: 0; }
+
+.skeletonEventTitle { height: 0.9rem; width: 80%; }
+.skeletonEventMeta  { height: 0.7rem; width: 50%; }
 
 @media (max-width: 640px) {
     .section {

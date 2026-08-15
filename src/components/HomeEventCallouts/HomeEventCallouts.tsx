@@ -4,6 +4,7 @@ import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEve
 import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { EventLink } from '../EventLink/EventLink';
+import { SkeletonBlock } from '../Skeleton/Skeleton';
 import styles from './HomeEventCallouts.module.css';
 
 const MAX_WORKSHOPS = 5;
@@ -26,6 +27,28 @@ function formatTime(t: string): string {
   const [h, m] = t.split(':').map(Number);
   const period = h >= 12 ? 'PM' : 'AM';
   return `${h % 12 || 12}:${m.toString().padStart(2, '0')} ${period}`;
+}
+
+function CalloutSkeleton() {
+  return (
+    <div className={`${styles.inner} ${styles.workshopCard}`} aria-busy="true">
+      <div className={styles.intro}>
+        <SkeletonBlock className={styles.skeletonEyebrow} />
+        <SkeletonBlock className={styles.skeletonHeading} />
+        <SkeletonBlock className={styles.skeletonHeadingShort} />
+        <SkeletonBlock className={styles.skeletonTagline} />
+        <SkeletonBlock className={styles.skeletonTaglineShort} />
+      </div>
+      <div className={styles.skeletonList}>
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className={styles.skeletonItem}>
+            <SkeletonBlock className={styles.skeletonEventTitle} />
+            <SkeletonBlock className={styles.skeletonEventMeta} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function EventList({
@@ -109,7 +132,16 @@ function EventList({
 }
 
 export function HomeWorkshopCallout() {
-  const { data: events } = useGetFestivalEvents();
+  const { data: events, isLoading } = useGetFestivalEvents();
+
+  if (isLoading) {
+    return (
+      <section className={styles.section} aria-labelledby="workshop-callout-heading">
+        <CalloutSkeleton />
+      </section>
+    );
+  }
+
   if (!events?.length) return null;
 
   const today = new Date().toISOString().slice(0, 10);
@@ -161,7 +193,16 @@ export function HomeEventCallouts() {
 }
 
 export function HomeOnlineCallout() {
-  const { data: events } = useGetFestivalEvents();
+  const { data: events, isLoading } = useGetFestivalEvents();
+
+  if (isLoading) {
+    return (
+      <section className={styles.sectionDark} aria-labelledby="online-callout-heading">
+        <CalloutSkeleton />
+      </section>
+    );
+  }
+
   if (!events?.length) return null;
 
   const today = new Date().toISOString().slice(0, 10);

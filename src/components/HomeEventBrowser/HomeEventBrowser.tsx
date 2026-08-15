@@ -11,7 +11,7 @@ import { SkeletonBlock } from '../Skeleton/Skeleton';
 import type { PersonData } from '../../api/people/peopleTypes';
 import starryBg from '../../assets/starry-background-sm.jpg';
 import artWorkshopBg from '../../assets/art-workshop.jpeg';
-import kidsFestPoster from '../../assets/kids-fest-crop.png';
+import kidsFestPoster from '../../assets/kids-fest-crop.jpg';
 import styles from './HomeEventBrowser.module.css';
 
 function formatTime(t: string): string {

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { QueryState } from '../QueryState/QueryState';
 import { Link } from 'react-router-dom';
+import { SkeletonBlock } from '../Skeleton/Skeleton';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
@@ -116,22 +116,26 @@ export function EventSchedule({
 }) {
   const { data: events, isLoading, isError } = useGetFestivalEvents();
 
-  if (isLoading || isError)
+  if (isLoading) {
     return (
-      <QueryState
-        isLoading={isLoading}
-        isError={isError}
-        loadingId="home.events.loading"
-        errorId="home.events.error"
-      />
+      <div className={styles.skeletonSection} aria-busy="true">
+        <SkeletonBlock className={styles.skeletonHeading} />
+        {[0, 1, 2, 3, 4].map((i) => (
+          <div key={i} className={styles.skeletonRow}>
+            <SkeletonBlock className={styles.skeletonDate} />
+            <SkeletonBlock className={styles.skeletonTime} />
+            <SkeletonBlock className={styles.skeletonTitle} />
+            <SkeletonBlock className={styles.skeletonLocation} />
+          </div>
+        ))}
+      </div>
     );
+  }
+
+  if (isError) return null;
   if (!events?.length) return null;
 
   const today = new Date().toISOString().slice(0, 10);
-  // const dateLabel  = intl.formatMessage({ id: 'home.schedule.date' });
-  // const timeLabel  = intl.formatMessage({ id: 'home.schedule.time' });
-  // const eventLabel = intl.formatMessage({ id: 'home.schedule.event' });
-
   const upcoming = events
     .filter((e) => e.event_data.event_date >= today)
     .sort((a, b) => {

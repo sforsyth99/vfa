@@ -324,6 +324,34 @@
     color: var(--vfa-color-ink-darkest);
 }
 
+/* ── Skeleton ────────────────────────────────────────── */
+
+.skeletonGroup { margin-bottom: 1.5rem; }
+
+.skeletonDayHeading { height: 0.7rem; width: 180px; margin-bottom: 0.5rem; }
+
+.skeletonRowList {
+    background: var(--vfa-color-surface);
+    border-radius: var(--vfa-radius-card);
+}
+
+.skeletonEventRow {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+}
+
+.skeletonEventRow:last-child { border-bottom: none; }
+
+.skeletonTime    { height: 0.75rem; width: 100%; }
+.skeletonTitleGroup { display: flex; flex-direction: column; gap: 0.3rem; }
+.skeletonTitle   { height: 0.85rem; width: 70%; }
+.skeletonAuthors { height: 0.7rem; width: 50%; }
+.skeletonVenue   { height: 0.7rem; width: 90px; }
+
 @media (max-width: 640px) {
     .page {
         padding-block: 2rem 3rem;

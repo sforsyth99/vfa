@@ -8,6 +8,7 @@ import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
+import { SkeletonBlock } from '../../components/Skeleton/Skeleton';
 import styles from './Interviews.module.css';
 
 export default function InterviewsPage() {
@@ -45,7 +46,20 @@ export default function InterviewsPage() {
       <Container>
         <PageTitle><FormattedMessage id="interviews.heading" /></PageTitle>
 
-        <QueryState isLoading={isLoading} isError={isError} isEmpty={!isLoading && !isError && !interviews?.length} loadingId="interviews.loading" errorId="interviews.error" emptyId="interviews.empty" />
+        {isLoading && (
+          <ul className={styles.grid} aria-busy="true">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <li key={i}>
+                <div className={styles.skeletonCard}>
+                  <SkeletonBlock className={styles.skeletonCircle} />
+                  <SkeletonBlock className={styles.skeletonName} />
+                  <SkeletonBlock className={styles.skeletonByline} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        {!isLoading && <QueryState isLoading={false} isError={isError} isEmpty={!isError && !interviews?.length} loadingId="interviews.loading" errorId="interviews.error" emptyId="interviews.empty" />}
 
         {interviews && interviews.length > 0 && years.length > 1 && (
           <div className={styles.yearFilter} role="group" aria-label={intl.formatMessage({ id: 'interviews.yearFilter.label' })}>

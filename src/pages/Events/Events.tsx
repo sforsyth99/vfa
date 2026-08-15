@@ -12,6 +12,7 @@ import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
+import { SkeletonBlock } from '../../components/Skeleton/Skeleton';
 import styles from './Events.module.css';
 
 function formatDayHeading(dateStr: string): string {
@@ -342,7 +343,28 @@ function Events() {
           </div>
         )}
 
-        <QueryState isLoading={isLoading} isError={!!error} isEmpty={!isLoading && !error && upcoming.length === 0} loadingId="events.loading" errorId="events.error" emptyId="events.empty" />
+        {isLoading && (
+          <div aria-busy="true">
+            {[0, 1].map((g) => (
+              <div key={g} className={styles.skeletonGroup}>
+                <SkeletonBlock className={styles.skeletonDayHeading} />
+                <div className={styles.skeletonRowList}>
+                  {[0, 1, 2, 3].map((r) => (
+                    <div key={r} className={styles.skeletonEventRow}>
+                      <SkeletonBlock className={styles.skeletonTime} />
+                      <div className={styles.skeletonTitleGroup}>
+                        <SkeletonBlock className={styles.skeletonTitle} />
+                        <SkeletonBlock className={styles.skeletonAuthors} />
+                      </div>
+                      <SkeletonBlock className={styles.skeletonVenue} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {!isLoading && <QueryState isLoading={false} isError={!!error} isEmpty={!error && upcoming.length === 0} loadingId="events.loading" errorId="events.error" emptyId="events.empty" />}
 
         {[...byDay.entries()].map(([date, dayEvents]) => (
           <EventGroup

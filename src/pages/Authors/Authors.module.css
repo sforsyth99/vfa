@@ -197,6 +197,37 @@
     transform: translateX(2px);
 }
 
+/* ── Skeleton ────────────────────────────────────────── */
+
+.skeletonPanel {
+    background: var(--vfa-color-surface);
+    border-radius: var(--vfa-radius-card);
+    overflow: hidden;
+}
+
+.skeletonRow {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+}
+
+.skeletonRow:last-child { border-bottom: none; }
+
+.skeletonPhoto { width: 64px; height: 64px; border-radius: var(--vfa-radius-circle); flex-shrink: 0; }
+
+.skeletonInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.skeletonName     { height: 0.9rem; width: 38%; }
+.skeletonBio      { height: 0.75rem; width: 92%; }
+.skeletonBioShort { height: 0.75rem; width: 65%; }
+
 @media (max-width: 640px) {
     .page {
         padding-block: 2rem 3rem;

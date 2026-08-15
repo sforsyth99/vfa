@@ -8,6 +8,7 @@ import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
 import { VenueMapRow } from '../../components/VenueMapRow/VenueMapRow';
+import { SkeletonBlock } from '../../components/Skeleton/Skeleton';
 import styles from './Venues.module.css';
 
 export default function VenuesPage() {
@@ -24,7 +25,20 @@ export default function VenuesPage() {
       <Container>
         <PageTitle><FormattedMessage id="venues.heading" /></PageTitle>
 
-        <QueryState isLoading={isLoading} isError={!!error} isEmpty={!isLoading && !error && sorted.length === 0} loadingId="venues.loading" errorId="venues.error" emptyId="venues.empty" />
+        {isLoading && (
+          <ul className={styles.list} aria-busy="true">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <li key={i} className={styles.skeletonItem}>
+                <SkeletonBlock className={styles.skeletonName} />
+                <SkeletonBlock className={styles.skeletonDetail} />
+                <SkeletonBlock className={styles.skeletonDetail} />
+                <SkeletonBlock className={styles.skeletonDesc} />
+                <SkeletonBlock className={styles.skeletonDescShort} />
+              </li>
+            ))}
+          </ul>
+        )}
+        {!isLoading && <QueryState isLoading={false} isError={!!error} isEmpty={!error && sorted.length === 0} loadingId="venues.loading" errorId="venues.error" emptyId="venues.empty" />}
 
         <ul className={styles.list}>
           {sorted.map((venue) => {
