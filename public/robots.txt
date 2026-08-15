@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://victoriafestivalofauthors.ca/sitemap.xml
