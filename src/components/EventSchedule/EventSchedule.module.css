@@ -155,6 +155,39 @@
     transform: translateX(2px);
 }
 
+/* ── Skeleton ────────────────────────────────────────── */
+
+.skeletonSection {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.skeletonHeading { height: 1.3rem; width: 160px; margin-bottom: 1rem; }
+
+.skeletonRow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.skeletonRow:last-child { border-bottom: none; }
+
+.skeletonDate     { height: 0.8rem; flex: 0 0 80px; }
+.skeletonTime     { height: 0.8rem; flex: 0 0 90px; }
+.skeletonTitle    { height: 0.8rem; flex: 1; }
+.skeletonLocation { height: 0.8rem; flex: 0 0 120px; }
+
+@media (max-width: 640px) {
+    .skeletonRow { flex-wrap: wrap; }
+    .skeletonDate, .skeletonTime { flex-basis: 40%; }
+    .skeletonTitle    { flex-basis: 100%; }
+    .skeletonLocation { flex-basis: 60%; }
+}
+
 @media (max-width: 640px) {
     .onlineEvent {
         grid-template-columns: 1fr auto;

@@ -97,6 +97,23 @@
     overflow: hidden;
 }
 
+/* ── Skeleton ────────────────────────────────────────── */
+
+.skeletonItem {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.skeletonItem:first-child { border-top: 1px solid var(--vfa-color-warm-border-light); }
+
+.skeletonName     { height: 0.9rem; width: 45%; }
+.skeletonDetail   { height: 0.75rem; width: 35%; }
+.skeletonDesc     { height: 0.75rem; width: 100%; margin-top: 0.15rem; }
+.skeletonDescShort { height: 0.75rem; width: 75%; }
+
 @media (max-width: 640px) {
     .page {
         padding-block: 2rem 3rem;

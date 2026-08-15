@@ -100,3 +100,11 @@ export const Empty: Story = {
     ],
   },
 };
+
+export const Loading: Story = {
+  parameters: {
+    msw: [
+      http.get(`${WP}/festival_events`, () => new Promise(() => {})),
+    ],
+  },
+};

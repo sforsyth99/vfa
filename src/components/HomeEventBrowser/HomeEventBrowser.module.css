@@ -15,8 +15,9 @@
     align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
-    padding: 0 2rem;
-    margin-bottom: 1.25rem;
+    max-width: var(--vfa-width-page);
+    margin: 0 auto 1.25rem;
+    padding: 0 1.5rem;
 }
 
 .heading {
@@ -45,7 +46,7 @@
 
 .carouselWrapper {
     position: relative;
-    max-width: 1000px;
+    max-width: var(--vfa-width-page);
     margin: 0 auto;
 }
 
@@ -100,7 +101,7 @@
     margin: 0;
     padding: 0.25rem calc(50% - min(330px, calc(50vw - 80px))) 1.5rem;
     display: flex;
-    gap: 8rem;
+    gap: 1.5rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;

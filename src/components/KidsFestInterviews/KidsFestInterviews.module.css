@@ -200,6 +200,35 @@
     font-style: italic;
 }
 
+/* ── Skeleton ────────────────────────────────────────── */
+
+.skeletonEyebrow   { height: 0.65rem; width: 90px;  margin-bottom: 0.4rem; }
+.skeletonHeading   { height: 1.4rem;  width: 60%;   margin-bottom: 0.5rem; }
+.skeletonBlurb     { height: 0.85rem; width: 100%; }
+.skeletonBlurbShort { height: 0.85rem; width: 65%;  margin-bottom: 1.25rem; }
+
+.skeletonTrack {
+    display: flex;
+    gap: 1rem;
+    overflow: hidden;
+    padding: 0.25rem 0 0.5rem;
+}
+
+.skeletonItem {
+    flex: 0 0 155px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: var(--vfa-radius-card);
+    padding: 1.25rem 0.75rem;
+    background: var(--vfa-color-forest-bg);
+}
+
+.skeletonPhoto  { height: 154px; width: 132px; }
+.skeletonName   { height: 0.7rem; width: 80%; }
+.skeletonByline { height: 0.6rem; width: 60%; }
+
 @media (max-width: 640px) {
     .item {
         flex-basis: 120px;

@@ -10,6 +10,7 @@ import type { PersonData } from '../../api/people/peopleTypes';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { QueryState } from '../../components/QueryState/QueryState';
+import { SkeletonBlock } from '../../components/Skeleton/Skeleton';
 import styles from './Authors.module.css';
 
 function initials(name: string) {
@@ -77,7 +78,21 @@ export default function AuthorsPage() {
       <Container>
         <PageTitle><FormattedMessage id="home.authors.heading" /></PageTitle>
 
-        <QueryState isLoading={isLoading} isError={isError} loadingId="home.authors.loading" errorId="home.authors.error" />
+        {isLoading && (
+          <div className={styles.skeletonPanel} aria-busy="true">
+            {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+              <div key={i} className={styles.skeletonRow}>
+                <SkeletonBlock className={styles.skeletonPhoto} />
+                <div className={styles.skeletonInfo}>
+                  <SkeletonBlock className={styles.skeletonName} />
+                  <SkeletonBlock className={styles.skeletonBio} />
+                  <SkeletonBlock className={styles.skeletonBioShort} />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {!isLoading && <QueryState isLoading={false} isError={isError} loadingId="home.authors.loading" errorId="home.authors.error" />}
 
         {grouped && (
           <>
