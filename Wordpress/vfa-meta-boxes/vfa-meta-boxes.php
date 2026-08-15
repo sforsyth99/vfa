@@ -170,7 +170,8 @@ function vfa_mb_config(): array {
                     ],
                 ],
                 ['id' => 'venue',          'name' => 'Venue',          'type' => 'post', 'post_type' => ['venues']],
-                ['id' => 'eventbrite_url', 'name' => 'Eventbrite URL', 'type' => 'url'],
+                ['id' => 'eventbrite_url',   'name' => 'Eventbrite URL',   'type' => 'url'],
+                ['id' => 'tickets_live_date', 'name' => 'Tickets Live Date', 'type' => 'date', 'desc' => 'Date when tickets go on sale. Leave blank if tickets are already available.'],
                 [
                     'type'   => 'inline_fields',
                     'name'   => 'Images',

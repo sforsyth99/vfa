@@ -385,6 +385,33 @@
     color: var(--vfa-color-2026-indigo);
 }
 
+.calendarButton {
+    display: inline-block;
+    margin-top: 0;
+    padding: 0.45rem 1rem;
+    background: var(--vfa-color-2026-indigo);
+    color: #fff;
+    font-weight: var(--vfa-font-weight-semibold);
+    font-size: var(--vfa-font-size-sm);
+    font-family: inherit;
+    text-align: center;
+    border: none;
+    border-radius: var(--vfa-radius-md);
+    cursor: pointer;
+    transition: opacity var(--vfa-transition-base);
+}
+
+.calendarButton:hover {
+    opacity: 0.85;
+}
+
+@media (max-width: 640px) {
+    .calendarButton {
+        display: block;
+        width: 100%;
+    }
+}
+
 /* ── Skeleton ────────────────────────────────────────── */
 
 .skeletonHeading {

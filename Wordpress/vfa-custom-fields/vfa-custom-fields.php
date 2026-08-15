@@ -336,7 +336,8 @@ add_action('rest_api_init', function() {
                 'description'  => get_post_meta($id, 'description', true),
                 'venue'        => vfa_get_venue_data(get_post_meta($id, 'venue', true)),
                 'online_url'   => get_post_meta($id, 'online_url', true),
-                'eventbrite_url' => get_post_meta($id, 'eventbrite_url', true),
+                'eventbrite_url'   => get_post_meta($id, 'eventbrite_url', true),
+                'tickets_live_date' => get_post_meta($id, 'tickets_live_date', true) ?: null,
                 'tickets' => (function() use ($id) {
                     $types      = get_post_meta($id, 'ticket_type', false);
                     $tiers      = get_post_meta($id, 'ticket_tier', false);

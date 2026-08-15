@@ -8,6 +8,8 @@ import { formatTicketPrice } from '../../utils/formatTicketPrice';
 import { eventPath } from '../../utils/eventPath';
 import { EventbriteWidget } from '../EventbriteWidget/EventbriteWidget';
 import { SkeletonBlock } from '../Skeleton/Skeleton';
+import { downloadIcs } from '../../utils/downloadIcs';
+import { track } from '../../utils/analytics';
 import type { PersonData } from '../../api/people/peopleTypes';
 import starryBg from '../../assets/starry-background-sm.jpg';
 import artWorkshopBg from '../../assets/art-workshop.jpeg';
@@ -180,7 +182,29 @@ export function HomeEventBrowser() {
                         </div>
                       )}
                       <div className={styles.cardActions}>
-                        <EventbriteWidget eventbriteUrl={d.eventbrite_url} eventTitle={title} hasTickets={d.tickets.length > 0} />
+                        {isKidsFestAuthorFair ? (
+                          <button
+                            className={styles.calendarButton}
+                            onClick={() => {
+                              const locationParts = [d.venue?.name, d.venue?.street_address, d.venue?.city].filter(Boolean);
+                              track({ name: 'add_to_calendar', event_label: title, event_location: 'event_browser' });
+                              downloadIcs({
+                                title,
+                                date: d.event_date,
+                                timeStart: d.time_start,
+                                timeEnd: d.time_end,
+                                location: locationParts.join(', '),
+                                description: '',
+                                filename: 'kidsfest-2026.ics',
+                                uid: 'kidsfest-2026-main@victoriafestivalofauthors.ca',
+                              });
+                            }}
+                          >
+                            <FormattedMessage id="kidsfest2026.mainEvent.addToCalendar" />
+                          </button>
+                        ) : (
+                          <EventbriteWidget eventbriteUrl={d.eventbrite_url} eventTitle={title} hasTickets={d.tickets.length > 0} ticketsLiveDate={d.tickets_live_date} />
+                        )}
                         <Link to={detailPath} className={styles.detailsLink}>
                           <FormattedMessage id="home.eventBrowser.details" /> ›
                         </Link>
