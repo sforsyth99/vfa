@@ -35,6 +35,7 @@ export interface EventData {
   venue: VenueData | null;
   online_url: string;
   eventbrite_url: string;
+  tickets_live_date?: string | null;
   tickets: { type: string; tier: string; price_min: number | null; price_max: number | null }[];
   authors: PersonData[];
   moderator: PersonData[];

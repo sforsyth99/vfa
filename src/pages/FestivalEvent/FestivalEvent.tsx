@@ -131,6 +131,7 @@ export default function FestivalEventPage() {
     venue,
     online_url,
     eventbrite_url,
+    tickets_live_date,
     tickets,
     authors,
     moderator,
@@ -262,6 +263,7 @@ export default function FestivalEventPage() {
                 eventbriteUrl={eventbrite_url}
                 eventTitle={decodeHtmlEntities(event.title?.rendered ?? '')}
                 hasTickets={tickets.length > 0}
+                ticketsLiveDate={tickets_live_date}
               />
               {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
             </div>

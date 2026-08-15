@@ -33,10 +33,13 @@ interface Props {
   eventbriteUrl: string | null | undefined;
   eventTitle: string;
   hasTickets: boolean;
+  ticketsLiveDate?: string | null;
 }
 
-export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Props) {
+export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticketsLiveDate }: Props) {
   const [loadError, setLoadError] = useState(false);
+  const today = new Date().toISOString().slice(0, 10);
+  const ticketsLive = !ticketsLiveDate || today >= ticketsLiveDate;
   const [isMobile] = useState(() => window.matchMedia('(max-width: 640px)').matches);
   const eventId = eventbriteUrl ? extractEventbriteId(eventbriteUrl.trim()) : null;
   const triggerId = eventId ? `eb-modal-trigger-${eventId}` : '';
@@ -84,6 +87,14 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets }: Prop
 
     return () => { cancelled = true; };
   }, [eventId, triggerId, eventTitle, scriptDomain]);
+
+  if (!ticketsLive) {
+    return (
+      <p className={styles.comingSoon}>
+        <FormattedMessage id="festivalEvent.tickets.comingSoon" />
+      </p>
+    );
+  }
 
   if (!eventbriteUrl) {
     if (!hasTickets) return null;
