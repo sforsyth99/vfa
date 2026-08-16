@@ -152,7 +152,11 @@ export function HomeWorkshopCallout() {
         e.event_data.event_type === 'workshop' &&
         !e.event_data.is_kidfest,
     )
-    .sort((a, b) => a.event_data.event_date.localeCompare(b.event_data.event_date))
+    .sort((a, b) => {
+      const dateCmp = a.event_data.event_date.localeCompare(b.event_data.event_date);
+      if (dateCmp !== 0) return dateCmp;
+      return (a.event_data.time_start || '').localeCompare(b.event_data.time_start || '');
+    })
     .slice(0, MAX_WORKSHOPS);
 
   if (!workshops.length) return null;
@@ -212,7 +216,11 @@ export function HomeOnlineCallout() {
         e.event_data.event_date >= today &&
         (e.event_data.tickets.some((t) => t.type === 'online') || !!e.event_data.online_url),
     )
-    .sort((a, b) => a.event_data.event_date.localeCompare(b.event_data.event_date));
+    .sort((a, b) => {
+      const dateCmp = a.event_data.event_date.localeCompare(b.event_data.event_date);
+      if (dateCmp !== 0) return dateCmp;
+      return (a.event_data.time_start || '').localeCompare(b.event_data.time_start || '');
+    });
 
   if (!online.length) return null;
 

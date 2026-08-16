@@ -146,7 +146,11 @@ export function EventSchedule({
 
   const past = events
     .filter((e) => e.event_data.event_date < today)
-    .sort((a, b) => b.event_data.event_date.localeCompare(a.event_data.event_date));
+    .sort((a, b) => {
+      const dateCmp = b.event_data.event_date.localeCompare(a.event_data.event_date);
+      if (dateCmp !== 0) return dateCmp;
+      return (b.event_data.time_start || '').localeCompare(a.event_data.time_start || '');
+    });
 
   const regular = upcoming.filter((e) => !e.event_data.is_kidfest);
   const kidfest = upcoming.filter((e) => e.event_data.is_kidfest);
