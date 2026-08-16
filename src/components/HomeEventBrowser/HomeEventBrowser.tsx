@@ -77,7 +77,11 @@ export function HomeEventBrowser() {
   const today = new Date().toISOString().slice(0, 10);
   const upcoming = (events ?? [])
     .filter((e) => e.event_data.event_date >= today)
-    .sort((a, b) => a.event_data.event_date.localeCompare(b.event_data.event_date));
+    .sort((a, b) => {
+      const dateCmp = a.event_data.event_date.localeCompare(b.event_data.event_date);
+      if (dateCmp !== 0) return dateCmp;
+      return (a.event_data.time_start || '').localeCompare(b.event_data.time_start || '');
+    });
 
   if (!upcoming.length) return null;
 
