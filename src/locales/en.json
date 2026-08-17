@@ -158,7 +158,7 @@
   "events.past": "View past events",
   "events.filter.label": "Filter events",
   "events.filter.walk": "Forest Walk",
-  "events.filter.talk": "Talk",
+  "events.filter.talk": "Discussion",
   "events.filter.online": "Online",
   "events.filter.inPerson": "In-person",
   "events.rowFeaturing": "Featuring {names}",

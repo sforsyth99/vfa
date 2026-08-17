@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import { SkipToContent } from './components/SkipToContent/SkipToContent';
@@ -36,6 +36,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/2026-all" element={<AllContent2026Page />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/category/qa" element={<Navigate to="/interviews" replace />} />
           <Route path="/interviews" element={<InterviewsPage />} />
           <Route path="/interviews/:slug" element={<InterviewPage />} />
           <Route path="/people/:slug" element={<PersonPage />} />
