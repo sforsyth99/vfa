@@ -32,8 +32,5 @@ type TrackableEvent =
     };
 
 export function track({ name, ...params }: TrackableEvent): void {
-  window.gtag?.('event', name, {
-    ...params,
-    ...(import.meta.env.DEV ? { debug_mode: true } : {}),
-  });
+  window.gtag?.('event', name, params);
 }
