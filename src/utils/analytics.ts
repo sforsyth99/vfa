@@ -15,6 +15,7 @@ type TrackableEvent =
   | { name: 'eventbrite_click'; event_label: string }
   | { name: 'eventbrite_order_complete'; event_label: string }
   | { name: 'munros_click'; event_label: string }
+  | { name: 'content_view'; event_label: string; content_type: 'event' | 'interview' | 'person' }
   | { name: 'social_click'; event_label: string }
   | { name: 'donate_click'; event_location: 'header_desktop' | 'header_mobile' | 'footer' }
   | { name: 'newsletter_signup'; event_location: 'footer' | 'homepage' }

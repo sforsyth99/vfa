@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetPerson } from '../../api/people/useGetPerson.ts';
@@ -15,6 +16,7 @@ import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { PageLoader } from '../../components/PageLoader/PageLoader';
+import { track } from '../../utils/analytics.ts';
 import styles from './Person.module.css';
 
 interface AuthorMetaProps {
@@ -106,6 +108,9 @@ export default function PersonPage() {
 
   const name = decodeHtmlEntities(person?.title?.rendered ?? '');
   usePageTitle(person ? name : null);
+  useEffect(() => {
+    if (name) track({ name: 'content_view', event_label: name, content_type: 'person' });
+  }, [name]);
 
   if (isLoading) return <PageLoader />;
   if (error || !person)

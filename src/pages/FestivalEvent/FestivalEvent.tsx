@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvent } from '../../api/festivalEvents/useGetFestivalEvent.ts';
@@ -99,7 +99,11 @@ export default function FestivalEventPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data: event, isLoading, error } = useGetFestivalEvent({ slug: slug! });
   const { data: allEvents } = useGetFestivalEvents();
-  usePageTitle(event ? decodeHtmlEntities(event.title?.rendered ?? '') : null);
+  const eventTitle = event ? decodeHtmlEntities(event.title?.rendered ?? '') : '';
+  usePageTitle(eventTitle || null);
+  useEffect(() => {
+    if (eventTitle) track({ name: 'content_view', event_label: eventTitle, content_type: 'event' });
+  }, [eventTitle]);
 
   if (isLoading) return <PageLoader />;
   if (error || !event) return <div><FormattedMessage id="festivalEvent.notFound" /></div>;

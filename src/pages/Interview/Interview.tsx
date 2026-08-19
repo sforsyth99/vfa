@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
@@ -47,6 +48,9 @@ export default function InterviewPage() {
   usePageTitle(
     authorNames ? intl.formatMessage({ id: 'interview.pageTitle' }, { name: authorNames }) : null,
   );
+  useEffect(() => {
+    if (authorNames) track({ name: 'content_view', event_label: authorNames, content_type: 'interview' });
+  }, [authorNames]);
 
   if (isLoading) return <PageLoader />;
   if (error || !interview)
