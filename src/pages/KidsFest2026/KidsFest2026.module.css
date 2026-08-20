@@ -144,6 +144,21 @@
     padding: 1.5rem 0 2.5rem;
 }
 
+.bandKidsBooks {
+    background-color: var(--vfa-color-surface);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+    url('../../assets/pencils-rainbow.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 1.5rem 0 2.5rem;
+}
+
+.bandGold {
+    background: var(--vfa-color-2026-gold-pale);
+    padding: 3rem 0;
+}
+
 .bandPencil {
     background-color: var(--vfa-color-surface);
     background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
@@ -158,11 +173,70 @@
     margin: 0;
 }
 
+/* ── Youth Reading ────────────────────────────────────── */
+
+.youthSection {
+    max-width: 620px;
+    margin-inline: auto;
+    text-align: center;
+    background: var(--vfa-color-surface);
+    border: 5px solid var(--vfa-color-2026-gold);
+    border-radius: var(--vfa-radius-lg);
+    box-shadow: var(--vfa-shadow-card);
+    padding: 2.5rem 3rem;
+}
+
+.youthEyebrow {
+    font-size: var(--vfa-font-size-eyebrow);
+    font-weight: var(--vfa-font-weight-semibold);
+    letter-spacing: var(--vfa-letter-spacing-eyebrow);
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-gold-dark);
+    margin: 0 0 0.4rem;
+}
+
+.youthHeading {
+    font-family: var(--vfa-font-display);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-primary);
+    margin: 0 0 1rem;
+}
+
+.youthDescription {
+    font-size: var(--vfa-font-size-md);
+    color: var(--vfa-color-ink-mid);
+    line-height: 1.7;
+    margin: 0 0 1.25rem;
+}
+
+.youthFree {
+    display: inline-block;
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-primary);
+    background: var(--vfa-color-2026-gold-pale);
+    border: 1.5px solid var(--vfa-color-2026-gold);
+    padding: 0.3rem 0.9rem;
+    border-radius: var(--vfa-radius-pill);
+}
+
+@media (max-width: 640px) {
+    .youthSection {
+        padding: 1.75rem 1.25rem;
+    }
+}
+
 /* ── Workshops ────────────────────────────────────────── */
 
 .workshopsSection {
     max-width: var(--vfa-width-page);
     margin-inline: auto;
+    background: var(--vfa-color-surface);
+    border: 5px solid var(--vfa-color-2026-gold);
+    border-radius: var(--vfa-radius-lg);
+    box-shadow: var(--vfa-shadow-card);
+    padding: 2rem 2rem 2.5rem;
 }
 
 .workshopsEyebrow {
@@ -742,18 +816,46 @@
 }
 
 /* Background colours — cycle of 4 */
-.rbPhotoCell:nth-child(4n+1) { background: var(--vfa-color-2026-coral-pale); }
-.rbPhotoCell:nth-child(4n+2) { background: var(--vfa-color-2026-gold-pale); }
-.rbPhotoCell:nth-child(4n+3) { background: var(--vfa-color-forest-bg); }
-.rbPhotoCell:nth-child(4n)   { background: var(--vfa-color-2026-slate-pale); }
+.rbPhotoCell:nth-child(4n+1) {
+    background: var(--vfa-color-2026-coral-pale);
+}
+
+.rbPhotoCell:nth-child(4n+2) {
+    background: var(--vfa-color-2026-gold-pale);
+}
+
+.rbPhotoCell:nth-child(4n+3) {
+    background: var(--vfa-color-forest-bg);
+}
+
+.rbPhotoCell:nth-child(4n) {
+    background: var(--vfa-color-2026-slate-pale);
+}
 
 /* Rotations + vertical offsets — cycle of 6, out of sync with colours */
-.rbPhotoCell:nth-child(6n+1) { transform: rotate(-5deg)   translateY(-8px); }
-.rbPhotoCell:nth-child(6n+2) { transform: rotate(3.5deg)  translateY(7px); }
-.rbPhotoCell:nth-child(6n+3) { transform: rotate(-2deg)   translateY(11px); }
-.rbPhotoCell:nth-child(6n+4) { transform: rotate(6deg)    translateY(-5px); }
-.rbPhotoCell:nth-child(6n+5) { transform: rotate(-4.5deg) translateY(3px); }
-.rbPhotoCell:nth-child(6n)   { transform: rotate(2.5deg)  translateY(-11px); }
+.rbPhotoCell:nth-child(6n+1) {
+    transform: rotate(-5deg) translateY(-8px);
+}
+
+.rbPhotoCell:nth-child(6n+2) {
+    transform: rotate(3.5deg) translateY(7px);
+}
+
+.rbPhotoCell:nth-child(6n+3) {
+    transform: rotate(-2deg) translateY(11px);
+}
+
+.rbPhotoCell:nth-child(6n+4) {
+    transform: rotate(6deg) translateY(-5px);
+}
+
+.rbPhotoCell:nth-child(6n+5) {
+    transform: rotate(-4.5deg) translateY(3px);
+}
+
+.rbPhotoCell:nth-child(6n) {
+    transform: rotate(2.5deg) translateY(-11px);
+}
 
 .rbPhotoCell:hover {
     transform: rotate(0deg) translateY(-6px);
