@@ -126,6 +126,7 @@ export default function PersonPage() {
     bio,
     website_url,
     photo,
+    photo_square,
     kidfest_years,
     kidfest_photo,
   } = person.person_data;
@@ -135,6 +136,7 @@ export default function PersonPage() {
     (b): b is typeof b & { cover_image: [string, number, number, boolean] } => !!b.cover_image,
   );
   const photoSrc = photo ? photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
+  const photoSquareSrc = photo_square ? photo_square[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : photoSrc;
   const kidfestPhotoSrc = kidfest_photo
     ? kidfest_photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1')
     : null;
@@ -165,6 +167,7 @@ export default function PersonPage() {
           {!isKidfest && photoSrc && (
             <div className={styles.photoCol}>
               <img src={photoSrc} alt={name} className={styles.authorPhoto} loading="eager" />
+              <img src={photoSquareSrc ?? photoSrc} alt={name} className={styles.authorPhotoMobile} loading="eager" />
             </div>
           )}
           <div className={styles.meta}>
