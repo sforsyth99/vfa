@@ -264,6 +264,27 @@ function KidsFestReadBooks() {
   );
 }
 
+function KidsFestYouthReading() {
+  const intl = useIntl();
+
+  return (
+    <section className={styles.youthSection} aria-labelledby="youth-reading-heading">
+      <p className={styles.youthEyebrow}>
+        {intl.formatMessage({ id: 'kidsfest2026.youthReading.eyebrow' })}
+      </p>
+      <h2 id="youth-reading-heading" className={styles.youthHeading}>
+        {intl.formatMessage({ id: 'kidsfest2026.youthReading.heading' })}
+      </h2>
+      <p className={styles.youthDescription}>
+        {intl.formatMessage({ id: 'kidsfest2026.youthReading.description' })}
+      </p>
+      <span className={styles.youthFree}>
+        {intl.formatMessage({ id: 'kidsfest2026.youthReading.free' })}
+      </span>
+    </section>
+  );
+}
+
 function KidsFestMeetAuthors() {
   const intl = useIntl();
   const { data: authorData } = useGetKidfestAuthors(CURRENT_YEAR);
@@ -360,9 +381,15 @@ export default function KidsFest2026Page() {
         </Container>
       </div>
 
-      <div className={styles.bandWhite}>
+      <div className={styles.bandKidsBooks}>
         <Container>
           <KidsFestWorkshops events={events} isLoading={isLoading} />
+        </Container>
+      </div>
+
+      <div className={styles.bandTan}>
+        <Container>
+          <KidsFestYouthReading />
         </Container>
       </div>
 
