@@ -23,6 +23,7 @@ import WhoWeArePage from './pages/WhoWeAre/WhoWeAre';
 import StrategicPlanPage from './pages/StrategicPlan/StrategicPlan';
 import ArchivesPage from './pages/Archives/Archives';
 import EventbriteTestPage from './pages/EventbriteTest/EventbriteTest';
+import NotFoundPage from './pages/NotFound/NotFound';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
           <Route path="/qa-archive-page" element={<ArchivesPage />} />
           <Route path="/test-widget" element={<EventbriteTestPage />} />
           <Route path="/:slug" element={<DynamicPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </ErrorBoundary>
       <Footer />

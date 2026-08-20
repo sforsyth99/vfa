@@ -1,5 +1,4 @@
 import { Navigate, useParams } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
 import { useGetPages } from '../../api/pages/useGetPages';
 import { useGetPage } from '../../api/pages/useGetPage';
 import { useGetInterviews } from '../../api/interviews/useGetInterviews';
@@ -7,6 +6,7 @@ import { useGetPostBySlug } from '../../api/posts/useGetPostBySlug';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { Container } from '../../components/Container/Container';
 import { PageLoader } from '../../components/PageLoader/PageLoader';
+import NotFoundPage from '../NotFound/NotFound';
 import styles from './DynamicPage.module.css';
 
 export default function DynamicPage() {
@@ -38,7 +38,7 @@ export default function DynamicPage() {
     );
   }
 
-  if (!pageId || !pageData) return <div><FormattedMessage id="dynamicPage.notFound" /></div>;
+  if (!pageId || !pageData) return <NotFoundPage />;
 
   return (
     <main id="main-content" className={styles.page}>

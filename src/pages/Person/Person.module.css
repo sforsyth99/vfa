@@ -120,6 +120,10 @@
     border-radius: var(--vfa-radius-card);
 }
 
+.authorPhotoMobile {
+    display: none;
+}
+
 /* ── Full-width cards below the hero ─────────────────── */
 
 .bottomSection {
@@ -165,8 +169,17 @@
     .photoCol {
         flex: none;
         width: 100%;
-        max-height: 280px;
-        overflow: hidden;
+    }
+
+    .authorPhoto {
+        display: none;
+    }
+
+    .authorPhotoMobile {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: var(--vfa-radius-card);
     }
 
     .bottomCards {

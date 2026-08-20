@@ -1,0 +1,104 @@
+.page {
+    padding-top: 4rem;
+    padding-bottom: 6rem;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+}
+
+.chapter {
+    font-family: var(--vfa-font-typewriter);
+    font-size: 3rem;
+    font-weight: var(--vfa-font-weight-normal);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--vfa-color-2026-gold-dark);
+    margin: 0;
+    line-height: 1;
+}
+
+.rule {
+    width: 3rem;
+    height: 2px;
+    background: var(--vfa-color-2026-gold);
+    border-radius: 1px;
+    margin: 0.25rem 0;
+}
+
+.heading {
+    font-family: var(--vfa-font-display);
+    font-size: var(--vfa-font-size-page-title);
+    font-weight: var(--vfa-font-weight-bold);
+    color: var(--vfa-color-primary);
+    margin: 0;
+}
+
+.body {
+    font-size: var(--vfa-font-size-md);
+    color: var(--vfa-color-ink-light);
+    max-width: 38ch;
+    line-height: 1.6;
+    margin: 0.25rem 0 0.5rem;
+}
+
+.links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.primary {
+    display: inline-block;
+    padding: 0.65rem 1.5rem;
+    background: var(--vfa-color-primary);
+    color: var(--vfa-color-text-light);
+    border-radius: var(--vfa-radius-pill);
+    font-weight: var(--vfa-font-weight-semibold);
+    text-decoration: none;
+}
+
+.primary:hover {
+    background: var(--vfa-color-primary-dark);
+}
+
+.secondary {
+    display: inline-block;
+    padding: 0.65rem 1.5rem;
+    border: 1.5px solid var(--vfa-color-primary);
+    color: var(--vfa-color-primary);
+    border-radius: var(--vfa-radius-pill);
+    font-weight: var(--vfa-font-weight-semibold);
+    text-decoration: none;
+}
+
+.secondary:hover {
+    background: var(--vfa-color-warm-bg);
+}
+
+@media (max-width: 640px) {
+    .chapter {
+        font-size: 2.75rem;
+    }
+
+    .heading {
+        font-size: var(--vfa-font-size-page-title-mobile);
+    }
+
+    .links {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .primary,
+    .secondary {
+        text-align: center;
+    }
+}

@@ -12,6 +12,13 @@
   "common.loading": "Loading…",
   "dynamicPage.notFound": "Page not found",
 
+  "notFound.pageTitle": "Page Not Found",
+  "notFound.chapter": "Chapter 404",
+  "notFound.heading": "This page has gone missing.",
+  "notFound.body": "We've searched every shelf — this chapter doesn't exist. But there are plenty of good reads waiting for you.",
+  "notFound.home": "Go to homepage",
+  "notFound.events": "Browse events",
+
   "errorBoundary.heading": "Oops — something went wrong.",
   "errorBoundary.body": "Try refreshing the page. If the problem persists, please <contactLink>contact us</contactLink>.",
 
