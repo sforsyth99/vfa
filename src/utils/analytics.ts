@@ -35,7 +35,8 @@ type TrackableEvent =
       name: 'related_event_click';
       source_event: string;
       destination_event: string;
-    };
+    }
+  | { name: 'kidsfest_promo_click'; event_location: 'homepage' };
 
 export function track({ name, ...params }: TrackableEvent): void {
   window.gtag?.('event', name, params);

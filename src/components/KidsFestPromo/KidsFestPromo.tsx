@@ -79,7 +79,11 @@ export function KidsFestPromo() {
             </div>
           </dl>
           <div className={styles.actions}>
-            <Link to="/kidsfest2026" className={styles.cta}>
+            <Link
+              to="/kidsfest2026"
+              className={styles.cta}
+              onClick={() => track({ name: 'kidsfest_promo_click', event_location: 'homepage' })}
+            >
               {intl.formatMessage({ id: 'kidsfest.cta' })}
             </Link>
             {mainEvent && (
