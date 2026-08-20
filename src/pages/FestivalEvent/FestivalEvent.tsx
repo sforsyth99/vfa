@@ -335,7 +335,11 @@ export default function FestivalEventPage() {
                         </p>
                       )}
                       <h3 className={styles.relatedTitle}>
-                        <Link to={eventPath(rel.slug)} className={styles.relatedTitleLink}>
+                        <Link
+                          to={eventPath(rel.slug)}
+                          className={styles.relatedTitleLink}
+                          onClick={() => track({ name: 'related_event_click', source_event: slug!, destination_event: rel.slug })}
+                        >
                           {rel.title}
                         </Link>
                       </h3>
@@ -344,7 +348,11 @@ export default function FestivalEventPage() {
                           {[rel.event_date, rel.venue_name].filter(Boolean).join(' · ')}
                         </p>
                       )}
-                      <Link to={eventPath(rel.slug)} className={styles.relatedDetailsLink}>
+                      <Link
+                        to={eventPath(rel.slug)}
+                        className={styles.relatedDetailsLink}
+                        onClick={() => track({ name: 'related_event_click', source_event: slug!, destination_event: rel.slug })}
+                      >
                         {intl.formatMessage({ id: 'festivalEvent.relatedEvents.details' })}
                       </Link>
                     </li>
