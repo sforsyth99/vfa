@@ -30,6 +30,11 @@ type TrackableEvent =
       event_label: string;
       event_location: 'top' | 'bottom';
       content_type: 'event' | 'interview';
+    }
+  | {
+      name: 'related_event_click';
+      source_event: string;
+      destination_event: string;
     };
 
 export function track({ name, ...params }: TrackableEvent): void {
