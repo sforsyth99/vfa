@@ -21,19 +21,21 @@ const STATIC_ROUTES = [
   { path: '/archives',       priority: '0.5', changefreq: 'monthly' },
 ];
 
+const FETCH_HEADERS = { 'User-Agent': 'VFA-Sitemap-Generator/1.0' };
+
 async function fetchAllSlugs(endpoint) {
-  const slugs = [];
+  const seen = new Set();
   let page = 1;
   while (true) {
-    const res = await fetch(`${API_BASE}/${endpoint}?per_page=100&page=${page}&_fields=slug`);
+    const res = await fetch(`${API_BASE}/${endpoint}?per_page=100&page=${page}&_fields=slug`, { headers: FETCH_HEADERS });
     const items = await res.json().catch(() => []);
     if (!Array.isArray(items) || !items.length) break;
-    slugs.push(...items.map((item) => item.slug).filter(Boolean));
+    items.map((item) => item.slug).filter(Boolean).forEach((s) => seen.add(s));
     const total = parseInt(res.headers.get('X-WP-TotalPages') ?? '1', 10);
     if (page >= total) break;
     page++;
   }
-  return slugs;
+  return [...seen];
 }
 
 function urlEntry(path, priority, changefreq) {
