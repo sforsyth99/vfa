@@ -194,6 +194,11 @@
     margin: 0;
 }
 
+.qText p + p {
+    display: block;
+    margin-top: 1em;
+}
+
 .answer {
     font-size: var(--vfa-font-size-base);
     line-height: 1.8;
@@ -218,6 +223,11 @@
 .aText p {
     display: inline;
     margin: 0;
+}
+
+.aText p + p {
+    display: block;
+    margin-top: 1em;
 }
 
 /* Rich-text formatting from CMS — font/color is controlled by parent, not the editor */
