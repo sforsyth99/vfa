@@ -248,6 +248,33 @@
     opacity: var(--vfa-opacity-hover);
 }
 
+/* Poetry/prose blockquotes inserted by editors */
+.qText blockquote,
+.aText blockquote,
+.intro blockquote {
+    display: block;
+    margin: 0.75em 0 0.75em 0;
+    padding: 0.5em 0 0.5em 1.25rem;
+    border-left: 3px solid var(--vfa-color-ink-light);
+    font-style: italic;
+    font-weight: var(--vfa-font-weight-normal);
+    line-height: 1.55;
+}
+
+/* Compact line spacing inside blockquotes — each poetry line is its own <p> */
+.qText blockquote p,
+.aText blockquote p,
+.intro blockquote p {
+    display: block;
+    margin: 0;
+}
+
+.qText blockquote p + p,
+.aText blockquote p + p,
+.intro blockquote p + p {
+    margin-top: 0.1em;
+}
+
 .intro ul,
 .intro ol,
 .aText ul,
