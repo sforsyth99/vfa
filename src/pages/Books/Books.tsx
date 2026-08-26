@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetBooks } from '../../api/books/useGetBooks';
 import { CURRENT_YEAR } from '../../config/festival';
@@ -65,8 +66,9 @@ export default function BooksPage() {
             {filtered.map((book) => {
               const title = decodeHtmlEntities(book.title?.rendered ?? '');
               const coverUrl = book.book_data?.cover_image ? book.book_data.cover_image[0] : null;
-              const authorName =
-                book.book_data?.authors?.[0]?.name ?? book.book_data?.additional_authors ?? '';
+              const author = book.book_data?.authors?.[0];
+              const authorName = author?.name ?? book.book_data?.additional_authors ?? '';
+              const authorSlug = author?.slug;
 
               return (
                 <li key={book.id}>
@@ -75,11 +77,7 @@ export default function BooksPage() {
                     munrosUrl={book.book_data?.munros_url || undefined}
                     bookTitle={title}
                     className={styles.card}
-                    aria-label={
-                      authorName
-                        ? intl.formatMessage({ id: 'home.books.cardLabel' }, { title, author: authorName })
-                        : title
-                    }
+                    aria-label={title}
                   >
                     <div className={styles.cover}>
                       {coverUrl ? (
@@ -91,8 +89,12 @@ export default function BooksPage() {
                       )}
                     </div>
                     <span className={styles.title}>{title}</span>
-                    {authorName && <span className={styles.author}>{authorName}</span>}
                   </BookLink>
+                  {authorName && (
+                    authorSlug
+                      ? <Link to={`/people/${authorSlug}`} className={styles.author}>{authorName}</Link>
+                      : <span className={styles.author}>{authorName}</span>
+                  )}
                 </li>
               );
             })}

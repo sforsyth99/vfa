@@ -128,7 +128,7 @@ export default function InterviewPage() {
           {interviewer_name && (
             <p className={styles.interviewer}>
               {intl.formatMessage({ id: 'interview.interviewedBy' }, { name: interviewer_name })}
-              {interviewer_age != null && `, age ${interviewer_age}`}
+              {interviewer_age != null && intl.formatMessage({ id: 'interview.interviewerAge' }, { age: interviewer_age })}
             </p>
           )}
         </div>
@@ -207,8 +207,9 @@ export default function InterviewPage() {
       {interviewer_bio && (
         <div className={styles.interviewerBio}>
           <p className={styles.interviewerBioLabel}>
-            <FormattedMessage id="interview.interviewerBio" />
-            {interviewer_name && `: ${interviewer_name}`}{interviewer_age != null && `, age ${interviewer_age}`}
+            {intl.formatMessage({ id: 'interview.interviewerBio' })}
+            {interviewer_name && intl.formatMessage({ id: 'interview.interviewerBioName' }, { name: interviewer_name })}
+            {interviewer_age != null && intl.formatMessage({ id: 'interview.interviewerAge' }, { age: interviewer_age })}
           </p>
           <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(interviewer_bio) }} />
         </div>

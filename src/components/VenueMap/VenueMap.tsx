@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useIntl } from 'react-intl';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { VenueData } from '../../api/venues/venueTypes.ts';
@@ -34,6 +35,7 @@ function buildGeocodingQuery(venue: VenueData): string {
 }
 
 export default function VenueMap({ venue }: { venue: VenueData }) {
+  const intl = useIntl();
   const [coords, setCoords] = useState<Coords | null>(null);
   const [failed, setFailed] = useState(false);
   const mapRef = useRef<HTMLDivElement>(null);
@@ -103,7 +105,7 @@ export default function VenueMap({ venue }: { venue: VenueData }) {
         rel="noopener noreferrer"
         className={styles.fallbackLink}
       >
-        View on map
+        {intl.formatMessage({ id: 'venue.viewOnMap' })}
       </a>
     );
   }
@@ -121,7 +123,7 @@ export default function VenueMap({ venue }: { venue: VenueData }) {
         rel="noopener noreferrer"
         className={styles.osmLink}
       >
-        View larger map
+        {intl.formatMessage({ id: 'venue.viewLargerMap' })}
       </a>
     </div>
   );

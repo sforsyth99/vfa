@@ -154,7 +154,7 @@ export default function FestivalEventPage() {
   const personColorIndex = new Map(allPeople.map((p, i) => [p.id, i]));
 
   const timeRange = time_start
-    ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''} PT`
+    ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''} ${intl.formatMessage({ id: 'festivalEvent.timezonePT' })}`
     : null;
 
   const typeKey = (event_type && EVENT_TYPE_KEYS[event_type]) ?? 'festivalEvent.type.default';
