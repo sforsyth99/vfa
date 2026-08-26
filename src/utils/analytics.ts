@@ -10,7 +10,7 @@ type TrackableEvent =
   | {
       name: 'add_to_calendar';
       event_label: string;
-      event_location: 'hero' | 'event_card' | 'home_promo' | 'event_browser';
+      event_location: 'hero' | 'event_card' | 'home_promo' | 'event_browser' | 'youth_reading';
     }
   | { name: 'eventbrite_click'; event_label: string }
   | { name: 'eventbrite_order_complete'; event_label: string }
@@ -36,7 +36,9 @@ type TrackableEvent =
       source_event: string;
       destination_event: string;
     }
-  | { name: 'kidsfest_promo_click'; event_location: 'homepage' };
+  | { name: 'kidsfest_promo_click'; event_location: 'homepage' }
+  | { name: 'search_opened' }
+  | { name: 'search_result_clicked'; search_term: string; result_label: string; result_type: string };
 
 export function track({ name, ...params }: TrackableEvent): void {
   window.gtag?.('event', name, params);

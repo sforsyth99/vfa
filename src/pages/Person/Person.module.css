@@ -108,6 +108,7 @@
 
 .photoCol {
     flex: 0 0 270px;
+    max-height: 440px;
 }
 
 .authorPhoto {

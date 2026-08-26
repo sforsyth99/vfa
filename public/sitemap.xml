@@ -491,6 +491,26 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/andrea-fritz</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-kirstie-hudson</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-kamal-al-solaylee</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-avis-blackbird</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-garth-martens</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

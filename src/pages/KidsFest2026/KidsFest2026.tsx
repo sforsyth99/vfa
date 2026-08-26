@@ -60,19 +60,19 @@ function KidsFestHero({ mainEvent }: { mainEvent: FestivalEvent | null }) {
           </p>
           <dl className={styles.heroDetails}>
             <div className={styles.heroDetailRow}>
-              <dt className={styles.heroDetailLabel}>Date</dt>
+              <dt className={styles.heroDetailLabel}>{intl.formatMessage({ id: 'common.date' })}</dt>
               <dd className={styles.heroDetailValue}>
                 {intl.formatMessage({ id: 'kidsfest.date' })}
               </dd>
             </div>
             <div className={styles.heroDetailRow}>
-              <dt className={styles.heroDetailLabel}>Time</dt>
+              <dt className={styles.heroDetailLabel}>{intl.formatMessage({ id: 'common.time' })}</dt>
               <dd className={styles.heroDetailValue}>
                 {intl.formatMessage({ id: 'kidsfest.time' })}
               </dd>
             </div>
             <div className={styles.heroDetailRow}>
-              <dt className={styles.heroDetailLabel}>Where</dt>
+              <dt className={styles.heroDetailLabel}>{intl.formatMessage({ id: 'common.where' })}</dt>
               <dd className={styles.heroDetailValue}>
                 {intl.formatMessage({ id: 'kidsfest.venue' })}
                 <span className={styles.heroAddress}>
@@ -138,7 +138,7 @@ function KidsFestWorkshops({ events, isLoading }: { events: FestivalEvent[] | un
           : '';
         const priceTicket = tickets.find((t) => t.type === 'in_person') ?? tickets[0];
         const priceMin = priceTicket?.price_min ?? null;
-        const price = priceMin === null ? null : priceMin === 0 ? 'Free' : `$${Number.isInteger(priceMin) ? priceMin : priceMin.toFixed(2)}`;
+        const price = priceMin === null ? null : priceMin === 0 ? intl.formatMessage({ id: 'events.free' }) : `$${Number.isInteger(priceMin) ? priceMin : priceMin.toFixed(2)}`;
         const title = decodeHtmlEntities(event.title?.rendered ?? '');
         return (
           <li key={event.id} className={styles.eventCard}>
@@ -267,6 +267,22 @@ function KidsFestReadBooks() {
 function KidsFestYouthReading() {
   const intl = useIntl();
 
+  const handleAddToCalendar = () => {
+    const icsTitle = intl.formatMessage({ id: 'kidsfest2026.youthReading.icsTitle' });
+    const location = `${intl.formatMessage({ id: 'kidsfest.venue' })}, ${intl.formatMessage({ id: 'kidsfest.address' })}`;
+    track({ name: 'add_to_calendar', event_label: intl.formatMessage({ id: 'kidsfest2026.youthReading.heading' }), event_location: 'youth_reading' });
+    downloadIcs({
+      title: icsTitle,
+      date: '2026-10-17',
+      timeStart: '16:00',
+      timeEnd: '17:00',
+      location,
+      description: intl.formatMessage({ id: 'kidsfest2026.youthReading.description' }),
+      filename: 'kidsfest-2026-youth-reading.ics',
+      uid: 'kidsfest-2026-youth-reading@victoriafestivalofauthors.ca',
+    });
+  };
+
   return (
     <section className={styles.youthSection} aria-labelledby="youth-reading-heading">
       <p className={styles.youthEyebrow}>
@@ -278,9 +294,20 @@ function KidsFestYouthReading() {
       <p className={styles.youthDescription}>
         {intl.formatMessage({ id: 'kidsfest2026.youthReading.description' })}
       </p>
-      <span className={styles.youthFree}>
-        {intl.formatMessage({ id: 'kidsfest2026.youthReading.free' })}
-      </span>
+      <p className={styles.youthDate}>
+        {intl.formatMessage({ id: 'kidsfest.date' })}
+      </p>
+      <p className={styles.youthTime}>
+        {intl.formatMessage({ id: 'kidsfest2026.youthReading.time' })}
+      </p>
+      <div className={styles.youthActions}>
+        <span className={styles.youthFree}>
+          {intl.formatMessage({ id: 'kidsfest2026.youthReading.free' })}
+        </span>
+        <button className={styles.youthCalendarButton} onClick={handleAddToCalendar}>
+          {intl.formatMessage({ id: 'kidsfest2026.youthReading.addToCalendar' })}
+        </button>
+      </div>
     </section>
   );
 }

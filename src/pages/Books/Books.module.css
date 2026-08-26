@@ -82,6 +82,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    text-decoration: none;
+    display: block;
+}
+
+.author:hover {
+    color: var(--vfa-color-primary);
+    text-decoration: underline;
 }
 
 /* ── Skeleton ───────────────────────────────────────── */

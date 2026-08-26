@@ -25,7 +25,7 @@ function Header() {
         <nav
           id="primary-nav"
           className={`${styles.nav} ${isOpen ? styles.navOpen : ''}`}
-          aria-label="Main navigation"
+          aria-label={intl.formatMessage({ id: 'nav.primaryLabel' })}
         >
           <ul className={styles.navList}>
             {PRIMARY_NAV.map((item) => (

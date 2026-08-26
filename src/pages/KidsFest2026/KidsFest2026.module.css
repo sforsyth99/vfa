@@ -43,16 +43,9 @@
 }
 
 .heroBadge {
-    display: inline-block;
-    background: rgba(66, 66, 79, 0.1);
-    border: 1px solid rgba(66, 66, 79, 0.4);
-    color: var(--vfa-color-2026-indigo);
-    font-size: var(--vfa-font-size-eyebrow);
+    font-size: var(--vfa-font-size-sm);
     font-weight: var(--vfa-font-weight-semibold);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    border-radius: var(--vfa-radius-pill);
-    padding: 0.35em 1em;
+    color: var(--vfa-color-2026-indigo);
     margin: 0;
 }
 
@@ -111,20 +104,20 @@
 
 .heroCalendarButton {
     display: inline-block;
-    background: transparent;
-    border: 1px solid rgba(66, 66, 79, 0.4);
+    background: var(--vfa-color-2026-gold-pale);
+    border: 1.5px solid var(--vfa-color-2026-gold);
     color: var(--vfa-color-2026-indigo);
     font-size: var(--vfa-font-size-sm);
     font-weight: var(--vfa-font-weight-semibold);
     border-radius: var(--vfa-radius-pill);
-    padding: 0.4em 1.1em;
+    padding: 0.3rem 0.9rem;
     cursor: pointer;
     transition: background var(--vfa-transition), border-color var(--vfa-transition);
 }
 
 .heroCalendarButton:hover {
-    background: rgba(66, 66, 79, 0.08);
-    border-color: rgba(66, 66, 79, 0.7);
+    background: var(--vfa-color-2026-gold);
+    border-color: var(--vfa-color-2026-gold-dark);
 }
 
 /* ── Page sections ────────────────────────────────────── */
@@ -210,15 +203,52 @@
     margin: 0 0 1.25rem;
 }
 
+.youthDate {
+    font-size: var(--vfa-font-size-sm);
+    color: var(--vfa-color-ink-mid);
+    margin: 0 0 0.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: var(--vfa-font-weight-semibold);
+}
+
+.youthTime {
+    font-size: var(--vfa-font-size-base);
+    font-weight: var(--vfa-font-weight-semibold);
+    color: var(--vfa-color-primary);
+    margin: 0 0 1rem;
+}
+
+.youthActions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
 .youthFree {
-    display: inline-block;
     font-size: var(--vfa-font-size-sm);
     font-weight: var(--vfa-font-weight-semibold);
     color: var(--vfa-color-primary);
+}
+
+.youthCalendarButton {
+    display: inline-block;
     background: var(--vfa-color-2026-gold-pale);
     border: 1.5px solid var(--vfa-color-2026-gold);
-    padding: 0.3rem 0.9rem;
+    color: var(--vfa-color-primary);
+    font-size: var(--vfa-font-size-sm);
+    font-weight: var(--vfa-font-weight-semibold);
     border-radius: var(--vfa-radius-pill);
+    padding: 0.3rem 0.9rem;
+    cursor: pointer;
+    transition: background var(--vfa-transition), border-color var(--vfa-transition);
+}
+
+.youthCalendarButton:hover {
+    background: var(--vfa-color-2026-gold);
+    border-color: var(--vfa-color-2026-gold-dark);
 }
 
 @media (max-width: 640px) {

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { useSearchWP, resultToPath } from '../../api/search/useSearchWP';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { track } from '../../utils/analytics';
 import styles from './SearchWidget.module.css';
 
 export function SearchWidget() {
@@ -57,7 +58,9 @@ export function SearchWidget() {
       setActiveIndex((i) => Math.max(i - 1, -1));
     } else if (e.key === 'Enter' && activeIndex >= 0) {
       e.preventDefault();
-      navigate(resultToPath(results[activeIndex]));
+      const result = results[activeIndex];
+      track({ name: 'search_result_clicked', search_term: debouncedQuery, result_label: result.title, result_type: result.subtype });
+      navigate(resultToPath(result));
       setOpen(false);
     }
   }
@@ -70,7 +73,7 @@ export function SearchWidget() {
         <button
           className={styles.iconButton}
           aria-label={intl.formatMessage({ id: 'nav.search.label' })}
-          onClick={() => setOpen(true)}
+          onClick={() => { setOpen(true); track({ name: 'search_opened' }); }}
         >
           <SearchIcon />
         </button>
@@ -120,6 +123,7 @@ export function SearchWidget() {
                   onMouseEnter={() => setActiveIndex(i)}
                   onMouseDown={(e) => {
                     e.preventDefault();
+                    track({ name: 'search_result_clicked', search_term: debouncedQuery, result_label: result.title, result_type: result.subtype });
                     navigate(resultToPath(result));
                     setOpen(false);
                   }}

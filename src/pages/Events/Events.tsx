@@ -47,6 +47,7 @@ function formatPriceGroup(
 function formatEventPrice(
   tickets: { type: string; tier: string; price_min: number | null; price_max: number | null }[],
   freeLabel: string,
+  intl: ReturnType<typeof useIntl>,
 ): { primary: string; secondary?: string } {
   const all = tickets ?? [];
   const inPerson = all.filter((t) => t.type === 'in_person');
@@ -56,7 +57,10 @@ function formatEventPrice(
   const onlineStr = formatPriceGroup(online, freeLabel);
 
   if (inPersonStr && onlineStr) {
-    return { primary: `In person ${inPersonStr}`, secondary: `Online ${onlineStr}` };
+    return {
+      primary: intl.formatMessage({ id: 'events.priceInPerson' }, { price: inPersonStr }),
+      secondary: intl.formatMessage({ id: 'events.priceOnline' }, { price: onlineStr }),
+    };
   }
   return { primary: inPersonStr ?? onlineStr ?? freeLabel };
 }
@@ -107,7 +111,7 @@ function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef:
   const title = decodeHtmlEntities(event.title?.rendered ?? '');
   const authorNames = formatNames(sortBySurname(d.authors ?? [])) || formatNames(sortBySurname(d.hosts ?? []));
   const modNames = formatNames(sortBySurname(d.moderator ?? []));
-  const { primary: pricePrimary, secondary: priceSecondary } = formatEventPrice(d.tickets, intl.formatMessage({ id: 'events.free' }));
+  const { primary: pricePrimary, secondary: priceSecondary } = formatEventPrice(d.tickets, intl.formatMessage({ id: 'events.free' }), intl);
   const timeStr = d.time_start
     ? d.time_end
       ? `${formatTime(d.time_start)} – ${formatTime(d.time_end)}`

@@ -37,7 +37,7 @@ export function EventInfoCard({ event, name }: Props) {
       {dateStr && (
         <p className={styles.date}>
           {dateStr}
-          {event.time_start && ` · ${event.time_start} PT`}
+          {event.time_start && ` · ${event.time_start} ${intl.formatMessage({ id: 'festivalEvent.timezonePT' })}`}
         </p>
       )}
       {event.venue_name && <p className={styles.venue}>{event.venue_name}</p>}

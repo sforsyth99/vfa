@@ -84,7 +84,9 @@ export function HomeReadingList() {
             {sorted.map((book) => {
               const coverUrl = book.book_data?.cover_image ? book.book_data.cover_image[0] : null;
               const title = decodeHtmlEntities(book.title?.rendered ?? '');
-              const authorName = book.book_data?.authors?.[0]?.name ?? book.book_data?.additional_authors ?? '';
+              const author = book.book_data?.authors?.[0];
+              const authorName = author?.name ?? book.book_data?.additional_authors ?? '';
+              const authorSlug = author?.slug;
 
               return (
                 <li key={book.id} className={styles.item}>
@@ -93,10 +95,7 @@ export function HomeReadingList() {
                     munrosUrl={book.book_data?.munros_url || undefined}
                     bookTitle={title}
                     className={styles.card}
-                    aria-label={intl.formatMessage(
-                      { id: 'home.books.cardLabel' },
-                      { title, author: authorName },
-                    )}
+                    aria-label={title}
                   >
                     <div className={styles.cover}>
                       {coverUrl ? (
@@ -108,10 +107,12 @@ export function HomeReadingList() {
                       )}
                     </div>
                     <span className={styles.cardTitle}>{title}</span>
-                    {authorName && (
-                      <span className={styles.cardAuthor}>{authorName}</span>
-                    )}
                   </BookLink>
+                  {authorName && (
+                    authorSlug
+                      ? <Link to={`/people/${authorSlug}`} className={styles.cardAuthor}>{authorName}</Link>
+                      : <span className={styles.cardAuthor}>{authorName}</span>
+                  )}
                 </li>
               );
             })}

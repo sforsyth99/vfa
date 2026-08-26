@@ -57,19 +57,19 @@ export function KidsFestPromo() {
           </p>
           <dl className={styles.details}>
             <div className={styles.detailRow}>
-              <dt className={styles.detailLabel}>Date</dt>
+              <dt className={styles.detailLabel}>{intl.formatMessage({ id: 'common.date' })}</dt>
               <dd className={styles.detailValue}>
                 {intl.formatMessage({ id: 'kidsfest.date' })}
               </dd>
             </div>
             <div className={styles.detailRow}>
-              <dt className={styles.detailLabel}>Time</dt>
+              <dt className={styles.detailLabel}>{intl.formatMessage({ id: 'common.time' })}</dt>
               <dd className={styles.detailValue}>
                 {intl.formatMessage({ id: 'kidsfest.time' })}
               </dd>
             </div>
             <div className={styles.detailRow}>
-              <dt className={styles.detailLabel}>Where</dt>
+              <dt className={styles.detailLabel}>{intl.formatMessage({ id: 'common.where' })}</dt>
               <dd className={styles.detailValue}>
                 {intl.formatMessage({ id: 'kidsfest.venue' })}
                 <span className={styles.address}>
