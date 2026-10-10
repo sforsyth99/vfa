@@ -175,6 +175,7 @@
   "events.filter.inPerson": "In-person",
   "events.rowFeaturing": "Featuring {names}",
   "events.rowMod": "Moderated by {name}",
+  "events.soldOut": "Sold out",
   "events.workshopBy": "Workshop by {names}",
   "events.locationInPerson": "In-person",
   "events.locationOnline": "Online",

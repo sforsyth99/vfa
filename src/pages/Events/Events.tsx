@@ -8,6 +8,7 @@ import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { sortBySurname } from '../../utils/sortBySurname';
 import { eventPath } from '../../utils/eventPath';
+import { isEventSoldOut } from '../../utils/isEventSoldOut';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
@@ -209,6 +210,8 @@ function EventRow({ event, dimmed, highlighted }: { event: FestivalEvent; dimmed
   const timeStr = d.time_start ? formatTime(d.time_start) : '';
   const venueLabel = formatVenueLabel(d.tickets, d.venue?.name, intl);
 
+  const isSoldOut = isEventSoldOut(d);
+
   const authorNames = formatNames(sortBySurname(d.authors ?? [])) || formatNames(sortBySurname(d.hosts ?? []));
   const modNames = formatNames(sortBySurname(d.moderator ?? []));
   const { authorLine, showModSeparately } = formatAuthorLine(d.event_type, authorNames, modNames, intl);
@@ -251,7 +254,16 @@ function EventRow({ event, dimmed, highlighted }: { event: FestivalEvent; dimmed
         <span className={styles.rowTitle}>{title}</span>
         {rowSubtitle && <span className={styles.rowAuthors}>{rowSubtitle}</span>}
       </span>
-      {venueLabel && <span className={styles.rowVenue}>{venueLabel}</span>}
+      {(isSoldOut || venueLabel) && (
+        <span className={styles.rowRight}>
+          {isSoldOut && (
+            <span className={styles.rowSoldOut}>
+              {intl.formatMessage({ id: 'events.soldOut' })}
+            </span>
+          )}
+          {venueLabel && <span className={styles.rowVenue}>{venueLabel}</span>}
+        </span>
+      )}
     </>
   );
 

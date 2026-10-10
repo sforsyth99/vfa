@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { track } from '../../utils/analytics';
+import { isSoldOut } from '../../utils/isEventSoldOut';
 import styles from './EventbriteWidget.module.css';
 
 declare global {
@@ -34,9 +35,10 @@ interface Props {
   eventTitle: string;
   hasTickets: boolean;
   ticketsLiveDate?: string | null;
+  isKidfest?: boolean;
 }
 
-export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticketsLiveDate }: Props) {
+export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticketsLiveDate, isKidfest = false }: Props) {
   const [loadError, setLoadError] = useState(false);
   const today = new Date().toISOString().slice(0, 10);
   const ticketsLive = !ticketsLiveDate || today >= ticketsLiveDate;
@@ -98,10 +100,10 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticket
 
   if (!eventbriteUrl) {
     if (!hasTickets) return null;
+    const soldOut = isSoldOut({ eventbriteUrl, hasTickets, ticketsLiveDate, isKidfest });
     return (
       <p className={styles.comingSoon}>
-
-        <FormattedMessage id="festivalEvent.tickets.soldOut" />
+        <FormattedMessage id={soldOut ? 'festivalEvent.tickets.soldOut' : 'festivalEvent.tickets.comingSoon'} />
       </p>
     );
   }

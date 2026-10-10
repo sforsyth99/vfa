@@ -73,7 +73,7 @@
     flex-direction: column;
     gap: 0.15rem;
     padding: 0.75rem 0;
-    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    border-bottom: 1px solid var(--vfa-color-warm-border-mid);
     min-width: 0;
 }
 
@@ -120,6 +120,26 @@
 
 /* Only keep nowrap when meta is inline next to the title (online callout on desktop) */
 .eventTitleRow .eventMeta {
+    white-space: nowrap;
+}
+
+.eventTitleRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+
+.eventSoldOut {
+    display: inline-block;
+    padding: 0.1em 0.6em;
+    background: var(--vfa-color-2026-coral-pale);
+    color: var(--vfa-color-2026-coral);
+    font-size: var(--vfa-font-size-xs);
+    font-weight: var(--vfa-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-radius: var(--vfa-radius-pill);
     white-space: nowrap;
 }
 

@@ -94,6 +94,9 @@ export function KidsFestInterviews() {
               ? authors.map(a => decodeHtmlEntities(a.name)).join(' & ')
               : decodeHtmlEntities(interview.title?.rendered ?? '');
             const photoSrc = primaryAuthor?.photo ? primaryAuthor.photo[0] : null;
+            // KidsFest crop photos are framed for top alignment; a regular portrait
+            // (no kidfest_photo) looks better centered.
+            const isKidfestPhoto = Boolean(primaryAuthor?.kidfest_photo);
             const interviewerName = data?.interviewer_name ?? '';
             const interviewerAge = data?.interviewer_age ?? null;
 
@@ -106,7 +109,12 @@ export function KidsFestInterviews() {
                 >
                   {photoSrc ? (
                     <div className={styles.polaroid}>
-                      <img src={photoSrc} alt={authorLabel} className={styles.photo} loading="lazy" />
+                      <img
+                        src={photoSrc}
+                        alt={authorLabel}
+                        className={`${styles.photo}${isKidfestPhoto ? '' : ` ${styles.photoCentered}`}`}
+                        loading="lazy"
+                      />
                     </div>
                   ) : (
                     <div className={styles.photoPlaceholder} aria-hidden="true" />

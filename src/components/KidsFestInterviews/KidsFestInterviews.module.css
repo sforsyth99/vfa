@@ -169,6 +169,10 @@
     transition: transform var(--vfa-transition-base);
 }
 
+.photoCentered {
+    object-position: center;
+}
+
 .card:hover .polaroid {
     transform: translateY(-3px);
 }
