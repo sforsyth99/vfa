@@ -103,7 +103,7 @@
 }
 
 .row {
-    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    border-bottom: 1px solid var(--vfa-color-warm-border-mid);
     position: relative;
 }
 
