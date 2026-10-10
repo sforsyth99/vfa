@@ -18,6 +18,7 @@ type TrackableEvent =
   | { name: 'content_view'; event_label: string; content_type: 'event' | 'interview' | 'person' }
   | { name: 'social_click'; event_label: string }
   | { name: 'donate_click'; event_location: 'header_desktop' | 'header_mobile' | 'footer' }
+  | { name: 'get_tickets_click'; event_location: 'header_desktop' | 'header_mobile' }
   | { name: 'newsletter_signup'; event_location: 'footer' | 'homepage' }
   | {
       name: 'callout_click';
