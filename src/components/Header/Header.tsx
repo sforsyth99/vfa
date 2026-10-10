@@ -7,14 +7,14 @@ import { PRIMARY_NAV } from '../../config/menus';
 import { track } from '../../utils/analytics';
 import { SearchWidget } from '../SearchWidget/SearchWidget';
 
-const DONATE_URL = 'https://www.canadahelps.org/en/charities/victoria-festival-of-authors-society/';
+const TICKETS_URL = 'https://www.eventbrite.ca/o/victoria-festival-of-authors-11095513695';
 
 function Header() {
   const intl = useIntl();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const closeMenu = () => setIsOpen(false);
-  const donateLabel = intl.formatMessage({ id: 'nav.donate' });
+  const ticketsLabel = intl.formatMessage({ id: 'nav.getTickets' });
 
   return (
     <header className={styles.header}>
@@ -56,24 +56,24 @@ function Header() {
             ))}
           </ul>
           <a
-            href={DONATE_URL}
+            href={TICKETS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.donateMobile}
-            onClick={() => track({ name: 'donate_click', event_location: 'header_mobile' })}
+            className={styles.ticketsMobile}
+            onClick={() => track({ name: 'get_tickets_click', event_location: 'header_mobile' })}
           >
-            {donateLabel}
+            {ticketsLabel}
           </a>
         </nav>
         <div className={styles.headerRight}>
           <a
-            href={DONATE_URL}
+            href={TICKETS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.donateButton}
-            onClick={() => track({ name: 'donate_click', event_location: 'header_desktop' })}
+            className={styles.ticketsButton}
+            onClick={() => track({ name: 'get_tickets_click', event_location: 'header_desktop' })}
           >
-            {donateLabel}
+            {ticketsLabel}
           </a>
           <SearchWidget />
           <button

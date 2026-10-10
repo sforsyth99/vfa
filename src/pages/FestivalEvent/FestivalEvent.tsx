@@ -268,6 +268,7 @@ export default function FestivalEventPage() {
                 eventTitle={decodeHtmlEntities(event.title?.rendered ?? '')}
                 hasTickets={tickets.length > 0}
                 ticketsLiveDate={tickets_live_date}
+                isKidfest={is_kidfest}
               />
               {extra_info && <p className={styles.extraInfo}>{extra_info}</p>}
             </div>

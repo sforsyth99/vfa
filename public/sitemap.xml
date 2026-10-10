@@ -56,11 +56,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://victoriafestivalofauthors.ca/events/romancing-the-trope</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://victoriafestivalofauthors.ca/events/unbound-desires-a-night-of-heated-rivalry</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -159,6 +154,16 @@
     <loc>https://victoriafestivalofauthors.ca/events/in-conversation-with-emily-st-john-mandel</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/people/christina-shah</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/people/carmen-rodriguez-de-france</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://victoriafestivalofauthors.ca/people/kyeren-regehr</loc>
@@ -487,6 +492,106 @@
   </url>
   <url>
     <loc>https://victoriafestivalofauthors.ca/people/emily-st-john-mandel</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-jordan-abel</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-ruth-ozeki</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-danielle-mckechnie</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-doretta-lau</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-kim-trainor</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-yilin-wang</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-sara-cassidy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-sky-bellefleur</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-francesca-ekwuyasi</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-anakana-schofield</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-frankie-scott</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-jenny-heijun-wills</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-jess-housty</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-katli%cc%a8a</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-briony-penn</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/daniel-zomparelli</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-kristy-mcleod</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-don-gunn</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-lexi-lafleur-brown</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-sadiqa-de-meijer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

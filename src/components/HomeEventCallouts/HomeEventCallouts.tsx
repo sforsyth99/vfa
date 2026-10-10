@@ -3,6 +3,7 @@ import { track } from '../../utils/analytics';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
 import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
+import { isEventSoldOut } from '../../utils/isEventSoldOut';
 import { EventLink } from '../EventLink/EventLink';
 import { SkeletonBlock } from '../Skeleton/Skeleton';
 import styles from './HomeEventCallouts.module.css';
@@ -97,6 +98,7 @@ function EventList({
           : '';
         const locationStr = showVenue ? (venue?.name ?? '') : '';
         const meta = [dateStr, timeStr, locationStr].filter(Boolean).join(' · ');
+        const soldOut = isEventSoldOut(event.event_data);
         const eventLink = (
           <EventLink
             slug={event.slug}
@@ -110,10 +112,19 @@ function EventList({
         );
         return (
           <li key={event.id} className={styles.eventItem}>
-            {inlineMeta ? (
+            {inlineMeta || soldOut ? (
               <div className={styles.eventTitleRow}>
                 {eventLink}
-                {meta && <span className={styles.eventMeta}>{meta}</span>}
+                {(soldOut || (inlineMeta && meta)) && (
+                  <span className={styles.eventTitleRight}>
+                    {soldOut && (
+                      <span className={styles.eventSoldOut}>
+                        {intl.formatMessage({ id: 'events.soldOut' })}
+                      </span>
+                    )}
+                    {inlineMeta && meta && <span className={styles.eventMeta}>{meta}</span>}
+                  </span>
+                )}
               </div>
             ) : (
               eventLink
