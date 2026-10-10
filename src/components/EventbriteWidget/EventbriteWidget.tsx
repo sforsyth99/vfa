@@ -100,7 +100,8 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticket
     if (!hasTickets) return null;
     return (
       <p className={styles.comingSoon}>
-        <FormattedMessage id="festivalEvent.tickets.comingSoon" />
+
+        <FormattedMessage id="festivalEvent.tickets.soldOut" />
       </p>
     );
   }
