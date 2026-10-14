@@ -17,6 +17,12 @@ import { KidsFestInterviews } from '../../components/KidsFestInterviews/KidsFest
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import styles from './KidsFest2026.module.css';
 
+// Special guests / elders who were announced but can no longer attend this year.
+// Matched by slug so the Special Guest section shows a respectful notice rather
+// than implying the festival cancelled them. Kept here (not in WordPress) so the
+// change needs no plugin edits.
+const UNAVAILABLE_SPECIAL_GUEST_SLUGS = ['sky-bellefleur'];
+
 function formatTime(t: string): string {
   if (!t) return '';
   const [h, m] = t.split(':').map(Number);
@@ -178,15 +184,24 @@ function KidsFestSpecialGuest() {
   if (!guest) return null;
 
   const photo = guest.photo;
+  const isUnavailable = !!guest.slug && UNAVAILABLE_SPECIAL_GUEST_SLUGS.includes(guest.slug);
 
   return (
-    <section className={styles.specialGuestSection} aria-labelledby="special-guest-heading">
+    <section
+      className={`${styles.specialGuestSection}${isUnavailable ? ` ${styles.specialGuestUnavailable}` : ''}`}
+      aria-labelledby="special-guest-heading"
+    >
       <p className={styles.specialGuestEyebrow}>
         {intl.formatMessage({ id: 'kidsfest2026.elders.heading' })}
       </p>
       <h2 id="special-guest-heading" className={styles.specialGuestName}>
         {guest.name}
       </h2>
+      {isUnavailable && (
+        <p className={styles.specialGuestBadge}>
+          {intl.formatMessage({ id: 'kidsfest2026.specialGuest.unavailableBadge' })}
+        </p>
+      )}
       <div className={styles.specialGuestInner}>
         {photo && (
           <img
@@ -203,6 +218,14 @@ function KidsFestSpecialGuest() {
           />
         )}
       </div>
+      {isUnavailable && (
+        <p className={styles.specialGuestNote}>
+          {intl.formatMessage(
+            { id: 'kidsfest2026.specialGuest.unavailableNote' },
+            { name: guest.name },
+          )}
+        </p>
+      )}
     </section>
   );
 }
