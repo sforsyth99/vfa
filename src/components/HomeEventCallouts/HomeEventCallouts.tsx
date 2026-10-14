@@ -6,10 +6,12 @@ import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { isEventSoldOut } from '../../utils/isEventSoldOut';
 import { EventLink } from '../EventLink/EventLink';
 import { SkeletonBlock } from '../Skeleton/Skeleton';
-import { getPacificToday } from '../../utils/eventDates';
 import styles from './HomeEventCallouts.module.css';
 
 const MAX_WORKSHOPS = 5;
+
+// Callouts always surface events on or after this date, rather than relative to today.
+const EVENT_CUTOFF_DATE = '2026-10-01';
 
 function formatShortDate(dateStr: string): string {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-CA', {
@@ -156,11 +158,10 @@ export function HomeWorkshopCallout() {
 
   if (!events?.length) return null;
 
-  const today = getPacificToday();
   const workshops = events
     .filter(
       (e) =>
-        e.event_data.event_date >= today &&
+        e.event_data.event_date >= EVENT_CUTOFF_DATE &&
         e.event_data.event_type === 'workshop' &&
         !e.event_data.is_kidfest,
     )
@@ -221,11 +222,10 @@ export function HomeOnlineCallout() {
 
   if (!events?.length) return null;
 
-  const today = getPacificToday();
   const online = events
     .filter(
       (e) =>
-        e.event_data.event_date >= today &&
+        e.event_data.event_date >= EVENT_CUTOFF_DATE &&
         (e.event_data.tickets.some((t) => t.type === 'online') || !!e.event_data.online_url),
     )
     .sort((a, b) => {
