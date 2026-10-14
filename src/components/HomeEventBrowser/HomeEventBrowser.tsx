@@ -2,6 +2,7 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents';
+import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { htmlToText } from '../../utils/htmlToText';
 import { formatTicketPrice } from '../../utils/formatTicketPrice';
@@ -16,6 +17,9 @@ import artWorkshopBg from '../../assets/art-workshop.jpeg';
 import kidsFestPoster from '../../assets/kids-fest-crop.jpg';
 import { getPacificToday } from '../../utils/eventDates';
 import styles from './HomeEventBrowser.module.css';
+
+// When no events are still upcoming, the carousel falls back to the full 2026 festival year.
+const FESTIVAL_YEAR_START_DATE = '2026-09-01';
 
 function formatTime(t: string): string {
   if (!t) return '';
@@ -75,23 +79,36 @@ export function HomeEventBrowser() {
     );
   }
 
+  const byDateThenTime = (a: FestivalEvent, b: FestivalEvent) => {
+    const dateCmp = a.event_data.event_date.localeCompare(b.event_data.event_date);
+    if (dateCmp !== 0) return dateCmp;
+    return (a.event_data.time_start || '').localeCompare(b.event_data.time_start || '');
+  };
+
   const today = getPacificToday();
   const upcoming = (events ?? [])
     .filter((e) => e.event_data.event_date >= today)
-    .sort((a, b) => {
-      const dateCmp = a.event_data.event_date.localeCompare(b.event_data.event_date);
-      if (dateCmp !== 0) return dateCmp;
-      return (a.event_data.time_start || '').localeCompare(b.event_data.time_start || '');
-    });
+    .sort(byDateThenTime);
 
-  if (!upcoming.length) return null;
+  // When nothing is still upcoming (e.g. after the festival ends), fall back to
+  // showing the full 2026 festival year rather than hiding the carousel entirely.
+  const showingFestivalYear = upcoming.length === 0;
+  const displayed = showingFestivalYear
+    ? (events ?? [])
+        .filter((e) => e.event_data.event_date >= FESTIVAL_YEAR_START_DATE)
+        .sort(byDateThenTime)
+    : upcoming;
+
+  if (!displayed.length) return null;
 
   return (
     <section className={styles.section} aria-labelledby="event-browser-heading">
       <div className={styles.inner}>
         <div className={styles.header}>
           <h2 id="event-browser-heading" className={styles.heading}>
-            <FormattedMessage id="home.eventBrowser.heading" />
+            <FormattedMessage
+              id={showingFestivalYear ? 'home.eventBrowser.headingFestivalYear' : 'home.eventBrowser.heading'}
+            />
           </h2>
           <Link to="/events" className={styles.seeAll}>
             <FormattedMessage id="home.eventBrowser.viewAll" /> ›
@@ -109,7 +126,7 @@ export function HomeEventBrowser() {
           </button>
 
           <ul className={styles.track} ref={trackRef} onScroll={updateScrollState}>
-            {upcoming.map((event) => {
+            {displayed.map((event) => {
               const d = event.event_data;
               const title = decodeHtmlEntities(event.title?.rendered ?? '');
               const dateStr = d.event_date
