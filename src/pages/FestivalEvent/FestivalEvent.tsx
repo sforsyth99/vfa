@@ -22,6 +22,7 @@ import { Container } from '../../components/Container/Container';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { PageLoader } from '../../components/PageLoader/PageLoader';
+import { getPacificToday } from '../../utils/eventDates';
 import styles from './FestivalEvent.module.css';
 
 function AuthorCard({ person, colorIndex }: { person: PersonData; colorIndex: number }) {
@@ -108,7 +109,7 @@ export default function FestivalEventPage() {
   if (isLoading) return <PageLoader />;
   if (error || !event) return <div><FormattedMessage id="festivalEvent.notFound" /></div>;
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getPacificToday();
   const futureEvents = (allEvents ?? [])
     .filter((e) => e.event_data.event_date >= today && e.event_data.event_type !== 'author_fair')
     .sort((a, b) => {

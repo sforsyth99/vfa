@@ -7,6 +7,7 @@ import { eventPath } from '../../utils/eventPath';
 import { EventLink } from '../EventLink/EventLink';
 import { SkeletonBlock } from '../Skeleton/Skeleton';
 import { formatTicketPrice } from '../../utils/formatTicketPrice';
+import { getPacificToday } from '../../utils/eventDates';
 import styles from './FeaturedEvents.module.css';
 
 function formatTime(t: string): string {
@@ -40,7 +41,7 @@ export function FeaturedEvents() {
       .flatMap((iv) => iv.interview_data.authors.map((author) => [author.id, iv] as const))
   );
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getPacificToday();
   const featured = (events ?? [])
     .filter((e) => e.event_data.is_featured && e.event_data.event_date >= today)
     .sort((a, b) => {

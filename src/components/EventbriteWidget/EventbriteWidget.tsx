@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { track } from '../../utils/analytics';
 import { isSoldOut } from '../../utils/isEventSoldOut';
+import { getPacificToday } from '../../utils/eventDates';
 import styles from './EventbriteWidget.module.css';
 
 declare global {
@@ -40,7 +41,7 @@ interface Props {
 
 export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticketsLiveDate, isKidfest = false }: Props) {
   const [loadError, setLoadError] = useState(false);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getPacificToday();
   const ticketsLive = !ticketsLiveDate || today >= ticketsLiveDate;
   const [isMobile] = useState(() => window.matchMedia('(max-width: 640px)').matches);
   const eventId = eventbriteUrl ? extractEventbriteId(eventbriteUrl.trim()) : null;

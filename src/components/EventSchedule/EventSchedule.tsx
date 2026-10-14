@@ -6,6 +6,7 @@ import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEve
 import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { EventLink } from '../EventLink/EventLink';
+import { getPacificToday } from '../../utils/eventDates';
 import styles from './EventSchedule.module.css';
 
 function formatTime(t: string): string {
@@ -135,7 +136,7 @@ export function EventSchedule({
   if (isError) return null;
   if (!events?.length) return null;
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getPacificToday();
   const upcoming = events
     .filter((e) => e.event_data.event_date >= today)
     .sort((a, b) => {
