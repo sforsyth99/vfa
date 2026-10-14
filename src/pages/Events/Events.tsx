@@ -212,6 +212,7 @@ function EventRow({ event, dimmed, highlighted }: { event: FestivalEvent; dimmed
   const venueLabel = formatVenueLabel(d.tickets, d.venue?.name, intl);
 
   const isSoldOut = isEventSoldOut(d);
+  const isFree = d.event_type === 'author_fair';
 
   const authorNames = formatNames(sortBySurname(d.authors ?? [])) || formatNames(sortBySurname(d.hosts ?? []));
   const modNames = formatNames(sortBySurname(d.moderator ?? []));
@@ -255,11 +256,16 @@ function EventRow({ event, dimmed, highlighted }: { event: FestivalEvent; dimmed
         <span className={styles.rowTitle}>{title}</span>
         {rowSubtitle && <span className={styles.rowAuthors}>{rowSubtitle}</span>}
       </span>
-      {(isSoldOut || venueLabel) && (
+      {(isSoldOut || isFree || venueLabel) && (
         <span className={styles.rowRight}>
           {isSoldOut && (
             <span className={styles.rowSoldOut}>
               {intl.formatMessage({ id: 'events.soldOut' })}
+            </span>
+          )}
+          {isFree && (
+            <span className={styles.rowFree}>
+              {intl.formatMessage({ id: 'events.free' })}
             </span>
           )}
           {venueLabel && <span className={styles.rowVenue}>{venueLabel}</span>}

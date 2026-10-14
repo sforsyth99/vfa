@@ -208,7 +208,7 @@ export function HomeEventBrowser() {
                             <FormattedMessage id="kidsfest2026.mainEvent.addToCalendar" />
                           </button>
                         ) : (
-                          <EventbriteWidget eventbriteUrl={d.eventbrite_url} eventTitle={title} hasTickets={d.tickets.length > 0} ticketsLiveDate={d.tickets_live_date} isKidfest={d.is_kidfest} />
+                          <EventbriteWidget eventbriteUrl={d.eventbrite_url} eventTitle={title} hasTickets={d.tickets.length > 0} ticketsLiveDate={d.tickets_live_date} eventType={d.event_type} />
                         )}
                         <Link to={detailPath} className={styles.detailsLink}>
                           <FormattedMessage id="home.eventBrowser.details" /> ›
