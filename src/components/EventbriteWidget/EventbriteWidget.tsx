@@ -36,10 +36,10 @@ interface Props {
   eventTitle: string;
   hasTickets: boolean;
   ticketsLiveDate?: string | null;
-  isKidfest?: boolean;
+  eventType?: string;
 }
 
-export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticketsLiveDate, isKidfest = false }: Props) {
+export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticketsLiveDate, eventType }: Props) {
   const [loadError, setLoadError] = useState(false);
   const today = getPacificToday();
   const ticketsLive = !ticketsLiveDate || today >= ticketsLiveDate;
@@ -101,7 +101,7 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticket
 
   if (!eventbriteUrl) {
     if (!hasTickets) return null;
-    const soldOut = isSoldOut({ eventbriteUrl, hasTickets, ticketsLiveDate, isKidfest });
+    const soldOut = isSoldOut({ eventbriteUrl, hasTickets, ticketsLiveDate, eventType });
     return (
       <p className={styles.comingSoon}>
         <FormattedMessage id={soldOut ? 'festivalEvent.tickets.soldOut' : 'festivalEvent.tickets.comingSoon'} />
