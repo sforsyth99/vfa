@@ -495,6 +495,36 @@
     opacity: var(--vfa-opacity-hover);
 }
 
+/* Special guest who can no longer attend — muted, with a respectful notice. */
+.specialGuestUnavailable {
+    border-color: var(--vfa-color-border);
+}
+
+.specialGuestUnavailable .specialGuestInner {
+    opacity: 0.4;
+}
+
+.specialGuestBadge {
+    display: inline-block;
+    padding: 0.15em 0.7em;
+    margin: 0 0 1rem;
+    background: var(--vfa-color-border-faint);
+    color: var(--vfa-color-ink-mid);
+    font-size: var(--vfa-font-size-xs);
+    font-weight: var(--vfa-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-radius: var(--vfa-radius-pill);
+}
+
+.specialGuestNote {
+    margin: 1.25rem 0 0;
+    font-size: var(--vfa-font-size-base);
+    color: var(--vfa-color-ink-dark);
+    line-height: var(--vfa-line-height-body);
+    font-style: italic;
+}
+
 /* ── Authors ──────────────────────────────────────────── */
 
 .authorsHeading {

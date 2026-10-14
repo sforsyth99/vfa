@@ -76,7 +76,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://victoriafestivalofauthors.ca/events/in-conversation-with-suzanne-simard</loc>
+    <loc>https://victoriafestivalofauthors.ca/events/in-conversation-with-suzanne-simard-and-rande-cook</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -154,6 +154,11 @@
     <loc>https://victoriafestivalofauthors.ca/events/in-conversation-with-emily-st-john-mandel</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/people/paul-walde</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://victoriafestivalofauthors.ca/people/christina-shah</loc>
@@ -492,6 +497,11 @@
   </url>
   <url>
     <loc>https://victoriafestivalofauthors.ca/people/emily-st-john-mandel</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://victoriafestivalofauthors.ca/interviews/qa-with-leilani-farha</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
