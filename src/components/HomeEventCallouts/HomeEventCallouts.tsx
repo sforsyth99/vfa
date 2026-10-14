@@ -6,6 +6,7 @@ import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { isEventSoldOut } from '../../utils/isEventSoldOut';
 import { EventLink } from '../EventLink/EventLink';
 import { SkeletonBlock } from '../Skeleton/Skeleton';
+import { getPacificToday } from '../../utils/eventDates';
 import styles from './HomeEventCallouts.module.css';
 
 const MAX_WORKSHOPS = 5;
@@ -155,7 +156,7 @@ export function HomeWorkshopCallout() {
 
   if (!events?.length) return null;
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getPacificToday();
   const workshops = events
     .filter(
       (e) =>
@@ -220,7 +221,7 @@ export function HomeOnlineCallout() {
 
   if (!events?.length) return null;
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getPacificToday();
   const online = events
     .filter(
       (e) =>

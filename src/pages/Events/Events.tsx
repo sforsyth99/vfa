@@ -9,6 +9,7 @@ import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { sortBySurname } from '../../utils/sortBySurname';
 import { eventPath } from '../../utils/eventPath';
 import { isEventSoldOut } from '../../utils/isEventSoldOut';
+import { FESTIVAL_SEASON_START } from '../../utils/eventDates';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { Container } from '../../components/Container/Container';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
@@ -315,17 +316,17 @@ function Events() {
     });
   };
 
-  const today = new Date().toISOString().slice(0, 10);
-
-  const upcoming = (events ?? [])
-    .filter((e) => e.event_data.event_date >= today)
+  // Show the whole festival season, including events that have already
+  // finished — not just upcoming ones.
+  const seasonEvents = (events ?? [])
+    .filter((e) => e.event_data.event_date >= FESTIVAL_SEASON_START)
     .sort((a, b) => {
       const dateCmp = a.event_data.event_date.localeCompare(b.event_data.event_date);
       if (dateCmp !== 0) return dateCmp;
       return (a.event_data.time_start || '').localeCompare(b.event_data.time_start || '');
     });
 
-  const byDay = upcoming.reduce<Map<string, FestivalEvent[]>>((map, e) => {
+  const byDay = seasonEvents.reduce<Map<string, FestivalEvent[]>>((map, e) => {
     const date = e.event_data.event_date;
     if (!map.has(date)) map.set(date, []);
     map.get(date)!.push(e);
@@ -339,7 +340,7 @@ function Events() {
           <PageTitle><FormattedMessage id="events.heading" /></PageTitle>
         </div>
 
-        {!isLoading && !error && upcoming.length > 0 && (
+        {!isLoading && !error && seasonEvents.length > 0 && (
           <div className={styles.filterBar} role="group" aria-label={intl.formatMessage({ id: 'events.filter.label' })}>
             {FILTER_CHIP_GROUPS.map((group, gi) => (
               <React.Fragment key={gi}>
@@ -380,7 +381,7 @@ function Events() {
             ))}
           </div>
         )}
-        {!isLoading && <QueryState isLoading={false} isError={!!error} isEmpty={!error && upcoming.length === 0} loadingId="events.loading" errorId="events.error" emptyId="events.empty" />}
+        {!isLoading && <QueryState isLoading={false} isError={!!error} isEmpty={!error && seasonEvents.length === 0} loadingId="events.loading" errorId="events.error" emptyId="events.empty" />}
 
         {[...byDay.entries()].map(([date, dayEvents]) => (
           <EventGroup

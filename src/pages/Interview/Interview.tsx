@@ -18,6 +18,7 @@ import { BookLink } from '../../components/BookLink/BookLink';
 import { Eyebrow } from '../../components/Eyebrow/Eyebrow';
 import { PageTitle } from '../../components/PageTitle/PageTitle';
 import { PageLoader } from '../../components/PageLoader/PageLoader';
+import { getPacificToday } from '../../utils/eventDates';
 import styles from './Interview.module.css';
 
 
@@ -74,7 +75,7 @@ export default function InterviewPage() {
   const displayName = authorNames;
   const authorInitials = getInitials(primaryAuthor?.name || displayName);
   const interviewerInitials = interviewer_name ? getInitials(interviewer_name) : 'Q';
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getPacificToday();
   const upcomingEvents = personEvents?.filter((e) => e.event_date >= today) ?? [];
   const { book_title } = interview.interview_data;
   const linkedBook = personBooks?.find((b) =>

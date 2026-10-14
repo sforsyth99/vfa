@@ -1,4 +1,5 @@
 import type { EventData } from '../api/festivalEvents/festivalEventTypes';
+import { getPacificToday } from './eventDates';
 
 interface SoldOutParams {
   eventbriteUrl: string | null | undefined;
@@ -12,7 +13,7 @@ interface SoldOutParams {
  * no Eventbrite link to buy them. KidsFest events are never marked sold out.
  */
 export function isSoldOut({ eventbriteUrl, hasTickets, ticketsLiveDate, isKidfest }: SoldOutParams): boolean {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getPacificToday();
   const ticketsLive = !ticketsLiveDate || today >= ticketsLiveDate;
   return hasTickets && ticketsLive && !eventbriteUrl && !isKidfest;
 }

@@ -14,6 +14,7 @@ import type { PersonData } from '../../api/people/peopleTypes';
 import starryBg from '../../assets/starry-background-sm.jpg';
 import artWorkshopBg from '../../assets/art-workshop.jpeg';
 import kidsFestPoster from '../../assets/kids-fest-crop.jpg';
+import { getPacificToday } from '../../utils/eventDates';
 import styles from './HomeEventBrowser.module.css';
 
 function formatTime(t: string): string {
@@ -74,7 +75,7 @@ export function HomeEventBrowser() {
     );
   }
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getPacificToday();
   const upcoming = (events ?? [])
     .filter((e) => e.event_data.event_date >= today)
     .sort((a, b) => {
