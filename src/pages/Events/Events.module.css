@@ -215,6 +215,19 @@
     white-space: nowrap;
 }
 
+.rowFree {
+    display: inline-block;
+    padding: 0.1em 0.6em;
+    background: var(--vfa-color-2026-slate-pale);
+    color: var(--vfa-color-event-blue);
+    font-size: var(--vfa-font-size-xs);
+    font-weight: var(--vfa-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-radius: var(--vfa-radius-pill);
+    white-space: nowrap;
+}
+
 /* ── Hover popover ───────────────────────────────────── */
 
 .popover {
