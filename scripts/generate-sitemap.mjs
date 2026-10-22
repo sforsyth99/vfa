@@ -17,8 +17,14 @@ const STATIC_ROUTES = [
   { path: '/venues',         priority: '0.8', changefreq: 'monthly' },
   { path: '/kidsfest2026',   priority: '0.8', changefreq: 'weekly' },
   { path: '/who-we-are',     priority: '0.6', changefreq: 'monthly' },
+  { path: '/what-we-do',     priority: '0.6', changefreq: 'monthly' },
   { path: '/strategic-plan', priority: '0.5', changefreq: 'monthly' },
   { path: '/archives',       priority: '0.5', changefreq: 'monthly' },
+  { path: '/history',        priority: '0.5', changefreq: 'monthly' },
+  { path: '/vfa-accessibility-info', priority: '0.6', changefreq: 'monthly' },
+  { path: '/contact-us',     priority: '0.5', changefreq: 'monthly' },
+  { path: '/become-a-volunteer', priority: '0.5', changefreq: 'monthly' },
+  { path: '/sponsor-us',     priority: '0.5', changefreq: 'monthly' },
 ];
 
 const FETCH_HEADERS = { 'User-Agent': 'VFA-Sitemap-Generator/1.0' };

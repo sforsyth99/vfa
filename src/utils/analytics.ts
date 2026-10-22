@@ -20,6 +20,7 @@ type TrackableEvent =
   | { name: 'donate_click'; event_location: 'header_desktop' | 'header_mobile' | 'footer' }
   | { name: 'get_tickets_click'; event_location: 'header_desktop' | 'header_mobile' }
   | { name: 'newsletter_signup'; event_location: 'footer' | 'homepage' }
+  | { name: 'download_click'; event_location: 'footer'; file_name: string }
   | {
       name: 'callout_click';
       event_label: string;

@@ -40,7 +40,16 @@ function Footer() {
                   : styles.footerNavLink;
                 return (
                   <li key={item.to}>
-                    {item.external ? (
+                    {item.download ? (
+                      <a
+                        href={item.to}
+                        download
+                        className={linkClass}
+                        onClick={() => track({ name: 'download_click', event_location: 'footer', file_name: 'safer-spaces-policy' })}
+                      >
+                        {item.label}
+                      </a>
+                    ) : item.external ? (
                       <a
                         href={item.to}
                         target="_blank"

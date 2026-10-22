@@ -2,6 +2,7 @@ export interface NavItem {
   label: string;
   to: string;
   external?: boolean;
+  download?: boolean;
   trackingLabel?: string;
   highlightWhenActive?: boolean;
   featured?: boolean;
@@ -39,6 +40,7 @@ export const FOOTER_NAV: FooterNavGroup[] = [
     items: [
       { label: 'Venues', to: '/venues' },
       { label: 'Accessibility', to: '/vfa-accessibility-info' },
+      { label: 'Safer Spaces Policy', to: '/VFA-Safer-Spaces-Policy.pdf', download: true },
       { label: 'Festival History', to: '/history' },
     ],
   },
