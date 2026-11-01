@@ -1,0 +1,118 @@
+== HOME
+HTTP/2 200 
+date: Sun, 01 Nov 2026 00:18:38 GMT
+content-type: text/html; charset=utf-8
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=9B5YM2HJCmI7qAmnXJ6AB6aC6PVCwjKeAbIdz91xQNBDf3mW0%2BF57h5DS2010jpT8Axa3BpsXnhQVHUT6suLD5BPb0Dro%2BYfbTC2hdYJKUigH2fUC3W6Le3mhjmXrarY52MFdazqV%2B2%2Fc5R6r09V"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+x-content-type-options: nosniff
+referrer-policy: strict-origin-when-cross-origin
+server: cloudflare
+cf-cache-status: DYNAMIC
+cf-ray: a536b92db81570f4-YVR
+alt-svc: h3=":443"; ma=86400
+
+== API 1
+HTTP/2 200 
+date: Sun, 01 Nov 2026 00:18:38 GMT
+content-type: application/json; charset=UTF-8
+x-robots-tag: noindex
+link: <https://api.victoriafestivalofauthors.ca/wp-json/>; rel="https://api.w.org/"
+x-content-type-options: nosniff
+access-control-expose-headers: X-WP-Total, X-WP-TotalPages, Link
+access-control-allow-headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type
+x-wp-total: 21
+x-wp-totalpages: 1
+allow: GET
+vary: User-Agent
+server: cloudflare
+cf-cache-status: DYNAMIC
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=dQLGy8pQf%2BwRaAr5l%2FxUSgTdQ%2F1%2FimzJCQSIVY00pnynhzt%2FsarpGuTO7LP5HrBxcT6hJB8784%2BhJDGvWVysaHeTnLlyY35jNlGyxCvht%2B1r27RDWBDa9VVDlC2zDLVXOM5ASTdAn7IxxzlIeSn1vPfV6w%3D%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+cf-ray: a536b92eaa14981c-YVR
+alt-svc: h3=":443"; ma=86400
+
+== API 2
+HTTP/2 200 
+date: Sun, 01 Nov 2026 00:18:38 GMT
+content-type: application/json; charset=UTF-8
+x-robots-tag: noindex
+link: <https://api.victoriafestivalofauthors.ca/wp-json/>; rel="https://api.w.org/"
+x-content-type-options: nosniff
+access-control-expose-headers: X-WP-Total, X-WP-TotalPages, Link
+access-control-allow-headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type
+x-wp-total: 21
+x-wp-totalpages: 1
+allow: GET
+vary: User-Agent
+server: cloudflare
+cf-cache-status: DYNAMIC
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=rJhIdw4OJUc%2FG8K39cVDy7M6QKJUagsju2Y84waKAW0eWFkXnm9L5qWDFtYKIEUxFE6Xz0n2CG5LovOw%2FGWZaEwzhuPji%2BprLgiwVi6qU1Zkn8xg4UMlRmDnbKIQxZtqSc8622TzYBuBknkwwLQxOpkgSg%3D%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+cf-ray: a536b930c9f6df04-YVR
+alt-svc: h3=":443"; ma=86400
+
+== API GET 1
+HTTP/2 200 
+date: Sun, 01 Nov 2026 00:18:39 GMT
+content-type: application/json; charset=UTF-8
+x-robots-tag: noindex
+link: <https://api.victoriafestivalofauthors.ca/wp-json/>; rel="https://api.w.org/"
+x-content-type-options: nosniff
+access-control-expose-headers: X-WP-Total, X-WP-TotalPages, Link
+access-control-allow-headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type
+x-wp-total: 21
+x-wp-totalpages: 1
+cache-control: public, max-age=600, s-maxage=600, stale-while-revalidate=86400
+allow: GET
+vary: Origin,Accept-Encoding,User-Agent
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=9oF%2BnKtmE0nQ5cwG2g8xG3xPHbHO1Ag67nLjP6n5uXJ%2B1OXO1t8McmMEQ%2FnaZQ2qatuZv3SKhmHtzKlCONZKwlW9%2B66OLb8lV4INvoPpLQL9W8mDySF9QJK%2Bgh1jbKfvU8W24M2D0TJUUil3LR5Sk%2FzYJQ%3D%3D"}]}
+server: cloudflare
+cf-cache-status: DYNAMIC
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+cf-ray: a536b931ea3b2c5d-YVR
+alt-svc: h3=":443"; ma=86400
+
+== API GET 2
+HTTP/2 200 
+date: Sun, 01 Nov 2026 00:18:40 GMT
+content-type: application/json; charset=UTF-8
+x-robots-tag: noindex
+link: <https://api.victoriafestivalofauthors.ca/wp-json/>; rel="https://api.w.org/"
+x-content-type-options: nosniff
+access-control-expose-headers: X-WP-Total, X-WP-TotalPages, Link
+access-control-allow-headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type
+x-wp-total: 21
+x-wp-totalpages: 1
+cache-control: public, max-age=600, s-maxage=600, stale-while-revalidate=86400
+allow: GET
+vary: Origin,Accept-Encoding,User-Agent
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=kLxUSEb%2BC3yhqyNkBpSHFZvar3s%2BaBqpxJMI8ERdoVnMzItQfuNTAzYt4DwkgO7U7ku2yau2UOGTVsPwcoTYGw5BdOOOi6wi1YhRM9mzhW9tNfrxRDIdKKVgW%2B7szDeBha8Ud3r%2FS6Et%2B8pAQSqPdpD59g%3D%3D"}]}
+server: cloudflare
+cf-cache-status: DYNAMIC
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+cf-ray: a536b935aed957e1-YVR
+alt-svc: h3=":443"; ma=86400
+
+== XMLRPC GET
+404 29256
+== XMLRPC POST
+<!DOCTYPE html>
+<html lang="en-US">
+<head >
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Page not found</title>
+<meta name='robots' content='max-image-preview:large' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-
+== https://victoriafestivalofauthors.ca/
+x-content-type-options: nosniff
+cache-control: public, max-age=0, must-revalidate
+referrer-policy: strict-origin-when-cross-origin
+cf-cache-status: DYNAMIC
+== https://api.victoriafestivalofauthors.ca/wp-json/vfa/v1/people/authors?year=2026
+x-content-type-options: nosniff
+cache-control: public, max-age=600, s-maxage=600, stale-while-revalidate=86400
+cf-cache-status: DYNAMIC

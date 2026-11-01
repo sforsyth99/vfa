@@ -1,0 +1,1674 @@
+{
+ "authors": {
+  "perf": 0.78,
+  "a11y": 0.96,
+  "bp": 1,
+  "seo": 1,
+  "fcp": 1807.05,
+  "lcp": 5660.597500000002,
+  "tbt": 72,
+  "cls": 0.02143577871325872,
+  "si": 1807.05,
+  "total": 2942629,
+  "js": 393786,
+  "img": 2196675,
+  "font": 238013,
+  "css": 33707,
+  "fetch": 78181,
+  "doc": 1475,
+  "reqs": 139,
+  "api": 103,
+  "api_json": 40,
+  "api_uploads": 63,
+  "img_resize_bytes": 2031526,
+  "img_format_bytes": 461345,
+  "lcp_el": [
+   "Kamal Al-Solaylee is an award-winning journalist and author of three books of n\u2026",
+   "<p class=\"_bio_hfdsp_174\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 84,
+   "elementRenderDelay": 589
+  },
+  "shifts": [
+   [
+    0.0074,
+    "Brandi Bird\n\nBrandi Bird is an Indigiqueer Saulteaux, Cree, and M\u00e9tis writer fr\u2026",
+    "ul._list_hfdsp_44 > li > a._item_hfdsp_79 > div._info_hfdsp_157"
+   ],
+   [
+    0.0071,
+    "Kamal Al-Solaylee\n\nKamal Al-Solaylee is an award-winning journalist and author \u2026",
+    "ul._list_hfdsp_44 > li > a._item_hfdsp_79 > div._info_hfdsp_157"
+   ],
+   [
+    0.0026,
+    "Brandi Bird\n\nBrandi Bird is an Indigiqueer Saulteaux, Cree, and M\u00e9tis writer fr\u2026",
+    "ul._list_hfdsp_44 > li > a._item_hfdsp_79 > div._info_hfdsp_157"
+   ],
+   [
+    0.0024,
+    "Avis Blackbird\n\nAvis Blackbird is Secw\u00e9pemc and St\u00f3:l\u014d and of mixed European he\u2026",
+    "ul._list_hfdsp_44 > li > a._item_hfdsp_79 > div._info_hfdsp_157"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    8
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 1040,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 1050
+    },
+    "bytes": 192990,
+    "display": "Est savings of 188\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 1000,
+     "LCP": 1000
+    },
+    "bytes": null,
+    "display": "Est savings of 980\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 150
+    },
+    "bytes": 2067953,
+    "display": "Est savings of 2,019\u00a0KiB",
+    "score": 0
+   },
+   "unused-css-rules": {
+    "ms": 160,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 150
+    },
+    "bytes": 28930,
+    "display": "Est savings of 28\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 150
+    },
+    "bytes": 705306,
+    "display": "Est savings of 689\u00a0KiB",
+    "score": 0
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 150
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "event-detail": {
+  "perf": 0.59,
+  "a11y": 0.97,
+  "bp": 1,
+  "seo": 0.92,
+  "fcp": 1786.435,
+  "lcp": 5642.240000000002,
+  "tbt": 2,
+  "cls": 0.4102174077018142,
+  "si": 2407.528708234242,
+  "total": 1960766,
+  "js": 393778,
+  "img": 1292121,
+  "font": 196365,
+  "css": 33704,
+  "fetch": 42528,
+  "doc": 1478,
+  "reqs": 45,
+  "api": 6,
+  "api_json": 3,
+  "api_uploads": 3,
+  "img_resize_bytes": 1134989,
+  "img_format_bytes": 313772,
+  "lcp_el": [
+   "In Conversation with Ruth Ozeki",
+   "<h1 class=\"_pageTitle_148zl_1\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 64,
+   "elementRenderDelay": 590
+  },
+  "shifts": [
+   [
+    0.4095,
+    "EXPLORE VFA\n\nEvents\nAuthors\nBooks\nInterviews\nKidsFest\nArchives\n\nTHE FESTIVAL\n\nV\u2026",
+    "body > div#root > footer._footer_zso89_1"
+   ],
+   [
+    0.0004,
+    "div._labelledCard_111qw_344 > a._card_1a8uv_1 > div._photoSection_1a8uv_21 > img._bookCover_1a8uv_76",
+    "div._labelledCard_111qw_344 > a._card_1a8uv_1 > div._photoSection_1a8uv_21 > img._bookCover_1a8uv_76"
+   ],
+   [
+    0.0003,
+    "In Conversation with Ruth Ozeki",
+    "div#root > main#main-content > div._container_1s1oe_1 > h1._pageTitle_148zl_1"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    19
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 750,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 750
+    },
+    "bytes": 177547,
+    "display": "Est savings of 173\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 950,
+     "LCP": 950
+    },
+    "bytes": null,
+    "display": "Est savings of 970\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 1214735,
+    "display": "Est savings of 1,186\u00a0KiB",
+    "score": 0.5
+   },
+   "unused-css-rules": {
+    "ms": 170,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 150
+    },
+    "bytes": 26872,
+    "display": "Est savings of 26\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 100
+    },
+    "bytes": 87671,
+    "display": "Est savings of 86\u00a0KiB",
+    "score": 0
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 100
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "events": {
+  "perf": 0.78,
+  "a11y": 0.96,
+  "bp": 1,
+  "seo": 1,
+  "fcp": 1732.321,
+  "lcp": 5601.6449999999995,
+  "tbt": 13,
+  "cls": 0.0001828641964259184,
+  "si": 1732.321,
+  "total": 3276918,
+  "js": 393786,
+  "img": 2615392,
+  "font": 196365,
+  "css": 33704,
+  "fetch": 35396,
+  "doc": 1483,
+  "reqs": 54,
+  "api": 20,
+  "api_json": 1,
+  "api_uploads": 19,
+  "img_resize_bytes": 1116643,
+  "img_format_bytes": 247998,
+  "lcp_el": [
+   "Featuring Brandi Bird, Norma Dunning, Las\u00e4nma\u0328 & Kristy McLeod \u00b7 Moderated by Sa",
+   "<span class=\"_rowAuthors_blmmc_181\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 55,
+   "elementRenderDelay": 754
+  },
+  "shifts": [
+   [
+    0.0002,
+    "Events",
+    "main#main-content > div._container_1s1oe_1 > div._pageTitleWrap_blmmc_21 > h1._pageTitle_148zl_1"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    26
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 950,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 950
+    },
+    "bytes": 189111,
+    "display": "Est savings of 185\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 950,
+     "LCP": 950
+    },
+    "bytes": null,
+    "display": "Est savings of 940\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 1128769,
+    "display": "Est savings of 1,102\u00a0KiB",
+    "score": 0.5
+   },
+   "unused-css-rules": {
+    "ms": 310,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 300
+    },
+    "bytes": 28714,
+    "display": "Est savings of 28\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 50
+    },
+    "bytes": 990011,
+    "display": "Est savings of 967\u00a0KiB",
+    "score": 0
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 50
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "home-1": {
+  "perf": 0.58,
+  "a11y": 0.96,
+  "bp": 0.96,
+  "seo": 0.92,
+  "fcp": 1777.039,
+  "lcp": 8305.787,
+  "tbt": 1,
+  "cls": 0.3154747821959491,
+  "si": 3215.5306234171085,
+  "total": 4847212,
+  "js": 399750,
+  "img": 3929091,
+  "font": 206672,
+  "css": 33501,
+  "fetch": 275921,
+  "doc": 1485,
+  "reqs": 80,
+  "api": 54,
+  "api_json": 5,
+  "api_uploads": 49,
+  "img_resize_bytes": 1524467,
+  "img_format_bytes": 233610,
+  "lcp_el": [
+   "FREE FAMILY EVENT\n\nKidsFest 2026\n\nA literary festival for young readers \u2014 come \u2026",
+   "<section class=\"_section_obnrk_1\" aria-labelledby=\"kidsfest-heading\" style=\"\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 119,
+   "resourceLoadDelay": 220,
+   "resourceLoadDuration": 141,
+   "elementRenderDelay": 505
+  },
+  "shifts": [
+   [
+    0.1871,
+    "Our 2026 Lineup\nView all events \u203a\n\u2039\nSunday, September 20\n7:30 PM \u2013 9:30 PM\nDave\u2026",
+    "body > div#root > main#main-content > section._section_1vyc6_1"
+   ],
+   [
+    0.1283,
+    "\u2039\nSunday, September 20\n7:30 PM \u2013 9:30 PM\nDave Dunnet Theatre\n$30\nIn conversatio\u2026",
+    "main#main-content > section._section_1vyc6_1 > div._inner_1vyc6_9 > div._carouselWrapper_1vyc6_47"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    23
+   ],
+   [
+    "label-content-name-mismatch",
+    16
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 900,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 900
+    },
+    "bytes": 183988,
+    "display": "Est savings of 180\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 950,
+     "LCP": 0
+    },
+    "bytes": null,
+    "display": "Est savings of 970\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 1605082,
+    "display": "Est savings of 1,567\u00a0KiB",
+    "score": 0.5
+   },
+   "unused-css-rules": {
+    "ms": 150,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 150
+    },
+    "bytes": 25235,
+    "display": "Est savings of 25\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 2006763,
+    "display": "Est savings of 1,960\u00a0KiB",
+    "score": 0.5
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 10484,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0.5
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "home-2": {
+  "perf": 0.59,
+  "a11y": 0.96,
+  "bp": 0.96,
+  "seo": 0.92,
+  "fcp": 1834.7730000000001,
+  "lcp": 7577.66,
+  "tbt": 9,
+  "cls": 0.3154747821959491,
+  "si": 2790.751898327404,
+  "total": 4847334,
+  "js": 399767,
+  "img": 3929077,
+  "font": 206672,
+  "css": 33704,
+  "fetch": 275842,
+  "doc": 1480,
+  "reqs": 78,
+  "api": 54,
+  "api_json": 5,
+  "api_uploads": 49,
+  "img_resize_bytes": 1691750,
+  "img_format_bytes": 233610,
+  "lcp_el": [
+   "FREE FAMILY EVENT\n\nKidsFest 2026\n\nA literary festival for young readers \u2014 come \u2026",
+   "<section class=\"_section_obnrk_1\" aria-labelledby=\"kidsfest-heading\" style=\"\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 88,
+   "resourceLoadDelay": 201,
+   "resourceLoadDuration": 122,
+   "elementRenderDelay": 22
+  },
+  "shifts": [
+   [
+    0.1871,
+    "Our 2026 Lineup\nView all events \u203a\n\u2039\nSunday, September 20\n7:30 PM \u2013 9:30 PM\nDave\u2026",
+    "body > div#root > main#main-content > section._section_1vyc6_1"
+   ],
+   [
+    0.1283,
+    "\u2039\nSunday, September 20\n7:30 PM \u2013 9:30 PM\nDave Dunnet Theatre\n$30\nIn conversatio\u2026",
+    "main#main-content > section._section_1vyc6_1 > div._inner_1vyc6_9 > div._carouselWrapper_1vyc6_47"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    23
+   ],
+   [
+    "label-content-name-mismatch",
+    16
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 840,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 850
+    },
+    "bytes": 183977,
+    "display": "Est savings of 180\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 1000,
+     "LCP": 0
+    },
+    "bytes": null,
+    "display": "Est savings of 990\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 850
+    },
+    "bytes": 1772365,
+    "display": "Est savings of 1,731\u00a0KiB",
+    "score": 0
+   },
+   "unused-css-rules": {
+    "ms": 170,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 150
+    },
+    "bytes": 25104,
+    "display": "Est savings of 25\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 150
+    },
+    "bytes": 2006790,
+    "display": "Est savings of 1,960\u00a0KiB",
+    "score": 0
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 150
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "home-3": {
+  "perf": 0.59,
+  "a11y": 0.96,
+  "bp": 0.96,
+  "seo": 0.92,
+  "fcp": 1763.777,
+  "lcp": 7753.43,
+  "tbt": 12,
+  "cls": 0.3154747821959491,
+  "si": 2857.9861821158956,
+  "total": 4847340,
+  "js": 399770,
+  "img": 3929076,
+  "font": 206672,
+  "css": 33707,
+  "fetch": 275841,
+  "doc": 1482,
+  "reqs": 78,
+  "api": 54,
+  "api_json": 5,
+  "api_uploads": 49,
+  "img_resize_bytes": 1524467,
+  "img_format_bytes": 233610,
+  "lcp_el": [
+   "FREE FAMILY EVENT\n\nKidsFest 2026\n\nA literary festival for young readers \u2014 come \u2026",
+   "<section class=\"_section_obnrk_1\" aria-labelledby=\"kidsfest-heading\" style=\"\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 74,
+   "resourceLoadDelay": 187,
+   "resourceLoadDuration": 85,
+   "elementRenderDelay": 29
+  },
+  "shifts": [
+   [
+    0.1871,
+    "Our 2026 Lineup\nView all events \u203a\n\u2039\nSunday, September 20\n7:30 PM \u2013 9:30 PM\nDave\u2026",
+    "body > div#root > main#main-content > section._section_1vyc6_1"
+   ],
+   [
+    0.1283,
+    "\u2039\nSunday, September 20\n7:30 PM \u2013 9:30 PM\nDave Dunnet Theatre\n$30\nIn conversatio\u2026",
+    "main#main-content > section._section_1vyc6_1 > div._inner_1vyc6_9 > div._carouselWrapper_1vyc6_47"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    23
+   ],
+   [
+    "label-content-name-mismatch",
+    16
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 1130,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 1150
+    },
+    "bytes": 183479,
+    "display": "Est savings of 179\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 950,
+     "LCP": 0
+    },
+    "bytes": null,
+    "display": "Est savings of 960\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 150
+    },
+    "bytes": 1605082,
+    "display": "Est savings of 1,567\u00a0KiB",
+    "score": 0
+   },
+   "unused-css-rules": {
+    "ms": 160,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 150
+    },
+    "bytes": 25106,
+    "display": "Est savings of 25\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 150
+    },
+    "bytes": 2006779,
+    "display": "Est savings of 1,960\u00a0KiB",
+    "score": 0
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 150
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "home-desktop": {
+  "perf": 0.77,
+  "a11y": 0.96,
+  "bp": 0.96,
+  "seo": 0.92,
+  "fcp": 560.905,
+  "lcp": 1381.1709999999998,
+  "tbt": 0,
+  "cls": 0.4040006629235619,
+  "si": 671.7201488581832,
+  "total": 7251270,
+  "js": 399763,
+  "img": 6333008,
+  "font": 206672,
+  "css": 33707,
+  "fetch": 275848,
+  "doc": 1480,
+  "reqs": 90,
+  "api": 66,
+  "api_json": 5,
+  "api_uploads": 61,
+  "img_resize_bytes": 4421006,
+  "img_format_bytes": 510322,
+  "lcp_el": [
+   "Silhouettes of readers relaxing beneath a starlit night sky",
+   "<img alt=\"Silhouettes of readers relaxing beneath a starlit night sky\" class=\"_image_15nhg_7\" src=\"/assets/VFA-2026_Facebook-Cover-Photo-scaled-Cox43QrN.jpg\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 65,
+   "resourceLoadDelay": 146,
+   "resourceLoadDuration": 83,
+   "elementRenderDelay": 24
+  },
+  "shifts": [
+   [
+    0.3502,
+    "Our 2026 Lineup\nView all events \u203a\n\u2039\nSunday, September 20\n7:30 PM \u2013 9:30 PM\nDave\u2026",
+    "body > div#root > main#main-content > section._section_1vyc6_1"
+   ],
+   [
+    0.0515,
+    "\u2039\nSunday, September 20\n7:30 PM \u2013 9:30 PM\nDave Dunnet Theatre\n$30\nIn conversatio\u2026",
+    "main#main-content > section._section_1vyc6_1 > div._inner_1vyc6_9 > div._carouselWrapper_1vyc6_47"
+   ],
+   [
+    0.0023,
+    "EVENTS\nAUTHORS\nBOOKS\nINTERVIEWS\nKIDSFEST",
+    "div#root > header._header_118d7_1 > div._headerInner_118d7_11 > nav#primary-nav"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    19
+   ],
+   [
+    "label-content-name-mismatch",
+    16
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 110,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 100
+    },
+    "bytes": 184951,
+    "display": "Est savings of 181\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 300,
+     "LCP": 0
+    },
+    "bytes": null,
+    "display": "Est savings of 310\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 50
+    },
+    "bytes": 4665663,
+    "display": "Est savings of 4,556\u00a0KiB",
+    "score": 0
+   },
+   "unused-css-rules": {
+    "ms": 0,
+    "metricSavings": {
+     "FCP": 50,
+     "LCP": 0
+    },
+    "bytes": 25350,
+    "display": "Est savings of 25\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 3641459,
+    "display": "Est savings of 3,556\u00a0KiB",
+    "score": 0.5
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0.5
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "interview": {
+  "perf": 0.6,
+  "a11y": 0.96,
+  "bp": 1,
+  "seo": 1,
+  "fcp": 1859.605,
+  "lcp": 5236.118,
+  "tbt": 10,
+  "cls": 0.45381531614893894,
+  "si": 1859.605,
+  "total": 2088567,
+  "js": 393775,
+  "img": 1269623,
+  "font": 196365,
+  "css": 33707,
+  "fetch": 192826,
+  "doc": 1479,
+  "reqs": 40,
+  "api": 6,
+  "api_json": 4,
+  "api_uploads": 2,
+  "img_resize_bytes": 1197383,
+  "img_format_bytes": 247998,
+  "lcp_el": null,
+  "lcp_phases": {
+   "timeToFirstByte": 64,
+   "elementRenderDelay": 597
+  },
+  "shifts": [
+   [
+    0.4095,
+    "EXPLORE VFA\n\nEvents\nAuthors\nBooks\nInterviews\nKidsFest\nArchives\n\nTHE FESTIVAL\n\nV\u2026",
+    "body > div#root > footer._footer_zso89_1"
+   ],
+   [
+    0.0442,
+    "Q&A\n\nLeilani Farha\n\nInterviewed by Robert Hickey\n\nRead Leilani Farha's bio",
+    "div#root > main#main-content > div._container_1s1oe_1 > header._header_8jkrg_8"
+   ],
+   [
+    0.0002,
+    "Leilani Farha",
+    "div._container_1s1oe_1 > header._header_8jkrg_8 > div._titleBlock_8jkrg_22 > h1._pageTitle_148zl_1"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    21
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 940,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 950
+    },
+    "bytes": 188524,
+    "display": "Est savings of 184\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 1000,
+     "LCP": 1000
+    },
+    "bytes": null,
+    "display": "Est savings of 1,020\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 1209509,
+    "display": "Est savings of 1,181\u00a0KiB",
+    "score": 0.5
+   },
+   "unused-css-rules": {
+    "ms": 0,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 0
+    },
+    "bytes": 28529,
+    "display": "Est savings of 28\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 74884,
+    "display": "Est savings of 73\u00a0KiB",
+    "score": 0.5
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0.5
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "interviews": {
+  "perf": 0.79,
+  "a11y": 0.96,
+  "bp": 1,
+  "seo": 1,
+  "fcp": 1878.1840000000002,
+  "lcp": 5442.942000000001,
+  "tbt": 22,
+  "cls": 0.0001828641964259184,
+  "si": 1878.1840000000002,
+  "total": 2581673,
+  "js": 393781,
+  "img": 1772259,
+  "font": 196365,
+  "css": 33707,
+  "fetch": 183284,
+  "doc": 1485,
+  "reqs": 71,
+  "api": 37,
+  "api_json": 1,
+  "api_uploads": 36,
+  "img_resize_bytes": 1606767,
+  "img_format_bytes": 304170,
+  "lcp_el": [
+   "Victoria Festival of Authors",
+   "<img alt=\"Victoria Festival of Authors\" class=\"_logo_118d7_20\" src=\"/assets/VFA_Logo-CQekNuKi.png\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 84,
+   "resourceLoadDelay": 192,
+   "resourceLoadDuration": 68,
+   "elementRenderDelay": 30
+  },
+  "shifts": [
+   [
+    0.0002,
+    "Interviews",
+    "div#root > main#main-content > div._container_1s1oe_1 > h1._pageTitle_148zl_1"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    8
+   ],
+   [
+    "label-content-name-mismatch",
+    36
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 900,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 900
+    },
+    "bytes": 193073,
+    "display": "Est savings of 189\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 1050,
+     "LCP": 0
+    },
+    "bytes": null,
+    "display": "Est savings of 1,030\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 1633459,
+    "display": "Est savings of 1,595\u00a0KiB",
+    "score": 0.5
+   },
+   "unused-css-rules": {
+    "ms": 270,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 250
+    },
+    "bytes": 29221,
+    "display": "Est savings of 29\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 416679,
+    "display": "Est savings of 407\u00a0KiB",
+    "score": 0.5
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0.5
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "kidsfest2026": {
+  "perf": 0.76,
+  "a11y": 0.96,
+  "bp": 1,
+  "seo": 1,
+  "fcp": 1820.8399999999997,
+  "lcp": 6486.787999999999,
+  "tbt": 10,
+  "cls": 0.017601342742804133,
+  "si": 1820.8399999999997,
+  "total": 4808331,
+  "js": 393783,
+  "img": 3891471,
+  "font": 219199,
+  "css": 33704,
+  "fetch": 267903,
+  "doc": 1479,
+  "reqs": 55,
+  "api": 16,
+  "api_json": 4,
+  "api_uploads": 12,
+  "img_resize_bytes": 1213975,
+  "img_format_bytes": 454702,
+  "lcp_el": [
+   "FREE FAMILY EVENT\n\nKidsFest 2026\n\nA literary festival for young readers \u2014 come \u2026",
+   "<section class=\"_hero_1u9sq_3\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 69,
+   "resourceLoadDelay": 213,
+   "resourceLoadDuration": 148,
+   "elementRenderDelay": 136
+  },
+  "shifts": [
+   [
+    0.0136,
+    "Sara Cassidy\n\nCourtney DeFriend\n\nLaurie Elmquist\n\nAndrea Fritz\n\nHaley Healey\n\nK\u2026",
+    "body > div#root > main#main-content > div._bandWhite_1u9sq_125"
+   ],
+   [
+    0.0039,
+    "Sara Cassidy\n\nCourtney DeFriend\n\nLaurie Elmquist\n\nAndrea Fritz\n\nHaley Healey\n\nK\u2026",
+    "body > div#root > main#main-content > div._bandWhite_1u9sq_125"
+   ],
+   [
+    0.0002,
+    "KidsFest 2026",
+    "section._hero_1u9sq_3 > div._heroInner_1u9sq_11 > div._heroContent_1u9sq_17 > h1._heroHeading_1u9sq_52"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    22
+   ],
+   [
+    "label-content-name-mismatch",
+    13
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 1000,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 1000
+    },
+    "bytes": 186814,
+    "display": "Est savings of 182\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 1000,
+     "LCP": 0
+    },
+    "bytes": null,
+    "display": "Est savings of 990\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 500
+    },
+    "bytes": 1393958,
+    "display": "Est savings of 1,361\u00a0KiB",
+    "score": 0
+   },
+   "unused-css-rules": {
+    "ms": 170,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 150
+    },
+    "bytes": 25911,
+    "display": "Est savings of 25\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 181238,
+    "display": "Est savings of 177\u00a0KiB",
+    "score": 0.5
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0.5
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "person-retry": {
+  "perf": 0.55,
+  "a11y": 0.96,
+  "bp": 0.96,
+  "seo": 0.92,
+  "fcp": 1848.3449999999998,
+  "lcp": 6011.031000000001,
+  "tbt": 2,
+  "cls": 0.5782210359543046,
+  "si": 1848.3449999999998,
+  "total": 1867940,
+  "js": 393786,
+  "img": 1236770,
+  "font": 196365,
+  "css": 33707,
+  "fetch": 5043,
+  "doc": 1477,
+  "reqs": 39,
+  "api": 5,
+  "api_json": 4,
+  "api_uploads": 1,
+  "img_resize_bytes": 1116643,
+  "img_format_bytes": 312682,
+  "lcp_el": [
+   "Paul Walde",
+   "<img alt=\"Paul Walde\" class=\"_authorPhotoMobile_w8wfp_124\" loading=\"eager\" src=\"https://api.victoriafestivalofauthors.ca/wp-content/uploads/2026/10/paul-w\u2026\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 66,
+   "resourceLoadDelay": 486,
+   "resourceLoadDuration": 413,
+   "elementRenderDelay": 4
+  },
+  "shifts": [
+   [
+    0.3751,
+    "EXPLORE VFA\n\nEvents\nAuthors\nBooks\nInterviews\nKidsFest\nArchives\n\nTHE FESTIVAL\n\nV\u2026",
+    "body > div#root > footer._footer_zso89_1"
+   ],
+   [
+    0.1842,
+    "EXPLORE VFA\n\nEvents\nAuthors\nBooks\nInterviews\nKidsFest\nArchives\n\nTHE FESTIVAL\n\nV\u2026",
+    "body > div#root > footer._footer_zso89_1"
+   ],
+   [
+    0.0188,
+    "EXPLORE VFA\n\nEvents\nAuthors\nBooks\nInterviews\nKidsFest\nArchives\n\nTHE FESTIVAL\n\nV\u2026",
+    "body > div#root > footer._footer_zso89_1"
+   ],
+   [
+    0.0002,
+    "Paul Walde",
+    "div._container_1s1oe_1 > div._adultHero_w8wfp_102 > div._meta_w8wfp_227 > h1._pageTitle_148zl_1"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    9
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 960,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 950
+    },
+    "bytes": 192501,
+    "display": "Est savings of 188\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 1000,
+     "LCP": 0
+    },
+    "bytes": null,
+    "display": "Est savings of 1,000\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 300
+    },
+    "bytes": 1193453,
+    "display": "Est savings of 1,165\u00a0KiB",
+    "score": 0
+   },
+   "unused-css-rules": {
+    "ms": 180,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 200
+    },
+    "bytes": 28986,
+    "display": "Est savings of 28\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 300
+    },
+    "bytes": 52555,
+    "display": "Est savings of 51\u00a0KiB",
+    "score": 0
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0.5
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ },
+ "person": {
+  "perf": 0.83,
+  "a11y": 0.93,
+  "bp": 1,
+  "seo": 1,
+  "fcp": 1852.17,
+  "lcp": 4492.347,
+  "tbt": 4.5,
+  "cls": 0,
+  "si": 1852.17,
+  "total": 1730206,
+  "js": 393780,
+  "img": 1165605,
+  "font": 133775,
+  "css": 33704,
+  "fetch": 1072,
+  "doc": 1477,
+  "reqs": 35,
+  "api": 1,
+  "api_json": 1,
+  "api_uploads": 0,
+  "img_resize_bytes": 1116643,
+  "img_format_bytes": 247998,
+  "lcp_el": [
+   "Victoria Festival of Authors",
+   "<img alt=\"Victoria Festival of Authors\" class=\"_logo_118d7_20\" src=\"/assets/VFA_Logo-CQekNuKi.png\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 59,
+   "resourceLoadDelay": 192,
+   "resourceLoadDuration": 23,
+   "elementRenderDelay": 14
+  },
+  "shifts": [],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    8
+   ],
+   [
+    "skip-link",
+    1
+   ],
+   [
+    "landmark-one-main",
+    1
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 840,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 850
+    },
+    "bytes": 195788,
+    "display": "Est savings of 191\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 1050,
+     "LCP": 0
+    },
+    "bytes": null,
+    "display": "Est savings of 1,030\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 1128769,
+    "display": "Est savings of 1,102\u00a0KiB",
+    "score": 0.5
+   },
+   "unused-css-rules": {
+    "ms": 0,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 0
+    },
+    "bytes": 29486,
+    "display": "Est savings of 29\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 4191,
+    "display": "Est savings of 4\u00a0KiB",
+    "score": 0.5
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0.5
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": [
+   "The page loaded too slowly to finish within the time limit. Results may be incomplete."
+  ]
+ },
+ "person2-rande-cook": {
+  "perf": 0.54,
+  "a11y": 0.96,
+  "bp": 1,
+  "seo": 0.92,
+  "fcp": 1747.393,
+  "lcp": 6609.239000000001,
+  "tbt": 1,
+  "cls": 0.5464936880156489,
+  "si": 1747.393,
+  "total": 1930741,
+  "js": 393771,
+  "img": 1299275,
+  "font": 196365,
+  "css": 33707,
+  "fetch": 5355,
+  "doc": 1476,
+  "reqs": 39,
+  "api": 5,
+  "api_json": 4,
+  "api_uploads": 1,
+  "img_resize_bytes": 1191517,
+  "img_format_bytes": 247998,
+  "lcp_el": [
+   "Rande Cook",
+   "<img alt=\"Rande Cook\" class=\"_authorPhotoMobile_w8wfp_124\" loading=\"eager\" src=\"https://api.victoriafestivalofauthors.ca/wp-content/uploads/2026/07/CookPh\u2026\">"
+  ],
+  "lcp_phases": {
+   "timeToFirstByte": 116,
+   "resourceLoadDelay": 459,
+   "resourceLoadDuration": 73,
+   "elementRenderDelay": 12
+  },
+  "shifts": [
+   [
+    0.3858,
+    "AUTHOR\n\nRande Cook\nRande Cook (K\u2019alapa/Makwala) is a Kwakwaka\u2019wakw multimedia a\u2026",
+    "main#main-content > div._container_1s1oe_1 > div._adultHero_w8wfp_102 > div._meta_w8wfp_227"
+   ],
+   [
+    0.1606,
+    "EXPLORE VFA\n\nEvents\nAuthors\nBooks\nInterviews\nKidsFest\nArchives\n\nTHE FESTIVAL\n\nV\u2026",
+    "body > div#root > footer._footer_zso89_1"
+   ],
+   [
+    0.0002,
+    "Rande Cook",
+    "div._container_1s1oe_1 > div._adultHero_w8wfp_102 > div._meta_w8wfp_227 > h1._pageTitle_148zl_1"
+   ]
+  ],
+  "a11y_fail": [
+   [
+    "color-contrast",
+    9
+   ]
+  ],
+  "opp": {
+   "unused-javascript": {
+    "ms": 1060,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 1050
+    },
+    "bytes": 189527,
+    "display": "Est savings of 185\u00a0KiB",
+    "score": 0
+   },
+   "render-blocking-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 950,
+     "LCP": 0
+    },
+    "bytes": null,
+    "display": "Est savings of 950\u00a0ms",
+    "score": 0
+   },
+   "image-delivery-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 500
+    },
+    "bytes": 1203643,
+    "display": "Est savings of 1,175\u00a0KiB",
+    "score": 0
+   },
+   "unused-css-rules": {
+    "ms": 310,
+    "metricSavings": {
+     "FCP": 150,
+     "LCP": 300
+    },
+    "bytes": 28955,
+    "display": "Est savings of 28\u00a0KiB",
+    "score": 0
+   },
+   "cache-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 600
+    },
+    "bytes": 95081,
+    "display": "Est savings of 93\u00a0KiB",
+    "score": 0
+   },
+   "legacy-javascript-insight": {
+    "ms": null,
+    "metricSavings": {
+     "FCP": 0,
+     "LCP": 0
+    },
+    "bytes": 10483,
+    "display": "Est savings of 10\u00a0KiB",
+    "score": 0.5
+   },
+   "font-display-insight": {
+    "ms": null,
+    "metricSavings": {
+     "INP": 0
+    },
+    "bytes": null,
+    "display": null,
+    "score": 1
+   }
+  },
+  "lhver": "13.6.0",
+  "warnings": []
+ }
+}

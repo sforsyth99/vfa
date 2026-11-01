@@ -1,0 +1,18 @@
+== /wp-json/wp/v2/festival_events?per_page=100
+code=200 size_dl=33518 ttfb=0.418927 total=0.421299
+  uncompressed=189962
+code=200 size_dl=33518 ttfb=0.356682 total=0.359196
+  uncompressed=189962
+code=200 size_dl=33518 ttfb=0.382505 total=0.384837
+  uncompressed=189962
+cache-control: public, max-age=600, s-maxage=600, stale-while-revalidate=86400
+cf-cache-status: DYNAMIC
+== /wp-json/vfa/v1/people/authors?year=2026
+code=200 size_dl=9067 ttfb=0.193493 total=0.195584
+  uncompressed=48386
+code=200 size_dl=9067 ttfb=0.184332 total=0.184715
+  uncompressed=48386
+code=200 size_dl=9067 ttfb=0.205563 total=0.205840
+  uncompressed=48386
+cache-control: public, max-age=600, s-maxage=600, stale-while-revalidate=86400
+cf-cache-status: DYNAMIC
