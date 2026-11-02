@@ -171,9 +171,12 @@ Run these immediately after DNS propagates.
 
 | Layer | What it caches | How long | How it clears |
 |---|---|---|---|
-| Cloudflare CDN | WP API responses (`api.*`) + frontend assets | Until purged | vfa-cache plugin purges on every WP save |
+| Cloudflare CDN | WP API responses (`api.*/wp-json/*`) for visitors who aren't logged in | Up to 1 day (`s-maxage=86400`) | vfa-cache plugin purges on every WP save |
+| Visitor's browser (HTTP cache) | API responses | 10 minutes (`max-age=600`) | Expires automatically; a purge can't reach it |
 | React Query (browser) | API data per visitor | 1 hour | Expires automatically; incognito window bypasses it |
 | Cloudflare Pages | JS/CSS/image files | Until next deploy | Auto-cleared on every GitHub push |
+
+The cache times are set by the `rest_post_dispatch` filter in `vfa-custom-fields.php`. Only successful responses to anonymous GET requests are marked cacheable.
 
 ---
 
@@ -191,8 +194,25 @@ define('VFA_CLOUDFLARE_DEPLOY_HOOK','https://api.cloudflare.com/client/v4/pages/
 
 **Where to find each value:**
 - **Zone ID:** Cloudflare dashboard → `victoriafestivalofauthors.ca` → Overview → right sidebar
-- **API Token:** Cloudflare → My Profile → API Tokens → Create Token → use "Edit zone DNS" template → scope to this zone → change permission to **Zone → Cache Purge** only
-- **Deploy Hook:** Cloudflare Pages → your project → Settings → Build & deployments → Deploy hooks → Create hook (name it "WP content publish") → copy the URL
+- **API Token:** Cloudflare → person icon → Profile → API Tokens → Create Token → **Custom token** → permission **Zone → Cache Purge → Purge** only → Zone Resources: Include → Specific zone → `victoriafestivalofauthors.ca`. Never use the Global API Key. The token is shown once: store it in the password manager.
+- **Deploy Hook:** Cloudflare → Workers & Pages → `vfa` → Settings → Deploy Hooks → **+** (name it "WP content publish", branch `main`) → copy the URL. The URL works as a password: store it in the password manager only.
+
+WordPress runs on `dolphin.exacthosting.com`. Edit `wp-config.php` through cPanel (`https://api.victoriafestivalofauthors.ca/cpanel`) → File Manager. Download a copy before editing.
+
+---
+
+### Step A2 — Cloudflare Cache Rule for the API
+
+Cloudflare doesn't cache JSON unless a rule allows it. In Cloudflare → `victoriafestivalofauthors.ca` → Caching → Cache Rules → Create rule → **Cache Rules**:
+
+- **Name:** `API wp-json`
+- **Expression** (Edit expression):
+  `(http.request.full_uri wildcard r"https://api.victoriafestivalofauthors.ca/wp-json/*" and not http.cookie contains "wordpress_logged_in")`
+- **Cache eligibility:** Eligible for cache
+- **Edge TTL:** Use cache-control header if present, bypass cache if not
+- **Browser TTL:** Respect origin TTL. Required: without it the zone default (4 hours) overrides WordPress's 10 minutes.
+
+The cookie condition means logged-in editors never get or create cached copies.
 
 ---
 
@@ -225,12 +245,29 @@ define('VFA_CLOUDFLARE_DEPLOY_HOOK','https://api.cloudflare.com/client/v4/pages/
 | Who | What they see | Why |
 |---|---|---|
 | New visitor | Fresh content immediately | Cloudflare cache was purged on save |
+| Returning visitor (new tab) | Old content for up to 10 minutes | Their browser's HTTP cache hasn't expired |
 | Visitor already on the site | Old content for up to 1 hour | React Query client cache hasn't expired |
 | Google (sitemap) | New URL within 2–3 minutes | Deploy hook triggered a rebuild |
 
 **To see changes immediately as a logged-in editor:** open an incognito window — this bypasses React Query's browser cache.
 
 **To manually bust everything:** WP Admin → Tools → VFA Cache → Purge entire cache now.
+
+---
+
+### Turning API caching off (rollback)
+
+Use these if visitors see wrong or out-of-date content and a purge doesn't fix it. Each step is independent; start with the first.
+
+1. **Purge once:** WP Admin → Tools → VFA Cache → **Purge entire cache now**. Fixes most stale-content reports.
+2. **Stop Cloudflare caching the API (instant):** Cloudflare → `victoriafestivalofauthors.ca` → Caching → Cache Rules → switch **`API wp-json`** off. Every API request goes straight to WordPress again (`cf-cache-status: DYNAMIC`), as before November 2026. Then purge once so nothing cached lingers. Switch the rule back on to undo.
+3. **Undo the 1-day cache time:** reinstall `vfa-custom-fields` 2.2.8 (WP Admin → Plugins → Add New → Upload → Replace current with uploaded). Only needed if the 1-day window itself is the problem; with the rule off it has no effect at Cloudflare.
+4. **Stop automatic purging:** remove the `VFA_CLOUDFLARE_ZONE_ID` and `VFA_CLOUDFLARE_API_TOKEN` lines from `wp-config.php`. Only do this with the Cache Rule off, or edits stay hidden for up to a day.
+5. **If the purge token leaks:** Cloudflare → Profile → API Tokens → the token's **⋯** → Roll (or Delete), then update `wp-config.php` and the password manager. A leaked token can only clear the cache; it can't change content or settings.
+
+Switching `api` back to grey cloud (DNS only) also turns caching off, but it's a bigger change (it removes Cloudflare from the API entirely) and isn't needed for any of the above.
+
+**Check it:** `curl -sI "https://api.victoriafestivalofauthors.ca/wp-json/vfa/v1/people/authors?year=2026" | grep -i cf-cache-status` shows `HIT`/`MISS` while caching is on, `DYNAMIC` once the rule is off.
 
 ---
 

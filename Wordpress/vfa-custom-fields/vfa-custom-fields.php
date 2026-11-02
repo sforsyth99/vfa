@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Custom Fields
  * Description: Custom fields for interviews, people, venues, and events.
- * Version: 2.2.8
+ * Version: 2.2.9
  */
 
 if (!defined('ABSPATH')) exit;
@@ -863,26 +863,40 @@ add_action('save_post', function($post_id) {
 //   - Our read routes  — the custom vfa/v1 namespace + the core wp/v2 content
 //                        the frontend consumes.
 //
+//   - Success only     — errors (401, 404, 500…) are never marked cacheable, so a
+//                        temporary failure can't get stuck in Cloudflare.
+//
 // max-age  = browser cache window;  s-maxage = shared/CDN cache window.
 // stale-while-revalidate lets a cache serve slightly-stale JSON instantly while
 // it refreshes in the background, so visitors never wait on a cache miss.
 //
-// Interim value is deliberately short (10 min) so edits appear on their own
-// without a purge mechanism. Once Cloudflare + a save-triggered purge hook are
-// in place this can be raised substantially. See docs/ARCHITECTURE.md.
+// The two windows differ on purpose:
+//   - Cloudflare (s-maxage, 1 day): the vfa-cache plugin purges Cloudflare on every
+//     save, so a long window never hides an edit. It just stops Cloudflare going
+//     back to WordPress every few minutes on a low-traffic site. The 1-day cap is a
+//     safety net for changes that don't fire a purge (the calendar year rolling
+//     over, plugin updates, settings pages, direct database edits).
+//   - Browsers (max-age, 10 min): a purge can't reach visitors' browsers, so keep
+//     this short; refilling from Cloudflare is cheap.
+// Cloudflare Cache Rule "API wp-json" must stay set to respect these headers
+// (Edge TTL: use cache-control header; Browser TTL: respect origin).
 add_filter('rest_post_dispatch', function($response, $server, $request) {
     if ($request->get_method() !== 'GET') return $response;
     if (is_user_logged_in())            return $response;
+
+    $status = $response->get_status();
+    if ($status < 200 || $status >= 300) return $response;
 
     $route = $request->get_route();
     $is_public_read = strpos($route, '/vfa/v1/') === 0 || strpos($route, '/wp/v2/') === 0;
     if (!$is_public_read) return $response;
 
-    $max_age = 10 * MINUTE_IN_SECONDS;
+    $browser_max_age = 10 * MINUTE_IN_SECONDS;
+    $cdn_max_age     = DAY_IN_SECONDS;
     $response->header(
         'Cache-Control',
         sprintf('public, max-age=%d, s-maxage=%d, stale-while-revalidate=%d',
-            $max_age, $max_age, DAY_IN_SECONDS)
+            $browser_max_age, $cdn_max_age, DAY_IN_SECONDS)
     );
     return $response;
 }, 10, 3);
