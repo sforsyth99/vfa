@@ -251,6 +251,10 @@ The cookie condition means logged-in editors never get or create cached copies.
 
 **To see changes immediately as a logged-in editor:** open an incognito window — this bypasses React Query's browser cache.
 
+**Check new pages in an incognito window too.** If you open a page's address before it's published (for example while it's still a draft), your browser can remember the empty "not found" answer for up to 10 minutes, even after you publish. Visitors who never saw the draft are not affected.
+
+**If a rebuild fails to start,** every admin screen shows a red "VFA Cache: the last site rebuild failed to start" notice with the reason. Fix the cause (usually a mistyped `VFA_CLOUDFLARE_DEPLOY_HOOK`), then click **Trigger deploy now**; the notice clears on the next successful deploy.
+
 **To manually bust everything:** WP Admin → Tools → VFA Cache → Purge entire cache now.
 
 ---

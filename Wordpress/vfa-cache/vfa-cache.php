@@ -6,7 +6,7 @@
  *              entire cache (simple + reliable; saves are infrequent). Also triggers
  *              a Cloudflare Pages redeploy when sitemap-relevant content is published,
  *              so the sitemap stays current automatically.
- * Version: 1.1.0
+ * Version: 1.2.0
  *
  * ── SETUP (one time) ─────────────────────────────────────────────────────────
  * Credentials are read from wp-config.php so they are never stored in this plugin
@@ -38,8 +38,26 @@ function vfa_cache_configured(): bool {
         && defined('VFA_CLOUDFLARE_API_TOKEN') && VFA_CLOUDFLARE_API_TOKEN;
 }
 
+// Every Cloudflare Pages deploy hook URL starts with this.
+define('VFA_DEPLOY_HOOK_PREFIX', 'https://api.cloudflare.com/client/v4/pages/webhooks/deploy_hooks/');
+
+/**
+ * State of the deploy hook setting: 'missing' (constant not set or empty),
+ * 'invalid' (set, but not a Cloudflare Pages deploy hook URL) or 'ok'.
+ */
+function vfa_deploy_hook_status(): string {
+    if (!defined('VFA_CLOUDFLARE_DEPLOY_HOOK') || !VFA_CLOUDFLARE_DEPLOY_HOOK) return 'missing';
+    $url = (string) VFA_CLOUDFLARE_DEPLOY_HOOK;
+    $id  = substr($url, strlen(VFA_DEPLOY_HOOK_PREFIX));
+    if (strpos($url, VFA_DEPLOY_HOOK_PREFIX) !== 0 || !preg_match('/^[A-Za-z0-9_-]+\/?$/', $id)) {
+        return 'invalid';
+    }
+    return 'ok';
+}
+
+// Only a valid URL counts as configured, so a typo never sends requests anywhere.
 function vfa_deploy_configured(): bool {
-    return defined('VFA_CLOUDFLARE_DEPLOY_HOOK') && VFA_CLOUDFLARE_DEPLOY_HOOK;
+    return vfa_deploy_hook_status() === 'ok';
 }
 
 // Post types whose slugs appear in the sitemap — publishing these triggers a redeploy.
@@ -95,7 +113,9 @@ add_action('shutdown', function() {
     if (!empty($GLOBALS['vfa_cache_dirty']) && vfa_cache_configured()) {
         vfa_cache_purge();
     }
-    if (!empty($GLOBALS['vfa_deploy_dirty']) && vfa_deploy_configured()) {
+    // 'invalid' still goes through vfa_trigger_deploy() so the bad URL is recorded
+    // and shown as an admin notice; it never sends a request.
+    if (!empty($GLOBALS['vfa_deploy_dirty']) && vfa_deploy_hook_status() !== 'missing') {
         vfa_trigger_deploy();
     }
 });
@@ -167,8 +187,15 @@ function vfa_cache_record(array $result): array {
  * The build runs generate-sitemap so the sitemap reflects new content.
  */
 function vfa_trigger_deploy(): array {
-    if (!vfa_deploy_configured()) {
+    $hook_status = vfa_deploy_hook_status();
+    if ($hook_status === 'missing') {
         return ['ok' => false, 'message' => 'Deploy hook URL not set in wp-config.php (VFA_CLOUDFLARE_DEPLOY_HOOK).'];
+    }
+    if ($hook_status === 'invalid') {
+        return vfa_deploy_record([
+            'ok'      => false,
+            'message' => 'VFA_CLOUDFLARE_DEPLOY_HOOK in wp-config.php is not a Cloudflare Pages deploy hook URL (it should start with ' . VFA_DEPLOY_HOOK_PREFIX . '). Copy it again from Cloudflare.',
+        ]);
     }
 
     $response = wp_remote_post(VFA_CLOUDFLARE_DEPLOY_HOOK, [
@@ -225,7 +252,8 @@ function vfa_cache_admin_page(): void {
     }
 
     $cache_configured  = vfa_cache_configured();
-    $deploy_configured = vfa_deploy_configured();
+    $deploy_status     = vfa_deploy_hook_status();
+    $deploy_configured = $deploy_status === 'ok';
     $last_purge        = get_option('vfa_cache_last_result');
     $last_deploy       = get_option('vfa_deploy_last_result');
 
@@ -262,11 +290,12 @@ function vfa_cache_admin_page(): void {
 
     // ── Deploy status ──
     echo '<h2>Deploy hook (sitemap)</h2><table class="widefat striped" style="max-width:640px"><tbody>';
-    echo '<tr><th>Deploy hook (wp-config.php)</th><td>'
-        . ($deploy_configured
-            ? '<span style="color:#008a20">✓ Configured</span>'
-            : '<span style="color:#d63638">✗ Not set — sitemap will not update automatically</span>')
-        . '</td></tr>';
+    $deploy_labels = [
+        'ok'      => '<span style="color:#008a20">✓ Configured</span>',
+        'missing' => '<span style="color:#d63638">✗ Not set — sitemap will not update automatically</span>',
+        'invalid' => '<span style="color:#d63638">✗ Invalid URL — it must start with <code>' . esc_html(VFA_DEPLOY_HOOK_PREFIX) . '</code>. Copy it again from Cloudflare; no deploys will run until it is fixed.</span>',
+    ];
+    echo '<tr><th>Deploy hook (wp-config.php)</th><td>' . $deploy_labels[$deploy_status] . '</td></tr>';
     echo '<tr><th>Triggers on</th><td>Publish / update / delete: interviews, events, authors, venues, books</td></tr>';
     if ($last_deploy) {
         $when   = human_time_diff($last_deploy['time'], time()) . ' ago';
@@ -297,13 +326,21 @@ function vfa_cache_admin_page(): void {
     echo '</div>';
 }
 
-// Loud failure: surface a persistent purge failure on every admin screen.
+// Loud failure: surface a persistent purge or deploy failure on every admin screen.
+// Each notice clears itself once the next purge/deploy succeeds.
 add_action('admin_notices', function() {
     if (!current_user_can('manage_options')) return;
+    $link = '<a href="' . esc_url(admin_url('tools.php?page=vfa-cache')) . '">Details &amp; retry</a>';
+
     $last = get_option('vfa_cache_last_result');
     if ($last && empty($last['ok'])) {
         echo '<div class="notice notice-error"><p><strong>VFA Cache:</strong> the last cache purge failed — '
-            . esc_html($last['message']) . ' '
-            . '<a href="' . esc_url(admin_url('tools.php?page=vfa-cache')) . '">Details &amp; retry</a></p></div>';
+            . esc_html($last['message']) . ' ' . $link . '</p></div>';
+    }
+
+    $last_deploy = get_option('vfa_deploy_last_result');
+    if ($last_deploy && empty($last_deploy['ok'])) {
+        echo '<div class="notice notice-error"><p><strong>VFA Cache:</strong> the last site rebuild failed to start, so the sitemap may be out of date — '
+            . esc_html($last_deploy['message']) . ' ' . $link . '</p></div>';
     }
 });
