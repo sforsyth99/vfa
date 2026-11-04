@@ -14,7 +14,11 @@ import styles from './Book.module.css';
 
 function AuthorName({ person }: { person: PersonData }) {
   if (!person.slug) return <span>{person.name}</span>;
-  return <Link to={`/people/${person.slug}`} className={styles.authorLink}>{person.name}</Link>;
+  return (
+    <Link to={`/people/${person.slug}`} className={styles.authorLink}>
+      {person.name}
+    </Link>
+  );
 }
 
 export default function BookPage() {
@@ -25,52 +29,78 @@ export default function BookPage() {
   usePageTitle(book ? title : null);
 
   if (isLoading) return <PageLoader />;
-  if (error || !book) return <div><FormattedMessage id="book.notFound" /></div>;
+  if (error || !book)
+    return (
+      <div>
+        <FormattedMessage id="book.notFound" />
+      </div>
+    );
 
-  const { authors, additional_authors, subtitle, illustrators, age_min, age_max, cover_image, description, munros_url } = book.book_data;
+  const {
+    authors,
+    additional_authors,
+    subtitle,
+    illustrators,
+    age_min,
+    age_max,
+    cover_image,
+    description,
+    munros_url,
+  } = book.book_data;
 
-  const ageLabel = age_min != null
-    ? age_max != null
-      ? intl.formatMessage({ id: 'book.ageRange.both' }, { min: age_min, max: age_max })
-      : intl.formatMessage({ id: 'book.ageRange.minOnly' }, { min: age_min })
-    : null;
+  const ageLabel =
+    age_min != null
+      ? age_max != null
+        ? intl.formatMessage({ id: 'book.ageRange.both' }, { min: age_min, max: age_max })
+        : intl.formatMessage({ id: 'book.ageRange.minOnly' }, { min: age_min })
+      : null;
 
   return (
     <main id="main-content" className={styles.page}>
       <Container narrow>
-      <div className={styles.bookLayout}>
-        {cover_image && (
-          <img src={cover_image[0]} alt={title} className={styles.coverImage} />
-        )}
-        <div className={styles.meta}>
-          <Eyebrow><FormattedMessage id="book.eyebrow" /></Eyebrow>
-          <PageTitle>{title}</PageTitle>
-          {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-          {(authors.length > 0 || additional_authors) && (
-            <p className={styles.authors}>
-              {authors.map((a, i) => (
-                <span key={a.id}>
-                  <AuthorName person={a} />
-                  {(i < authors.length - 1 || additional_authors) ? ', ' : ''}
-                </span>
-              ))}
-              {additional_authors}
-            </p>
-          )}
-          {illustrators && (
-            <p className={styles.illustrators}>
-              {intl.formatMessage({ id: 'book.illustratedBy' }, { illustrators })}
-            </p>
-          )}
-          {ageLabel && <p className={styles.ageRange}>{ageLabel}</p>}
-          {description && <div className={styles.description} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />}
-          {munros_url && (
-            <BookLink slug={slug!} munrosUrl={munros_url} bookTitle={title} className={styles.buyLink}>
-              <FormattedMessage id="book.buyOnline" />
-            </BookLink>
-          )}
+        <div className={styles.bookLayout}>
+          {cover_image && <img src={cover_image[0]} alt={title} className={styles.coverImage} />}
+          <div className={styles.meta}>
+            <Eyebrow>
+              <FormattedMessage id="book.eyebrow" />
+            </Eyebrow>
+            <PageTitle>{title}</PageTitle>
+            {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+            {(authors.length > 0 || additional_authors) && (
+              <p className={styles.authors}>
+                {authors.map((a, i) => (
+                  <span key={a.id}>
+                    <AuthorName person={a} />
+                    {i < authors.length - 1 || additional_authors ? ', ' : ''}
+                  </span>
+                ))}
+                {additional_authors}
+              </p>
+            )}
+            {illustrators && (
+              <p className={styles.illustrators}>
+                {intl.formatMessage({ id: 'book.illustratedBy' }, { illustrators })}
+              </p>
+            )}
+            {ageLabel && <p className={styles.ageRange}>{ageLabel}</p>}
+            {description && (
+              <div
+                className={styles.description}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }}
+              />
+            )}
+            {munros_url && (
+              <BookLink
+                slug={slug!}
+                munrosUrl={munros_url}
+                bookTitle={title}
+                className={styles.buyLink}
+              >
+                <FormattedMessage id="book.buyOnline" />
+              </BookLink>
+            )}
+          </div>
         </div>
-      </div>
       </Container>
     </main>
   );

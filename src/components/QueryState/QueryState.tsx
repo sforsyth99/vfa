@@ -11,7 +11,15 @@ interface Props {
   emptyValues?: Record<string, string | number>;
 }
 
-export function QueryState({ isLoading, isError, isEmpty, loadingId, errorId, emptyId, emptyValues }: Props) {
+export function QueryState({
+  isLoading,
+  isError,
+  isEmpty,
+  loadingId,
+  errorId,
+  emptyId,
+  emptyValues,
+}: Props) {
   if (isLoading) {
     return (
       <p className={styles.state} role="status" aria-live="polite" aria-atomic="true">

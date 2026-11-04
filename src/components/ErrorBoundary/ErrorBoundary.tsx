@@ -23,14 +23,14 @@ class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <main className={styles.errorPage}>
-          <h1><FormattedMessage id="errorBoundary.heading" /></h1>
+          <h1>
+            <FormattedMessage id="errorBoundary.heading" />
+          </h1>
           <p>
             <FormattedMessage
               id="errorBoundary.body"
               values={{
-                contactLink: (chunks) => (
-                  <a href={`mailto:${WEBMASTER_EMAIL}`}>{chunks}</a>
-                ),
+                contactLink: (chunks) => <a href={`mailto:${WEBMASTER_EMAIL}`}>{chunks}</a>,
               }}
             />
           </p>

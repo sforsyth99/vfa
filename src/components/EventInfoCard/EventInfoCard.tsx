@@ -29,15 +29,14 @@ export function EventInfoCard({ event, name }: Props) {
         {event.is_kidfest ? (
           <Link to="/kidsfest2026">{event.title}</Link>
         ) : (
-          <EventLink slug={event.slug}>
-            {event.title}
-          </EventLink>
+          <EventLink slug={event.slug}>{event.title}</EventLink>
         )}
       </p>
       {dateStr && (
         <p className={styles.date}>
           {dateStr}
-          {event.time_start && ` · ${event.time_start} ${intl.formatMessage({ id: 'festivalEvent.timezonePT' })}`}
+          {event.time_start &&
+            ` · ${event.time_start} ${intl.formatMessage({ id: 'festivalEvent.timezonePT' })}`}
         </p>
       )}
       {event.venue_name && <p className={styles.venue}>{event.venue_name}</p>}

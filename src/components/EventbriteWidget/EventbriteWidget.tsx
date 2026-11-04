@@ -39,14 +39,22 @@ interface Props {
   eventType?: string;
 }
 
-export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticketsLiveDate, eventType }: Props) {
+export function EventbriteWidget({
+  eventbriteUrl,
+  eventTitle,
+  hasTickets,
+  ticketsLiveDate,
+  eventType,
+}: Props) {
   const [loadError, setLoadError] = useState(false);
   const today = getPacificToday();
   const ticketsLive = !ticketsLiveDate || today >= ticketsLiveDate;
   const [isMobile] = useState(() => window.matchMedia('(max-width: 640px)').matches);
   const eventId = eventbriteUrl ? extractEventbriteId(eventbriteUrl.trim()) : null;
   const triggerId = eventId ? `eb-modal-trigger-${eventId}` : '';
-  const scriptDomain = eventbriteUrl ? extractEventbriteDomain(eventbriteUrl) : 'www.eventbrite.com';
+  const scriptDomain = eventbriteUrl
+    ? extractEventbriteDomain(eventbriteUrl)
+    : 'www.eventbrite.com';
 
   useEffect(() => {
     if (!eventId || !triggerId) return;
@@ -69,7 +77,9 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticket
 
     if (window.EBWidgets) {
       initWidget();
-      return () => { cancelled = true; };
+      return () => {
+        cancelled = true;
+      };
     }
 
     const existing = document.querySelector<HTMLScriptElement>('script[src*="eb_widgets"]');
@@ -85,10 +95,14 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticket
     script.src = `https://${scriptDomain}/static/widgets/eb_widgets.js`;
     script.async = true;
     script.onload = initWidget;
-    script.onerror = () => { if (!cancelled) setLoadError(true); };
+    script.onerror = () => {
+      if (!cancelled) setLoadError(true);
+    };
     document.body.appendChild(script);
 
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [eventId, triggerId, eventTitle, scriptDomain]);
 
   if (!ticketsLive) {
@@ -104,7 +118,9 @@ export function EventbriteWidget({ eventbriteUrl, eventTitle, hasTickets, ticket
     const soldOut = isSoldOut({ eventbriteUrl, hasTickets, ticketsLiveDate, eventType });
     return (
       <p className={styles.comingSoon}>
-        <FormattedMessage id={soldOut ? 'festivalEvent.tickets.soldOut' : 'festivalEvent.tickets.comingSoon'} />
+        <FormattedMessage
+          id={soldOut ? 'festivalEvent.tickets.soldOut' : 'festivalEvent.tickets.comingSoon'}
+        />
       </p>
     );
   }

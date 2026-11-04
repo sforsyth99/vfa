@@ -10,10 +10,10 @@
 
 The site is split into two independent halves that talk over HTTP:
 
-| Half | What it is | Where it lives | Scales under load? |
-|------|-----------|----------------|--------------------|
-| **Frontend** | The React app (this repo) — built by Vite into plain static HTML/JS/CSS | Free static CDN hosting (Cloudflare Pages) at `victoriafestivalofauthors.ca` | ✅ Yes, effectively infinitely & for free |
-| **Backend** | WordPress — used only as a content editor + database, not to render pages ("headless") | Low-cost shared host at `api.victoriafestivalofauthors.ca` | ❌ No — this is the fragile, expensive part |
+| Half         | What it is                                                                             | Where it lives                                                               | Scales under load?                          |
+| ------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------- |
+| **Frontend** | The React app (this repo) — built by Vite into plain static HTML/JS/CSS                | Free static CDN hosting (Cloudflare Pages) at `victoriafestivalofauthors.ca` | ✅ Yes, effectively infinitely & for free   |
+| **Backend**  | WordPress — used only as a content editor + database, not to render pages ("headless") | Low-cost shared host at `api.victoriafestivalofauthors.ca`                   | ❌ No — this is the fragile, expensive part |
 
 The React app fetches content from WordPress's **REST API** and renders it in the
 browser. WordPress never renders a public page; it just serves JSON.
@@ -46,10 +46,10 @@ directly. Put a cache in between.**
 The WordPress box answers two very different kinds of request on the **same domain**.
 Keeping them straight is the thing that makes caching make sense:
 
-| Path | Who uses it | Method | Cached? |
-|------|-------------|--------|---------|
-| `api.../wp-admin/` and `wp-login.php` | **Organizers** logging in to edit content | authenticated, dynamic | **Never** |
-| `api.../wp-json/vfa/v1/...` | **The public** (via the React app) reading content | anonymous `GET` | **Yes — this is what we cache** |
+| Path                                  | Who uses it                                        | Method                 | Cached?                         |
+| ------------------------------------- | -------------------------------------------------- | ---------------------- | ------------------------------- |
+| `api.../wp-admin/` and `wp-login.php` | **Organizers** logging in to edit content          | authenticated, dynamic | **Never**                       |
+| `api.../wp-json/vfa/v1/...`           | **The public** (via the React app) reading content | anonymous `GET`        | **Yes — this is what we cache** |
 
 Editing content and caching content happen on **different paths**, so they never
 collide:
@@ -76,28 +76,28 @@ Think of these as levers. You can pull any subset; they stack.
 
 1. **In-app dedup — React Query `staleTime`.** The frontend already uses TanStack
    Query. Setting a long `staleTime` (e.g. 1 hour) means a single visitor's session
-   won't re-fetch the same endpoint repeatedly. *Helps within one session; does nothing
-   for the first hit or for other visitors.* Zero infra.
+   won't re-fetch the same endpoint repeatedly. _Helps within one session; does nothing
+   for the first hit or for other visitors._ Zero infra.
 
 2. **Browser caching — `Cache-Control` headers from WordPress.** If the REST API sends
    `Cache-Control: public, max-age=...`, each visitor's browser caches the JSON, so
-   repeat visits and navigation stop re-hitting WordPress. *Also future-proofs for a
-   CDN — Cloudflare will honor these headers automatically.* Small WordPress change.
+   repeat visits and navigation stop re-hitting WordPress. _Also future-proofs for a
+   CDN — Cloudflare will honor these headers automatically._ Small WordPress change.
 
 3. **Origin-side caching — a WordPress cache plugin.** A page/object/REST cache (e.g.
    WP Super Cache, or a REST cache plugin) stores rendered responses on the host so
-   even a cache *miss* skips the expensive meta queries. *Protects the origin itself;
-   the request still reaches the host but is cheap.* Plugin install.
+   even a cache _miss_ skips the expensive meta queries. _Protects the origin itself;
+   the request still reaches the host but is cheap._ Plugin install.
 
 4. **Edge caching — Cloudflare in front of the API (the big win).** Cloudflare's global
    edge serves the cached JSON to almost everyone, so WordPress sees a trickle of
-   requests instead of a flood. *This is the one that makes bursty traffic a non-event.*
+   requests instead of a flood. _This is the one that makes bursty traffic a non-event._
    Requires the Cloudflare migration (§5).
 
 5. **Build-time static snapshot (maximum resilience).** Fetch all WordPress data once at
    **build/deploy time**, write it to static JSON deployed with the app, and have the
-   frontend read that instead of calling WordPress live. *Visitors never touch WordPress
-   at all — it could go down and the public site stays up.* Trade-off: content changes
+   frontend read that instead of calling WordPress live. _Visitors never touch WordPress
+   at all — it could go down and the public site stays up._ Trade-off: content changes
    only appear after a rebuild (triggered by a webhook on save, a scheduled rebuild, or
    a manual button). Works with **any** host — doesn't need Cloudflare.
 
@@ -128,7 +128,7 @@ cache updates. Three ways to handle it, from best to simplest:
   relies on them remembering.
 
 For content that changes rarely, a **long TTL + save-triggered purge** gives both low
-origin load *and* near-instant updates.
+origin load _and_ near-instant updates.
 
 ---
 
@@ -137,7 +137,7 @@ origin load *and* near-instant updates.
 ### Interim — before Cloudflare (today)
 
 WordPress is **not** yet behind a CDN, so **edge caching (layer 4) isn't available yet.**
-What you *can* do right now to reduce load, in order of effort:
+What you _can_ do right now to reduce load, in order of effort:
 
 - **Layer 1 — `staleTime`:** already partly in place; tune it up across the data hooks.
   Free, in-repo.
@@ -164,7 +164,7 @@ This rides along with the go-live DNS cutover (see the go-live checklist). Steps
    confirmation.
 4. Add the **save-triggered purge hook** so edits stay near-instant.
 
-**What does *not* change:** the React app calls the exact same
+**What does _not_ change:** the React app calls the exact same
 `api.victoriafestivalofauthors.ca/wp-json/...` URLs throughout. It has no idea whether
 those responses come from the browser cache, the origin cache, or Cloudflare's edge —
 the API contract is identical. That's the whole point of the decoupled design, and it's

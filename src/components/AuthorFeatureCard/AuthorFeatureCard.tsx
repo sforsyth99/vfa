@@ -42,7 +42,9 @@ export function AuthorFeatureCard({
   lightAccent = false,
 }: Props) {
   const isMultiEvent = events && events.length > 1;
-  const rootClass = [styles.card, isMultiEvent && styles.cardMulti, className].filter(Boolean).join(' ');
+  const rootClass = [styles.card, isMultiEvent && styles.cardMulti, className]
+    .filter(Boolean)
+    .join(' ');
   const accentStyle = accentColor
     ? ({ ['--card-accent' as string]: accentColor } as React.CSSProperties)
     : undefined;
@@ -51,27 +53,39 @@ export function AuthorFeatureCard({
     <div className={styles.eventList}>
       {events.map((event, i) =>
         event.href ? (
-          <a key={i} href={event.href} target="_blank" rel="noopener noreferrer" className={styles.eventEntry}>
+          <a
+            key={i}
+            href={event.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.eventEntry}
+          >
             <p className={styles.title}>{event.title}</p>
             {event.subtitleLines?.map((line, j) => (
-              <p key={j} className={styles.subtitle}>{line}</p>
+              <p key={j} className={styles.subtitle}>
+                {line}
+              </p>
             ))}
           </a>
         ) : (
           <Link key={i} to={event.to} className={styles.eventEntry}>
             <p className={styles.title}>{event.title}</p>
             {event.subtitleLines?.map((line, j) => (
-              <p key={j} className={styles.subtitle}>{line}</p>
+              <p key={j} className={styles.subtitle}>
+                {line}
+              </p>
             ))}
           </Link>
-        )
+        ),
       )}
     </div>
   ) : (
     <>
       <p className={styles.title}>{events?.[0]?.title ?? title}</p>
       {(events?.[0]?.subtitleLines ?? subtitleLines).map((line, i) => (
-        <p key={i} className={styles.subtitle}>{line}</p>
+        <p key={i} className={styles.subtitle}>
+          {line}
+        </p>
       ))}
     </>
   );
@@ -102,8 +116,33 @@ export function AuthorFeatureCard({
   const singleHref = events?.[0]?.href;
   const singleTo = events?.[0]?.to ?? to;
 
-  if (isMultiEvent) return <div className={rootClass} style={accentStyle}>{inner}</div>;
-  if (singleHref) return <a href={singleHref} target="_blank" rel="noopener noreferrer" className={rootClass} style={accentStyle}>{inner}</a>;
-  if (singleTo) return <Link to={singleTo} className={rootClass} style={accentStyle}>{inner}</Link>;
-  return <div className={rootClass} style={accentStyle}>{inner}</div>;
+  if (isMultiEvent)
+    return (
+      <div className={rootClass} style={accentStyle}>
+        {inner}
+      </div>
+    );
+  if (singleHref)
+    return (
+      <a
+        href={singleHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={rootClass}
+        style={accentStyle}
+      >
+        {inner}
+      </a>
+    );
+  if (singleTo)
+    return (
+      <Link to={singleTo} className={rootClass} style={accentStyle}>
+        {inner}
+      </Link>
+    );
+  return (
+    <div className={rootClass} style={accentStyle}>
+      {inner}
+    </div>
+  );
 }

@@ -6,9 +6,7 @@ export function useGetTags() {
   return useQuery<Tag[]>({
     queryKey: [TAGS_PATH],
     queryFn: async () => {
-      return wretch(TAGS_URL)
-        .get()
-        .json();
+      return wretch(TAGS_URL).get().json();
     },
   });
 }

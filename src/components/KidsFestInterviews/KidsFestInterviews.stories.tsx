@@ -13,13 +13,28 @@ function makeInterview(id: number, name: string): Interview {
     status: 'publish',
     title: { rendered: `Interview with ${name}` },
     interview_data: {
-      authors: [{
-        id, slug: `author-${id}`, name, alternate_name: '', name_pronunciation: '',
-        pronouns: '', pronouns_other: '', bio: '', website_url: '',
-        photo: false, photo_square: false, author_years: [2026],
-        moderator_years: [], curator_years: [], musician_years: [],
-        kidfest_years: [2026], elder_years: [], kidfest_photo: false,
-      }],
+      authors: [
+        {
+          id,
+          slug: `author-${id}`,
+          name,
+          alternate_name: '',
+          name_pronunciation: '',
+          pronouns: '',
+          pronouns_other: '',
+          bio: '',
+          website_url: '',
+          photo: false,
+          photo_square: false,
+          author_years: [2026],
+          moderator_years: [],
+          curator_years: [],
+          musician_years: [],
+          kidfest_years: [2026],
+          elder_years: [],
+          kidfest_photo: false,
+        },
+      ],
       festival_year: 2026,
       book_title: 'A Great Book',
       interviewer_name: 'Alex Chen',
@@ -51,24 +66,18 @@ type Story = StoryObj<typeof KidsFestInterviews>;
 
 export const Default: Story = {
   parameters: {
-    msw: [
-      http.get(`${WP}/interviews`, () => HttpResponse.json(INTERVIEWS)),
-    ],
+    msw: [http.get(`${WP}/interviews`, () => HttpResponse.json(INTERVIEWS))],
   },
 };
 
 export const Empty: Story = {
   parameters: {
-    msw: [
-      http.get(`${WP}/interviews`, () => HttpResponse.json([])),
-    ],
+    msw: [http.get(`${WP}/interviews`, () => HttpResponse.json([]))],
   },
 };
 
 export const Loading: Story = {
   parameters: {
-    msw: [
-      http.get(`${WP}/interviews`, () => new Promise(() => {})),
-    ],
+    msw: [http.get(`${WP}/interviews`, () => new Promise(() => {}))],
   },
 };

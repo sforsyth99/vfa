@@ -34,11 +34,7 @@ describe('sortBySurname', () => {
   });
 
   it('handles names with multiple spaces (uses last word as surname)', () => {
-    const people = [
-      { name: 'Mary Jo Young' },
-      { name: 'Jean-Paul Dupont' },
-      { name: 'Anna Berg' },
-    ];
+    const people = [{ name: 'Mary Jo Young' }, { name: 'Jean-Paul Dupont' }, { name: 'Anna Berg' }];
     expect(sortBySurname(people).map((p) => p.name)).toEqual([
       'Anna Berg',
       'Jean-Paul Dupont',

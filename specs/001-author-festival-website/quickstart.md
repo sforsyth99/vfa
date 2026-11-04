@@ -1,6 +1,7 @@
 # Quickstart: Author's Festival Website
 
 ## Prerequisites
+
 - Node.js (LTS recommended)
 - pnpm (latest)
 
@@ -35,30 +36,37 @@ pnpm run dev
   - `main.tsx` — Entry point
 
 ## Scripts
+
 - `pnpm run dev` — Start development server
 - `pnpm run build` — Build for production
 - `pnpm run preview` — Preview production build
 - `pnpm run test` — Run tests
 
 ## Testing
+
 - Uses vitest, @testing-library/react, @testing-library/user-event, jest-axe
 
 ## Linting & Formatting
+
 - ESLint and Prettier are recommended
 
 ## i18n
+
 - All UI strings are in `src/locales/en.json` and loaded via `react-intl`
 
 ## Accessibility
+
 - Follows WCAG 2.1 AA guidelines
 - Automated and manual accessibility testing required
 
 ## API
+
 - All dynamic data fetched via REST API using TanStack ReactQuery
 
 ## Newsletter
+
 - Newsletter signup integrated with MailChimp
 
 ---
 
-*See plan.md and tasks.md for detailed implementation steps.*
+_See plan.md and tasks.md for detailed implementation steps._

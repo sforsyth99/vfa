@@ -1,204 +1,232 @@
 .section {
-    background: var(--vfa-color-background);
-    padding-block: 3.5rem;
+  background: var(--vfa-color-background);
+  padding-block: 3.5rem;
 }
 
 .sectionDark {
-    background-image: url('../../assets/starry-background-sm.jpg');
-    background-size: cover;
-    background-position: center;
-    padding-block: 3.5rem;
+  background-image: url('../../assets/starry-background-sm.jpg');
+  background-size: cover;
+  background-position: center;
+  padding-block: 3.5rem;
 }
 
 .inner {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 3rem;
-    max-width: var(--vfa-width-page);
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    align-items: start;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  max-width: var(--vfa-width-page);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  align-items: start;
 }
 
 .intro {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-    min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-width: 0;
 }
 
 .eyebrow {
-    font-size: var(--vfa-font-size-eyebrow);
-    font-weight: var(--vfa-font-weight-semibold);
-    letter-spacing: var(--vfa-letter-spacing-eyebrow);
-    text-transform: uppercase;
-    color: var(--vfa-color-forest-mid);
-    margin: 0;
+  font-size: var(--vfa-font-size-eyebrow);
+  font-weight: var(--vfa-font-weight-semibold);
+  letter-spacing: var(--vfa-letter-spacing-eyebrow);
+  text-transform: uppercase;
+  color: var(--vfa-color-forest-mid);
+  margin: 0;
 }
 
 .heading {
-    font-size: clamp(1.3rem, 2.2vw, 1.75rem);
-    font-weight: var(--vfa-font-weight-bold);
-    color: var(--vfa-color-text-heading);
-    margin: 0;
-    line-height: var(--vfa-line-height-tight);
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  font-weight: var(--vfa-font-weight-bold);
+  color: var(--vfa-color-text-heading);
+  margin: 0;
+  line-height: var(--vfa-line-height-tight);
 }
 
 .tagline {
-    font-size: var(--vfa-font-size-base);
-    color: var(--vfa-color-ink-mid);
-    margin: 0.25rem 0 0.5rem;
-    line-height: var(--vfa-line-height-body);
+  font-size: var(--vfa-font-size-base);
+  color: var(--vfa-color-ink-mid);
+  margin: 0.25rem 0 0.5rem;
+  line-height: var(--vfa-line-height-body);
 }
 
 .workshopCard {
-    background: var(--vfa-color-surface);
-    border-radius: 1.5rem;
-    padding: 2rem 2.5rem;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  background: var(--vfa-color-surface);
+  border-radius: 1.5rem;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
 }
 
 .eventList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .eventItem {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--vfa-color-warm-border-mid);
-    min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--vfa-color-warm-border-mid);
+  min-width: 0;
 }
 
 .eventItem:first-child {
-    padding-top: 0;
+  padding-top: 0;
 }
 
 .eventItem:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .eventTitleRow {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: start;
-    column-gap: 0.75rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  column-gap: 0.75rem;
 }
 
 .eventTitle {
-    font-size: var(--vfa-font-size-base);
-    font-weight: var(--vfa-font-weight-medium);
-    color: var(--vfa-color-link);
-    text-decoration: none;
+  font-size: var(--vfa-font-size-base);
+  font-weight: var(--vfa-font-weight-medium);
+  color: var(--vfa-color-link);
+  text-decoration: none;
 }
 
 .eventTitle:hover,
 .eventTitle:focus {
-    color: var(--vfa-color-link-hover);
-    text-decoration: underline;
+  color: var(--vfa-color-link-hover);
+  text-decoration: underline;
 }
 
 .eventHost {
-    font-size: var(--vfa-font-size-xs);
-    color: var(--vfa-color-ink-mid);
+  font-size: var(--vfa-font-size-xs);
+  color: var(--vfa-color-ink-mid);
 }
 
 .eventMeta {
-    font-size: var(--vfa-font-size-xs);
-    font-weight: var(--vfa-font-weight-semibold);
-    color: var(--vfa-color-2026-indigo);
-    padding-top: 0.2em;
+  font-size: var(--vfa-font-size-xs);
+  font-weight: var(--vfa-font-weight-semibold);
+  color: var(--vfa-color-2026-indigo);
+  padding-top: 0.2em;
 }
 
 /* Only keep nowrap when meta is inline next to the title (online callout on desktop) */
 .eventTitleRow .eventMeta {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .eventTitleRight {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
 }
 
 .eventSoldOut {
-    display: inline-block;
-    padding: 0.1em 0.6em;
-    background: var(--vfa-color-2026-coral-pale);
-    color: var(--vfa-color-2026-coral);
-    font-size: var(--vfa-font-size-xs);
-    font-weight: var(--vfa-font-weight-semibold);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    border-radius: var(--vfa-radius-pill);
-    white-space: nowrap;
+  display: inline-block;
+  padding: 0.1em 0.6em;
+  background: var(--vfa-color-2026-coral-pale);
+  color: var(--vfa-color-2026-coral);
+  font-size: var(--vfa-font-size-xs);
+  font-weight: var(--vfa-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--vfa-radius-pill);
+  white-space: nowrap;
 }
 
 /* ── Skeleton ────────────────────────────────────────── */
 
-.skeletonEyebrow    { height: 0.65rem; width: 90px; margin-bottom: 0.25rem; }
-.skeletonHeading    { height: 1.4rem;  width: 100%; }
-.skeletonHeadingShort { height: 1.4rem; width: 65%; margin-bottom: 0.5rem; }
-.skeletonTagline    { height: 0.85rem; width: 100%; }
-.skeletonTaglineShort { height: 0.85rem; width: 80%; }
+.skeletonEyebrow {
+  height: 0.65rem;
+  width: 90px;
+  margin-bottom: 0.25rem;
+}
+.skeletonHeading {
+  height: 1.4rem;
+  width: 100%;
+}
+.skeletonHeadingShort {
+  height: 1.4rem;
+  width: 65%;
+  margin-bottom: 0.5rem;
+}
+.skeletonTagline {
+  height: 0.85rem;
+  width: 100%;
+}
+.skeletonTaglineShort {
+  height: 0.85rem;
+  width: 80%;
+}
 
 .skeletonList {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .skeletonItem {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--vfa-color-warm-border-light);
 }
 
-.skeletonItem:first-child { padding-top: 0; }
-.skeletonItem:last-child  { border-bottom: none; padding-bottom: 0; }
+.skeletonItem:first-child {
+  padding-top: 0;
+}
+.skeletonItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
 
-.skeletonEventTitle { height: 0.9rem; width: 80%; }
-.skeletonEventMeta  { height: 0.7rem; width: 50%; }
+.skeletonEventTitle {
+  height: 0.9rem;
+  width: 80%;
+}
+.skeletonEventMeta {
+  height: 0.7rem;
+  width: 50%;
+}
 
 @media (max-width: 640px) {
-    .section {
-        padding-block: 2.5rem;
-    }
+  .section {
+    padding-block: 2.5rem;
+  }
 
-    .inner {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 
-    .workshopCard {
-        border-radius: 1rem;
-        padding: 1.5rem 1.25rem;
-    }
+  .workshopCard {
+    border-radius: 1rem;
+    padding: 1.5rem 1.25rem;
+  }
 
-    /* Stretch children to the column width so heading text wraps correctly */
-    .intro {
-        align-items: stretch;
-    }
+  /* Stretch children to the column width so heading text wraps correctly */
+  .intro {
+    align-items: stretch;
+  }
 
-    /* Stack date below title on mobile instead of squeezing inline */
-    .eventTitleRow {
-        grid-template-columns: 1fr;
-        gap: 0.2rem;
-    }
+  /* Stack date below title on mobile instead of squeezing inline */
+  .eventTitleRow {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
 
-    /* Allow inline meta to wrap when stacked on mobile */
-    .eventTitleRow .eventMeta {
-        white-space: normal;
-    }
+  /* Allow inline meta to wrap when stacked on mobile */
+  .eventTitleRow .eventMeta {
+    white-space: normal;
+  }
 }

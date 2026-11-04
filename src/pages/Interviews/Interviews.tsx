@@ -18,7 +18,9 @@ export default function InterviewsPage() {
 
   const years = useMemo(() => {
     if (!interviews) return [];
-    const set = new Set(interviews.map(i => i.interview_data?.festival_year).filter(Boolean) as number[]);
+    const set = new Set(
+      interviews.map((i) => i.interview_data?.festival_year).filter(Boolean) as number[],
+    );
     return Array.from(set).sort((a, b) => b - a);
   }, [interviews]);
 
@@ -29,22 +31,31 @@ export default function InterviewsPage() {
 
   const filtered = useMemo(() => {
     if (!interviews) return [];
-    const byYear = !activeYear ? interviews : interviews.filter(i => i.interview_data?.festival_year === activeYear);
+    const byYear = !activeYear
+      ? interviews
+      : interviews.filter((i) => i.interview_data?.festival_year === activeYear);
     return [...byYear].sort((a, b) => {
       const surnameOf = (iv: typeof a) => {
-        const name = sortBySurname(iv.interview_data?.authors ?? [])[0]?.name ?? iv.title?.rendered ?? '';
+        const name =
+          sortBySurname(iv.interview_data?.authors ?? [])[0]?.name ?? iv.title?.rendered ?? '';
         return name.split(' ').slice(-1)[0].toLowerCase();
       };
       return surnameOf(a).localeCompare(surnameOf(b));
     });
   }, [interviews, activeYear]);
 
-  const adultInterviews = useMemo(() => filtered.filter(i => (i.interview_data?.authors?.[0]?.kidfest_years?.length ?? 0) === 0), [filtered]);
+  const adultInterviews = useMemo(
+    () =>
+      filtered.filter((i) => (i.interview_data?.authors?.[0]?.kidfest_years?.length ?? 0) === 0),
+    [filtered],
+  );
 
   return (
     <main id="main-content" className={styles.page}>
       <Container>
-        <PageTitle><FormattedMessage id="interviews.heading" /></PageTitle>
+        <PageTitle>
+          <FormattedMessage id="interviews.heading" />
+        </PageTitle>
 
         {isLoading && (
           <ul className={styles.grid} aria-busy="true">
@@ -59,11 +70,24 @@ export default function InterviewsPage() {
             ))}
           </ul>
         )}
-        {!isLoading && <QueryState isLoading={false} isError={isError} isEmpty={!isError && !interviews?.length} loadingId="interviews.loading" errorId="interviews.error" emptyId="interviews.empty" />}
+        {!isLoading && (
+          <QueryState
+            isLoading={false}
+            isError={isError}
+            isEmpty={!isError && !interviews?.length}
+            loadingId="interviews.loading"
+            errorId="interviews.error"
+            emptyId="interviews.empty"
+          />
+        )}
 
         {interviews && interviews.length > 0 && years.length > 1 && (
-          <div className={styles.yearFilter} role="group" aria-label={intl.formatMessage({ id: 'interviews.yearFilter.label' })}>
-            {years.map(year => (
+          <div
+            className={styles.yearFilter}
+            role="group"
+            aria-label={intl.formatMessage({ id: 'interviews.yearFilter.label' })}
+          >
+            {years.map((year) => (
               <button
                 key={year}
                 className={year === activeYear ? styles.yearButtonActive : styles.yearButton}
@@ -77,7 +101,14 @@ export default function InterviewsPage() {
         )}
 
         {interviews && interviews.length > 0 && filtered.length === 0 && (
-          <QueryState isLoading={false} isError={false} isEmpty={true} loadingId="interviews.loading" emptyId="interviews.emptyYear" emptyValues={{ year: activeYear ?? '' }} />
+          <QueryState
+            isLoading={false}
+            isError={false}
+            isEmpty={true}
+            loadingId="interviews.loading"
+            emptyId="interviews.emptyYear"
+            emptyValues={{ year: activeYear ?? '' }}
+          />
         )}
 
         {interviews && interviews.length > 0 && filtered.length > 0 && (
@@ -88,9 +119,10 @@ export default function InterviewsPage() {
                   const data = interview.interview_data;
                   const authors = sortBySurname(data?.authors ?? []);
                   const primaryAuthor = authors[0];
-                  const authorLabel = authors.length > 0
-                    ? authors.map(a => decodeHtmlEntities(a.name)).join(' & ')
-                    : decodeHtmlEntities(interview.title?.rendered ?? '');
+                  const authorLabel =
+                    authors.length > 0
+                      ? authors.map((a) => decodeHtmlEntities(a.name)).join(' & ')
+                      : decodeHtmlEntities(interview.title?.rendered ?? '');
                   const photoSrc = primaryAuthor?.photo_square
                     ? primaryAuthor.photo_square[0]
                     : primaryAuthor?.photo
@@ -104,7 +136,10 @@ export default function InterviewsPage() {
                       <Link
                         to={`/interviews/${interview.slug}`}
                         className={styles.interviewCard}
-                        aria-label={intl.formatMessage({ id: 'interviews.card.label' }, { name: authorLabel })}
+                        aria-label={intl.formatMessage(
+                          { id: 'interviews.card.label' },
+                          { name: authorLabel },
+                        )}
                       >
                         {photoSrc ? (
                           <div className={styles.photoCircle}>
@@ -118,7 +153,10 @@ export default function InterviewsPage() {
                         <span className={styles.cardName}>{authorLabel}</span>
                         {interviewerName && (
                           <span className={styles.interviewerLine}>
-                            <FormattedMessage id="interviews.card.interviewedBy" values={{ name: interviewerName }} />
+                            <FormattedMessage
+                              id="interviews.card.interviewedBy"
+                              values={{ name: interviewerName }}
+                            />
                           </span>
                         )}
                       </Link>
@@ -127,7 +165,6 @@ export default function InterviewsPage() {
                 })}
               </ul>
             )}
-
           </>
         )}
       </Container>

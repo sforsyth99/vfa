@@ -1,8 +1,8 @@
 interface IcsEvent {
   title: string;
-  date: string;       // "YYYY-MM-DD"
-  timeStart: string;  // "HH:MM" or "HH:MM:SS"
-  timeEnd: string;    // "HH:MM" or "HH:MM:SS"
+  date: string; // "YYYY-MM-DD"
+  timeStart: string; // "HH:MM" or "HH:MM:SS"
+  timeEnd: string; // "HH:MM" or "HH:MM:SS"
   location: string;
   description: string;
   filename: string;
@@ -37,10 +37,22 @@ function foldLine(line: string): string {
 }
 
 function escape(s: string): string {
-  return s.replace(/\\/g, '\\\\').replace(/[,;]/g, (c) => `\\${c}`).replace(/\n/g, '\\n');
+  return s
+    .replace(/\\/g, '\\\\')
+    .replace(/[,;]/g, (c) => `\\${c}`)
+    .replace(/\n/g, '\\n');
 }
 
-export function downloadIcs({ title, date, timeStart, timeEnd, location, description, filename, uid }: IcsEvent): void {
+export function downloadIcs({
+  title,
+  date,
+  timeStart,
+  timeEnd,
+  location,
+  description,
+  filename,
+  uid,
+}: IcsEvent): void {
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',

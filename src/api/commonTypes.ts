@@ -8,7 +8,7 @@ export enum StatusType {
 }
 
 export interface WPHrefLInk {
-  'href': string;
+  href: string;
 }
 
 export interface CuriesLink {

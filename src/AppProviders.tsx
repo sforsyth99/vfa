@@ -19,9 +19,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          {children}
-        </BrowserRouter>
+        <BrowserRouter>{children}</BrowserRouter>
         {/* Dev-gated so Vite strips it from the production bundle entirely */}
         {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
       </QueryClientProvider>

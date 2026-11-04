@@ -1,139 +1,141 @@
 :root {
-    /* ── Fonts ───────────────────────────────────────────── */
-    --vfa-font-body: 'Inter', Arial, sans-serif;
-    --vfa-font-display: 'DM Sans', Arial, sans-serif;
-    --vfa-font-typewriter: 'Courier Prime', 'Courier New', Courier, monospace;
+  /* ── Fonts ───────────────────────────────────────────── */
+  --vfa-font-body: 'Inter', Arial, sans-serif;
+  --vfa-font-display: 'DM Sans', Arial, sans-serif;
+  --vfa-font-typewriter: 'Courier Prime', 'Courier New', Courier, monospace;
 
-    /* ── Font sizes ──────────────────────────────────────── */
-    --vfa-font-size-eyebrow: 0.7rem; /* uppercase labels, section tags */
-    --vfa-font-size-xs: 0.75rem;
-    --vfa-font-size-sm: 0.875rem;
-    --vfa-font-size-base: 1rem;
-    --vfa-font-size-md: 1.05rem;
-    --vfa-font-size-lg: 1.1rem;
-    --vfa-font-size-page-title: 2.4rem;
-    --vfa-font-size-page-title-mobile: 1.9rem;
-    --vfa-font-size-hero: 3rem;
+  /* ── Font sizes ──────────────────────────────────────── */
+  --vfa-font-size-eyebrow: 0.7rem; /* uppercase labels, section tags */
+  --vfa-font-size-xs: 0.75rem;
+  --vfa-font-size-sm: 0.875rem;
+  --vfa-font-size-base: 1rem;
+  --vfa-font-size-md: 1.05rem;
+  --vfa-font-size-lg: 1.1rem;
+  --vfa-font-size-page-title: 2.4rem;
+  --vfa-font-size-page-title-mobile: 1.9rem;
+  --vfa-font-size-hero: 3rem;
 
-    /* ── Font weights ────────────────────────────────────── */
-    --vfa-font-weight-normal: 400;
-    --vfa-font-weight-medium: 500;
-    --vfa-font-weight-semibold: 600;
-    --vfa-font-weight-bold: 700;
+  /* ── Font weights ────────────────────────────────────── */
+  --vfa-font-weight-normal: 400;
+  --vfa-font-weight-medium: 500;
+  --vfa-font-weight-semibold: 600;
+  --vfa-font-weight-bold: 700;
 
-    /* ── Letter spacing ──────────────────────────────────── */
-    --vfa-letter-spacing-eyebrow: 0.18em;
+  /* ── Letter spacing ──────────────────────────────────── */
+  --vfa-letter-spacing-eyebrow: 0.18em;
 
-    /* ── Line heights ────────────────────────────────────── */
-    --vfa-line-height-body: 1.75;
-    --vfa-line-height-tight: 1.3;
-    --vfa-line-height-title: 1.15;
+  /* ── Line heights ────────────────────────────────────── */
+  --vfa-line-height-body: 1.75;
+  --vfa-line-height-tight: 1.3;
+  --vfa-line-height-title: 1.15;
 
-    /* ── Opacity ─────────────────────────────────────────── */
-    --vfa-opacity-hover: 0.75;
-    --vfa-opacity-hover-strong: 0.6;
+  /* ── Opacity ─────────────────────────────────────────── */
+  --vfa-opacity-hover: 0.75;
+  --vfa-opacity-hover-strong: 0.6;
 
-    /* ── Z-index ─────────────────────────────────────────── */
-    --vfa-z-header: 100;
-    --vfa-z-overlay: 1000;
+  /* ── Z-index ─────────────────────────────────────────── */
+  --vfa-z-header: 100;
+  --vfa-z-overlay: 1000;
 
-    /* ── Layout ──────────────────────────────────────────── */
-    --vfa-width-content: 780px; /* reading pages: bio, interview, book */
-    --vfa-width-page: 860px;   /* default content pages: listings, events */
-    --vfa-width-site: 1200px;  /* header, footer, full-bleed promo */
-    --vfa-padding-page: 4rem 2rem 6rem; /* standard page padding */
-    --vfa-padding-x: 2rem;
+  /* ── Layout ──────────────────────────────────────────── */
+  --vfa-width-content: 780px; /* reading pages: bio, interview, book */
+  --vfa-width-page: 860px; /* default content pages: listings, events */
+  --vfa-width-site: 1200px; /* header, footer, full-bleed promo */
+  --vfa-padding-page: 4rem 2rem 6rem; /* standard page padding */
+  --vfa-padding-x: 2rem;
 
-    /* ── Radius ──────────────────────────────────────────── */
-    --vfa-radius-sm: 2px;
-    --vfa-radius-md: 4px;
-    --vfa-radius-lg: 8px;
-    --vfa-radius-card: 12px;
-    --vfa-radius-pill: 999px;
-    --vfa-radius-circle: 50%;
+  /* ── Radius ──────────────────────────────────────────── */
+  --vfa-radius-sm: 2px;
+  --vfa-radius-md: 4px;
+  --vfa-radius-lg: 8px;
+  --vfa-radius-card: 12px;
+  --vfa-radius-pill: 999px;
+  --vfa-radius-circle: 50%;
 
-    /* ── Shadows ─────────────────────────────────────────── */
-    --vfa-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.15);
-    --vfa-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.15);
-    --vfa-shadow-card: 0 2px 16px rgba(0, 0, 0, 0.1);
-    --vfa-shadow-card-hover: 0 6px 24px rgba(0, 0, 0, 0.15);
+  /* ── Shadows ─────────────────────────────────────────── */
+  --vfa-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.15);
+  --vfa-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --vfa-shadow-card: 0 2px 16px rgba(0, 0, 0, 0.1);
+  --vfa-shadow-card-hover: 0 6px 24px rgba(0, 0, 0, 0.15);
 
-    /* ── Transitions ─────────────────────────────────────── */
-    --vfa-transition: 0.15s ease;
-    --vfa-transition-base: 0.2s;
+  /* ── Transitions ─────────────────────────────────────── */
+  --vfa-transition: 0.15s ease;
+  --vfa-transition-base: 0.2s;
 
-    /* ── Colors: primary ─────────────────────────────────── */
-    --vfa-color-primary: #1d3d2f;
-    --vfa-color-primary-dark: #153028;
-    --vfa-color-secondary: #d4cfc8;
-    --vfa-color-background: #f0ece8;
-    --vfa-color-surface: #fff;
-    --vfa-color-text: #222;
-    --vfa-color-text-light: #fff;
-    --vfa-color-border: #ccc;
-    --vfa-color-link: #1d3d2f;
-    --vfa-color-link-hover: #153028;
-    --vfa-color-accent: #ffe066;
-    --vfa-color-error: #e53935;
-    --vfa-color-success: #43a047;
+  /* ── Colors: primary ─────────────────────────────────── */
+  --vfa-color-primary: #1d3d2f;
+  --vfa-color-primary-dark: #153028;
+  --vfa-color-secondary: #d4cfc8;
+  --vfa-color-background: #f0ece8;
+  --vfa-color-surface: #fff;
+  --vfa-color-text: #222;
+  --vfa-color-text-light: #fff;
+  --vfa-color-border: #ccc;
+  --vfa-color-link: #1d3d2f;
+  --vfa-color-link-hover: #153028;
+  --vfa-color-accent: #ffe066;
+  --vfa-color-error: #e53935;
+  --vfa-color-success: #43a047;
 
-    /* ── Colors: ink scale ───────────────────────────────── */
-    --vfa-color-ink-darkest: #1c1917; /* main headings, page text */
-    --vfa-color-ink-dark: #3d3a3f; /* body text, descriptions */
-    --vfa-color-ink-mid: #5a5560; /* secondary text, dates */
-    --vfa-color-ink-light: #7a7580; /* muted text, labels */
-    --vfa-color-ink-placeholder: #999; /* input placeholder */
+  /* ── Colors: ink scale ───────────────────────────────── */
+  --vfa-color-ink-darkest: #1c1917; /* main headings, page text */
+  --vfa-color-ink-dark: #3d3a3f; /* body text, descriptions */
+  --vfa-color-ink-mid: #5a5560; /* secondary text, dates */
+  --vfa-color-ink-light: #7a7580; /* muted text, labels */
+  --vfa-color-ink-placeholder: #999; /* input placeholder */
 
-    /* ── Colors: forest green (brand) ───────────────────── */
-    --vfa-color-forest-darkest: #153028; /* button hover */
-    --vfa-color-forest-dark: #1d3d2f; /* buttons, links, CTAs */
-    --vfa-color-forest-mid: #6b8f7e; /* eyebrows, category labels */
-    --vfa-color-forest-light: #b8cebb; /* light borders */
-    --vfa-color-forest-pale: #d4e0d6; /* tag borders, card borders */
-    --vfa-color-forest-bg: #eef3ef; /* footer, card backgrounds */
+  /* ── Colors: forest green (brand) ───────────────────── */
+  --vfa-color-forest-darkest: #153028; /* button hover */
+  --vfa-color-forest-dark: #1d3d2f; /* buttons, links, CTAs */
+  --vfa-color-forest-mid: #6b8f7e; /* eyebrows, category labels */
+  --vfa-color-forest-light: #b8cebb; /* light borders */
+  --vfa-color-forest-pale: #d4e0d6; /* tag borders, card borders */
+  --vfa-color-forest-bg: #eef3ef; /* footer, card backgrounds */
 
-    /* ── Colors: 2026 festival palette ──────────────────── */
-    --vfa-color-2026-indigo: #42424f;
-    --vfa-color-2026-indigo-mid: #5a4470;
-    --vfa-color-2026-gold: #c4a882;
-    --vfa-color-2026-gold-dark: #a98e6a;
-    --vfa-color-2026-slate: #3d5a6e;
-    --vfa-color-2026-coral: #c84a1c;
-    --vfa-color-2026-coral-pale: #ffeee8;
-    --vfa-color-2026-gold-pale: #fff8e6;
-    --vfa-color-2026-slate-pale: #e8eff8;
+  /* ── Colors: 2026 festival palette ──────────────────── */
+  --vfa-color-2026-indigo: #42424f;
+  --vfa-color-2026-indigo-mid: #5a4470;
+  --vfa-color-2026-gold: #c4a882;
+  --vfa-color-2026-gold-dark: #a98e6a;
+  --vfa-color-2026-slate: #3d5a6e;
+  --vfa-color-2026-coral: #c84a1c;
+  --vfa-color-2026-coral-pale: #ffeee8;
+  --vfa-color-2026-gold-pale: #fff8e6;
+  --vfa-color-2026-slate-pale: #e8eff8;
 
-    /* ── Colors: footer ──────────────────────────────────── */
-    --vfa-color-footer-bg: var(--vfa-color-2026-indigo);
+  /* ── Colors: footer ──────────────────────────────────── */
+  --vfa-color-footer-bg: var(--vfa-color-2026-indigo);
 
-    /* ── Colors: event card ──────────────────────────────── */
-    --vfa-color-event-blue: #4a6dcc;
+  /* ── Colors: event card ──────────────────────────────── */
+  --vfa-color-event-blue: #4a6dcc;
 
-    /* ── Colors: warm neutrals ───────────────────────────── */
-    --vfa-color-warm-border: #d9d4ce; /* section dividers */
-    --vfa-color-warm-border-light: #e8e4e0; /* header, list borders */
-    --vfa-color-warm-border-mid: #c8c2bc; /* filter button borders */
-    --vfa-color-warm-border-faint: #c4bfc8; /* bio link border */
-    --vfa-color-warm-bg: #d4cfc8; /* hover backgrounds */
-    --vfa-color-warm-card-bg: #d6d0c8; /* BlurImageCard background */
+  /* ── Colors: warm neutrals ───────────────────────────── */
+  --vfa-color-warm-border: #d9d4ce; /* section dividers */
+  --vfa-color-warm-border-light: #e8e4e0; /* header, list borders */
+  --vfa-color-warm-border-mid: #c8c2bc; /* filter button borders */
+  --vfa-color-warm-border-faint: #c4bfc8; /* bio link border */
+  --vfa-color-warm-bg: #d4cfc8; /* hover backgrounds */
+  --vfa-color-warm-card-bg: #d6d0c8; /* BlurImageCard background */
 
-    /* ── Colors: UI surfaces & misc ─────────────────────── */
-    --vfa-color-bg-page: #f0ece8;
-    --vfa-color-bg-hover: #f0f0f0;
-    --vfa-color-border-light: #ddd;
-    --vfa-color-border-faint: #eee;
-    --vfa-color-border-sponsor: #e5e5e5;
-    --vfa-color-text-ui: #555;
-    --vfa-color-text-footer: #888;
-    --vfa-color-text-body: #333;
-    --vfa-color-text-heading: #1a1a1a;
-    --vfa-color-hr: #e0e0e0;
-    --vfa-color-table-header: #f5f5f5;
-    --vfa-color-social-icon-bg: #444;
-    --vfa-color-accent-gold: #ffd700;
-    --vfa-color-error-dark: #c0392b;
+  /* ── Colors: UI surfaces & misc ─────────────────────── */
+  --vfa-color-bg-page: #f0ece8;
+  --vfa-color-bg-hover: #f0f0f0;
+  --vfa-color-border-light: #ddd;
+  --vfa-color-border-faint: #eee;
+  --vfa-color-border-sponsor: #e5e5e5;
+  --vfa-color-text-ui: #555;
+  --vfa-color-text-footer: #888;
+  --vfa-color-text-body: #333;
+  --vfa-color-text-heading: #1a1a1a;
+  --vfa-color-hr: #e0e0e0;
+  --vfa-color-table-header: #f5f5f5;
+  --vfa-color-social-icon-bg: #444;
+  --vfa-color-accent-gold: #ffd700;
+  --vfa-color-error-dark: #c0392b;
 }
 
-*, *::before, *::after {
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }

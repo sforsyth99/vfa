@@ -32,7 +32,6 @@ export enum MenuItemType {
   TAXONOMY = 'taxonomy', //categories
 }
 
-
 export enum MenuObjectType {
   PAGE = 'page',
   CUSTOM = 'custom',

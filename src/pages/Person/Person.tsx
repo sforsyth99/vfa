@@ -4,7 +4,10 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetPerson } from '../../api/people/useGetPerson.ts';
 import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
 import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
-import { type PersonInterview, useGetPersonInterviews, } from '../../api/people/useGetPersonInterview.ts';
+import {
+  type PersonInterview,
+  useGetPersonInterviews,
+} from '../../api/people/useGetPersonInterview.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { isSafeUrl } from '../../utils/isSafeUrl.ts';
@@ -136,7 +139,9 @@ export default function PersonPage() {
     (b): b is typeof b & { cover_image: [string, number, number, boolean] } => !!b.cover_image,
   );
   const photoSrc = photo ? photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : null;
-  const photoSquareSrc = photo_square ? photo_square[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : photoSrc;
+  const photoSquareSrc = photo_square
+    ? photo_square[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1')
+    : photoSrc;
   const kidfestPhotoSrc = kidfest_photo
     ? kidfest_photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1')
     : null;
@@ -156,7 +161,12 @@ export default function PersonPage() {
               <img src={kidfestPhotoSrc} alt={name} className={styles.kidsHeroImg} />
             )}
             {kidsBooks.map((book) => (
-              <BookLink key={book.id} slug={book.slug} munrosUrl={book.munros_url} bookTitle={book.title}>
+              <BookLink
+                key={book.id}
+                slug={book.slug}
+                munrosUrl={book.munros_url}
+                bookTitle={book.title}
+              >
                 <img src={book.cover_image[0]} alt={book.title} className={styles.kidsHeroImg} />
               </BookLink>
             ))}
@@ -167,7 +177,12 @@ export default function PersonPage() {
           {!isKidfest && photoSrc && (
             <div className={styles.photoCol}>
               <img src={photoSrc} alt={name} className={styles.authorPhoto} loading="eager" />
-              <img src={photoSquareSrc ?? photoSrc} alt={name} className={styles.authorPhotoMobile} loading="eager" />
+              <img
+                src={photoSquareSrc ?? photoSrc}
+                alt={name}
+                className={styles.authorPhotoMobile}
+                loading="eager"
+              />
             </div>
           )}
           <div className={styles.meta}>
@@ -232,7 +247,10 @@ export default function PersonPage() {
               <div className={styles.eventsCol}>
                 <div className={styles.kidsfestCard}>
                   <p className={styles.kidsfestCardEyebrow}>
-                    <FormattedMessage id="person.kidsfestCard.eyebrow" values={{ firstName: name }} />
+                    <FormattedMessage
+                      id="person.kidsfestCard.eyebrow"
+                      values={{ firstName: name }}
+                    />
                   </p>
                   <p className={styles.kidsfestCardTitle}>
                     <FormattedMessage id="kidsfest.heading" />

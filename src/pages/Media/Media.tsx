@@ -12,14 +12,31 @@ function MediaPage() {
   usePageTitle(intl.formatMessage({ id: 'media.heading' }));
   const { data, isLoading, error } = useGetMedia();
 
-  if (isLoading) return <div><FormattedMessage id="media.loading" /></div>;
-  if (error) return <div><FormattedMessage id="media.error" /></div>;
-  if (!data || data.length === 0) return <div><FormattedMessage id="media.empty" /></div>;
+  if (isLoading)
+    return (
+      <div>
+        <FormattedMessage id="media.loading" />
+      </div>
+    );
+  if (error)
+    return (
+      <div>
+        <FormattedMessage id="media.error" />
+      </div>
+    );
+  if (!data || data.length === 0)
+    return (
+      <div>
+        <FormattedMessage id="media.empty" />
+      </div>
+    );
 
   return (
     <main id="main-content">
       <Container>
-        <PageTitle><FormattedMessage id="media.heading" /></PageTitle>
+        <PageTitle>
+          <FormattedMessage id="media.heading" />
+        </PageTitle>
         <ul>
           {data.slice(0, 5).map((media: Media) => (
             <li key={media.id} className={styles.mediaItem}>

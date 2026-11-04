@@ -16,12 +16,13 @@ Build a modern, accessible, and inclusive festival website using React, TypeScri
 **Target Platform**: Modern browsers (desktop & mobile)
 **Project Type**: Web application (SPA)
 **Performance Goals**: Fast TTI (<1s on modern mobile), Lighthouse 90+ scores
-**Constraints**: All styles in *.module.css, all strings in en.json (using react-intl), no circular dependencies, clean directory structure, WCAG 2.1 AA accessibility
+**Constraints**: All styles in \*.module.css, all strings in en.json (using react-intl), no circular dependencies, clean directory structure, WCAG 2.1 AA accessibility
 **Scale/Scope**: 10-20 screens/components, 1-2k LOC, 5+ data entities
 
 ## Constitution Check
 
 **Gates:**
+
 - All UI as reusable, self-contained components
 - All data fetched via REST API (no direct DB)
 - Automated tests for all components/features
@@ -66,17 +67,20 @@ src/
 ```
 
 **Notes:**
-- All CSS in *.module.css files colocated with components/features
+
+- All CSS in \*.module.css files colocated with components/features
 - All UI strings in src/locales/en.json, loaded via react-intl
 - Use ReactQuery for all API data fetching
 - Use Zustand only for client-side state not covered by ReactQuery
 - Avoid circular dependencies by keeping feature modules independent and using index.ts barrel files only for leaf modules
 
 ## Next Steps
-  
+
 - Phase 0: Research API structure, accessibility patterns, and best practices for ReactQuery, Zustand, and react-intl i18n
 - Phase 1: Data model, contracts, and quickstart guide
 - Phase 2: Task breakdown and implementation
+
+```text
 ├── models/
 ├── services/
 ├── cli/
@@ -117,7 +121,7 @@ directories captured above]
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |

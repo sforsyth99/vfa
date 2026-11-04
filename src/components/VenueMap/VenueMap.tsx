@@ -49,7 +49,11 @@ export default function VenueMap({ venue }: { venue: VenueData }) {
 
     const controller = new AbortController();
 
-    const params = new URLSearchParams({ addressString: geocodingQuery, maxResults: '1', outputSRS: '4326' });
+    const params = new URLSearchParams({
+      addressString: geocodingQuery,
+      maxResults: '1',
+      outputSRS: '4326',
+    });
 
     fetch(`https://geocoder.api.gov.bc.ca/addresses.json?${params}`, { signal: controller.signal })
       .then((r) => r.json())
@@ -77,11 +81,12 @@ export default function VenueMap({ venue }: { venue: VenueData }) {
 
     const map = L.map(mapRef.current, { zoomControl: true, scrollWheelZoom: false }).setView(
       [coords.lat, coords.lon],
-      16
+      16,
     );
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution:
+        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
     }).addTo(map);
 

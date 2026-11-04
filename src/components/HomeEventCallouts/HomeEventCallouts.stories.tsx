@@ -5,7 +5,11 @@ import type { FestivalEvent } from '../../api/festivalEvents/festivalEventTypes'
 
 const WP = 'https://api.victoriafestivalofauthors.ca/wp-json/wp/v2';
 
-function makeEvent(id: number, title: string, overrides: Partial<FestivalEvent['event_data']> = {}): FestivalEvent {
+function makeEvent(
+  id: number,
+  title: string,
+  overrides: Partial<FestivalEvent['event_data']> = {},
+): FestivalEvent {
   return {
     id,
     slug: `event-${id}`,
@@ -26,10 +30,22 @@ function makeEvent(id: number, title: string, overrides: Partial<FestivalEvent['
       eventbrite_image: false,
       description: '',
       venue: {
-        id: 1, slug: 'mcpherson', name: 'McPherson Playhouse', alternate_name: '',
-        name_pronunciation: '', building: '', room: '', street_address: '',
-        city: 'Victoria', province: 'BC', postal_code: '', country: 'Canada',
-        phone: '', website_url: '', description: '', accessibility: '',
+        id: 1,
+        slug: 'mcpherson',
+        name: 'McPherson Playhouse',
+        alternate_name: '',
+        name_pronunciation: '',
+        building: '',
+        room: '',
+        street_address: '',
+        city: 'Victoria',
+        province: 'BC',
+        postal_code: '',
+        country: 'Canada',
+        phone: '',
+        website_url: '',
+        description: '',
+        accessibility: '',
       },
       online_url: '',
       eventbrite_url: '',
@@ -67,9 +83,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BothCallouts: Story = {
   parameters: {
-    msw: [
-      http.get(`${WP}/festival_events`, () => HttpResponse.json(EVENTS)),
-    ],
+    msw: [http.get(`${WP}/festival_events`, () => HttpResponse.json(EVENTS))],
   },
 };
 
@@ -95,16 +109,12 @@ export const OnlineOnly: Story = {
 
 export const Empty: Story = {
   parameters: {
-    msw: [
-      http.get(`${WP}/festival_events`, () => HttpResponse.json([])),
-    ],
+    msw: [http.get(`${WP}/festival_events`, () => HttpResponse.json([]))],
   },
 };
 
 export const Loading: Story = {
   parameters: {
-    msw: [
-      http.get(`${WP}/festival_events`, () => new Promise(() => {})),
-    ],
+    msw: [http.get(`${WP}/festival_events`, () => new Promise(() => {}))],
   },
 };

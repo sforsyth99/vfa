@@ -1,246 +1,273 @@
 .scheduleSection {
-    margin: 2rem 0;
+  margin: 2rem 0;
 }
 
 .scheduleHeading {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .scheduleTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95rem;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
 }
 
 .scheduleTable th {
-    text-align: left;
-    padding: 8px 12px;
-    border-bottom: 2px solid currentColor;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    opacity: var(--vfa-opacity-hover-strong);
-    white-space: nowrap;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 2px solid currentColor;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: var(--vfa-opacity-hover-strong);
+  white-space: nowrap;
 }
 
 .scheduleTable td {
-    padding: 10px 12px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    vertical-align: top;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  vertical-align: top;
 }
 
 .scheduleTable tr:last-child td {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .scheduleDate {
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .scheduleTime {
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-    opacity: var(--vfa-opacity-hover);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  opacity: var(--vfa-opacity-hover);
 }
 
 .scheduleName a {
-    font-weight: var(--vfa-font-weight-semibold);
-    text-decoration: none;
+  font-weight: var(--vfa-font-weight-semibold);
+  text-decoration: none;
 }
 
 .scheduleName a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .scheduleLocation {
-    font-size: var(--vfa-font-size-sm);
-    color: var(--vfa-color-text-ui);
+  font-size: var(--vfa-font-size-sm);
+  color: var(--vfa-color-text-ui);
 }
 
 .scheduleIntro {
-    font-size: 0.95rem;
-    color: var(--vfa-color-text-ui);
-    margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: var(--vfa-color-text-ui);
+  margin: 0 0 1rem;
 }
 
 /* ── Online events CTA ───────────────────────────────── */
 
 .onlineSection {
-    margin: 2rem 0;
-    background: var(--vfa-color-2026-indigo);
-    border-radius: var(--vfa-radius-card);
-    overflow: hidden;
+  margin: 2rem 0;
+  background: var(--vfa-color-2026-indigo);
+  border-radius: var(--vfa-radius-card);
+  overflow: hidden;
 }
 
 .onlineCta {
-    padding: 1.5rem 1.75rem 1.25rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 1.5rem 1.75rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .onlineCtaHeading {
-    font-size: 1.05rem;
-    font-weight: var(--vfa-font-weight-bold);
-    color: var(--vfa-color-text-light);
-    margin: 0 0 0.3rem;
-    line-height: var(--vfa-line-height-tight);
+  font-size: 1.05rem;
+  font-weight: var(--vfa-font-weight-bold);
+  color: var(--vfa-color-text-light);
+  margin: 0 0 0.3rem;
+  line-height: var(--vfa-line-height-tight);
 }
 
 .onlineCtaIntro {
-    font-size: var(--vfa-font-size-sm);
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0;
+  font-size: var(--vfa-font-size-sm);
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
 }
 
 .onlineList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .onlineEvent {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 0.75rem 1.25rem;
-    padding: 0.9rem 1.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  padding: 0.9rem 1.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .onlineEvent:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .onlineEventMeta {
-    font-size: var(--vfa-font-size-sm);
-    color: rgba(255, 255, 255, 0.6);
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-    width: 280px;
-    flex-shrink: 0;
+  font-size: var(--vfa-font-size-sm);
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  width: 280px;
+  flex-shrink: 0;
 }
 
 .onlineEventTitle {
-    font-weight: var(--vfa-font-weight-semibold);
-    font-size: var(--vfa-font-size-base);
-    color: var(--vfa-color-text-light);
-    text-decoration: none;
+  font-weight: var(--vfa-font-weight-semibold);
+  font-size: var(--vfa-font-size-base);
+  color: var(--vfa-color-text-light);
+  text-decoration: none;
 }
 
 .onlineEventTitle:hover {
-    color: var(--vfa-color-2026-gold);
-    text-decoration: none;
+  color: var(--vfa-color-2026-gold);
+  text-decoration: none;
 }
 
 .onlineEventJoin {
-    font-size: var(--vfa-font-size-sm);
-    font-weight: var(--vfa-font-weight-semibold);
-    color: var(--vfa-color-2026-gold);
-    text-decoration: none;
-    white-space: nowrap;
+  font-size: var(--vfa-font-size-sm);
+  font-weight: var(--vfa-font-weight-semibold);
+  color: var(--vfa-color-2026-gold);
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .onlineEventJoin::after {
-    content: '›';
+  content: '›';
   margin-left: 0.25em;
-    display: inline-block;
-    transition: transform var(--vfa-transition);
+  display: inline-block;
+  transition: transform var(--vfa-transition);
 }
 
 .onlineEventJoin:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .onlineEventJoin:hover::after {
-    transform: translateX(2px);
+  transform: translateX(2px);
 }
 
 /* ── Skeleton ────────────────────────────────────────── */
 
 .skeletonSection {
-    margin: 2rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.skeletonHeading { height: 1.3rem; width: 160px; margin-bottom: 1rem; }
+.skeletonHeading {
+  height: 1.3rem;
+  width: 160px;
+  margin-bottom: 1rem;
+}
 
 .skeletonRow {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 10px 12px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.skeletonRow:last-child { border-bottom: none; }
+.skeletonRow:last-child {
+  border-bottom: none;
+}
 
-.skeletonDate     { height: 0.8rem; flex: 0 0 80px; }
-.skeletonTime     { height: 0.8rem; flex: 0 0 90px; }
-.skeletonTitle    { height: 0.8rem; flex: 1; }
-.skeletonLocation { height: 0.8rem; flex: 0 0 120px; }
-
-@media (max-width: 640px) {
-    .skeletonRow { flex-wrap: wrap; }
-    .skeletonDate, .skeletonTime { flex-basis: 40%; }
-    .skeletonTitle    { flex-basis: 100%; }
-    .skeletonLocation { flex-basis: 60%; }
+.skeletonDate {
+  height: 0.8rem;
+  flex: 0 0 80px;
+}
+.skeletonTime {
+  height: 0.8rem;
+  flex: 0 0 90px;
+}
+.skeletonTitle {
+  height: 0.8rem;
+  flex: 1;
+}
+.skeletonLocation {
+  height: 0.8rem;
+  flex: 0 0 120px;
 }
 
 @media (max-width: 640px) {
-    .onlineEvent {
-        grid-template-columns: 1fr auto;
-        grid-template-rows: auto auto;
-        padding: 0.9rem 1.25rem;
-    }
+  .skeletonRow {
+    flex-wrap: wrap;
+  }
+  .skeletonDate,
+  .skeletonTime {
+    flex-basis: 40%;
+  }
+  .skeletonTitle {
+    flex-basis: 100%;
+  }
+  .skeletonLocation {
+    flex-basis: 60%;
+  }
+}
 
-    .onlineEventMeta {
-        grid-column: 1 / -1;
-        min-width: 0;
-    }
+@media (max-width: 640px) {
+  .onlineEvent {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    padding: 0.9rem 1.25rem;
+  }
+
+  .onlineEventMeta {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
 }
 
 /* ── Mobile: table → stacked cards ──────────────────── */
 
 @media (max-width: 640px) {
-    .scheduleTable thead {
-        display: none;
-    }
+  .scheduleTable thead {
+    display: none;
+  }
 
-    .scheduleTable tbody tr {
-        display: block;
-        padding: 0.9rem 0;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    }
+  .scheduleTable tbody tr {
+    display: block;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
 
-    .scheduleTable tbody tr:last-child {
-        border-bottom: none;
-    }
+  .scheduleTable tbody tr:last-child {
+    border-bottom: none;
+  }
 
-    .scheduleTable td {
-        display: flex;
-        gap: 0.6rem;
-        align-items: baseline;
-        padding: 0.15rem 0;
-        border: none;
-        font-size: 0.9rem;
-    }
+  .scheduleTable td {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+    padding: 0.15rem 0;
+    border: none;
+    font-size: 0.9rem;
+  }
 
-    .scheduleTable td::before {
-        content: attr(data-label);
-        font-size: 0.68rem;
-        font-weight: var(--vfa-font-weight-semibold);
-        text-transform: uppercase;
-        letter-spacing: 0.07em;
-        color: var(--vfa-color-ink-light);
-        min-width: 48px;
-        flex-shrink: 0;
-        padding-top: 0.15em;
-    }
+  .scheduleTable td::before {
+    content: attr(data-label);
+    font-size: 0.68rem;
+    font-weight: var(--vfa-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--vfa-color-ink-light);
+    min-width: 48px;
+    flex-shrink: 0;
+    padding-top: 0.15em;
+  }
 
-    .scheduleDate,
-    .scheduleTime {
-        white-space: normal;
-    }
+  .scheduleDate,
+  .scheduleTime {
+    white-space: normal;
+  }
 }

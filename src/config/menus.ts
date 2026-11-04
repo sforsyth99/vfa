@@ -56,8 +56,17 @@ export const FOOTER_NAV: FooterNavGroup[] = [
   {
     heading: 'Support the Festival',
     items: [
-      { label: 'Get Tickets', to: 'https://www.eventbrite.ca/o/victoria-festival-of-authors-11095513695', external: true },
-      { label: 'Donate', to: 'https://www.canadahelps.org/en/charities/victoria-festival-of-authors-society/', external: true, trackingLabel: 'donate' },
+      {
+        label: 'Get Tickets',
+        to: 'https://www.eventbrite.ca/o/victoria-festival-of-authors-11095513695',
+        external: true,
+      },
+      {
+        label: 'Donate',
+        to: 'https://www.canadahelps.org/en/charities/victoria-festival-of-authors-society/',
+        external: true,
+        trackingLabel: 'donate',
+      },
       { label: 'Volunteer', to: '/become-a-volunteer' },
       { label: 'Become a Sponsor', to: '/sponsor-us' },
     ],

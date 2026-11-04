@@ -84,11 +84,11 @@ export default function ArchivesPage() {
                           <Link to={`/${post.slug}`} className={styles.item}>
                             <span className={styles.itemInfo}>
                               <span className={styles.title}>{cleanTitle(post.title)}</span>
-                              {post.year && (
-                                <span className={styles.year}>({post.year})</span>
-                              )}
+                              {post.year && <span className={styles.year}>({post.year})</span>}
                             </span>
-                            <span className={styles.chevron} aria-hidden="true">›</span>
+                            <span className={styles.chevron} aria-hidden="true">
+                              ›
+                            </span>
                           </Link>
                         </li>
                       ))}

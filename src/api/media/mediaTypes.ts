@@ -45,14 +45,17 @@ export interface Media {
     height: number;
     file: string;
     filesize?: number;
-    sizes?: Record<string, {
-      file: string;
-      width: number;
-      height: number;
-      filesize?: number;
-      mime_type: string;
-      source_url: string;
-    }>;
+    sizes?: Record<
+      string,
+      {
+        file: string;
+        width: number;
+        height: number;
+        filesize?: number;
+        mime_type: string;
+        source_url: string;
+      }
+    >;
     image_meta?: Record<string, unknown>;
   };
   post: number;

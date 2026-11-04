@@ -1,29 +1,29 @@
 .section {
-    width: 100%;
+  width: 100%;
 }
 
 .default {
-    padding-block: 4rem;
+  padding-block: 4rem;
 }
 
 .large {
-    padding-block: 6rem;
+  padding-block: 6rem;
 }
 
 .compact {
-    padding-block: 2rem;
+  padding-block: 2rem;
 }
 
 @media (max-width: 640px) {
-    .default {
-        padding-block: 2.5rem;
-    }
+  .default {
+    padding-block: 2.5rem;
+  }
 
-    .large {
-        padding-block: 3.5rem;
-    }
+  .large {
+    padding-block: 3.5rem;
+  }
 
-    .compact {
-        padding-block: 1.5rem;
-    }
+  .compact {
+    padding-block: 1.5rem;
+  }
 }

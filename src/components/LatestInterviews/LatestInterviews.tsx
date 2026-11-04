@@ -27,14 +27,17 @@ export function LatestInterviews() {
     updateScrollState();
   }, [interviews, updateScrollState]);
 
-  if (isLoading) return (
-    <section className={styles.section} aria-busy="true">
-      <SkeletonBlock className={styles.skeletonHeading} />
-      <div className={styles.skeletonTrack}>
-        {[0, 1, 2, 3, 4].map((i) => <SkeletonBlock key={i} className={styles.skeletonCard} />)}
-      </div>
-    </section>
-  );
+  if (isLoading)
+    return (
+      <section className={styles.section} aria-busy="true">
+        <SkeletonBlock className={styles.skeletonHeading} />
+        <div className={styles.skeletonTrack}>
+          {[0, 1, 2, 3, 4].map((i) => (
+            <SkeletonBlock key={i} className={styles.skeletonCard} />
+          ))}
+        </div>
+      </section>
+    );
   if (!interviews?.length) return null;
 
   const latest = interviews
@@ -58,11 +61,7 @@ export function LatestInterviews() {
         </Link>
       </div>
 
-      <div
-        className={styles.carouselWrapper}
-        data-can-prev={canPrev}
-        data-can-next={canNext}
-      >
+      <div className={styles.carouselWrapper} data-can-prev={canPrev} data-can-next={canNext}>
         <button
           className={`${styles.arrow} ${styles.arrowPrev}`}
           onClick={() => scroll('prev')}
@@ -77,9 +76,10 @@ export function LatestInterviews() {
             const data = interview.interview_data;
             const authors = sortBySurname(data?.authors ?? []);
             const primaryAuthor = authors[0];
-            const authorLabel = authors.length > 0
-              ? authors.map(a => decodeHtmlEntities(a.name)).join(' & ')
-              : decodeHtmlEntities(interview.title?.rendered ?? '');
+            const authorLabel =
+              authors.length > 0
+                ? authors.map((a) => decodeHtmlEntities(a.name)).join(' & ')
+                : decodeHtmlEntities(interview.title?.rendered ?? '');
             const photoSrc = primaryAuthor?.photo_square
               ? primaryAuthor.photo_square[0]
               : primaryAuthor?.photo
@@ -93,7 +93,10 @@ export function LatestInterviews() {
                 <Link
                   to={`/interviews/${interview.slug}`}
                   className={styles.card}
-                  aria-label={intl.formatMessage({ id: 'interviews.card.label' }, { name: authorLabel })}
+                  aria-label={intl.formatMessage(
+                    { id: 'interviews.card.label' },
+                    { name: authorLabel },
+                  )}
                 >
                   {photoSrc ? (
                     <div className={styles.photoCircle}>
@@ -107,7 +110,10 @@ export function LatestInterviews() {
                   <span className={styles.cardName}>{authorLabel}</span>
                   {interviewerName && (
                     <span className={styles.interviewerLine}>
-                      <FormattedMessage id="interviews.card.interviewedBy" values={{ name: interviewerName }} />
+                      <FormattedMessage
+                        id="interviews.card.interviewedBy"
+                        values={{ name: interviewerName }}
+                      />
                     </span>
                   )}
                 </Link>

@@ -36,7 +36,9 @@ export default function BooksPage() {
   return (
     <main id="main-content" className={styles.page}>
       <Container>
-        <PageTitle><FormattedMessage id="books.pageTitle" /></PageTitle>
+        <PageTitle>
+          <FormattedMessage id="books.pageTitle" />
+        </PageTitle>
 
         <QueryState
           isLoading={isLoading}
@@ -58,7 +60,9 @@ export default function BooksPage() {
         )}
 
         {!isLoading && !isError && filtered.length === 0 && (
-          <p className={styles.empty}><FormattedMessage id="books.empty" /></p>
+          <p className={styles.empty}>
+            <FormattedMessage id="books.empty" />
+          </p>
         )}
 
         {!isLoading && !isError && filtered.length > 0 && (
@@ -90,11 +94,14 @@ export default function BooksPage() {
                     </div>
                     <span className={styles.title}>{title}</span>
                   </BookLink>
-                  {authorName && (
-                    authorSlug
-                      ? <Link to={`/people/${authorSlug}`} className={styles.author}>{authorName}</Link>
-                      : <span className={styles.author}>{authorName}</span>
-                  )}
+                  {authorName &&
+                    (authorSlug ? (
+                      <Link to={`/people/${authorSlug}`} className={styles.author}>
+                        {authorName}
+                      </Link>
+                    ) : (
+                      <span className={styles.author}>{authorName}</span>
+                    ))}
                 </li>
               );
             })}

@@ -6,10 +6,7 @@ export function useGetPostById({ postId }: { postId: number }) {
   return useQuery<Post>({
     queryKey: [`${POSTS_PATH}/${postId}`],
     queryFn: async () => {
-      return wretch(`${POSTS_URL}/${postId}`)
-        .get()
-        .json();
+      return wretch(`${POSTS_URL}/${postId}`).get().json();
     },
   });
 }
-

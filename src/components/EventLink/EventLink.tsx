@@ -13,7 +13,11 @@ interface Props {
 
 export function EventLink({ slug, isKidfest, eventType, className, onClick, children }: Props) {
   if (isKidfest && eventType === 'author_fair') {
-    return <Link to="/kidsfest2026" className={className} onClick={onClick}>{children}</Link>;
+    return (
+      <Link to="/kidsfest2026" className={className} onClick={onClick}>
+        {children}
+      </Link>
+    );
   }
   return (
     <Link to={eventPath(slug)} className={className} onClick={onClick}>

@@ -37,7 +37,9 @@ function KidsFestHero({ mainEvent }: { mainEvent: FestivalEvent | null }) {
     if (!mainEvent) return;
     const { event_date, time_start, time_end, venue } = mainEvent.event_data;
     const title = decodeHtmlEntities(mainEvent.title?.rendered ?? '');
-    const locationParts = [venue?.name, venue?.street_address, venue?.city, venue?.province].filter(Boolean);
+    const locationParts = [venue?.name, venue?.street_address, venue?.city, venue?.province].filter(
+      Boolean,
+    );
     track({ name: 'add_to_calendar', event_label: title, event_location: 'hero' });
     downloadIcs({
       title,
@@ -55,30 +57,30 @@ function KidsFestHero({ mainEvent }: { mainEvent: FestivalEvent | null }) {
     <section className={styles.hero}>
       <div className={styles.heroInner}>
         <div className={styles.heroContent}>
-          <p className={styles.heroEyebrow}>
-            {intl.formatMessage({ id: 'kidsfest.eyebrow' })}
-          </p>
-          <h1 className={styles.heroHeading}>
-            {intl.formatMessage({ id: 'kidsfest.heading' })}
-          </h1>
-          <p className={styles.heroTagline}>
-            {intl.formatMessage({ id: 'kidsfest.tagline' })}
-          </p>
+          <p className={styles.heroEyebrow}>{intl.formatMessage({ id: 'kidsfest.eyebrow' })}</p>
+          <h1 className={styles.heroHeading}>{intl.formatMessage({ id: 'kidsfest.heading' })}</h1>
+          <p className={styles.heroTagline}>{intl.formatMessage({ id: 'kidsfest.tagline' })}</p>
           <dl className={styles.heroDetails}>
             <div className={styles.heroDetailRow}>
-              <dt className={styles.heroDetailLabel}>{intl.formatMessage({ id: 'common.date' })}</dt>
+              <dt className={styles.heroDetailLabel}>
+                {intl.formatMessage({ id: 'common.date' })}
+              </dt>
               <dd className={styles.heroDetailValue}>
                 {intl.formatMessage({ id: 'kidsfest.date' })}
               </dd>
             </div>
             <div className={styles.heroDetailRow}>
-              <dt className={styles.heroDetailLabel}>{intl.formatMessage({ id: 'common.time' })}</dt>
+              <dt className={styles.heroDetailLabel}>
+                {intl.formatMessage({ id: 'common.time' })}
+              </dt>
               <dd className={styles.heroDetailValue}>
                 {intl.formatMessage({ id: 'kidsfest.time' })}
               </dd>
             </div>
             <div className={styles.heroDetailRow}>
-              <dt className={styles.heroDetailLabel}>{intl.formatMessage({ id: 'common.where' })}</dt>
+              <dt className={styles.heroDetailLabel}>
+                {intl.formatMessage({ id: 'common.where' })}
+              </dt>
               <dd className={styles.heroDetailValue}>
                 {intl.formatMessage({ id: 'kidsfest.venue' })}
                 <span className={styles.heroAddress}>
@@ -92,10 +94,7 @@ function KidsFestHero({ mainEvent }: { mainEvent: FestivalEvent | null }) {
               {intl.formatMessage({ id: 'kidsfest2026.mainEvent.free' })}
             </p>
             {mainEvent && (
-              <button
-                className={styles.heroCalendarButton}
-                onClick={handleAddToCalendar}
-              >
+              <button className={styles.heroCalendarButton} onClick={handleAddToCalendar}>
                 {intl.formatMessage({ id: 'kidsfest2026.mainEvent.addToCalendar' })}
               </button>
             )}
@@ -111,11 +110,19 @@ function sortKidfestEvents(events: FestivalEvent[] | undefined) {
     .filter((e) => e.event_data.is_kidfest)
     .sort((a, b) => {
       const dateCmp = a.event_data.event_date.localeCompare(b.event_data.event_date);
-      return dateCmp !== 0 ? dateCmp : a.event_data.time_start.localeCompare(b.event_data.time_start);
+      return dateCmp !== 0
+        ? dateCmp
+        : a.event_data.time_start.localeCompare(b.event_data.time_start);
     });
 }
 
-function KidsFestWorkshops({ events, isLoading }: { events: FestivalEvent[] | undefined; isLoading: boolean }) {
+function KidsFestWorkshops({
+  events,
+  isLoading,
+}: {
+  events: FestivalEvent[] | undefined;
+  isLoading: boolean;
+}) {
   const intl = useIntl();
 
   if (isLoading) return null;
@@ -136,39 +143,63 @@ function KidsFestWorkshops({ events, isLoading }: { events: FestivalEvent[] | un
         {intl.formatMessage({ id: 'kidsfest2026.workshops.description' })}
       </p>
       <ul className={styles.eventList}>
-      {otherEvents.map((event) => {
-        const { time_start, time_end, venue, age_range, event_type, tickets, summary } = event.event_data;
-        const isWorkshop = event_type === 'workshop';
-        const timeStr = time_start
-          ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
-          : '';
-        const priceTicket = tickets.find((t) => t.type === 'in_person') ?? tickets[0];
-        const priceMin = priceTicket?.price_min ?? null;
-        const price = priceMin === null ? null : priceMin === 0 ? intl.formatMessage({ id: 'events.free' }) : `$${Number.isInteger(priceMin) ? priceMin : priceMin.toFixed(2)}`;
-        const title = decodeHtmlEntities(event.title?.rendered ?? '');
-        return (
-          <li key={event.id} className={styles.eventCard}>
-            <div className={styles.eventMeta}>
-              {isWorkshop && (
-                <span className={styles.workshopBadge}>
-                  {intl.formatMessage({ id: 'kidsfest2026.workshop.badge' })}
-                </span>
-              )}
-              {timeStr && <span className={styles.eventTime}>{timeStr}</span>}
-              {age_range && <span className={styles.eventAge}>{intl.formatMessage({ id: 'kidsfest2026.event.ageRange' }, { range: age_range })}</span>}
-              <span className={styles.eventPrice}>{price}</span>
-            </div>
-            <h3 className={styles.eventTitle}>
-              <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type}>{title}</EventLink>
-            </h3>
-            {summary && <p className={styles.eventSummary}>{summary}</p>}
-            {venue?.name && <p className={styles.eventVenue}>{venue.name}</p>}
-            <EventLink slug={event.slug} isKidfest={event.event_data.is_kidfest} eventType={event.event_data.event_type} className={styles.eventLink}>
-              {intl.formatMessage({ id: 'kidsfest2026.events.details' })}
-            </EventLink>
-          </li>
-        );
-      })}
+        {otherEvents.map((event) => {
+          const { time_start, time_end, venue, age_range, event_type, tickets, summary } =
+            event.event_data;
+          const isWorkshop = event_type === 'workshop';
+          const timeStr = time_start
+            ? `${formatTime(time_start)}${time_end ? ` – ${formatTime(time_end)}` : ''}`
+            : '';
+          const priceTicket = tickets.find((t) => t.type === 'in_person') ?? tickets[0];
+          const priceMin = priceTicket?.price_min ?? null;
+          const price =
+            priceMin === null
+              ? null
+              : priceMin === 0
+                ? intl.formatMessage({ id: 'events.free' })
+                : `$${Number.isInteger(priceMin) ? priceMin : priceMin.toFixed(2)}`;
+          const title = decodeHtmlEntities(event.title?.rendered ?? '');
+          return (
+            <li key={event.id} className={styles.eventCard}>
+              <div className={styles.eventMeta}>
+                {isWorkshop && (
+                  <span className={styles.workshopBadge}>
+                    {intl.formatMessage({ id: 'kidsfest2026.workshop.badge' })}
+                  </span>
+                )}
+                {timeStr && <span className={styles.eventTime}>{timeStr}</span>}
+                {age_range && (
+                  <span className={styles.eventAge}>
+                    {intl.formatMessage(
+                      { id: 'kidsfest2026.event.ageRange' },
+                      { range: age_range },
+                    )}
+                  </span>
+                )}
+                <span className={styles.eventPrice}>{price}</span>
+              </div>
+              <h3 className={styles.eventTitle}>
+                <EventLink
+                  slug={event.slug}
+                  isKidfest={event.event_data.is_kidfest}
+                  eventType={event.event_data.event_type}
+                >
+                  {title}
+                </EventLink>
+              </h3>
+              {summary && <p className={styles.eventSummary}>{summary}</p>}
+              {venue?.name && <p className={styles.eventVenue}>{venue.name}</p>}
+              <EventLink
+                slug={event.slug}
+                isKidfest={event.event_data.is_kidfest}
+                eventType={event.event_data.event_type}
+                className={styles.eventLink}
+              >
+                {intl.formatMessage({ id: 'kidsfest2026.events.details' })}
+              </EventLink>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
@@ -246,7 +277,7 @@ function KidsFestReadBooks() {
     });
   if (!kidsBooks.length) return null;
 
-  const renderCover = (book: typeof kidsBooks[0]) => {
+  const renderCover = (book: (typeof kidsBooks)[0]) => {
     const cover = book.book_data?.cover_image;
     const title = decodeHtmlEntities(book.title?.rendered ?? '');
     return (
@@ -280,9 +311,7 @@ function KidsFestReadBooks() {
           {intl.formatMessage({ id: 'kidsfest2026.readBooks.blurb' })}
         </p>
       </div>
-      <div className={styles.rbGrid}>
-        {kidsBooks.slice(0, 12).map(renderCover)}
-      </div>
+      <div className={styles.rbGrid}>{kidsBooks.slice(0, 12).map(renderCover)}</div>
     </section>
   );
 }
@@ -293,7 +322,11 @@ function KidsFestYouthReading() {
   const handleAddToCalendar = () => {
     const icsTitle = intl.formatMessage({ id: 'kidsfest2026.youthReading.icsTitle' });
     const location = `${intl.formatMessage({ id: 'kidsfest.venue' })}, ${intl.formatMessage({ id: 'kidsfest.address' })}`;
-    track({ name: 'add_to_calendar', event_label: intl.formatMessage({ id: 'kidsfest2026.youthReading.heading' }), event_location: 'youth_reading' });
+    track({
+      name: 'add_to_calendar',
+      event_label: intl.formatMessage({ id: 'kidsfest2026.youthReading.heading' }),
+      event_location: 'youth_reading',
+    });
     downloadIcs({
       title: icsTitle,
       date: '2026-10-17',
@@ -317,9 +350,7 @@ function KidsFestYouthReading() {
       <p className={styles.youthDescription}>
         {intl.formatMessage({ id: 'kidsfest2026.youthReading.description' })}
       </p>
-      <p className={styles.youthDate}>
-        {intl.formatMessage({ id: 'kidsfest.date' })}
-      </p>
+      <p className={styles.youthDate}>{intl.formatMessage({ id: 'kidsfest.date' })}</p>
       <p className={styles.youthTime}>
         {intl.formatMessage({ id: 'kidsfest2026.youthReading.time' })}
       </p>
@@ -340,7 +371,7 @@ function KidsFestMeetAuthors() {
   const { data: authorData } = useGetKidfestAuthors(CURRENT_YEAR);
 
   const authors = (authorData ?? [])
-    .filter((a) => !(a.elder_years?.includes(CURRENT_YEAR)))
+    .filter((a) => !a.elder_years?.includes(CURRENT_YEAR))
     .sort((a, b) => {
       const surname = (name: string) => name.trim().split(/\s+/).at(-1)!.toLowerCase();
       return surname(a.name).localeCompare(surname(b.name));
@@ -355,13 +386,15 @@ function KidsFestMeetAuthors() {
   const renderPhoto = (author: PersonData) => {
     const photoSrc = author.kidfest_photo || author.photo;
     return (
-      <Link
-        key={author.id}
-        to={`/people/${author.slug}`}
-        className={styles.maPhotoCell}
-      >
+      <Link key={author.id} to={`/people/${author.slug}`} className={styles.maPhotoCell}>
         {photoSrc ? (
-          <img src={photoSrc[0]} alt="" aria-hidden="true" className={styles.maPhoto} loading="lazy" />
+          <img
+            src={photoSrc[0]}
+            alt=""
+            aria-hidden="true"
+            className={styles.maPhoto}
+            loading="lazy"
+          />
         ) : (
           <div className={styles.maPlaceholder} aria-hidden="true">
             {author.name.trim().charAt(0)}
@@ -386,11 +419,10 @@ function KidsFestMeetAuthors() {
             {intl.formatMessage({ id: 'kidsfest2026.meetAuthors.authors' })}
           </h2>
           <p className={styles.maTextDate}>
-            {intl.formatMessage({ id: 'kidsfest.date' })} · {intl.formatMessage({ id: 'kidsfest.time' })}
+            {intl.formatMessage({ id: 'kidsfest.date' })} ·{' '}
+            {intl.formatMessage({ id: 'kidsfest.time' })}
           </p>
-          <p className={styles.maTextVenue}>
-            {intl.formatMessage({ id: 'kidsfest.venue' })}
-          </p>
+          <p className={styles.maTextVenue}>{intl.formatMessage({ id: 'kidsfest.venue' })}</p>
           <p className={styles.maTextFree}>
             {intl.formatMessage({ id: 'kidsfest2026.meetAuthors.free' })}
           </p>
@@ -411,9 +443,10 @@ export default function KidsFest2026Page() {
   usePageTitle(intl.formatMessage({ id: 'kidsfest2026.pageTitle' }));
 
   const { data: events, isLoading } = useGetFestivalEvents();
-  const mainEvent = (events ?? []).find(
-    (e) => e.event_data.is_kidfest && e.event_data.event_type === 'author_fair',
-  ) ?? null;
+  const mainEvent =
+    (events ?? []).find(
+      (e) => e.event_data.is_kidfest && e.event_data.event_type === 'author_fair',
+    ) ?? null;
 
   return (
     <main id="main-content">

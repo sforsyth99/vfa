@@ -1,227 +1,229 @@
 .header {
-    background: var(--vfa-color-surface);
-    color: var(--vfa-color-ink-darkest);
-    padding: 0.75rem 1.5rem;
-    border-bottom: 1px solid var(--vfa-color-warm-border-light);
-    position: sticky;
-    top: 0;
-    z-index: var(--vfa-z-header);
+  background: var(--vfa-color-surface);
+  color: var(--vfa-color-ink-darkest);
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--vfa-color-warm-border-light);
+  position: sticky;
+  top: 0;
+  z-index: var(--vfa-z-header);
 }
 
 .headerInner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: var(--vfa-width-site);
-    margin: 0 auto;
-    gap: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--vfa-width-site);
+  margin: 0 auto;
+  gap: 2rem;
 }
 
 .logoLink {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .logo {
-    height: 48px;
-    width: auto;
-    display: block;
+  height: 48px;
+  width: auto;
+  display: block;
 }
 
 /* ── Desktop nav ─────────────────────────────────────── */
 
 .nav {
-    flex: 1;
+  flex: 1;
 }
 
 .navList {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
 }
 
 .navList a {
-    color: var(--vfa-color-ink-darkest);
-    text-decoration: none;
-    font-weight: var(--vfa-font-weight-medium);
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
-    transition: color var(--vfa-transition-base);
+  color: var(--vfa-color-ink-darkest);
+  text-decoration: none;
+  font-weight: var(--vfa-font-weight-medium);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  transition: color var(--vfa-transition-base);
 }
 
 .navList a:hover {
-    color: var(--vfa-color-2026-indigo);
+  color: var(--vfa-color-2026-indigo);
 }
 
 .navList a.navLinkCurrent {
-    color: var(--vfa-color-2026-indigo);
-    text-decoration: underline;
-    text-decoration-color: var(--vfa-color-2026-gold);
-    text-underline-offset: 5px;
-    text-decoration-thickness: 2px;
+  color: var(--vfa-color-2026-indigo);
+  text-decoration: underline;
+  text-decoration-color: var(--vfa-color-2026-gold);
+  text-underline-offset: 5px;
+  text-decoration-thickness: 2px;
 }
 
 .navList .navItemActive a {
-    background: var(--vfa-color-2026-gold);
-    color: var(--vfa-color-2026-indigo);
-    padding: 0.25em 0.7em;
-    border-radius: var(--vfa-radius-md);
+  background: var(--vfa-color-2026-gold);
+  color: var(--vfa-color-2026-indigo);
+  padding: 0.25em 0.7em;
+  border-radius: var(--vfa-radius-md);
 }
 
 .navList .navItemActive a:hover {
-    color: var(--vfa-color-2026-indigo);
-    opacity: 0.85;
+  color: var(--vfa-color-2026-indigo);
+  opacity: 0.85;
 }
 
 .ticketsButton {
-    display: inline-block;
-    padding: 0.45em 1.2em;
-    background: var(--vfa-color-2026-coral);
-    color: var(--vfa-color-text-light);
-    font-weight: var(--vfa-font-weight-bold);
-    font-size: 0.95em;
-    border-radius: var(--vfa-radius-md);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background var(--vfa-transition-base);
+  display: inline-block;
+  padding: 0.45em 1.2em;
+  background: var(--vfa-color-2026-coral);
+  color: var(--vfa-color-text-light);
+  font-weight: var(--vfa-font-weight-bold);
+  font-size: 0.95em;
+  border-radius: var(--vfa-radius-md);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--vfa-transition-base);
 }
 
 .ticketsButton:hover,
 .ticketsButton:focus {
-    background: #a83a15;
-    color: var(--vfa-color-text-light);
+  background: #a83a15;
+  color: var(--vfa-color-text-light);
 }
 
 .headerRight {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 /* ── Hamburger button (hidden on desktop) ────────────── */
 
 .menuButton {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 24px;
-    height: 18px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    flex-shrink: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
 }
 
 .bar {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--vfa-color-ink-darkest);
-    border-radius: 2px;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--vfa-color-ink-darkest);
+  border-radius: 2px;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .menuButtonOpen .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+  transform: translateY(8px) rotate(45deg);
 }
 
 .menuButtonOpen .bar:nth-child(2) {
-    opacity: 0;
+  opacity: 0;
 }
 
 .menuButtonOpen .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-8px) rotate(-45deg);
 }
 
 /* Donate link inside mobile menu (hidden on desktop) */
 .ticketsMobile {
-    display: none;
+  display: none;
 }
 
 /* ── Mobile ──────────────────────────────────────────── */
 
 @media (max-width: 768px) {
-    .header {
-        padding: 0.75rem 1rem;
-    }
+  .header {
+    padding: 0.75rem 1rem;
+  }
 
-    .headerInner {
-        gap: 1rem;
-    }
+  .headerInner {
+    gap: 1rem;
+  }
 
-    .menuButton {
-        display: flex;
-    }
+  .menuButton {
+    display: flex;
+  }
 
-    .ticketsButton {
-        display: none;
-    }
+  .ticketsButton {
+    display: none;
+  }
 
-    .nav {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: var(--vfa-color-surface);
-        border-bottom: 1px solid var(--vfa-color-warm-border-light);
-        padding: 0.5rem 1.5rem 1.5rem;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-    }
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--vfa-color-surface);
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+    padding: 0.5rem 1.5rem 1.5rem;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
 
-    .navOpen {
-        display: block;
-    }
+  .navOpen {
+    display: block;
+  }
 
-    .navList {
-        flex-direction: column;
-        gap: 0;
-        justify-content: flex-start;
-    }
+  .navList {
+    flex-direction: column;
+    gap: 0;
+    justify-content: flex-start;
+  }
 
-    .navList li {
-        border-bottom: 1px solid var(--vfa-color-warm-border-light);
-    }
+  .navList li {
+    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+  }
 
-    .navList li:last-child {
-        border-bottom: none;
-    }
+  .navList li:last-child {
+    border-bottom: none;
+  }
 
-    .navList a {
-        display: block;
-        padding: 0.85rem 0;
-        font-size: 1.05rem;
-    }
+  .navList a {
+    display: block;
+    padding: 0.85rem 0;
+    font-size: 1.05rem;
+  }
 
-    .navList .navItemActive a {
-        padding: 0.85rem 0;
-        border-radius: 0;
-        background: none;
-        color: var(--vfa-color-2026-gold-dark);
-        opacity: 1;
-    }
+  .navList .navItemActive a {
+    padding: 0.85rem 0;
+    border-radius: 0;
+    background: none;
+    color: var(--vfa-color-2026-gold-dark);
+    opacity: 1;
+  }
 
-    .ticketsMobile {
-        display: inline-block;
-        margin-top: 1.25rem;
-        padding: 0.55em 1.4em;
-        background: var(--vfa-color-2026-gold);
-        color: var(--vfa-color-ink-darkest);
-        font-weight: var(--vfa-font-weight-bold);
-        font-size: 0.95em;
-        border-radius: var(--vfa-radius-md);
-        text-decoration: none;
-        transition: background var(--vfa-transition-base);
-    }
+  .ticketsMobile {
+    display: inline-block;
+    margin-top: 1.25rem;
+    padding: 0.55em 1.4em;
+    background: var(--vfa-color-2026-gold);
+    color: var(--vfa-color-ink-darkest);
+    font-weight: var(--vfa-font-weight-bold);
+    font-size: 0.95em;
+    border-radius: var(--vfa-radius-md);
+    text-decoration: none;
+    transition: background var(--vfa-transition-base);
+  }
 
-    .ticketsMobile:hover {
-        background: var(--vfa-color-2026-gold-dark);
-    }
+  .ticketsMobile:hover {
+    background: var(--vfa-color-2026-gold-dark);
+  }
 }

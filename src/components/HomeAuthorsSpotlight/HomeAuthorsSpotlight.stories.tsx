@@ -45,16 +45,12 @@ type Story = StoryObj<typeof meta>;
 
 export const WithAuthors: Story = {
   parameters: {
-    msw: [
-      http.get(`${VFA}/people/authors`, () => HttpResponse.json(AUTHORS)),
-    ],
+    msw: [http.get(`${VFA}/people/authors`, () => HttpResponse.json(AUTHORS))],
   },
 };
 
 export const Loading: Story = {
   parameters: {
-    msw: [
-      http.get(`${VFA}/people/authors`, () => new Promise(() => {})),
-    ],
+    msw: [http.get(`${VFA}/people/authors`, () => new Promise(() => {}))],
   },
 };

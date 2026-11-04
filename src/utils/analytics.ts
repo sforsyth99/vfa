@@ -40,7 +40,12 @@ type TrackableEvent =
     }
   | { name: 'kidsfest_promo_click'; event_location: 'homepage' }
   | { name: 'search_opened' }
-  | { name: 'search_result_clicked'; search_term: string; result_label: string; result_type: string };
+  | {
+      name: 'search_result_clicked';
+      search_term: string;
+      result_label: string;
+      result_type: string;
+    };
 
 export function track({ name, ...params }: TrackableEvent): void {
   window.gtag?.('event', name, params);

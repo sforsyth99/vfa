@@ -11,7 +11,28 @@ function makeBook(id: number, title: string, author: string, hasCover = true): B
     slug: `book-${id}`,
     title: { rendered: title },
     book_data: {
-      authors: [{ id, slug: `author-${id}`, name: author, alternate_name: '', name_pronunciation: '', pronouns: '', pronouns_other: '', bio: '', website_url: '', photo: false, photo_square: false, author_years: [2026], moderator_years: [], curator_years: [], musician_years: [], kidfest_years: [], elder_years: [], kidfest_photo: false }],
+      authors: [
+        {
+          id,
+          slug: `author-${id}`,
+          name: author,
+          alternate_name: '',
+          name_pronunciation: '',
+          pronouns: '',
+          pronouns_other: '',
+          bio: '',
+          website_url: '',
+          photo: false,
+          photo_square: false,
+          author_years: [2026],
+          moderator_years: [],
+          curator_years: [],
+          musician_years: [],
+          kidfest_years: [],
+          elder_years: [],
+          kidfest_photo: false,
+        },
+      ],
       subtitle: '',
       additional_authors: '',
       illustrators: '',
@@ -44,24 +65,18 @@ type Story = StoryObj<typeof meta>;
 
 export const WithBooks: Story = {
   parameters: {
-    msw: [
-      http.get(BOOKS_URL, () => HttpResponse.json(BOOKS)),
-    ],
+    msw: [http.get(BOOKS_URL, () => HttpResponse.json(BOOKS))],
   },
 };
 
 export const Loading: Story = {
   parameters: {
-    msw: [
-      http.get(BOOKS_URL, () => new Promise(() => {})),
-    ],
+    msw: [http.get(BOOKS_URL, () => new Promise(() => {}))],
   },
 };
 
 export const Empty: Story = {
   parameters: {
-    msw: [
-      http.get(BOOKS_URL, () => HttpResponse.json([])),
-    ],
+    msw: [http.get(BOOKS_URL, () => HttpResponse.json([]))],
   },
 };

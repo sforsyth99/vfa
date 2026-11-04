@@ -10,15 +10,18 @@ import posterSrc from '../../assets/VFA_KidsFest.jpg';
 export function KidsFestPromo() {
   const intl = useIntl();
   const { data: events } = useGetFestivalEvents();
-  const mainEvent = (events ?? []).find(
-    (e) => e.event_data.is_kidfest && e.event_data.event_type === 'author_fair',
-  ) ?? null;
+  const mainEvent =
+    (events ?? []).find(
+      (e) => e.event_data.is_kidfest && e.event_data.event_type === 'author_fair',
+    ) ?? null;
 
   const handleAddToCalendar = () => {
     if (!mainEvent) return;
     const { event_date, time_start, time_end, venue } = mainEvent.event_data;
     const title = decodeHtmlEntities(mainEvent.title?.rendered ?? '');
-    const locationParts = [venue?.name, venue?.street_address, venue?.city, venue?.province].filter(Boolean);
+    const locationParts = [venue?.name, venue?.street_address, venue?.city, venue?.province].filter(
+      Boolean,
+    );
     track({ name: 'add_to_calendar', event_label: title, event_location: 'home_promo' });
     downloadIcs({
       title,
@@ -36,7 +39,9 @@ export function KidsFestPromo() {
     <section
       className={styles.section}
       aria-labelledby="kidsfest-heading"
-      style={{ backgroundImage: `linear-gradient(rgba(66,66,79,0.78), rgba(66,66,79,0.78)), url(${posterSrc})` }}
+      style={{
+        backgroundImage: `linear-gradient(rgba(66,66,79,0.78), rgba(66,66,79,0.78)), url(${posterSrc})`,
+      }}
     >
       <div className={styles.inner}>
         <img
@@ -46,27 +51,19 @@ export function KidsFestPromo() {
           loading="lazy"
         />
         <div className={styles.content}>
-          <p className={styles.eyebrow}>
-            {intl.formatMessage({ id: 'kidsfest.eyebrow' })}
-          </p>
+          <p className={styles.eyebrow}>{intl.formatMessage({ id: 'kidsfest.eyebrow' })}</p>
           <h2 id="kidsfest-heading" className={styles.heading}>
             {intl.formatMessage({ id: 'kidsfest.heading' })}
           </h2>
-          <p className={styles.tagline}>
-            {intl.formatMessage({ id: 'kidsfest.tagline' })}
-          </p>
+          <p className={styles.tagline}>{intl.formatMessage({ id: 'kidsfest.tagline' })}</p>
           <dl className={styles.details}>
             <div className={styles.detailRow}>
               <dt className={styles.detailLabel}>{intl.formatMessage({ id: 'common.date' })}</dt>
-              <dd className={styles.detailValue}>
-                {intl.formatMessage({ id: 'kidsfest.date' })}
-              </dd>
+              <dd className={styles.detailValue}>{intl.formatMessage({ id: 'kidsfest.date' })}</dd>
             </div>
             <div className={styles.detailRow}>
               <dt className={styles.detailLabel}>{intl.formatMessage({ id: 'common.time' })}</dt>
-              <dd className={styles.detailValue}>
-                {intl.formatMessage({ id: 'kidsfest.time' })}
-              </dd>
+              <dd className={styles.detailValue}>{intl.formatMessage({ id: 'kidsfest.time' })}</dd>
             </div>
             <div className={styles.detailRow}>
               <dt className={styles.detailLabel}>{intl.formatMessage({ id: 'common.where' })}</dt>

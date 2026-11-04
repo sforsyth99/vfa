@@ -48,7 +48,10 @@ export function SearchWidget() {
   }, []);
 
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Escape') { closeSearch(); return; }
+    if (e.key === 'Escape') {
+      closeSearch();
+      return;
+    }
     if (!results.length) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -59,7 +62,12 @@ export function SearchWidget() {
     } else if (e.key === 'Enter' && activeIndex >= 0) {
       e.preventDefault();
       const result = results[activeIndex];
-      track({ name: 'search_result_clicked', search_term: debouncedQuery, result_label: result.title, result_type: result.subtype });
+      track({
+        name: 'search_result_clicked',
+        search_term: debouncedQuery,
+        result_label: result.title,
+        result_type: result.subtype,
+      });
       navigate(resultToPath(result));
       setOpen(false);
     }
@@ -73,7 +81,10 @@ export function SearchWidget() {
         <button
           className={styles.iconButton}
           aria-label={intl.formatMessage({ id: 'nav.search.label' })}
-          onClick={() => { setOpen(true); track({ name: 'search_opened' }); }}
+          onClick={() => {
+            setOpen(true);
+            track({ name: 'search_opened' });
+          }}
         >
           <SearchIcon />
         </button>
@@ -85,7 +96,10 @@ export function SearchWidget() {
             type="search"
             className={styles.input}
             value={query}
-            onChange={(e) => { setQuery(e.target.value); setActiveIndex(-1); }}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setActiveIndex(-1);
+            }}
             onKeyDown={handleKeyDown}
             placeholder={intl.formatMessage({ id: 'nav.search.placeholder' })}
             aria-label={intl.formatMessage({ id: 'nav.search.label' })}
@@ -109,9 +123,15 @@ export function SearchWidget() {
               className={styles.dropdown}
               aria-label={intl.formatMessage({ id: 'nav.search.label' })}
             >
-              {isFetching && <li className={styles.status} role="status">…</li>}
+              {isFetching && (
+                <li className={styles.status} role="status">
+                  …
+                </li>
+              )}
               {!isFetching && results.length === 0 && (
-                <li className={styles.status}>{intl.formatMessage({ id: 'nav.search.noResults' })}</li>
+                <li className={styles.status}>
+                  {intl.formatMessage({ id: 'nav.search.noResults' })}
+                </li>
               )}
               {results.map((result, i) => (
                 <li
@@ -123,7 +143,12 @@ export function SearchWidget() {
                   onMouseEnter={() => setActiveIndex(i)}
                   onMouseDown={(e) => {
                     e.preventDefault();
-                    track({ name: 'search_result_clicked', search_term: debouncedQuery, result_label: result.title, result_type: result.subtype });
+                    track({
+                      name: 'search_result_clicked',
+                      search_term: debouncedQuery,
+                      result_label: result.title,
+                      result_type: result.subtype,
+                    });
                     navigate(resultToPath(result));
                     setOpen(false);
                   }}

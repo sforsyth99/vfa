@@ -25,7 +25,6 @@ export interface PostLinks {
   [key: string]: unknown;
 }
 
-
 // Types for a single Post and an array of Posts returned by /posts
 export interface Post {
   id: number;
@@ -73,4 +72,3 @@ export interface Post {
   class_list: string[];
   _links: PostLinks;
 }
-

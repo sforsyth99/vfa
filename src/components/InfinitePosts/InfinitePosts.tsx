@@ -8,39 +8,58 @@ const POSTS_PER_PAGE = 3;
 
 function InfinitePosts() {
   const intl = useIntl();
-  const {
-    data,
-    isLoading,
-    isError,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfinitePosts(POSTS_PER_PAGE);
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfinitePosts(POSTS_PER_PAGE);
 
   const allPosts: Post[] = data ? data.pages.flat() : [];
 
-  if (isLoading) return <div><FormattedMessage id="posts.loading" /></div>;
-  if (isError) return <div><FormattedMessage id="posts.error" /></div>;
-  if (!allPosts.length) return <div><FormattedMessage id="posts.empty" /></div>;
+  if (isLoading)
+    return (
+      <div>
+        <FormattedMessage id="posts.loading" />
+      </div>
+    );
+  if (isError)
+    return (
+      <div>
+        <FormattedMessage id="posts.error" />
+      </div>
+    );
+  if (!allPosts.length)
+    return (
+      <div>
+        <FormattedMessage id="posts.empty" />
+      </div>
+    );
 
   return (
     <div>
-      <h2><FormattedMessage id="posts.latestHeading" /></h2>
+      <h2>
+        <FormattedMessage id="posts.latestHeading" />
+      </h2>
       <ul>
-        {allPosts.map(post => (
+        {allPosts.map((post) => (
           <li key={post.id}>
             <strong>{decodeHtmlEntities(post.title.rendered)}</strong>
           </li>
         ))}
       </ul>
       {hasNextPage && (
-        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} className={styles.spacedTop}>
+        <button
+          onClick={() => fetchNextPage()}
+          disabled={isFetchingNextPage}
+          className={styles.spacedTop}
+        >
           {isFetchingNextPage
             ? intl.formatMessage({ id: 'posts.loadingMore' })
             : intl.formatMessage({ id: 'posts.loadMore' })}
         </button>
       )}
-      {!hasNextPage && <div className={styles.spacedTop}><FormattedMessage id="posts.noMore" /></div>}
+      {!hasNextPage && (
+        <div className={styles.spacedTop}>
+          <FormattedMessage id="posts.noMore" />
+        </div>
+      )}
     </div>
   );
 }

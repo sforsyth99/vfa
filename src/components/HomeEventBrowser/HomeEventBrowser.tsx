@@ -50,19 +50,28 @@ export function HomeEventBrowser() {
     setCanNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
   }, []);
 
-  useEffect(() => { updateScrollState(); }, [events, updateScrollState]);
+  useEffect(() => {
+    updateScrollState();
+  }, [events, updateScrollState]);
 
   const scroll = (dir: 'prev' | 'next') => {
     const el = trackRef.current;
     if (!el) return;
     const items = Array.from(el.querySelectorAll<HTMLElement>('li'));
     const containerCenter = el.scrollLeft + el.clientWidth / 2;
-    let closestIdx = 0, minDist = Infinity;
+    let closestIdx = 0,
+      minDist = Infinity;
     items.forEach((item, i) => {
       const dist = Math.abs(item.offsetLeft + item.offsetWidth / 2 - containerCenter);
-      if (dist < minDist) { minDist = dist; closestIdx = i; }
+      if (dist < minDist) {
+        minDist = dist;
+        closestIdx = i;
+      }
     });
-    const targetIdx = Math.max(0, Math.min(items.length - 1, closestIdx + (dir === 'next' ? 1 : -1)));
+    const targetIdx = Math.max(
+      0,
+      Math.min(items.length - 1, closestIdx + (dir === 'next' ? 1 : -1)),
+    );
     items[targetIdx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
   };
 
@@ -72,7 +81,9 @@ export function HomeEventBrowser() {
         <div className={styles.inner}>
           <SkeletonBlock className={styles.skeletonHeading} />
           <div className={styles.skeletonTrack}>
-            {[0, 1, 2].map((i) => <SkeletonBlock key={i} className={styles.skeletonCard} />)}
+            {[0, 1, 2].map((i) => (
+              <SkeletonBlock key={i} className={styles.skeletonCard} />
+            ))}
           </div>
         </div>
       </section>
@@ -107,7 +118,11 @@ export function HomeEventBrowser() {
         <div className={styles.header}>
           <h2 id="event-browser-heading" className={styles.heading}>
             <FormattedMessage
-              id={showingFestivalYear ? 'home.eventBrowser.headingFestivalYear' : 'home.eventBrowser.heading'}
+              id={
+                showingFestivalYear
+                  ? 'home.eventBrowser.headingFestivalYear'
+                  : 'home.eventBrowser.heading'
+              }
             />
           </h2>
           <Link to="/events" className={styles.seeAll}>
@@ -131,7 +146,9 @@ export function HomeEventBrowser() {
               const title = decodeHtmlEntities(event.title?.rendered ?? '');
               const dateStr = d.event_date
                 ? new Date(d.event_date + 'T00:00:00').toLocaleDateString('en-CA', {
-                    weekday: 'long', month: 'long', day: 'numeric',
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
                   })
                 : '';
               const timeStr = d.time_start
@@ -146,42 +163,72 @@ export function HomeEventBrowser() {
               const authorNames = formatAuthorNames(d.authors);
               const hasOnline = d.tickets.some((t) => t.type === 'online');
               const hasInPerson = d.tickets.some((t) => t.type === 'in_person');
-              const venueStr = d.venue?.name && hasOnline
-                ? intl.formatMessage({ id: 'home.schedule.locationAndOnline' }, { venue: d.venue.name })
-                : hasOnline && !hasInPerson
-                  ? intl.formatMessage({ id: 'home.schedule.locationOnline' })
-                  : d.venue?.name ?? null;
+              const venueStr =
+                d.venue?.name && hasOnline
+                  ? intl.formatMessage(
+                      { id: 'home.schedule.locationAndOnline' },
+                      { venue: d.venue.name },
+                    )
+                  : hasOnline && !hasInPerson
+                    ? intl.formatMessage({ id: 'home.schedule.locationOnline' })
+                    : (d.venue?.name ?? null);
               const useKidsFestPoster = isWorkshop && d.is_kidfest;
               const useArtBg = !useKidsFestPoster && isWorkshop && d.hosts.length === 2;
               const photoSource = isWorkshop && d.hosts.length === 1 ? d.hosts : d.authors;
-              const avatars = photoSource.slice(0, isKidsFestAuthorFair ? undefined : 5).map((a) => ({
-                name: a.name,
-                initial: a.name.trim().charAt(0).toUpperCase(),
-                src: (Array.isArray(a.photo) ? a.photo[0] : a.photo_square ? a.photo_square[0] : null)
-                  ?.replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') ?? null,
-              }));
-              const detailPath = d.is_kidfest && d.event_type === 'author_fair'
-                ? '/kidsfest2026'
-                : eventPath(event.slug);
+              const avatars = photoSource
+                .slice(0, isKidsFestAuthorFair ? undefined : 5)
+                .map((a) => ({
+                  name: a.name,
+                  initial: a.name.trim().charAt(0).toUpperCase(),
+                  src:
+                    (Array.isArray(a.photo)
+                      ? a.photo[0]
+                      : a.photo_square
+                        ? a.photo_square[0]
+                        : null
+                    )?.replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') ?? null,
+                }));
+              const detailPath =
+                d.is_kidfest && d.event_type === 'author_fair'
+                  ? '/kidsfest2026'
+                  : eventPath(event.slug);
 
               return (
                 <li key={event.id} className={styles.item}>
                   <div className={styles.card}>
                     <div className={styles.cardBanner}>
                       <img
-                        src={useKidsFestPoster ? kidsFestPoster : useArtBg ? artWorkshopBg : avatars.length === 1 && avatars[0].src ? avatars[0].src.replace(/-\d+x\d+(\.[a-z]+)$/i, '$1') : starryBg}
-                        alt={useKidsFestPoster ? 'KidsFest 2026' : avatars.length === 1 ? avatars[0].name : ''}
+                        src={
+                          useKidsFestPoster
+                            ? kidsFestPoster
+                            : useArtBg
+                              ? artWorkshopBg
+                              : avatars.length === 1 && avatars[0].src
+                                ? avatars[0].src.replace(/-\d+x\d+(\.[a-z]+)$/i, '$1')
+                                : starryBg
+                        }
+                        alt={
+                          useKidsFestPoster
+                            ? 'KidsFest 2026'
+                            : avatars.length === 1
+                              ? avatars[0].name
+                              : ''
+                        }
                         aria-hidden={useKidsFestPoster || avatars.length !== 1 ? true : undefined}
                         className={useKidsFestPoster ? styles.posterContain : undefined}
                       />
                       {!useArtBg && !useKidsFestPoster && avatars.length > 1 && (
-                        <div className={`${styles.avatarOverlay}${isKidsFestAuthorFair ? ` ${styles.avatarOverlayKids}` : ''}`} data-count={avatars.length}>
+                        <div
+                          className={`${styles.avatarOverlay}${isKidsFestAuthorFair ? ` ${styles.avatarOverlayKids}` : ''}`}
+                          data-count={avatars.length}
+                        >
                           {avatars.map((av, i) => (
                             <div key={i} className={styles.overlayAvatar}>
-                              {av.src
-                                ? <img src={av.src} alt={av.name} loading="lazy" />
-                                : <span aria-hidden="true">{av.initial}</span>
-                              }
+                              {av.src ? (
+                                <img src={av.src} alt={av.name} loading="lazy" />
+                              ) : (
+                                <span aria-hidden="true">{av.initial}</span>
+                              )}
                             </div>
                           ))}
                         </div>
@@ -208,8 +255,16 @@ export function HomeEventBrowser() {
                           <button
                             className={styles.calendarButton}
                             onClick={() => {
-                              const locationParts = [d.venue?.name, d.venue?.street_address, d.venue?.city].filter(Boolean);
-                              track({ name: 'add_to_calendar', event_label: title, event_location: 'event_browser' });
+                              const locationParts = [
+                                d.venue?.name,
+                                d.venue?.street_address,
+                                d.venue?.city,
+                              ].filter(Boolean);
+                              track({
+                                name: 'add_to_calendar',
+                                event_label: title,
+                                event_location: 'event_browser',
+                              });
                               downloadIcs({
                                 title,
                                 date: d.event_date,
@@ -225,7 +280,13 @@ export function HomeEventBrowser() {
                             <FormattedMessage id="kidsfest2026.mainEvent.addToCalendar" />
                           </button>
                         ) : (
-                          <EventbriteWidget eventbriteUrl={d.eventbrite_url} eventTitle={title} hasTickets={d.tickets.length > 0} ticketsLiveDate={d.tickets_live_date} eventType={d.event_type} />
+                          <EventbriteWidget
+                            eventbriteUrl={d.eventbrite_url}
+                            eventTitle={title}
+                            hasTickets={d.tickets.length > 0}
+                            ticketsLiveDate={d.tickets_live_date}
+                            eventType={d.event_type}
+                          />
                         )}
                         <Link to={detailPath} className={styles.detailsLink}>
                           <FormattedMessage id="home.eventBrowser.details" /> ›

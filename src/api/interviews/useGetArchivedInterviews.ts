@@ -6,9 +6,7 @@ export function useGetArchivedInterviews(year: number, enabled: boolean) {
   return useInfiniteQuery<ArchivePage>({
     queryKey: ['archived-interviews', year],
     queryFn: ({ pageParam }) =>
-      wretch(`${ARCHIVE_INTERVIEWS_URL}?year=${year}&per_page=20&page=${pageParam}`)
-        .get()
-        .json(),
+      wretch(`${ARCHIVE_INTERVIEWS_URL}?year=${year}&per_page=20&page=${pageParam}`).get().json(),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,

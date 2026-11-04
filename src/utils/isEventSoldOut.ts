@@ -14,7 +14,12 @@ interface SoldOutParams {
  * (`author_fair`) is a free, drop-in event with no tickets, so it is never
  * marked sold out — but KidsFest workshops, which do have tickets, can be.
  */
-export function isSoldOut({ eventbriteUrl, hasTickets, ticketsLiveDate, eventType }: SoldOutParams): boolean {
+export function isSoldOut({
+  eventbriteUrl,
+  hasTickets,
+  ticketsLiveDate,
+  eventType,
+}: SoldOutParams): boolean {
   if (eventType === 'author_fair') return false;
   const today = getPacificToday();
   const ticketsLive = !ticketsLiveDate || today >= ticketsLiveDate;

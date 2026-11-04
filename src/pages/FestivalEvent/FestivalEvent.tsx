@@ -27,7 +27,7 @@ import styles from './FestivalEvent.module.css';
 
 function AuthorCard({ person, colorIndex }: { person: PersonData; colorIndex: number }) {
   const isKidfest = person.kidfest_years?.length > 0;
-  const photo = isKidfest ? (person.kidfest_photo || person.photo) : person.photo;
+  const photo = isKidfest ? person.kidfest_photo || person.photo : person.photo;
   const { data: books = [] } = useGetPersonBooks(person.id);
   const firstCover = books.find((b) => b.cover_image)?.cover_image;
   const palette = CARD_PALETTE[colorIndex % CARD_PALETTE.length];
@@ -73,7 +73,6 @@ function LabelledCard({ label, children }: { label: string; children: React.Reac
   );
 }
 
-
 function formatTime(t: string): string {
   if (!t) return '';
   const [h, m] = t.split(':').map(Number);
@@ -83,7 +82,11 @@ function formatTime(t: string): string {
 
 function formatDate(iso: string): string {
   return new Intl.DateTimeFormat('en-CA', {
-    weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
   }).format(new Date(`${iso}T00:00:00`));
 }
 
@@ -107,19 +110,28 @@ export default function FestivalEventPage() {
   }, [eventTitle]);
 
   if (isLoading) return <PageLoader />;
-  if (error || !event) return <div><FormattedMessage id="festivalEvent.notFound" /></div>;
+  if (error || !event)
+    return (
+      <div>
+        <FormattedMessage id="festivalEvent.notFound" />
+      </div>
+    );
 
   const today = getPacificToday();
   const futureEvents = (allEvents ?? [])
     .filter((e) => e.event_data.event_date >= today && e.event_data.event_type !== 'author_fair')
     .sort((a, b) => {
       const d = a.event_data.event_date.localeCompare(b.event_data.event_date);
-      return d !== 0 ? d : (a.event_data.time_start ?? '').localeCompare(b.event_data.time_start ?? '');
+      return d !== 0
+        ? d
+        : (a.event_data.time_start ?? '').localeCompare(b.event_data.time_start ?? '');
     });
   const currentIndex = futureEvents.findIndex((e) => e.slug === slug);
   const isPast = event.event_data.event_date < today;
-  const prevEvent = currentIndex > 0 ? futureEvents[currentIndex - 1] : futureEvents[futureEvents.length - 1];
-  const nextEvent = currentIndex < futureEvents.length - 1 ? futureEvents[currentIndex + 1] : futureEvents[0];
+  const prevEvent =
+    currentIndex > 0 ? futureEvents[currentIndex - 1] : futureEvents[futureEvents.length - 1];
+  const nextEvent =
+    currentIndex < futureEvents.length - 1 ? futureEvents[currentIndex + 1] : futureEvents[0];
 
   const {
     is_kidfest,
@@ -166,22 +178,24 @@ export default function FestivalEventPage() {
 
   const hasInPerson = tickets.some((t) => t.type === 'in_person');
   const hasOnline = tickets.some((t) => t.type === 'online') || !!online_url;
-  const locationMode = hasInPerson && hasOnline
-    ? intl.formatMessage({ id: 'festivalEvent.format.hybrid' })
-    : hasOnline
-      ? intl.formatMessage({ id: 'festivalEvent.format.online' })
-      : hasInPerson
-        ? intl.formatMessage({ id: 'festivalEvent.format.inPerson' })
-        : null;
-  const locationBadgeClass = hasInPerson && hasOnline
-    ? styles.locationBadgeHybrid
-    : hasOnline
-      ? styles.locationBadgeOnline
-      : styles.locationBadgeInPerson;
+  const locationMode =
+    hasInPerson && hasOnline
+      ? intl.formatMessage({ id: 'festivalEvent.format.hybrid' })
+      : hasOnline
+        ? intl.formatMessage({ id: 'festivalEvent.format.online' })
+        : hasInPerson
+          ? intl.formatMessage({ id: 'festivalEvent.format.inPerson' })
+          : null;
+  const locationBadgeClass =
+    hasInPerson && hasOnline
+      ? styles.locationBadgeHybrid
+      : hasOnline
+        ? styles.locationBadgeOnline
+        : styles.locationBadgeInPerson;
 
   const freeLabel = intl.formatMessage({ id: 'events.free' });
   const pricedTiers = tickets.filter((t) => t.price_min !== null);
-  const fmt = (n: number) => Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`;
+  const fmt = (n: number) => (Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`);
   const formatTierPrice = (t: { price_min: number | null; price_max: number | null }) => {
     const lo = t.price_min as number;
     const hi = t.price_max ?? lo;
@@ -200,17 +214,40 @@ export default function FestivalEventPage() {
           />
         )}
         {!isPast && currentIndex !== -1 && futureEvents.length > 1 && (
-          <nav className={styles.eventNavTop} aria-label={intl.formatMessage({ id: 'festivalEvent.nav.label' })}>
+          <nav
+            className={styles.eventNavTop}
+            aria-label={intl.formatMessage({ id: 'festivalEvent.nav.label' })}
+          >
             {prevEvent && (
-              <Link to={eventPath(prevEvent.slug)} className={`${styles.eventNavTopLink} ${styles.eventNavTopLinkPrev}`}
-                onClick={() => track({ name: 'prev_next_nav', event_label: prevEvent.slug, event_location: 'top', content_type: 'event' })}>
+              <Link
+                to={eventPath(prevEvent.slug)}
+                className={`${styles.eventNavTopLink} ${styles.eventNavTopLinkPrev}`}
+                onClick={() =>
+                  track({
+                    name: 'prev_next_nav',
+                    event_label: prevEvent.slug,
+                    event_location: 'top',
+                    content_type: 'event',
+                  })
+                }
+              >
                 <span className={styles.eventNavTopArrow}>‹</span>
                 {intl.formatMessage({ id: 'festivalEvent.nav.previous' })}
               </Link>
             )}
             {nextEvent && (
-              <Link to={eventPath(nextEvent.slug)} className={`${styles.eventNavTopLink} ${styles.eventNavTopLinkNext}`}
-                onClick={() => track({ name: 'prev_next_nav', event_label: nextEvent.slug, event_location: 'top', content_type: 'event' })}>
+              <Link
+                to={eventPath(nextEvent.slug)}
+                className={`${styles.eventNavTopLink} ${styles.eventNavTopLinkNext}`}
+                onClick={() =>
+                  track({
+                    name: 'prev_next_nav',
+                    event_label: nextEvent.slug,
+                    event_location: 'top',
+                    content_type: 'event',
+                  })
+                }
+              >
                 {intl.formatMessage({ id: 'festivalEvent.nav.next' })}
                 <span className={styles.eventNavTopArrow}>›</span>
               </Link>
@@ -226,23 +263,27 @@ export default function FestivalEventPage() {
               <p className={styles.ticketBoxTitle}>
                 {decodeHtmlEntities(event.title?.rendered ?? '')}
               </p>
-              {event_date && (
-                <p className={styles.datetime}>{formatDate(event_date)}</p>
-              )}
-              {timeRange && (
-                <p className={styles.datetime}>{timeRange}</p>
-              )}
+              {event_date && <p className={styles.datetime}>{formatDate(event_date)}</p>}
+              {timeRange && <p className={styles.datetime}>{timeRange}</p>}
               {pricedTiers.length > 0 && (
                 <div className={styles.ticketTiers}>
-                  <p className={styles.ticketTiersEyebrow}>{intl.formatMessage({ id: 'festivalEvent.price.admission' })}</p>
+                  <p className={styles.ticketTiersEyebrow}>
+                    {intl.formatMessage({ id: 'festivalEvent.price.admission' })}
+                  </p>
                   {pricedTiers.map((t, i) => {
                     const isSliding = /sliding/i.test(t.tier);
                     const priceStr = formatTierPrice(t);
-                    const tierLabel = t.tier || (t.type === 'in_person' ? intl.formatMessage({ id: 'festivalEvent.format.inPerson' }) : intl.formatMessage({ id: 'festivalEvent.format.online' }));
+                    const tierLabel =
+                      t.tier ||
+                      (t.type === 'in_person'
+                        ? intl.formatMessage({ id: 'festivalEvent.format.inPerson' })
+                        : intl.formatMessage({ id: 'festivalEvent.format.online' }));
                     return (
                       <div key={i} className={styles.ticketTierRow}>
                         <span className={styles.ticketTierName}>
-                          {isSliding ? intl.formatMessage({ id: 'festivalEvent.price.slidingScale' }) : tierLabel}
+                          {isSliding
+                            ? intl.formatMessage({ id: 'festivalEvent.price.slidingScale' })
+                            : tierLabel}
                         </span>
                         <span className={styles.ticketTierPrice}>{priceStr}</span>
                       </div>
@@ -283,29 +324,46 @@ export default function FestivalEventPage() {
               hosts.length > 0 ||
               hosted_by) && (
               <div className={styles.section}>
-                <div className={`${styles.peopleFlow}${allPeople.length >= 5 ? ` ${styles.peopleFlowWide}` : ''}`}>
+                <div
+                  className={`${styles.peopleFlow}${allPeople.length >= 5 ? ` ${styles.peopleFlowWide}` : ''}`}
+                >
                   {sortBySurname(authors).map((a) => (
-                    <LabelledCard key={a.id} label={intl.formatMessage({ id: 'festivalEvent.people.author' })}>
+                    <LabelledCard
+                      key={a.id}
+                      label={intl.formatMessage({ id: 'festivalEvent.people.author' })}
+                    >
                       <AuthorCard person={a} colorIndex={personColorIndex.get(a.id) ?? 0} />
                     </LabelledCard>
                   ))}
                   {sortBySurname(moderator).map((p) => (
-                    <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.moderator' })}>
+                    <LabelledCard
+                      key={p.id}
+                      label={intl.formatMessage({ id: 'festivalEvent.people.moderator' })}
+                    >
                       <StaffCard person={p} colorIndex={personColorIndex.get(p.id) ?? 0} />
                     </LabelledCard>
                   ))}
                   {sortBySurname(curator).map((p) => (
-                    <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.curator' })}>
+                    <LabelledCard
+                      key={p.id}
+                      label={intl.formatMessage({ id: 'festivalEvent.people.curator' })}
+                    >
                       <StaffCard person={p} colorIndex={personColorIndex.get(p.id) ?? 0} />
                     </LabelledCard>
                   ))}
                   {sortBySurname(musician).map((p) => (
-                    <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.musician' })}>
+                    <LabelledCard
+                      key={p.id}
+                      label={intl.formatMessage({ id: 'festivalEvent.people.musician' })}
+                    >
                       <StaffCard person={p} colorIndex={personColorIndex.get(p.id) ?? 0} />
                     </LabelledCard>
                   ))}
                   {hosts.map((p) => (
-                    <LabelledCard key={p.id} label={intl.formatMessage({ id: 'festivalEvent.people.hostedBy' })}>
+                    <LabelledCard
+                      key={p.id}
+                      label={intl.formatMessage({ id: 'festivalEvent.people.hostedBy' })}
+                    >
                       <StaffCard person={p} colorIndex={personColorIndex.get(p.id) ?? 0} />
                     </LabelledCard>
                   ))}
@@ -332,15 +390,32 @@ export default function FestivalEventPage() {
                       {rel.event_type && (
                         <p className={styles.relatedEyebrow}>
                           {rel.is_kidfest
-                            ? intl.formatMessage({ id: 'festivalEvent.type.kidfest' }, { label: intl.formatMessage({ id: EVENT_TYPE_KEYS[rel.event_type] ?? 'festivalEvent.type.default' }) })
-                            : intl.formatMessage({ id: EVENT_TYPE_KEYS[rel.event_type] ?? 'festivalEvent.type.default' })}
+                            ? intl.formatMessage(
+                                { id: 'festivalEvent.type.kidfest' },
+                                {
+                                  label: intl.formatMessage({
+                                    id:
+                                      EVENT_TYPE_KEYS[rel.event_type] ??
+                                      'festivalEvent.type.default',
+                                  }),
+                                },
+                              )
+                            : intl.formatMessage({
+                                id: EVENT_TYPE_KEYS[rel.event_type] ?? 'festivalEvent.type.default',
+                              })}
                         </p>
                       )}
                       <h3 className={styles.relatedTitle}>
                         <Link
                           to={eventPath(rel.slug)}
                           className={styles.relatedTitleLink}
-                          onClick={() => track({ name: 'related_event_click', source_event: slug!, destination_event: rel.slug })}
+                          onClick={() =>
+                            track({
+                              name: 'related_event_click',
+                              source_event: slug!,
+                              destination_event: rel.slug,
+                            })
+                          }
                         >
                           {rel.title}
                         </Link>
@@ -353,7 +428,13 @@ export default function FestivalEventPage() {
                       <Link
                         to={eventPath(rel.slug)}
                         className={styles.relatedDetailsLink}
-                        onClick={() => track({ name: 'related_event_click', source_event: slug!, destination_event: rel.slug })}
+                        onClick={() =>
+                          track({
+                            name: 'related_event_click',
+                            source_event: slug!,
+                            destination_event: rel.slug,
+                          })
+                        }
                       >
                         {intl.formatMessage({ id: 'festivalEvent.relatedEvents.details' })}
                       </Link>
@@ -364,14 +445,15 @@ export default function FestivalEventPage() {
             )}
           </div>
         </div>
-
       </Container>
 
       {(venue || online_url) && (
         <div className={styles.venueBand}>
           <Container>
             <div className={styles.section}>
-              <h2 className={styles.sectionLabel}>{intl.formatMessage({ id: 'festivalEvent.section.venue' })}</h2>
+              <h2 className={styles.sectionLabel}>
+                {intl.formatMessage({ id: 'festivalEvent.section.venue' })}
+              </h2>
               {venue && (
                 <VenueMapRow venue={venue}>
                   <Link to={`/venues/${venue.slug}`} className={styles.venueName}>
@@ -382,7 +464,12 @@ export default function FestivalEventPage() {
                   )}
                   {venue.alternate_name && (
                     <p className={styles.venueIndigenous}>
-                      ({intl.formatMessage({ id: 'festivalEvent.venueFormerly' }, { name: venue.alternate_name })})
+                      (
+                      {intl.formatMessage(
+                        { id: 'festivalEvent.venueFormerly' },
+                        { name: venue.alternate_name },
+                      )}
+                      )
                     </p>
                   )}
                   {[venue.building, venue.room].filter(Boolean).join(', ') && (
@@ -390,11 +477,23 @@ export default function FestivalEventPage() {
                       {[venue.building, venue.room].filter(Boolean).join(', ')}
                     </p>
                   )}
-                  {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
+                  {[
+                    venue.street_address,
+                    venue.city,
+                    venue.province,
+                    venue.postal_code,
+                    venue.country,
+                  ]
                     .filter(Boolean)
                     .join(', ') && (
                     <p className={styles.venueAddress}>
-                      {[venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
+                      {[
+                        venue.street_address,
+                        venue.city,
+                        venue.province,
+                        venue.postal_code,
+                        venue.country,
+                      ]
                         .filter(Boolean)
                         .join(', ')}
                     </p>
@@ -410,7 +509,10 @@ export default function FestivalEventPage() {
                       <Link
                         to={`/venues/${venue.slug}`}
                         className={styles.venueAccessibilityMore}
-                        aria-label={intl.formatMessage({ id: 'festivalEvent.accessibilityReadMoreLabel' }, { venue: venue.name })}
+                        aria-label={intl.formatMessage(
+                          { id: 'festivalEvent.accessibilityReadMoreLabel' },
+                          { venue: venue.name },
+                        )}
                       >
                         {intl.formatMessage({ id: 'festivalEvent.accessibilityReadMore' })}
                       </Link>
@@ -427,7 +529,10 @@ export default function FestivalEventPage() {
           </Container>
         </div>
       )}
-      <nav className={styles.eventNav} aria-label={intl.formatMessage({ id: 'festivalEvent.nav.label' })}>
+      <nav
+        className={styles.eventNav}
+        aria-label={intl.formatMessage({ id: 'festivalEvent.nav.label' })}
+      >
         <Container>
           {isPast || currentIndex === -1 ? (
             <div className={styles.eventNavBrowse}>
@@ -438,21 +543,49 @@ export default function FestivalEventPage() {
           ) : (
             <div className={styles.eventNavPrevNext}>
               {prevEvent && (
-                <Link to={eventPath(prevEvent.slug)} className={styles.eventNavPrev}
-                  onClick={() => track({ name: 'prev_next_nav', event_label: prevEvent.slug, event_location: 'bottom', content_type: 'event' })}>
+                <Link
+                  to={eventPath(prevEvent.slug)}
+                  className={styles.eventNavPrev}
+                  onClick={() =>
+                    track({
+                      name: 'prev_next_nav',
+                      event_label: prevEvent.slug,
+                      event_location: 'bottom',
+                      content_type: 'event',
+                    })
+                  }
+                >
                   <span className={styles.eventNavArrow}>‹</span>
                   <span className={styles.eventNavLabel}>
-                    <span className={styles.eventNavHint}>{intl.formatMessage({ id: 'festivalEvent.nav.previous' })}</span>
-                    <span className={styles.eventNavTitle}>{decodeHtmlEntities(prevEvent.title?.rendered ?? '')}</span>
+                    <span className={styles.eventNavHint}>
+                      {intl.formatMessage({ id: 'festivalEvent.nav.previous' })}
+                    </span>
+                    <span className={styles.eventNavTitle}>
+                      {decodeHtmlEntities(prevEvent.title?.rendered ?? '')}
+                    </span>
                   </span>
                 </Link>
               )}
               {nextEvent && (
-                <Link to={eventPath(nextEvent.slug)} className={styles.eventNavNext}
-                  onClick={() => track({ name: 'prev_next_nav', event_label: nextEvent.slug, event_location: 'bottom', content_type: 'event' })}>
+                <Link
+                  to={eventPath(nextEvent.slug)}
+                  className={styles.eventNavNext}
+                  onClick={() =>
+                    track({
+                      name: 'prev_next_nav',
+                      event_label: nextEvent.slug,
+                      event_location: 'bottom',
+                      content_type: 'event',
+                    })
+                  }
+                >
                   <span className={styles.eventNavLabel}>
-                    <span className={styles.eventNavHint}>{intl.formatMessage({ id: 'festivalEvent.nav.next' })}</span>
-                    <span className={styles.eventNavTitle}>{decodeHtmlEntities(nextEvent.title?.rendered ?? '')}</span>
+                    <span className={styles.eventNavHint}>
+                      {intl.formatMessage({ id: 'festivalEvent.nav.next' })}
+                    </span>
+                    <span className={styles.eventNavTitle}>
+                      {decodeHtmlEntities(nextEvent.title?.rendered ?? '')}
+                    </span>
                   </span>
                   <span className={styles.eventNavArrow}>›</span>
                 </Link>

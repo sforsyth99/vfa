@@ -71,11 +71,7 @@ export function KidsFestInterviews() {
         <FormattedMessage id="kidsfestInterviews.blurb" />
       </p>
 
-      <div
-        className={styles.carouselWrapper}
-        data-can-prev={canPrev}
-        data-can-next={canNext}
-      >
+      <div className={styles.carouselWrapper} data-can-prev={canPrev} data-can-next={canNext}>
         <button
           className={`${styles.arrow} ${styles.arrowPrev}`}
           onClick={() => scroll('prev')}
@@ -90,9 +86,10 @@ export function KidsFestInterviews() {
             const data = interview.interview_data;
             const authors = sortBySurname(data?.authors ?? []);
             const primaryAuthor = authors[0];
-            const authorLabel = authors.length > 0
-              ? authors.map(a => decodeHtmlEntities(a.name)).join(' & ')
-              : decodeHtmlEntities(interview.title?.rendered ?? '');
+            const authorLabel =
+              authors.length > 0
+                ? authors.map((a) => decodeHtmlEntities(a.name)).join(' & ')
+                : decodeHtmlEntities(interview.title?.rendered ?? '');
             const photoSrc = primaryAuthor?.photo ? primaryAuthor.photo[0] : null;
             // KidsFest crop photos are framed for top alignment; a regular portrait
             // (no kidfest_photo) looks better centered.
@@ -105,7 +102,10 @@ export function KidsFestInterviews() {
                 <Link
                   to={`/interviews/${interview.slug}`}
                   className={styles.card}
-                  aria-label={intl.formatMessage({ id: 'interviews.card.label' }, { name: authorLabel })}
+                  aria-label={intl.formatMessage(
+                    { id: 'interviews.card.label' },
+                    { name: authorLabel },
+                  )}
                 >
                   {photoSrc ? (
                     <div className={styles.polaroid}>
@@ -123,7 +123,11 @@ export function KidsFestInterviews() {
                   {interviewerName && (
                     <span className={styles.interviewerLine}>
                       <FormattedMessage
-                        id={interviewerAge ? 'interviews.card.interviewedByAge' : 'interviews.card.interviewedBy'}
+                        id={
+                          interviewerAge
+                            ? 'interviews.card.interviewedByAge'
+                            : 'interviews.card.interviewedBy'
+                        }
                         values={{ name: interviewerName, age: interviewerAge }}
                       />
                     </span>

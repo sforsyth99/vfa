@@ -17,13 +17,15 @@ export default function VenuesPage() {
   const { data: venues, isLoading, error } = useGetVenues();
 
   const sorted = (venues ?? []).sort((a, b) =>
-    (a.venue_data.name || '').localeCompare(b.venue_data.name || '')
+    (a.venue_data.name || '').localeCompare(b.venue_data.name || ''),
   );
 
   return (
     <main id="main-content" className={styles.page}>
       <Container>
-        <PageTitle><FormattedMessage id="venues.heading" /></PageTitle>
+        <PageTitle>
+          <FormattedMessage id="venues.heading" />
+        </PageTitle>
 
         {isLoading && (
           <ul className={styles.list} aria-busy="true">
@@ -38,7 +40,16 @@ export default function VenuesPage() {
             ))}
           </ul>
         )}
-        {!isLoading && <QueryState isLoading={false} isError={!!error} isEmpty={!error && sorted.length === 0} loadingId="venues.loading" errorId="venues.error" emptyId="venues.empty" />}
+        {!isLoading && (
+          <QueryState
+            isLoading={false}
+            isError={!!error}
+            isEmpty={!error && sorted.length === 0}
+            loadingId="venues.loading"
+            errorId="venues.error"
+            emptyId="venues.empty"
+          />
+        )}
 
         <ul className={styles.list}>
           {sorted.map((venue) => {
@@ -63,14 +74,15 @@ export default function VenuesPage() {
                   {buildingLine && <p className={styles.detail}>{buildingLine}</p>}
                   {addressLine && <p className={styles.detail}>{addressLine}</p>}
                   {descriptionText && <p className={styles.description}>{descriptionText}</p>}
-                  {accessibilityText && (
-                    <p className={styles.accessibility}>{accessibilityText}</p>
-                  )}
+                  {accessibilityText && <p className={styles.accessibility}>{accessibilityText}</p>}
                   {(descriptionText || accessibilityText) && (
                     <Link
                       to={`/venues/${venue.slug}`}
                       className={styles.readMore}
-                      aria-label={intl.formatMessage({ id: 'venues.readMoreLabel' }, { name: title })}
+                      aria-label={intl.formatMessage(
+                        { id: 'venues.readMoreLabel' },
+                        { name: title },
+                      )}
                     >
                       {intl.formatMessage({ id: 'venues.readMore' })}
                     </Link>
