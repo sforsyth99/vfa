@@ -5,6 +5,7 @@ import { SkipToContent } from './components/SkipToContent/SkipToContent';
 import { ScrollToTop } from './components/ScrollToTop/ScrollToTop';
 import { GoogleAnalytics } from './components/GoogleAnalytics/GoogleAnalytics';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import styles from './App.module.css';
 import HomePage from './pages/Home/Home';
 import AllContent2026Page from './pages/AllContent2026/AllContent2026';
 import Events from './pages/Events/Events';
@@ -32,31 +33,33 @@ function App() {
       <GoogleAnalytics />
       <SkipToContent />
       <Header />
-      <ErrorBoundary>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/2026-all" element={<AllContent2026Page />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/category/qa" element={<Navigate to="/interviews" replace />} />
-          <Route path="/interviews" element={<InterviewsPage />} />
-          <Route path="/interviews/:slug" element={<InterviewPage />} />
-          <Route path="/people/:slug" element={<PersonPage />} />
-          <Route path="/events/:slug" element={<FestivalEventPage />} />
-          <Route path="/venues/:slug" element={<VenuePage />} />
-          <Route path="/books/:slug" element={<BookPage />} />
-          <Route path="/kidsfest2026" element={<KidsFest2026Page />} />
-          <Route path="/authors" element={<AuthorsPage />} />
-          <Route path="/books" element={<BooksPage />} />
-          <Route path="/venues" element={<VenuesPage />} />
-          <Route path="/who-we-are" element={<WhoWeArePage />} />
-          <Route path="/strategic-plan" element={<StrategicPlanPage />} />
-          <Route path="/archives" element={<ArchivesPage />} />
-          <Route path="/qa-archive-page" element={<ArchivesPage />} />
-          <Route path="/test-widget" element={<EventbriteTestPage />} />
-          <Route path="/:slug" element={<DynamicPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </ErrorBoundary>
+      <div className={styles.screen}>
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/2026-all" element={<AllContent2026Page />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/category/qa" element={<Navigate to="/interviews" replace />} />
+            <Route path="/interviews" element={<InterviewsPage />} />
+            <Route path="/interviews/:slug" element={<InterviewPage />} />
+            <Route path="/people/:slug" element={<PersonPage />} />
+            <Route path="/events/:slug" element={<FestivalEventPage />} />
+            <Route path="/venues/:slug" element={<VenuePage />} />
+            <Route path="/books/:slug" element={<BookPage />} />
+            <Route path="/kidsfest2026" element={<KidsFest2026Page />} />
+            <Route path="/authors" element={<AuthorsPage />} />
+            <Route path="/books" element={<BooksPage />} />
+            <Route path="/venues" element={<VenuesPage />} />
+            <Route path="/who-we-are" element={<WhoWeArePage />} />
+            <Route path="/strategic-plan" element={<StrategicPlanPage />} />
+            <Route path="/archives" element={<ArchivesPage />} />
+            <Route path="/qa-archive-page" element={<ArchivesPage />} />
+            <Route path="/test-widget" element={<EventbriteTestPage />} />
+            <Route path="/:slug" element={<DynamicPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </ErrorBoundary>
+      </div>
       <Footer />
     </>
   );

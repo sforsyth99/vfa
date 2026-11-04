@@ -2,7 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
+  /* Fills the rest of the screen (see App.module.css), keeping the footer
+     below the fold while loading. */
+  min-height: 50vh;
 }
 
 .spinner {
@@ -33,7 +35,8 @@
 }
 
 @media (max-width: 640px) {
-  .wrap {
-    min-height: 50vh;
+  .spinner {
+    width: 2rem;
+    height: 2rem;
   }
 }
