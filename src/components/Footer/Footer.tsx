@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import styles from './Footer.module.css';
 import logoSrc from '../../assets/VFA_Logo.png';
-import titleSponsorSrc from '../../assets/titleSponsor/MunrosBooks.jpg';
-import calfStampSrc from '../../assets/CALF-Member_Stamp_Primary.png';
+import titleSponsorSrc from '../../assets/titleSponsor/MunrosBooks.webp';
+import calfStampSrc from '../../assets/CALF-Member_Stamp_Primary.webp';
 import SocialIcons from '../SocialIcons/SocialIcons';
 import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
 import { FOOTER_NAV } from '../../config/menus';
 import { track } from '../../utils/analytics';
 
-const sponsorImages = import.meta.glob('../../assets/sponsors/*.{png,jpg,jpeg,svg}', {
+const sponsorImages = import.meta.glob('../../assets/sponsors/*.{webp,svg}', {
   eager: true,
   import: 'default',
 });

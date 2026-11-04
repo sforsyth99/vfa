@@ -5,7 +5,7 @@ import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities';
 import { downloadIcs } from '../../utils/downloadIcs';
 import { track } from '../../utils/analytics';
 import styles from './KidsFestPromo.module.css';
-import posterSrc from '../../assets/VFA_KidsFest.jpg';
+import posterSrc from '../../assets/VFA_KidsFest.webp';
 
 export function KidsFestPromo() {
   const intl = useIntl();
