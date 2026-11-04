@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { VenueData } from '../../api/venues/venueTypes.ts';
-import VenueMap from '../VenueMap/VenueMap.tsx';
+import { LazyVenueMap } from '../VenueMap/LazyVenueMap.tsx';
 import styles from './VenueMapRow.module.css';
 
 interface Props {
@@ -12,7 +12,7 @@ export function VenueMapRow({ venue, children }: Props) {
   return (
     <div className={styles.row}>
       <div className={styles.info}>{children}</div>
-      {venue.street_address && <VenueMap venue={venue} />}
+      {venue.street_address && <LazyVenueMap venue={venue} />}
     </div>
   );
 }

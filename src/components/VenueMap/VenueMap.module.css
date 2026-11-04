@@ -21,6 +21,14 @@
   padding: 1px 4px;
 }
 
+.placeholder {
+  background: var(--vfa-color-forest-bg);
+}
+
+.linkSpace {
+  visibility: hidden;
+}
+
 .osmLink,
 .fallbackLink {
   display: inline-block;

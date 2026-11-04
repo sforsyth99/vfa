@@ -3,6 +3,8 @@ import { useIntl } from 'react-intl';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { VenueData } from '../../api/venues/venueTypes.ts';
+import { buildAddress } from './venueAddress.ts';
+import { VenueMapFallback, VenueMapPlaceholder } from './VenueMapPlaceholder.tsx';
 import styles from './VenueMap.module.css';
 
 // Leaflet's default icon assets don't resolve correctly through Vite's bundler,
@@ -20,12 +22,6 @@ const markerIcon = L.icon({
 interface Coords {
   lat: number;
   lon: number;
-}
-
-function buildAddress(venue: VenueData): string {
-  return [venue.street_address, venue.city, venue.province, venue.postal_code, venue.country]
-    .filter(Boolean)
-    .join(', ');
 }
 
 function buildGeocodingQuery(venue: VenueData): string {
@@ -102,20 +98,10 @@ export default function VenueMap({ venue }: { venue: VenueData }) {
 
   if (!address) return null;
 
-  if (failed) {
-    return (
-      <a
-        href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(address)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.fallbackLink}
-      >
-        {intl.formatMessage({ id: 'venue.viewOnMap' })}
-      </a>
-    );
-  }
+  if (failed) return <VenueMapFallback address={address} />;
 
-  if (!coords) return null;
+  // Keep the map's space while the location loads, so the page doesn't shift.
+  if (!coords) return <VenueMapPlaceholder />;
 
   const { lat, lon } = coords;
 
