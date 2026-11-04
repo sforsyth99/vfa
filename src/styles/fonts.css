@@ -1,0 +1,45 @@
+/*
+ * Fonts are self-hosted (Fontsource packages) instead of loaded from Google
+ * Fonts, so no external stylesheet blocks the first paint and the files are
+ * cached for a year under fingerprinted names. Only the subsets a page's text
+ * needs are downloaded (each face has a unicode-range).
+ */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/dm-sans/opsz.css';
+@import '@fontsource-variable/dm-sans/opsz-italic.css';
+@import '@fontsource/courier-prime/400.css';
+@import '@fontsource/courier-prime/700.css';
+@import '@fontsource/courier-prime/400-italic.css';
+
+/*
+ * Fallback faces sized to match each web font, so text keeps its size and
+ * line breaks when the web font swaps in (no layout shift). Values were
+ * measured in Chromium against the fallback (DM Sans at weight 600, its main
+ * use). Re-measure if a font or fallback changes.
+ */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 107.04%;
+  ascent-override: 90.62%;
+  descent-override: 22.42%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'DM Sans Fallback';
+  src: local('Arial');
+  size-adjust: 90.67%;
+  ascent-override: 109.19%;
+  descent-override: 34.19%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Courier Prime Fallback';
+  src: local('Courier New');
+  size-adjust: 99.92%;
+  ascent-override: 78.06%;
+  descent-override: 34.03%;
+  line-gap-override: 0%;
+}

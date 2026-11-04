@@ -23,6 +23,9 @@
     "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm build:app"
   },
   "dependencies": {
+    "@fontsource-variable/dm-sans": "5.3.0",
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource/courier-prime": "5.3.0",
     "@tanstack/react-query": "^5.95.2",
     "classnames": "^2.5.1",
     "dompurify": "^3.4.17",
