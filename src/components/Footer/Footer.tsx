@@ -10,7 +10,10 @@ import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
 import { FOOTER_NAV } from '../../config/menus';
 import { track } from '../../utils/analytics';
 
-const sponsorImages = import.meta.glob('../../assets/sponsors/*.{png,jpg,jpeg,svg}', { eager: true, import: 'default' });
+const sponsorImages = import.meta.glob('../../assets/sponsors/*.{png,jpg,jpeg,svg}', {
+  eager: true,
+  import: 'default',
+});
 const sponsorLogos: string[] = Object.values(sponsorImages) as string[];
 
 function Footer() {
@@ -29,7 +32,10 @@ function Footer() {
         </Link>
       </div>
 
-      <nav className={styles.footerNav} aria-label={intl.formatMessage({ id: 'footer.menu.label' })}>
+      <nav
+        className={styles.footerNav}
+        aria-label={intl.formatMessage({ id: 'footer.menu.label' })}
+      >
         {FOOTER_NAV.map((group) => (
           <div key={group.heading} className={styles.footerNavGroup}>
             <p className={styles.footerNavHeading}>{group.heading}</p>
@@ -45,7 +51,13 @@ function Footer() {
                         href={item.to}
                         download
                         className={linkClass}
-                        onClick={() => track({ name: 'download_click', event_location: 'footer', file_name: 'safer-spaces-policy' })}
+                        onClick={() =>
+                          track({
+                            name: 'download_click',
+                            event_location: 'footer',
+                            file_name: 'safer-spaces-policy',
+                          })
+                        }
                       >
                         {item.label}
                       </a>
@@ -55,12 +67,18 @@ function Footer() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={linkClass}
-                        onClick={item.trackingLabel === 'donate' ? () => track({ name: 'donate_click', event_location: 'footer' }) : undefined}
+                        onClick={
+                          item.trackingLabel === 'donate'
+                            ? () => track({ name: 'donate_click', event_location: 'footer' })
+                            : undefined
+                        }
                       >
                         {item.label}
                       </a>
                     ) : (
-                      <Link to={item.to} className={linkClass}>{item.label}</Link>
+                      <Link to={item.to} className={linkClass}>
+                        {item.label}
+                      </Link>
                     )}
                   </li>
                 );

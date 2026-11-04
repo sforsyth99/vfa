@@ -32,7 +32,7 @@ export const ToBuyOnlineUrl: Story = {
   args: {
     slug: 'my-great-novel',
     munrosUrl: 'https://munros.com/book/123',
-    children: 'Buy at Munro\'s',
+    children: "Buy at Munro's",
   },
   play: async ({ canvas }) => {
     const link = canvas.getByRole('link', { name: /buy at munro/i });

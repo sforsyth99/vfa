@@ -14,15 +14,13 @@ function StrategicPlanPage() {
     <main id="main-content">
       <Container>
         <div className={styles.page}>
-          <PageTitle><FormattedMessage id="strategicPlan.pageTitle" /></PageTitle>
+          <PageTitle>
+            <FormattedMessage id="strategicPlan.pageTitle" />
+          </PageTitle>
           <p className={styles.description}>
             <FormattedMessage id="strategicPlan.description" />
           </p>
-          <a
-            href={PDF_URL}
-            download
-            className={styles.downloadBtn}
-          >
+          <a href={PDF_URL} download className={styles.downloadBtn}>
             <FormattedMessage id="strategicPlan.download" />
           </a>
           <div className={styles.pdfWrapper}>

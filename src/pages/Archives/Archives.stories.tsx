@@ -62,8 +62,6 @@ export const Loading: Story = {
 
 export const Error: Story = {
   parameters: {
-    msw: [
-      http.get(`${VFA}/qa-categories`, () => HttpResponse.json({}, { status: 500 })),
-    ],
+    msw: [http.get(`${VFA}/qa-categories`, () => HttpResponse.json({}, { status: 500 }))],
   },
 };

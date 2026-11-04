@@ -7,9 +7,7 @@ export function useGetMenuItems(menuId: number) {
     queryKey: ['menu-items', menuId],
     queryFn: async () => {
       const url = `${MENU_ITEMS_URL}/?menus=${menuId}`;
-      return wretch(url)
-        .get()
-        .json();
+      return wretch(url).get().json();
     },
     enabled: !!menuId,
   });

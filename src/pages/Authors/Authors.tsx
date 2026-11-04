@@ -14,7 +14,13 @@ import { SkeletonBlock } from '../../components/Skeleton/Skeleton';
 import styles from './Authors.module.css';
 
 function initials(name: string) {
-  return name.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  return name
+    .trim()
+    .split(/\s+/)
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 }
 
 function surnameInitial(name: string): string {
@@ -26,7 +32,7 @@ function AuthorRow({ author }: { author: PersonData }) {
   const { data: books = [] } = useGetPersonBooks(author.id, CURRENT_YEAR);
   const photo = author.photo_square || author.photo;
   const bio = author.bio ? htmlToText(author.bio) : '';
-  const booksWithCover = books.filter(b => b.cover_image);
+  const booksWithCover = books.filter((b) => b.cover_image);
 
   return (
     <Link to={`/people/${author.slug}`} className={styles.item}>
@@ -35,14 +41,22 @@ function AuthorRow({ author }: { author: PersonData }) {
           {photo ? (
             <img src={photo[0]} alt="" aria-hidden="true" loading="lazy" className={styles.photo} />
           ) : (
-            <div className={styles.placeholder} aria-hidden="true">{initials(author.name)}</div>
+            <div className={styles.placeholder} aria-hidden="true">
+              {initials(author.name)}
+            </div>
           )}
         </div>
 
         {booksWithCover.length > 0 && (
           <div className={styles.books}>
-            {booksWithCover.map(book => (
-              <img key={book.id} src={(book.cover_image as [string, number, number, boolean])[0]} alt={book.title} className={styles.bookCover} loading="lazy" />
+            {booksWithCover.map((book) => (
+              <img
+                key={book.id}
+                src={(book.cover_image as [string, number, number, boolean])[0]}
+                alt={book.title}
+                className={styles.bookCover}
+                loading="lazy"
+              />
             ))}
           </div>
         )}
@@ -53,7 +67,9 @@ function AuthorRow({ author }: { author: PersonData }) {
         {bio && <p className={styles.bio}>{bio}</p>}
       </div>
 
-      <span className={styles.chevron} aria-hidden="true">›</span>
+      <span className={styles.chevron} aria-hidden="true">
+        ›
+      </span>
     </Link>
   );
 }
@@ -76,7 +92,9 @@ export default function AuthorsPage() {
   return (
     <main id="main-content" className={styles.page}>
       <Container>
-        <PageTitle><FormattedMessage id="home.authors.heading" /></PageTitle>
+        <PageTitle>
+          <FormattedMessage id="home.authors.heading" />
+        </PageTitle>
 
         {isLoading && (
           <div className={styles.skeletonPanel} aria-busy="true">
@@ -92,22 +110,36 @@ export default function AuthorsPage() {
             ))}
           </div>
         )}
-        {!isLoading && <QueryState isLoading={false} isError={isError} loadingId="home.authors.loading" errorId="home.authors.error" />}
+        {!isLoading && (
+          <QueryState
+            isLoading={false}
+            isError={isError}
+            loadingId="home.authors.loading"
+            errorId="home.authors.error"
+          />
+        )}
 
         {grouped && (
           <>
-            <nav className={styles.jumpNav} aria-label={intl.formatMessage({ id: 'authors.jumpNav.label' })}>
-              {letters.map(letter => (
-                <a key={letter} href={`#authors-${letter}`} className={styles.jumpLink}>{letter}</a>
+            <nav
+              className={styles.jumpNav}
+              aria-label={intl.formatMessage({ id: 'authors.jumpNav.label' })}
+            >
+              {letters.map((letter) => (
+                <a key={letter} href={`#authors-${letter}`} className={styles.jumpLink}>
+                  {letter}
+                </a>
               ))}
             </nav>
 
             <div className={styles.listPanel}>
-              {letters.map(letter => (
+              {letters.map((letter) => (
                 <section key={letter} id={`authors-${letter}`} className={styles.letterSection}>
-                  <div className={styles.letterDivider} aria-hidden="true">{letter}</div>
+                  <div className={styles.letterDivider} aria-hidden="true">
+                    {letter}
+                  </div>
                   <ul className={styles.list}>
-                    {grouped[letter].map(author => (
+                    {grouped[letter].map((author) => (
                       <li key={author.id}>
                         <AuthorRow author={author} />
                       </li>

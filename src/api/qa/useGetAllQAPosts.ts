@@ -1,6 +1,12 @@
 import { useQuery, useQueries } from '@tanstack/react-query';
 import wretch from '../wretch.ts';
-import { type QACategory, type QAPage, type QAPostWithYear, QA_CATEGORIES_URL, QA_POSTS_URL } from './qaTypes.ts';
+import {
+  type QACategory,
+  type QAPage,
+  type QAPostWithYear,
+  QA_CATEGORIES_URL,
+  QA_POSTS_URL,
+} from './qaTypes.ts';
 
 function extractYear(label: string): number | null {
   const match = label.match(/\b(\d{4})\b/);
@@ -8,7 +14,11 @@ function extractYear(label: string): number | null {
 }
 
 export function useGetAllQAPosts() {
-  const { data: categories, isLoading: catsLoading, isError: catsError } = useQuery<QACategory[]>({
+  const {
+    data: categories,
+    isLoading: catsLoading,
+    isError: catsError,
+  } = useQuery<QACategory[]>({
     queryKey: ['qa-categories'],
     queryFn: () => wretch(QA_CATEGORIES_URL).get().json<QACategory[]>(),
   });
@@ -17,9 +27,7 @@ export function useGetAllQAPosts() {
     queries: (categories ?? []).map((cat) => ({
       queryKey: ['qa-posts', cat.id, 'all'],
       queryFn: () =>
-        wretch(`${QA_POSTS_URL}?category_id=${cat.id}&per_page=200&page=1`)
-          .get()
-          .json<QAPage>(),
+        wretch(`${QA_POSTS_URL}?category_id=${cat.id}&per_page=200&page=1`).get().json<QAPage>(),
       enabled: !!categories,
     })),
   });

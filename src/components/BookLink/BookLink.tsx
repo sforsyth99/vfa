@@ -10,7 +10,14 @@ interface Props {
   children: React.ReactNode;
 }
 
-export function BookLink({ slug, munrosUrl, bookTitle, className, 'aria-label': ariaLabel, children }: Props) {
+export function BookLink({
+  slug,
+  munrosUrl,
+  bookTitle,
+  className,
+  'aria-label': ariaLabel,
+  children,
+}: Props) {
   if (munrosUrl) {
     return (
       <a

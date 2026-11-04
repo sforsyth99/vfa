@@ -5,8 +5,16 @@ import styles from './HomeQuickNav.module.css';
 const TILES = [
   { to: '/events', titleId: 'home.quickNav.events.title', descId: 'home.quickNav.events.desc' },
   { to: '/authors', titleId: 'home.quickNav.authors.title', descId: 'home.quickNav.authors.desc' },
-  { to: '/kidsfest2026', titleId: 'home.quickNav.kidsfest.title', descId: 'home.quickNav.kidsfest.desc' },
-  { to: '/interviews', titleId: 'home.quickNav.interviews.title', descId: 'home.quickNav.interviews.desc' },
+  {
+    to: '/kidsfest2026',
+    titleId: 'home.quickNav.kidsfest.title',
+    descId: 'home.quickNav.kidsfest.desc',
+  },
+  {
+    to: '/interviews',
+    titleId: 'home.quickNav.interviews.title',
+    descId: 'home.quickNav.interviews.desc',
+  },
 ];
 
 export function HomeQuickNav() {
@@ -20,7 +28,9 @@ export function HomeQuickNav() {
               <span className={styles.tileTitle}>{intl.formatMessage({ id: titleId })}</span>
               <span className={styles.tileDesc}>{intl.formatMessage({ id: descId })}</span>
             </span>
-            <span className={styles.tileChevron} aria-hidden="true">›</span>
+            <span className={styles.tileChevron} aria-hidden="true">
+              ›
+            </span>
           </Link>
         ))}
       </div>

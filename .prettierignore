@@ -6,3 +6,14 @@ coverage/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+# Third-party and tool-generated files (formatting would be overwritten on update)
+Wordpress/**/vendor/
+public/mockServiceWorker.js
+.claude/
+.specify/
+.github/agents/
+.github/prompts/
+
+# Markdown keeps its own style (e.g. *italics*)
+*.md

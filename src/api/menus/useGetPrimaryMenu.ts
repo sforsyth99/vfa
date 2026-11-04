@@ -6,9 +6,7 @@ export function useGetPrimaryMenu() {
   return useQuery<MenuLocation>({
     queryKey: [MENU_LOCATIONS_PATH],
     queryFn: async () => {
-      return wretch(`${MENU_LOCATIONS_URL}/primary`)
-        .get()
-        .json();
+      return wretch(`${MENU_LOCATIONS_URL}/primary`).get().json();
     },
   });
 }

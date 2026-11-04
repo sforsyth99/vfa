@@ -18,10 +18,16 @@ export default function DynamicPage() {
   const page = pages?.find((p: { slug: string }) => p.slug === slug);
   const pageId = page?.id;
 
-  const { data: pageData, isLoading: loadingPage } = useGetPage({ pageId, enabled: !interviewMatch && !!pageId });
+  const { data: pageData, isLoading: loadingPage } = useGetPage({
+    pageId,
+    enabled: !interviewMatch && !!pageId,
+  });
 
   const lookUpPost = !interviewMatch && !loadingPages && !loadingInterviews && !pageId;
-  const { data: postData, isLoading: loadingPost } = useGetPostBySlug({ slug: slug!, enabled: lookUpPost });
+  const { data: postData, isLoading: loadingPost } = useGetPostBySlug({
+    slug: slug!,
+    enabled: lookUpPost,
+  });
 
   if (interviewMatch) return <Navigate to={`/interviews/${slug}`} replace />;
 
@@ -31,8 +37,14 @@ export default function DynamicPage() {
     return (
       <main id="main-content" className={styles.page}>
         <Container narrow>
-          <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: sanitizeHtml(postData.title.rendered) }} />
-          <div className={styles.content} dangerouslySetInnerHTML={{ __html: sanitizeHtml(postData.content.rendered) }} />
+          <h1
+            className={styles.title}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(postData.title.rendered) }}
+          />
+          <div
+            className={styles.content}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(postData.content.rendered) }}
+          />
         </Container>
       </main>
     );
@@ -43,8 +55,14 @@ export default function DynamicPage() {
   return (
     <main id="main-content" className={styles.page}>
       <Container narrow>
-        <h1 className={styles.title} dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageData.title.rendered) }} />
-        <div className={styles.content} dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageData.content.rendered) }} />
+        <h1
+          className={styles.title}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageData.title.rendered) }}
+        />
+        <div
+          className={styles.content}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageData.content.rendered) }}
+        />
       </Container>
     </main>
   );

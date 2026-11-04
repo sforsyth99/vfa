@@ -22,7 +22,9 @@ export function HomeReadingList() {
     setCanNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
   }, []);
 
-  useEffect(() => { updateScrollState(); }, [books, updateScrollState]);
+  useEffect(() => {
+    updateScrollState();
+  }, [books, updateScrollState]);
 
   const scroll = (dir: 'prev' | 'next') => {
     if (!trackRef.current) return;
@@ -36,7 +38,9 @@ export function HomeReadingList() {
         <div className={styles.inner}>
           <SkeletonBlock className={styles.skeletonHeading} />
           <div className={styles.skeletonTrack}>
-            {[0, 1, 2, 3, 4].map((i) => <SkeletonBlock key={i} className={styles.skeletonCard} />)}
+            {[0, 1, 2, 3, 4].map((i) => (
+              <SkeletonBlock key={i} className={styles.skeletonCard} />
+            ))}
           </div>
         </div>
       </section>
@@ -45,8 +49,7 @@ export function HomeReadingList() {
 
   const filtered = (books ?? []).filter(
     (b) =>
-      b.book_data?.festival_year === CURRENT_YEAR &&
-      !b.book_data?.categories?.includes('children'),
+      b.book_data?.festival_year === CURRENT_YEAR && !b.book_data?.categories?.includes('children'),
   );
 
   if (!filtered.length) return null;
@@ -108,11 +111,14 @@ export function HomeReadingList() {
                     </div>
                     <span className={styles.cardTitle}>{title}</span>
                   </BookLink>
-                  {authorName && (
-                    authorSlug
-                      ? <Link to={`/people/${authorSlug}`} className={styles.cardAuthor}>{authorName}</Link>
-                      : <span className={styles.cardAuthor}>{authorName}</span>
-                  )}
+                  {authorName &&
+                    (authorSlug ? (
+                      <Link to={`/people/${authorSlug}`} className={styles.cardAuthor}>
+                        {authorName}
+                      </Link>
+                    ) : (
+                      <span className={styles.cardAuthor}>{authorName}</span>
+                    ))}
                 </li>
               );
             })}

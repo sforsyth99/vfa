@@ -20,7 +20,7 @@ describe('decodeHtmlEntities', () => {
 
   it('decodes multiple entities in a single string', () => {
     expect(decodeHtmlEntities('&lt;b&gt;Bold &amp; Beautiful&lt;/b&gt;')).toBe(
-      '<b>Bold & Beautiful</b>'
+      '<b>Bold & Beautiful</b>',
     );
   });
 

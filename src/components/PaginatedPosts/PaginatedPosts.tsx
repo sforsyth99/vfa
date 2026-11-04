@@ -16,9 +16,9 @@ function PaginatedPosts() {
 
   React.useEffect(() => {
     if (posts && posts.length > 0) {
-      setAllPosts(prev => {
-        const ids = new Set(prev.map(p => p.id));
-        return [...prev, ...posts.filter(p => !ids.has(p.id))];
+      setAllPosts((prev) => {
+        const ids = new Set(prev.map((p) => p.id));
+        return [...prev, ...posts.filter((p) => !ids.has(p.id))];
       });
       setHasMore(posts.length === POSTS_PER_PAGE);
     } else if (posts && posts.length === 0) {
@@ -29,18 +29,35 @@ function PaginatedPosts() {
 
   const handleLoadMore = () => {
     setIsLoadingMore(true);
-    setPage(prev => prev + 1);
+    setPage((prev) => prev + 1);
   };
 
-  if (isLoading && page === 1) return <div><FormattedMessage id="posts.loading" /></div>;
-  if (error) return <div><FormattedMessage id="posts.error" /></div>;
-  if (!allPosts || allPosts.length === 0) return <div><FormattedMessage id="posts.empty" /></div>;
+  if (isLoading && page === 1)
+    return (
+      <div>
+        <FormattedMessage id="posts.loading" />
+      </div>
+    );
+  if (error)
+    return (
+      <div>
+        <FormattedMessage id="posts.error" />
+      </div>
+    );
+  if (!allPosts || allPosts.length === 0)
+    return (
+      <div>
+        <FormattedMessage id="posts.empty" />
+      </div>
+    );
 
   return (
     <div>
-      <h2><FormattedMessage id="posts.latestHeading" /></h2>
+      <h2>
+        <FormattedMessage id="posts.latestHeading" />
+      </h2>
       <ul>
-        {allPosts.map(post => (
+        {allPosts.map((post) => (
           <li key={post.id}>
             <strong>{post.title.rendered}</strong>
           </li>

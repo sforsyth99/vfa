@@ -19,7 +19,10 @@ function NewsletterSignup({ location }: { location: 'footer' | 'homepage' }) {
     setStatus('loading');
 
     const callbackName = `mc_cb_${Date.now()}`;
-    (window as unknown as Record<string, unknown>)[callbackName] = (data: { result: string; msg: string }) => {
+    (window as unknown as Record<string, unknown>)[callbackName] = (data: {
+      result: string;
+      msg: string;
+    }) => {
       if (data.result === 'success') {
         track({ name: 'newsletter_signup', event_location: location });
         setStatus('success');
@@ -27,7 +30,10 @@ function NewsletterSignup({ location }: { location: 'footer' | 'homepage' }) {
         setEmail('');
       } else {
         setStatus('error');
-        setMessage(data.msg?.replace(/^\d+ - /, '') || intl.formatMessage({ id: 'newsletter.errorFallback' }));
+        setMessage(
+          data.msg?.replace(/^\d+ - /, '') ||
+            intl.formatMessage({ id: 'newsletter.errorFallback' }),
+        );
       }
       delete (window as unknown as Record<string, unknown>)[callbackName];
       document.getElementById(callbackName)?.remove();
@@ -41,7 +47,11 @@ function NewsletterSignup({ location }: { location: 'footer' | 'homepage' }) {
 
   return (
     <div className={styles.newsletter}>
-      <p className={styles.title}>{intl.formatMessage({ id: location === 'homepage' ? 'newsletter.title.homepage' : 'newsletter.title' })}</p>
+      <p className={styles.title}>
+        {intl.formatMessage({
+          id: location === 'homepage' ? 'newsletter.title.homepage' : 'newsletter.title',
+        })}
+      </p>
       {location === 'footer' && (
         <p className={styles.tagline}>{intl.formatMessage({ id: 'newsletter.footer.tagline' })}</p>
       )}

@@ -36,9 +36,21 @@ export const MultipleEvents: Story = {
     bookCoverSrc: COVER,
     bookCoverAlt: 'Great Novel',
     events: [
-      { title: 'In Conversation with Jane Smith', subtitleLines: ['Sat, Oct 18, 2026'], to: '/festival-events/jane-smith-conversation' },
-      { title: 'Jane Smith Workshop', subtitleLines: ['Sun, Oct 19, 2026'], to: '/festival-events/jane-smith-workshop' },
-      { title: 'Jane Smith Reading', subtitleLines: ['Mon, Oct 20, 2026'], to: '/festival-events/jane-smith-reading' },
+      {
+        title: 'In Conversation with Jane Smith',
+        subtitleLines: ['Sat, Oct 18, 2026'],
+        to: '/festival-events/jane-smith-conversation',
+      },
+      {
+        title: 'Jane Smith Workshop',
+        subtitleLines: ['Sun, Oct 19, 2026'],
+        to: '/festival-events/jane-smith-workshop',
+      },
+      {
+        title: 'Jane Smith Reading',
+        subtitleLines: ['Mon, Oct 20, 2026'],
+        to: '/festival-events/jane-smith-reading',
+      },
     ],
   },
   play: async ({ canvas }) => {

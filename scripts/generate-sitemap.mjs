@@ -9,22 +9,22 @@ const BASE_URL = 'https://victoriafestivalofauthors.ca';
 const API_BASE = 'https://api.victoriafestivalofauthors.ca/wp-json/wp/v2';
 
 const STATIC_ROUTES = [
-  { path: '/',               priority: '1.0', changefreq: 'daily' },
-  { path: '/events',         priority: '0.9', changefreq: 'daily' },
-  { path: '/authors',        priority: '0.9', changefreq: 'weekly' },
-  { path: '/interviews',     priority: '0.9', changefreq: 'weekly' },
-  { path: '/books',          priority: '0.8', changefreq: 'weekly' },
-  { path: '/venues',         priority: '0.8', changefreq: 'monthly' },
-  { path: '/kidsfest2026',   priority: '0.8', changefreq: 'weekly' },
-  { path: '/who-we-are',     priority: '0.6', changefreq: 'monthly' },
-  { path: '/what-we-do',     priority: '0.6', changefreq: 'monthly' },
+  { path: '/', priority: '1.0', changefreq: 'daily' },
+  { path: '/events', priority: '0.9', changefreq: 'daily' },
+  { path: '/authors', priority: '0.9', changefreq: 'weekly' },
+  { path: '/interviews', priority: '0.9', changefreq: 'weekly' },
+  { path: '/books', priority: '0.8', changefreq: 'weekly' },
+  { path: '/venues', priority: '0.8', changefreq: 'monthly' },
+  { path: '/kidsfest2026', priority: '0.8', changefreq: 'weekly' },
+  { path: '/who-we-are', priority: '0.6', changefreq: 'monthly' },
+  { path: '/what-we-do', priority: '0.6', changefreq: 'monthly' },
   { path: '/strategic-plan', priority: '0.5', changefreq: 'monthly' },
-  { path: '/archives',       priority: '0.5', changefreq: 'monthly' },
-  { path: '/history',        priority: '0.5', changefreq: 'monthly' },
+  { path: '/archives', priority: '0.5', changefreq: 'monthly' },
+  { path: '/history', priority: '0.5', changefreq: 'monthly' },
   { path: '/vfa-accessibility-info', priority: '0.6', changefreq: 'monthly' },
-  { path: '/contact-us',     priority: '0.5', changefreq: 'monthly' },
+  { path: '/contact-us', priority: '0.5', changefreq: 'monthly' },
   { path: '/become-a-volunteer', priority: '0.5', changefreq: 'monthly' },
-  { path: '/sponsor-us',     priority: '0.5', changefreq: 'monthly' },
+  { path: '/sponsor-us', priority: '0.5', changefreq: 'monthly' },
 ];
 
 const FETCH_HEADERS = { 'User-Agent': 'VFA-Sitemap-Generator/1.0' };
@@ -33,10 +33,15 @@ async function fetchAllSlugs(endpoint) {
   const seen = new Set();
   let page = 1;
   while (true) {
-    const res = await fetch(`${API_BASE}/${endpoint}?per_page=100&page=${page}&_fields=slug`, { headers: FETCH_HEADERS });
+    const res = await fetch(`${API_BASE}/${endpoint}?per_page=100&page=${page}&_fields=slug`, {
+      headers: FETCH_HEADERS,
+    });
     const items = await res.json().catch(() => []);
     if (!Array.isArray(items) || !items.length) break;
-    items.map((item) => item.slug).filter(Boolean).forEach((s) => seen.add(s));
+    items
+      .map((item) => item.slug)
+      .filter(Boolean)
+      .forEach((s) => seen.add(s));
     const total = parseInt(res.headers.get('X-WP-TotalPages') ?? '1', 10);
     if (page >= total) break;
     page++;
@@ -63,7 +68,9 @@ async function main() {
     fetchAllSlugs('books'),
   ]);
 
-  console.log(`  ${eventSlugs.length} events, ${peopleSlugs.length} people, ${interviewSlugs.length} interviews, ${venueSlugs.length} venues, ${bookSlugs.length} books`);
+  console.log(
+    `  ${eventSlugs.length} events, ${peopleSlugs.length} people, ${interviewSlugs.length} interviews, ${venueSlugs.length} venues, ${bookSlugs.length} books`,
+  );
 
   const entries = [
     ...STATIC_ROUTES.map(({ path, priority, changefreq }) => urlEntry(path, priority, changefreq)),

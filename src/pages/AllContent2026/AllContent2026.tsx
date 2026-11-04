@@ -101,7 +101,6 @@ function InterviewsList() {
   );
 }
 
-
 function nameInitials(name: string): string {
   return name
     .trim()

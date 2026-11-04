@@ -39,7 +39,10 @@ function StaffCard({ member }: { member: TeamMember }) {
         </p>
         {position && <p className={styles.memberPosition}>{position}</p>}
         {description && (
-          <div className={styles.memberBio} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />
+          <div
+            className={styles.memberBio}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }}
+          />
         )}
       </div>
     </div>
@@ -53,7 +56,10 @@ function BoardCard({ member }: { member: TeamMember }) {
       <p className={styles.memberName}>{name}</p>
       {position && <p className={styles.memberPosition}>{position}</p>}
       {description && (
-        <div className={styles.memberBio} dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />
+        <div
+          className={styles.memberBio}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }}
+        />
       )}
     </div>
   );
@@ -88,17 +94,23 @@ function Section({
       </h2>
       {role === 'staff' && (
         <div className={styles.staffGrid}>
-          {sorted.map((m) => <StaffCard key={m.id} member={m} />)}
+          {sorted.map((m) => (
+            <StaffCard key={m.id} member={m} />
+          ))}
         </div>
       )}
       {role === 'board' && (
         <div className={styles.boardGrid}>
-          {sorted.map((m) => <BoardCard key={m.id} member={m} />)}
+          {sorted.map((m) => (
+            <BoardCard key={m.id} member={m} />
+          ))}
         </div>
       )}
       {role === 'honorary' && (
         <ul className={styles.honoraryList}>
-          {sorted.map((m) => <HonoraryItem key={m.id} member={m} />)}
+          {sorted.map((m) => (
+            <HonoraryItem key={m.id} member={m} />
+          ))}
         </ul>
       )}
     </section>
@@ -110,25 +122,32 @@ export default function WhoWeArePage() {
   usePageTitle(intl.formatMessage({ id: 'whoWeAre.pageTitle' }));
   const { data: members, isLoading, isError } = useGetTeamMembers();
 
-  const staff    = (members ?? []).filter((m) => m.team_member_data.team_role === 'staff');
-  const board    = (members ?? []).filter((m) => m.team_member_data.team_role === 'board');
+  const staff = (members ?? []).filter((m) => m.team_member_data.team_role === 'staff');
+  const board = (members ?? []).filter((m) => m.team_member_data.team_role === 'board');
   const honorary = (members ?? []).filter((m) => m.team_member_data.team_role === 'honorary');
 
   return (
     <main id="main-content" className={styles.page}>
       <Container narrow>
-        <PageTitle><FormattedMessage id="whoWeAre.pageTitle" /></PageTitle>
+        <PageTitle>
+          <FormattedMessage id="whoWeAre.pageTitle" />
+        </PageTitle>
 
         <p className={styles.intro}>
           {intl.formatMessage({ id: 'whoWeAre.intro' }, { year: new Date().getFullYear() })}
         </p>
 
-        <QueryState isLoading={isLoading} isError={isError} loadingId="whoWeAre.loading" errorId="whoWeAre.error" />
+        <QueryState
+          isLoading={isLoading}
+          isError={isError}
+          loadingId="whoWeAre.loading"
+          errorId="whoWeAre.error"
+        />
 
         {members && (
           <>
-            <Section role="staff"    headingId="section-staff"    members={staff} />
-            <Section role="board"    headingId="section-board"    members={board} />
+            <Section role="staff" headingId="section-staff" members={staff} />
+            <Section role="board" headingId="section-board" members={board} />
             <Section role="honorary" headingId="section-honorary" members={honorary} />
           </>
         )}

@@ -6,9 +6,7 @@ export function useGetPosts() {
   return useQuery<Post[]>({
     queryKey: [POSTS_PATH],
     queryFn: async () => {
-      return wretch(`${POSTS_URL}`)
-        .get()
-        .json();
+      return wretch(`${POSTS_URL}`).get().json();
     },
   });
 }
@@ -17,9 +15,7 @@ export function useGetPaginatedPosts(page: number = 1, per_page: number = 10) {
   return useQuery<Post[]>({
     queryKey: [POSTS_PATH, page, per_page],
     queryFn: async () => {
-      return wretch(`${POSTS_URL}?page=${page}&per_page=${per_page}`)
-        .get()
-        .json();
+      return wretch(`${POSTS_URL}?page=${page}&per_page=${per_page}`).get().json();
     },
   });
 }
@@ -28,9 +24,7 @@ export function useInfinitePosts(per_page: number = 10) {
   return useInfiniteQuery<Post[], Error>({
     queryKey: [POSTS_PATH, 'infinite', per_page],
     queryFn: async ({ pageParam = 1 }) => {
-      return wretch(`${POSTS_URL}?page=${pageParam}&per_page=${per_page}`)
-        .get()
-        .json();
+      return wretch(`${POSTS_URL}?page=${pageParam}&per_page=${per_page}`).get().json();
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage: Post[], allPages) => {

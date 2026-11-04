@@ -50,12 +50,25 @@ export const TallContent: Story = {
       <div>
         <strong>Langham Court Theatre</strong>
         <p style={{ margin: '0.25rem 0 0', fontSize: '0.9rem' }}>805 Langham Court, Victoria, BC</p>
-        <p style={{ margin: '0.75rem 0 0', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#888' }}>Accessibility</p>
-        <p style={{ margin: '0.25rem 0', fontSize: '0.875rem' }}>
-          Mobility Considerations: Langham Court Theatre was built in 1880 as a carriage house and barn, and was
-          converted to a theatre in 1940. Though the theatre has undergone significant renovations...
+        <p
+          style={{
+            margin: '0.75rem 0 0',
+            fontSize: '0.85rem',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            color: '#888',
+          }}
+        >
+          Accessibility
         </p>
-        <a href="#" style={{ fontSize: '0.875rem' }}>Read more →</a>
+        <p style={{ margin: '0.25rem 0', fontSize: '0.875rem' }}>
+          Mobility Considerations: Langham Court Theatre was built in 1880 as a carriage house and
+          barn, and was converted to a theatre in 1940. Though the theatre has undergone significant
+          renovations...
+        </p>
+        <a href="#" style={{ fontSize: '0.875rem' }}>
+          Read more →
+        </a>
       </div>
     ),
   },

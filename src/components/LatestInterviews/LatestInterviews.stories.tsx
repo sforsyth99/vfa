@@ -14,13 +14,28 @@ function makeInterview(id: number, name: string): Interview {
     status: 'publish',
     title: { rendered: `Interview with ${name}` },
     interview_data: {
-      authors: [{
-        id, slug: `author-${id}`, name, alternate_name: '', name_pronunciation: '',
-        pronouns: '', pronouns_other: '', bio: '', website_url: '',
-        photo: false, photo_square: false, author_years: [2026],
-        moderator_years: [], curator_years: [], musician_years: [],
-        kidfest_years: [], elder_years: [], kidfest_photo: false,
-      }],
+      authors: [
+        {
+          id,
+          slug: `author-${id}`,
+          name,
+          alternate_name: '',
+          name_pronunciation: '',
+          pronouns: '',
+          pronouns_other: '',
+          bio: '',
+          website_url: '',
+          photo: false,
+          photo_square: false,
+          author_years: [2026],
+          moderator_years: [],
+          curator_years: [],
+          musician_years: [],
+          kidfest_years: [],
+          elder_years: [],
+          kidfest_photo: false,
+        },
+      ],
       festival_year: 2026,
       book_title: 'A Great Book',
       interviewer_name: 'Festival Staff',
@@ -51,9 +66,7 @@ type Story = StoryObj<typeof meta>;
 
 export const WithInterviews: Story = {
   parameters: {
-    msw: [
-      http.get(`${WP}/interviews`, () => HttpResponse.json(INTERVIEWS)),
-    ],
+    msw: [http.get(`${WP}/interviews`, () => HttpResponse.json(INTERVIEWS))],
   },
   play: async ({ canvas }) => {
     const list = await canvas.findByRole('list');
@@ -64,8 +77,6 @@ export const WithInterviews: Story = {
 
 export const Empty: Story = {
   parameters: {
-    msw: [
-      http.get(`${WP}/interviews`, () => HttpResponse.json([])),
-    ],
+    msw: [http.get(`${WP}/interviews`, () => HttpResponse.json([]))],
   },
 };

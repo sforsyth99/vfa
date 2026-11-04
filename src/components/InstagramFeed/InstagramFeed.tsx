@@ -8,14 +8,17 @@ export function InstagramFeed() {
   const intl = useIntl();
   const { data, isLoading, isError } = useGetInstagramFeed();
 
-  if (isLoading) return (
-    <section className={styles.section} aria-busy="true">
-      <SkeletonBlock className={styles.skeletonHeading} />
-      <div className={styles.skeletonGrid}>
-        {[0, 1, 2].map((i) => <SkeletonBlock key={i} className={styles.skeletonPost} />)}
-      </div>
-    </section>
-  );
+  if (isLoading)
+    return (
+      <section className={styles.section} aria-busy="true">
+        <SkeletonBlock className={styles.skeletonHeading} />
+        <div className={styles.skeletonGrid}>
+          {[0, 1, 2].map((i) => (
+            <SkeletonBlock key={i} className={styles.skeletonPost} />
+          ))}
+        </div>
+      </section>
+    );
   if (isError || !data?.posts?.length) return null;
 
   const posts = data.posts.slice(0, 3);
@@ -36,8 +39,13 @@ export function InstagramFeed() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.post}
-                aria-label={intl.formatMessage({ id: 'instagram.postLinkLabel' }, { caption: captionSnippet })}
-                onClick={() => track({ name: 'social_click', event_label: `instagram_post_${post.id}` })}
+                aria-label={intl.formatMessage(
+                  { id: 'instagram.postLinkLabel' },
+                  { caption: captionSnippet },
+                )}
+                onClick={() =>
+                  track({ name: 'social_click', event_label: `instagram_post_${post.id}` })
+                }
               >
                 <img
                   src={post.mediaUrl}

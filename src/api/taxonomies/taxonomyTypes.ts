@@ -11,7 +11,6 @@ export const TAXONOMIES_URL = `${BASE_URL}/${TAXONOMIES_PATH}`;
 //   NAV_MENU_ITEM = 'nav_menu_item',
 // }
 
-
 export interface TaxonomyCategory {
   name: string;
   slug: string;

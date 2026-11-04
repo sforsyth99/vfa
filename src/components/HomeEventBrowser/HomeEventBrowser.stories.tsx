@@ -14,7 +14,10 @@ function makeEvent(id: number, title: string, date: string, price: number | null
       is_featured: false,
       is_kidfest: false,
       event_type: 'reading',
-      hosts: [], hosted_by: '', age_range: '', extra_info: '',
+      hosts: [],
+      hosted_by: '',
+      age_range: '',
+      extra_info: '',
       summary: 'A wonderful evening of readings and conversation with the author.',
       event_date: date,
       time_start: '19:00:00',
@@ -22,12 +25,34 @@ function makeEvent(id: number, title: string, date: string, price: number | null
       event_image: false,
       eventbrite_image: false,
       description: '',
-      venue: { id: 1, slug: 'mcpherson-playhouse', name: 'McPherson Playhouse', alternate_name: '', name_pronunciation: '', building: '', room: '', street_address: '3 Centennial Square', city: 'Victoria', province: 'BC', postal_code: 'V8W 1A2', country: 'Canada', phone: '', website_url: '', description: '', accessibility: '' },
+      venue: {
+        id: 1,
+        slug: 'mcpherson-playhouse',
+        name: 'McPherson Playhouse',
+        alternate_name: '',
+        name_pronunciation: '',
+        building: '',
+        room: '',
+        street_address: '3 Centennial Square',
+        city: 'Victoria',
+        province: 'BC',
+        postal_code: 'V8W 1A2',
+        country: 'Canada',
+        phone: '',
+        website_url: '',
+        description: '',
+        accessibility: '',
+      },
       online_url: '',
       eventbrite_url: `https://www.eventbrite.ca/e/event-${id}-tickets-12345678${id}`,
-      tickets: price !== null ? [{ type: 'in_person', tier: 'general', price_min: price, price_max: price }] : [],
+      tickets:
+        price !== null
+          ? [{ type: 'in_person', tier: 'general', price_min: price, price_max: price }]
+          : [],
       authors: [],
-      moderator: [], curator: [], musician: [],
+      moderator: [],
+      curator: [],
+      musician: [],
     },
   };
 }
@@ -47,8 +72,6 @@ type Story = StoryObj<typeof meta>;
 
 export const WithEvents: Story = {
   parameters: {
-    msw: [
-      http.get(`${WP}/festival_events`, () => HttpResponse.json(EVENTS)),
-    ],
+    msw: [http.get(`${WP}/festival_events`, () => HttpResponse.json(EVENTS))],
   },
 };

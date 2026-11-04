@@ -5,7 +5,10 @@ import { HomeAuthorsSpotlight } from '../../components/HomeAuthorsSpotlight/Home
 import { HomeEventBrowser } from '../../components/HomeEventBrowser/HomeEventBrowser';
 import { KidsFestPromo } from '../../components/KidsFestPromo/KidsFestPromo';
 import { HomeNewsletter } from '../../components/HomeNewsletter/HomeNewsletter';
-import { HomeWorkshopCallout, HomeOnlineCallout } from '../../components/HomeEventCallouts/HomeEventCallouts';
+import {
+  HomeWorkshopCallout,
+  HomeOnlineCallout,
+} from '../../components/HomeEventCallouts/HomeEventCallouts';
 import { HomeReadingList } from '../../components/HomeReadingList/HomeReadingList';
 import { LatestInterviews } from '../../components/LatestInterviews/LatestInterviews';
 

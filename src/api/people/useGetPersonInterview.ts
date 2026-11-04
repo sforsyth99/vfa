@@ -13,7 +13,8 @@ export interface PersonInterview {
 export function useGetPersonInterviews(personId: number | undefined) {
   return useQuery<PersonInterview[]>({
     queryKey: ['person-interviews', personId],
-    queryFn: () => wretch(`${VFA_API_BASE}/people/${personId}/interviews`).get().json<PersonInterview[]>(),
+    queryFn: () =>
+      wretch(`${VFA_API_BASE}/people/${personId}/interviews`).get().json<PersonInterview[]>(),
     enabled: !!personId,
   });
 }

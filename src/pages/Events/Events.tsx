@@ -19,10 +19,11 @@ import styles from './Events.module.css';
 
 function formatDayHeading(dateStr: string): string {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-CA', {
-    weekday: 'long', month: 'long', day: 'numeric',
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
   });
 }
-
 
 function formatTime(t: string): string {
   if (!t) return '';
@@ -37,7 +38,7 @@ function formatPriceGroup(
 ): string | null {
   const priced = group.filter((t) => t.price_min !== null);
   if (priced.length === 0) return null;
-  const fmt = (n: number) => Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`;
+  const fmt = (n: number) => (Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`);
   const mins = priced.map((t) => t.price_min as number);
   const maxes = priced.map((t) => t.price_max ?? (t.price_min as number));
   if (maxes.every((n) => n === 0)) return freeLabel;
@@ -74,7 +75,8 @@ function formatVenueLabel(
 ): string {
   const hasInPerson = tickets?.some((t) => t.type === 'in_person');
   const hasOnline = tickets?.some((t) => t.type === 'online');
-  if (venueName && hasOnline) return intl.formatMessage({ id: 'home.schedule.locationAndOnline' }, { venue: venueName });
+  if (venueName && hasOnline)
+    return intl.formatMessage({ id: 'home.schedule.locationAndOnline' }, { venue: venueName });
   if (venueName) return venueName;
   if (hasOnline && !hasInPerson) return intl.formatMessage({ id: 'home.schedule.locationOnline' });
   return '';
@@ -88,7 +90,10 @@ function formatAuthorLine(
 ): { authorLine: string | null; showModSeparately: boolean } {
   if (eventType === 'conversation' && authorNames && modNames) {
     return {
-      authorLine: intl.formatMessage({ id: 'events.inConversationWith' }, { author: authorNames, moderator: modNames }),
+      authorLine: intl.formatMessage(
+        { id: 'events.inConversationWith' },
+        { author: authorNames, moderator: modNames },
+      ),
       showModSeparately: false,
     };
   }
@@ -104,27 +109,46 @@ function formatAuthorLine(
 function formatNames(people: PersonData[] | undefined): string {
   if (!people?.length) return '';
   if (people.length === 1) return people[0].name;
-  return people.slice(0, -1).map((p) => p.name).join(', ') + ' & ' + people[people.length - 1].name;
+  return (
+    people
+      .slice(0, -1)
+      .map((p) => p.name)
+      .join(', ') +
+    ' & ' +
+    people[people.length - 1].name
+  );
 }
 
-function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef: React.RefObject<HTMLDivElement | null> }) {
+function EventPopover({
+  event,
+  popoverRef,
+}: {
+  event: FestivalEvent;
+  popoverRef: React.RefObject<HTMLDivElement | null>;
+}) {
   const intl = useIntl();
   const d = event.event_data;
   const title = decodeHtmlEntities(event.title?.rendered ?? '');
-  const authorNames = formatNames(sortBySurname(d.authors ?? [])) || formatNames(sortBySurname(d.hosts ?? []));
+  const authorNames =
+    formatNames(sortBySurname(d.authors ?? [])) || formatNames(sortBySurname(d.hosts ?? []));
   const modNames = formatNames(sortBySurname(d.moderator ?? []));
-  const { primary: pricePrimary, secondary: priceSecondary } = formatEventPrice(d.tickets, intl.formatMessage({ id: 'events.free' }), intl);
+  const { primary: pricePrimary, secondary: priceSecondary } = formatEventPrice(
+    d.tickets,
+    intl.formatMessage({ id: 'events.free' }),
+    intl,
+  );
   const timeStr = d.time_start
     ? d.time_end
       ? `${formatTime(d.time_start)} – ${formatTime(d.time_end)}`
       : formatTime(d.time_start)
     : '';
 
-  const popoverImg = d.event_type === 'author_fair' && d.event_image
-    ? d.event_image[0]
-    : d.eventbrite_image
-      ? d.eventbrite_image[0]
-      : null;
+  const popoverImg =
+    d.event_type === 'author_fair' && d.event_image
+      ? d.event_image[0]
+      : d.eventbrite_image
+        ? d.eventbrite_image[0]
+        : null;
 
   return (
     <div ref={popoverRef} className={styles.popover} role="tooltip" aria-label={title}>
@@ -133,7 +157,12 @@ function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef:
         <img src={popoverImg} alt="" aria-hidden="true" className={styles.popoverEventbriteImg} />
       )}
       {(() => {
-        const { authorLine, showModSeparately } = formatAuthorLine(d.event_type, authorNames, modNames, intl);
+        const { authorLine, showModSeparately } = formatAuthorLine(
+          d.event_type,
+          authorNames,
+          modNames,
+          intl,
+        );
         const displayLine = authorLine ?? authorNames;
         return (
           <>
@@ -146,19 +175,26 @@ function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef:
           </>
         );
       })()}
-      {d.description && <div className={styles.popoverSummary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(d.description) }} />}
+      {d.description && (
+        <div
+          className={styles.popoverSummary}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(d.description) }}
+        />
+      )}
       {(() => {
         const hasInPerson = d.tickets?.some((t) => t.type === 'in_person');
         const hasOnline = d.tickets?.some((t) => t.type === 'online');
-        const locationMode = hasInPerson && hasOnline
-          ? ''
-          : hasOnline
-            ? intl.formatMessage({ id: 'events.locationOnline' })
-            : hasInPerson
-              ? intl.formatMessage({ id: 'events.locationInPerson' })
-              : '';
+        const locationMode =
+          hasInPerson && hasOnline
+            ? ''
+            : hasOnline
+              ? intl.formatMessage({ id: 'events.locationOnline' })
+              : hasInPerson
+                ? intl.formatMessage({ id: 'events.locationInPerson' })
+                : '';
         const venueLine = [d.venue?.name, d.venue?.room, d.venue?.building, d.venue?.street_address]
-          .filter(Boolean).join(', ');
+          .filter(Boolean)
+          .join(', ');
         return (
           <>
             <div className={styles.popoverMeta}>
@@ -183,25 +219,33 @@ function EventPopover({ event, popoverRef }: { event: FestivalEvent; popoverRef:
 
 const FILTER_CHIP_GROUPS: { id: string; labelId: string }[][] = [
   [
-    { id: 'talk',     labelId: 'events.filter.talk' },
-    { id: 'walk',     labelId: 'events.filter.walk' },
+    { id: 'talk', labelId: 'events.filter.talk' },
+    { id: 'walk', labelId: 'events.filter.walk' },
     { id: 'workshop', labelId: 'festivalEvent.type.workshop' },
   ],
   [
-    { id: 'online',    labelId: 'events.filter.online' },
+    { id: 'online', labelId: 'events.filter.online' },
     { id: 'in_person', labelId: 'events.filter.inPerson' },
   ],
 ];
 
 function eventMatchesFilter(event: FestivalEvent, filterId: string): boolean {
   const d = event.event_data;
-  if (filterId === 'talk')      return d.event_type === 'panel' || d.event_type === 'conversation';
-  if (filterId === 'online')    return d.tickets.some((t) => t.type === 'online') || !!d.online_url;
+  if (filterId === 'talk') return d.event_type === 'panel' || d.event_type === 'conversation';
+  if (filterId === 'online') return d.tickets.some((t) => t.type === 'online') || !!d.online_url;
   if (filterId === 'in_person') return d.tickets.some((t) => t.type === 'in_person');
   return d.event_type === filterId;
 }
 
-function EventRow({ event, dimmed, highlighted }: { event: FestivalEvent; dimmed: boolean; highlighted: boolean }) {
+function EventRow({
+  event,
+  dimmed,
+  highlighted,
+}: {
+  event: FestivalEvent;
+  dimmed: boolean;
+  highlighted: boolean;
+}) {
   const intl = useIntl();
   const popoverRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -214,14 +258,26 @@ function EventRow({ event, dimmed, highlighted }: { event: FestivalEvent; dimmed
   const isSoldOut = isEventSoldOut(d);
   const isFree = d.event_type === 'author_fair';
 
-  const authorNames = formatNames(sortBySurname(d.authors ?? [])) || formatNames(sortBySurname(d.hosts ?? []));
+  const authorNames =
+    formatNames(sortBySurname(d.authors ?? [])) || formatNames(sortBySurname(d.hosts ?? []));
   const modNames = formatNames(sortBySurname(d.moderator ?? []));
-  const { authorLine, showModSeparately } = formatAuthorLine(d.event_type, authorNames, modNames, intl);
-  const rowAuthorLine = authorLine ?? (authorNames ? intl.formatMessage({ id: 'events.rowFeaturing' }, { names: authorNames }) : '');
+  const { authorLine, showModSeparately } = formatAuthorLine(
+    d.event_type,
+    authorNames,
+    modNames,
+    intl,
+  );
+  const rowAuthorLine =
+    authorLine ??
+    (authorNames ? intl.formatMessage({ id: 'events.rowFeaturing' }, { names: authorNames }) : '');
   const rowSubtitle = [
     rowAuthorLine,
-    showModSeparately && modNames ? intl.formatMessage({ id: 'events.rowMod' }, { name: modNames }) : '',
-  ].filter(Boolean).join(' · ');
+    showModSeparately && modNames
+      ? intl.formatMessage({ id: 'events.rowMod' }, { name: modNames })
+      : '',
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   const handleMouseMove = (e: React.MouseEvent<HTMLLIElement>) => {
     const pop = popoverRef.current;
@@ -264,9 +320,7 @@ function EventRow({ event, dimmed, highlighted }: { event: FestivalEvent; dimmed
             </span>
           )}
           {isFree && (
-            <span className={styles.rowFree}>
-              {intl.formatMessage({ id: 'events.free' })}
-            </span>
+            <span className={styles.rowFree}>{intl.formatMessage({ id: 'events.free' })}</span>
           )}
           {venueLabel && <span className={styles.rowVenue}>{venueLabel}</span>}
         </span>
@@ -282,7 +336,9 @@ function EventRow({ event, dimmed, highlighted }: { event: FestivalEvent; dimmed
       onMouseMove={handleMouseMove}
     >
       {isKidsfestMain ? (
-        <Link to="/kidsfest2026" className={styles.rowLink}>{inner}</Link>
+        <Link to="/kidsfest2026" className={styles.rowLink}>
+          {inner}
+        </Link>
       ) : (
         <Link to={eventPath(event.slug)} className={styles.rowLink}>
           {inner}
@@ -293,13 +349,24 @@ function EventRow({ event, dimmed, highlighted }: { event: FestivalEvent; dimmed
   );
 }
 
-function EventGroup({ heading, events, activeFilters }: { heading: string; events: FestivalEvent[]; activeFilters: Set<string> }) {
+function EventGroup({
+  heading,
+  events,
+  activeFilters,
+}: {
+  heading: string;
+  events: FestivalEvent[];
+  activeFilters: Set<string>;
+}) {
   return (
     <section className={styles.group} aria-labelledby={`day-${heading}`}>
-      <h2 id={`day-${heading}`} className={styles.dayHeading}>{heading}</h2>
+      <h2 id={`day-${heading}`} className={styles.dayHeading}>
+        {heading}
+      </h2>
       <ul className={styles.rowList}>
         {events.map((e) => {
-          const matches = activeFilters.size > 0 && [...activeFilters].some((f) => eventMatchesFilter(e, f));
+          const matches =
+            activeFilters.size > 0 && [...activeFilters].some((f) => eventMatchesFilter(e, f));
           const dimmed = activeFilters.size > 0 && !matches;
           return <EventRow key={e.id} event={e} dimmed={dimmed} highlighted={matches} />;
         })}
@@ -317,7 +384,8 @@ function Events() {
   const toggleFilter = (id: string) => {
     setActiveFilters((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
   };
@@ -343,11 +411,17 @@ function Events() {
     <main id="main-content" className={styles.page}>
       <Container>
         <div className={styles.pageTitleWrap}>
-          <PageTitle><FormattedMessage id="events.heading" /></PageTitle>
+          <PageTitle>
+            <FormattedMessage id="events.heading" />
+          </PageTitle>
         </div>
 
         {!isLoading && !error && seasonEvents.length > 0 && (
-          <div className={styles.filterBar} role="group" aria-label={intl.formatMessage({ id: 'events.filter.label' })}>
+          <div
+            className={styles.filterBar}
+            role="group"
+            aria-label={intl.formatMessage({ id: 'events.filter.label' })}
+          >
             {FILTER_CHIP_GROUPS.map((group, gi) => (
               <React.Fragment key={gi}>
                 {gi > 0 && <span className={styles.filterDivider} aria-hidden="true" />}
@@ -387,7 +461,16 @@ function Events() {
             ))}
           </div>
         )}
-        {!isLoading && <QueryState isLoading={false} isError={!!error} isEmpty={!error && seasonEvents.length === 0} loadingId="events.loading" errorId="events.error" emptyId="events.empty" />}
+        {!isLoading && (
+          <QueryState
+            isLoading={false}
+            isError={!!error}
+            isEmpty={!error && seasonEvents.length === 0}
+            loadingId="events.loading"
+            errorId="events.error"
+            emptyId="events.empty"
+          />
+        )}
 
         {[...byDay.entries()].map(([date, dayEvents]) => (
           <EventGroup
@@ -397,7 +480,6 @@ function Events() {
             activeFilters={activeFilters}
           />
         ))}
-
       </Container>
     </main>
   );

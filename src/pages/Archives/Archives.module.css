@@ -1,193 +1,200 @@
 .page {
-    padding-block: 3rem 5rem;
+  padding-block: 3rem 5rem;
 }
 
 /* ── A–Z jump nav ────────────────────────────────────── */
 
 .jumpNav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.3rem;
-    position: sticky;
-    top: 73px;
-    z-index: 10;
-    background: var(--vfa-color-background);
-    padding: 0.5rem 0 0.6rem;
-    margin-bottom: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem;
+  position: sticky;
+  top: 73px;
+  z-index: 10;
+  background: var(--vfa-color-background);
+  padding: 0.5rem 0 0.6rem;
+  margin-bottom: 0.5rem;
 }
 
 .jumpLink {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: var(--vfa-radius-md);
-    font-size: var(--vfa-font-size-sm);
-    font-weight: var(--vfa-font-weight-semibold);
-    color: var(--vfa-color-forest-dark);
-    text-decoration: none;
-    background: var(--vfa-color-surface);
-    border: 1px solid var(--vfa-color-warm-border-light);
-    transition: background var(--vfa-transition), color var(--vfa-transition), border-color var(--vfa-transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--vfa-radius-md);
+  font-size: var(--vfa-font-size-sm);
+  font-weight: var(--vfa-font-weight-semibold);
+  color: var(--vfa-color-forest-dark);
+  text-decoration: none;
+  background: var(--vfa-color-surface);
+  border: 1px solid var(--vfa-color-warm-border-light);
+  transition:
+    background var(--vfa-transition),
+    color var(--vfa-transition),
+    border-color var(--vfa-transition);
 }
 
 .jumpLink:hover {
-    background: var(--vfa-color-forest-dark);
-    color: var(--vfa-color-text-light);
-    border-color: var(--vfa-color-forest-dark);
+  background: var(--vfa-color-forest-dark);
+  color: var(--vfa-color-text-light);
+  border-color: var(--vfa-color-forest-dark);
 }
 
 /* ── List panel ──────────────────────────────────────── */
 
 .listPanel {
-    background: var(--vfa-color-surface);
-    border-radius: var(--vfa-radius-card);
-    overflow: hidden;
+  background: var(--vfa-color-surface);
+  border-radius: var(--vfa-radius-card);
+  overflow: hidden;
 }
 
 .letterSection {
-    scroll-margin-top: 120px;
+  scroll-margin-top: 120px;
 }
 
 .letterDivider {
-    padding: 0.35rem 1.5rem;
-    background: var(--vfa-color-background);
-    font-size: var(--vfa-font-size-eyebrow);
-    font-weight: var(--vfa-font-weight-bold);
-    letter-spacing: 0.2em;
-    color: var(--vfa-color-ink-mid);
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--vfa-color-warm-border-light);
+  padding: 0.35rem 1.5rem;
+  background: var(--vfa-color-background);
+  font-size: var(--vfa-font-size-eyebrow);
+  font-weight: var(--vfa-font-weight-bold);
+  letter-spacing: 0.2em;
+  color: var(--vfa-color-ink-mid);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--vfa-color-warm-border-light);
 }
 
 /* ── List ────────────────────────────────────────────── */
 
 .list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 /* ── Row ─────────────────────────────────────────────── */
 
 .item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.85rem 1.5rem;
-    border-bottom: 1px solid var(--vfa-color-warm-border-light);
-    text-decoration: none;
-    color: inherit;
-    transition: background var(--vfa-transition);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.5rem;
+  border-bottom: 1px solid var(--vfa-color-warm-border-light);
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--vfa-transition);
 }
 
 .list li:last-child .item {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .item:hover {
-    background: var(--vfa-color-forest-bg);
+  background: var(--vfa-color-forest-bg);
 }
 
 .itemInfo {
-    flex: 1;
-    display: flex;
-    align-items: baseline;
-    gap: 0.4em;
-    min-width: 0;
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
+  min-width: 0;
 }
 
 .title {
-    font-size: var(--vfa-font-size-md);
-    font-weight: var(--vfa-font-weight-semibold);
-    color: var(--vfa-color-ink-darkest);
-    transition: color var(--vfa-transition);
+  font-size: var(--vfa-font-size-md);
+  font-weight: var(--vfa-font-weight-semibold);
+  color: var(--vfa-color-ink-darkest);
+  transition: color var(--vfa-transition);
 }
 
 .item:hover .title {
-    color: var(--vfa-color-forest-dark);
+  color: var(--vfa-color-forest-dark);
 }
 
 .year {
-    font-size: var(--vfa-font-size-sm);
-    color: var(--vfa-color-ink-light);
-    white-space: nowrap;
+  font-size: var(--vfa-font-size-sm);
+  color: var(--vfa-color-ink-light);
+  white-space: nowrap;
 }
 
 .chevron {
-    color: var(--vfa-color-warm-border-mid);
-    font-size: 1.3rem;
-    flex-shrink: 0;
-    transition: color var(--vfa-transition), transform var(--vfa-transition);
-    line-height: 1;
+  color: var(--vfa-color-warm-border-mid);
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  transition:
+    color var(--vfa-transition),
+    transform var(--vfa-transition);
+  line-height: 1;
 }
 
 .item:hover .chevron {
-    color: var(--vfa-color-forest-dark);
-    transform: translateX(2px);
+  color: var(--vfa-color-forest-dark);
+  transform: translateX(2px);
 }
 
 /* ── Social links ───────────────────────────────────────── */
 
 .socialSection {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--vfa-color-warm-border-light);
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--vfa-color-warm-border-light);
 }
 
 .socialHeading {
-    font-size: var(--vfa-font-size-eyebrow);
-    font-weight: var(--vfa-font-weight-bold);
-    color: var(--vfa-color-ink-light);
-    text-transform: uppercase;
-    letter-spacing: var(--vfa-letter-spacing-eyebrow);
-    margin-bottom: 0.75rem;
+  font-size: var(--vfa-font-size-eyebrow);
+  font-weight: var(--vfa-font-weight-bold);
+  color: var(--vfa-color-ink-light);
+  text-transform: uppercase;
+  letter-spacing: var(--vfa-letter-spacing-eyebrow);
+  margin-bottom: 0.75rem;
 }
 
 .socialLinks {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .socialLink {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.45em 1.1em;
-    font-size: var(--vfa-font-size-sm);
-    font-weight: var(--vfa-font-weight-medium);
-    color: var(--vfa-color-forest-dark);
-    background: var(--vfa-color-forest-bg);
-    border: 1px solid var(--vfa-color-forest-pale);
-    border-radius: var(--vfa-radius-pill);
-    text-decoration: none;
-    transition: background var(--vfa-transition), border-color var(--vfa-transition);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45em 1.1em;
+  font-size: var(--vfa-font-size-sm);
+  font-weight: var(--vfa-font-weight-medium);
+  color: var(--vfa-color-forest-dark);
+  background: var(--vfa-color-forest-bg);
+  border: 1px solid var(--vfa-color-forest-pale);
+  border-radius: var(--vfa-radius-pill);
+  text-decoration: none;
+  transition:
+    background var(--vfa-transition),
+    border-color var(--vfa-transition);
 }
 
 .socialLink:hover {
-    background: var(--vfa-color-forest-pale);
-    border-color: var(--vfa-color-forest-light);
-    text-decoration: none;
+  background: var(--vfa-color-forest-pale);
+  border-color: var(--vfa-color-forest-light);
+  text-decoration: none;
 }
 
 @media (max-width: 640px) {
-    .page {
-        padding-block: 2rem 3rem;
-    }
+  .page {
+    padding-block: 2rem 3rem;
+  }
 
-    .item {
-        padding: 0.75rem 1rem;
-    }
+  .item {
+    padding: 0.75rem 1rem;
+  }
 
-    .letterDivider {
-        padding: 0.3rem 1rem;
-    }
+  .letterDivider {
+    padding: 0.3rem 1rem;
+  }
 
-    .jumpLink {
-        width: 1.75rem;
-        height: 1.75rem;
-        font-size: 0.75rem;
-    }
+  .jumpLink {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.75rem;
+  }
 }

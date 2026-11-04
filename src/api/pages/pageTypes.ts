@@ -41,10 +41,12 @@ export interface Page {
     rendered: string;
   };
   content: {
-    rendered: string; protected: boolean;
+    rendered: string;
+    protected: boolean;
   };
   excerpt: {
-    rendered: string; protected: boolean;
+    rendered: string;
+    protected: boolean;
   };
   author: number;
   featured_media: number;
