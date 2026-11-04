@@ -1,5 +1,29 @@
 # React + TypeScript + Vite
 
+## Checks before merging
+
+Every pull request to `main` runs five checks on GitHub (`.github/workflows/checks.yml`). `main` only accepts a pull request when all five pass.
+
+| Check | What it runs | What it catches |
+|---|---|---|
+| Type-check | `pnpm typecheck` (`tsc -b`) | TypeScript errors |
+| Lint and format | `pnpm lint` and `pnpm format:check` | ESLint problems, and code not formatted by Prettier (Markdown is skipped) |
+| Unit tests | `pnpm test:unit` | Failing Vitest tests (jsdom) |
+| Storybook tests | `pnpm test:storybook` | Stories that fail to render or whose play tests fail (headless Chromium) |
+| Build | `pnpm build:app` (`vite build`) | Anything that breaks the production build. Skips the sitemap so it never calls the live WordPress API |
+
+Run them all locally before pushing:
+
+```sh
+pnpm check
+```
+
+- The first time, install the test browser: `pnpm exec playwright install chromium`.
+- If only formatting fails, `pnpm format` fixes it.
+- Use the Node version in `.nvmrc` and the pnpm version in `package.json` (`packageManager`).
+
+**Package age rule:** `pnpm-workspace.yaml` sets `minimumReleaseAge` to 7 days. pnpm will not add or update to a version published less than a week ago, so a compromised release is usually caught before it reaches us.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
