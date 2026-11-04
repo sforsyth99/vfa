@@ -19,6 +19,22 @@ describe('sanitizeHtml', () => {
     expect(result).not.toContain('onclick');
   });
 
+  it('strips onerror attributes from images', () => {
+    const result = sanitizeHtml('<img src="/a.jpg" onerror="alert(1)" alt="A" />');
+    expect(result).not.toContain('onerror');
+    expect(result).toContain('alt="A"');
+  });
+
+  it('removes font tags but keeps their text', () => {
+    const result = sanitizeHtml('<p><font color="red" face="Arial" size="5">Hi</font></p>');
+    expect(result).toBe('<p>Hi</p>');
+  });
+
+  it('removes inline style and legacy presentation attributes', () => {
+    const result = sanitizeHtml('<p style="color: red" color="red">Text</p>');
+    expect(result).toBe('<p>Text</p>');
+  });
+
   it('strips javascript: hrefs', () => {
     const result = sanitizeHtml('<a href="javascript:evil()">Click</a>');
     expect(result).not.toContain('javascript:');

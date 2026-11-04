@@ -25,7 +25,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.95.2",
     "classnames": "^2.5.1",
-    "dompurify": "^3.4.12",
+    "dompurify": "^3.4.17",
     "leaflet": "^1.9.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
