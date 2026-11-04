@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useGetInterview } from '../../api/interviews/useGetInterview.ts';
-import { useGetInterviews } from '../../api/interviews/useGetInterviews.ts';
+import { useGetInterviewsNav } from '../../api/interviews/useGetInterviewsNav.ts';
+import { getInterviewNeighbours } from '../../utils/prevNext.ts';
 import { useGetPersonEvents } from '../../api/people/useGetPersonEvents.ts';
 import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
@@ -38,7 +39,7 @@ export default function InterviewPage() {
   const intl = useIntl();
   const { slug } = useParams<{ slug: string }>();
   const { data: interview, isLoading, error } = useGetInterview({ slug: slug! });
-  const { data: allInterviews } = useGetInterviews();
+  const { data: navInterviews } = useGetInterviewsNav();
   const authors = sortBySurname(interview?.interview_data?.authors ?? []);
   const primaryAuthor = authors[0];
   const { data: personEvents } = useGetPersonEvents(primaryAuthor?.id);
@@ -85,19 +86,12 @@ export default function InterviewPage() {
 
   const festivalYear = interview.interview_data.festival_year;
   const isKidsInterview = interviewer_age != null;
-  const yearPeers = (allInterviews ?? [])
-    .filter(
-      (iv) =>
-        iv.interview_data.festival_year === festivalYear &&
-        festivalYear !== null &&
-        (iv.interview_data.interviewer_age != null) === isKidsInterview,
-    )
-    .sort((a, b) => b.date.localeCompare(a.date));
-  const currentIndex = yearPeers.findIndex((iv) => iv.slug === slug);
-  const prevInterview =
-    currentIndex > 0 ? yearPeers[currentIndex - 1] : yearPeers[yearPeers.length - 1];
-  const nextInterview =
-    currentIndex < yearPeers.length - 1 ? yearPeers[currentIndex + 1] : yearPeers[0];
+  const {
+    items: yearPeers,
+    currentIndex,
+    prev: prevInterview,
+    next: nextInterview,
+  } = getInterviewNeighbours(navInterviews ?? [], slug, festivalYear, isKidsInterview);
   const showNav = yearPeers.length > 1 && currentIndex !== -1;
 
   const interviewNavName = (iv: (typeof yearPeers)[0]) => {
