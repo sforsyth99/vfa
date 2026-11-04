@@ -1,8 +1,9 @@
 :root {
   /* ── Fonts ───────────────────────────────────────────── */
-  --vfa-font-body: 'Inter', Arial, sans-serif;
-  --vfa-font-display: 'DM Sans', Arial, sans-serif;
-  --vfa-font-typewriter: 'Courier Prime', 'Courier New', Courier, monospace;
+  --vfa-font-body: 'Inter Variable', 'Inter Fallback', Arial, sans-serif;
+  --vfa-font-display: 'DM Sans Variable', 'DM Sans Fallback', Arial, sans-serif;
+  --vfa-font-typewriter:
+    'Courier Prime', 'Courier Prime Fallback', 'Courier New', Courier, monospace;
 
   /* ── Font sizes ──────────────────────────────────────── */
   --vfa-font-size-eyebrow: 0.7rem; /* uppercase labels, section tags */
