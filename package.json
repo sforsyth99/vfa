@@ -3,16 +3,24 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@12.5.1",
   "scripts": {
     "dev": "vite",
     "build": "node scripts/generate-sitemap.mjs && tsc -b && vite build",
+    "build:app": "vite build",
     "generate-sitemap": "node scripts/generate-sitemap.mjs",
     "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -b",
     "preview": "vite preview",
     "test": "vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:storybook": "vitest run --project storybook",
     "test:ui": "vitest --ui",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm build:app"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.95.2",

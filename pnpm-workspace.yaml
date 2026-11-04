@@ -1,0 +1,12 @@
+# Only install package versions that have been public for at least 7 days,
+# so a compromised release is usually caught and pulled before it reaches us.
+# Applies whenever pnpm picks a new version (pnpm add / update / install
+# without a lockfile entry). Value is in minutes: 7 × 24 × 60 = 10080.
+minimumReleaseAge: 10080
+
+# Packages allowed to run install scripts. Both are false: esbuild ships its
+# binary as an optional dependency, and msw's worker is already committed
+# in public/mockServiceWorker.js.
+allowBuilds:
+  esbuild: false
+  msw: false
