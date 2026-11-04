@@ -8,7 +8,7 @@
 - [x] T002 Initialize React + TypeScript project with Vite and pnpm
 - [x] T003 [P] Configure linting, formatting, and pre-commit hooks
 - [x] T004 [P] Set up src/ directory structure (api/, components/, features/, pages/, stores/, hooks/, utils/, assets/,
-      styles/, locales/)
+  styles/, locales/)
 - [x] T005 [P] Add en.json for UI strings in src/locales/ and set up react-intl integration
 - [x] T006 [P] Set up CSS modules and global styles in src/styles/
 - [x] T007 [P] Install and configure TanStack ReactQuery, Zustand, react-router-dom, classnames, react-helmet-async
@@ -18,7 +18,7 @@
 
 - [ ] T009 Create API client structure in src/api/ for REST endpoints
 - [ ] T010 [P] Define TypeScript types for all entities (Event, Author, Book, Sponsor, Facilitator, Musician, Curator,
-      Interview) in src/api/types.ts
+  Interview) in src/api/types.ts
 - [ ] T011 [P] Set up ReactQueryProvider and Zustand store (if needed) in App.tsx
 - [ ] T012 [P] Configure i18n loading for en.json using react-intl
 - [ ] T013 [P] Add accessibility helpers and global skip-to-content link
@@ -66,7 +66,7 @@
 - [ ] T032 [P] Add mobile responsiveness and test on multiple devices
 - [ ] T033 [P] Validate accessibility (WCAG 2.1 AA) with automated and manual tests
 - [ ] T034 [P] Refactor for code clarity, maintainability, and remove circular dependencies
-- [ ] T035 [P] Ensure all UI strings are in en.json (via react-intl) and all styles are in \*.module.css
+- [ ] T035 [P] Ensure all UI strings are in en.json (via react-intl) and all styles are in *.module.css
 - [ ] T036 [P] Add/Update documentation and quickstart guide
 
 ## Dependencies

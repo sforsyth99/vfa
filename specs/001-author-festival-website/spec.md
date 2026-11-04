@@ -3,9 +3,9 @@
 **Feature Branch**: `001-author-festival-website`
 **Created**: March 30, 2026
 **Status**: Draft
-**Input**: User description: "I am building a website for an author's festival. On the home page it should be really obvious which events are featured. It might be an off-season event, or a list of events for the main festival. The data will be fetched from https://victoriafestivalofauthors.ca The events are the most important thing, with links to the Eventbrite tickets using minimal clicks. We also need to highlight author interviews. We need to display our sponsors as well. It should be very easy to sign up to the newsletter or make a donation via the CanadaHelps page. We also need information about accessibilty, and more boring stuff like who we are. There should be social media links. There must be a land acknowledgement on every page."
+**Input**: User description: "I am building a website for an author's festival.  On the home page it should be really obvious which events are featured. It might be an off-season event, or a list of events for the main festival. The data will be fetched from https://victoriafestivalofauthors.ca  The events are the most important thing, with links to the Eventbrite tickets using minimal clicks. We also need to highlight author interviews. We need to display our sponsors as well. It should be very easy to sign up to the newsletter or make a donation via the CanadaHelps page. We also need information about accessibilty, and more boring stuff like who we are. There should be social media links. There must be a land acknowledgement on every page."
 
-## User Scenarios & Testing _(mandatory)_
+## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Discover and Attend Events (Priority: P1)
 
@@ -94,7 +94,7 @@ As a visitor, I want to find copyright, social media links and see a land acknow
 
 ---
 
-## Functional Requirements _(mandatory)_
+## Functional Requirements *(mandatory)*
 
 1. The home page must prominently display featured events, with clear links to Eventbrite ticket pages.
 2. The site must fetch event and interview data from https://victoriafestivalofauthors.ca.
@@ -113,7 +113,7 @@ As a visitor, I want to find copyright, social media links and see a land acknow
 14. The site must support books with multiple authors, displaying all relevant author names and profiles.
 15. Author profile photos and book covers must be displayed correctly regardless of image dimensions (supporting various aspect ratios and sizes).
 
-## Success Criteria _(mandatory)_
+## Success Criteria *(mandatory)*
 
 - 100% of featured events are visible on the home page with working Eventbrite links.
 - Author interviews are accessible and clearly attributed.
@@ -128,7 +128,7 @@ As a visitor, I want to find copyright, social media links and see a land acknow
 - Special fundraising/off-season events are highlighted when relevant.
 - Copyright/footer information is present and accurate on every page.
 
-## Key Entities _(if data involved)_
+## Key Entities *(if data involved)*
 
 - Event (title, date, description, Eventbrite link, featured status, format [physical/online], location [Indigenous name, English name])
 - Author (name, bio, interview(s), profile photo, associated books)
@@ -189,20 +189,20 @@ As a visitor, I want to find copyright, social media links and see a land acknow
 - Books with multiple authors: All author names and profiles are displayed for each book.
 - Author profile photos and book covers: Images are displayed correctly regardless of their original dimensions or aspect ratios.
 
-## Requirements _(mandatory)_
+## Requirements *(mandatory)*
 
 ### Key Entities
 
 - Event: title, date, description, Eventbrite link, featured status, participants (authors, facilitators, musicians)
-- Author: name, alternate name, bio, profile photo, interviews, books, events
+- Author: name, alternate name, bio, profile photo, interviews, books, events 
 - Book: title, cover image, author(s), link to purchase
 - Sponsor: name, logo, link, description (optional)
-- Facilitator: name, bio, photo, role
+- Facilitator: name, bio, photo, role 
 - Musician: name, bio, photo, role
 - Curator: name, bio, photo, role
 - Interview: interviewee (an author), interviewer, introduction, Q&A format
 
-## Success Criteria _(mandatory)_
+## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
@@ -213,3 +213,4 @@ As a visitor, I want to find copyright, social media links and see a land acknow
 - Accessibility and organizational information is easy to find and understand.
 - Social media links and land acknowledgement are present on every page.
 - All user journeys can be independently tested as described above.
+

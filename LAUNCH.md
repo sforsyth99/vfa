@@ -11,45 +11,36 @@
 Complete all of these before the DNS flip. Most can be done days in advance.
 
 ### Images
-
 - [x] Compress and remove unused local assets (`src/assets/`) — done 2026-08-14
-- [ ] Install **Smush** on WordPress admin → run Bulk Smush on the media library (_WP Admin → Plugins → Add New → search "Smush" → Install → Bulk Smush_)
+- [ ] Install **Smush** on WordPress admin → run Bulk Smush on the media library  
+      _WP Admin → Plugins → Add New → search "Smush" → Install → Bulk Smush_
 
 ### SEO & discoverability
-
-- [ ] Remove `noindex` from `index.html` — do this as the very last commit before DNS flip — Delete: `<meta name="robots" content="noindex, nofollow" />`
+- [ ] Remove `noindex` from `index.html` — do this as the very last commit before DNS flip  
+      Delete: `<meta name="robots" content="noindex, nofollow" />`
 - [x] Add `public/robots.txt` — done 2026-08-15
 - [x] Add `public/sitemap.xml` — done 2026-08-15; run `npm run generate-sitemap` again after WP data migration to add all dynamic slugs
 - [x] Add Open Graph meta tags to `index.html` — done 2026-08-15
-  ```html
-  <meta
-    name="description"
-    content="Victoria Festival of Authors — celebrating the best in Canadian and international literature."
-  />
-  <meta property="og:title" content="Victoria Festival of Authors" />
-  <meta
-    property="og:description"
-    content="Celebrating the best in Canadian and international literature."
-  />
-  <meta property="og:image" content="https://victoriafestivalofauthors.ca/og-image.jpg" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://victoriafestivalofauthors.ca" />
-  <meta name="twitter:card" content="summary_large_image" />
-  ```
+      ```html
+      <meta name="description" content="Victoria Festival of Authors — celebrating the best in Canadian and international literature." />
+      <meta property="og:title" content="Victoria Festival of Authors" />
+      <meta property="og:description" content="Celebrating the best in Canadian and international literature." />
+      <meta property="og:image" content="https://victoriafestivalofauthors.ca/og-image.jpg" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://victoriafestivalofauthors.ca" />
+      <meta name="twitter:card" content="summary_large_image" />
+      ```
 - [x] Create OG image — using Facebook cover photo at `public/og-image.jpg`, done 2026-08-15
 
 ### Data & backend
-
 - [x] Production WordPress data is live at `api.victoriafestivalofauthors.ca` — no migration needed
 - [ ] Set aggressive cache headers for archived Q&A posts (they never change — 7-day TTL)
 - [ ] Upload and activate vfa-cache plugin (see Caching section below for setup steps)
 
 ### CORS
-
 - [x] Confirmed WordPress sends `Access-Control-Allow-Origin: https://victoriafestivalofauthors.ca` — done 2026-08-15
 
 ### Redirects
-
 - [ ] Add any old WordPress URL 301 redirects to `public/_redirects` (e.g. `/about-us/` → `/about`)
 - [ ] Confirm `www` redirect is handled in Cloudflare (www → apex or apex → www, pick one)
 
@@ -58,7 +49,6 @@ Complete all of these before the DNS flip. Most can be done days in advance.
 ## Phase 2 — DNS cutover
 
 **Infrastructure context:**
-
 - Domain registered at canspace.ca
 - DNS/nameservers managed in cPanel at exacthosting (Island Hosting)
 - Email is hosted externally — MX points to `mx.victoriafestivalofauthors.ca.cust.A.hostedemail.com`
@@ -72,7 +62,6 @@ Complete all of these before the DNS flip. Most can be done days in advance.
 ### Step 0 — Write down everything before touching anything
 
 Before any changes, record these so you can revert:
-
 - Log into cPanel → note the current nameservers (e.g. `ns1.islandhosting.com`)
 - Screenshot or copy the full DNS zone from cPanel (you already have this from our conversation)
 - Confirm the old WordPress site is still loading at `http://209.59.191.250` directly (by IP) — this means exacthosting is still serving it and the revert target is intact
@@ -86,7 +75,6 @@ Before any changes, record these so you can revert:
 `mail`, `smtp`, and `imap` currently CNAME to the apex. Once the apex changes they'll break. Fix them before anything else:
 
 In cPanel Zone Editor, change these from CNAME → A records:
-
 - `mail.victoriafestivalofauthors.ca` → A → `209.59.191.250`
 - `smtp.victoriafestivalofauthors.ca` → A → `209.59.191.250`
 - `imap.victoriafestivalofauthors.ca` → A → `209.59.191.250`
@@ -138,7 +126,6 @@ During propagation: the old site may show briefly, then Cloudflare takes over. E
 ### Step 4 — Remove noindex and deploy
 
 Once Cloudflare DNS is active and the site is resolving correctly:
-
 1. Delete this line from `index.html`: `<meta name="robots" content="noindex, nofollow" />`
 2. Push to GitHub — Cloudflare Pages auto-deploys
 3. Verify at `https://victoriafestivalofauthors.ca`
@@ -152,7 +139,6 @@ SSL is handled automatically by Cloudflare — no action needed.
 Run these immediately after DNS propagates.
 
 **Pages**
-
 - [ ] Home page loads, event browser carousel shows events
 - [ ] Authors page loads with author list
 - [ ] Events page loads with upcoming events and filters work
@@ -164,14 +150,12 @@ Run these immediately after DNS propagates.
 - [ ] KidsFest page loads
 
 **Functionality**
-
 - [ ] Newsletter signup submits without error
 - [ ] Eventbrite ticket links work
 - [ ] No CORS errors in browser console (check Network tab)
 - [ ] `loading="lazy"` images load as you scroll
 
 **Infrastructure**
-
 - [ ] Google Analytics: open GA4 Realtime and confirm your own visit is tracked
 - [ ] Send yourself a test email to `@victoriafestivalofauthors.ca` — confirm mail still works
 - [ ] `https://victoriafestivalofauthors.ca/robots.txt` returns the file
@@ -185,12 +169,12 @@ Run these immediately after DNS propagates.
 
 ### How the layers work
 
-| Layer                          | What it caches                                                         | How long                       | How it clears                                       |
-| ------------------------------ | ---------------------------------------------------------------------- | ------------------------------ | --------------------------------------------------- |
-| Cloudflare CDN                 | WP API responses (`api.*/wp-json/*`) for visitors who aren't logged in | Up to 1 day (`s-maxage=86400`) | vfa-cache plugin purges on every WP save            |
-| Visitor's browser (HTTP cache) | API responses                                                          | 10 minutes (`max-age=600`)     | Expires automatically; a purge can't reach it       |
-| React Query (browser)          | API data per visitor                                                   | 1 hour                         | Expires automatically; incognito window bypasses it |
-| Cloudflare Pages               | JS/CSS/image files                                                     | Until next deploy              | Auto-cleared on every GitHub push                   |
+| Layer | What it caches | How long | How it clears |
+|---|---|---|---|
+| Cloudflare CDN | WP API responses (`api.*/wp-json/*`) for visitors who aren't logged in | Up to 1 day (`s-maxage=86400`) | vfa-cache plugin purges on every WP save |
+| Visitor's browser (HTTP cache) | API responses | 10 minutes (`max-age=600`) | Expires automatically; a purge can't reach it |
+| React Query (browser) | API data per visitor | 1 hour | Expires automatically; incognito window bypasses it |
+| Cloudflare Pages | JS/CSS/image files | Until next deploy | Auto-cleared on every GitHub push |
 
 The cache times are set by the `rest_post_dispatch` filter in `vfa-custom-fields.php`. Only successful responses to anonymous GET requests are marked cacheable.
 
@@ -209,7 +193,6 @@ define('VFA_CLOUDFLARE_DEPLOY_HOOK','https://api.cloudflare.com/client/v4/pages/
 ```
 
 **Where to find each value:**
-
 - **Zone ID:** Cloudflare dashboard → `victoriafestivalofauthors.ca` → Overview → right sidebar
 - **API Token:** Cloudflare → person icon → Profile → API Tokens → Create Token → **Custom token** → permission **Zone → Cache Purge → Purge** only → Zone Resources: Include → Specific zone → `victoriafestivalofauthors.ca`. Never use the Global API Key. The token is shown once: store it in the password manager.
 - **Deploy Hook:** Cloudflare → Workers & Pages → `vfa` → Settings → Deploy Hooks → **+** (name it "WP content publish", branch `main`) → copy the URL. The URL works as a password: store it in the password manager only.
@@ -259,12 +242,12 @@ The cookie condition means logged-in editors never get or create cached copies.
 
 ### What to expect after publishing new content
 
-| Who                         | What they see                    | Why                                       |
-| --------------------------- | -------------------------------- | ----------------------------------------- |
-| New visitor                 | Fresh content immediately        | Cloudflare cache was purged on save       |
+| Who | What they see | Why |
+|---|---|---|
+| New visitor | Fresh content immediately | Cloudflare cache was purged on save |
 | Returning visitor (new tab) | Old content for up to 10 minutes | Their browser's HTTP cache hasn't expired |
-| Visitor already on the site | Old content for up to 1 hour     | React Query client cache hasn't expired   |
-| Google (sitemap)            | New URL within 2–3 minutes       | Deploy hook triggered a rebuild           |
+| Visitor already on the site | Old content for up to 1 hour | React Query client cache hasn't expired |
+| Google (sitemap) | New URL within 2–3 minutes | Deploy hook triggered a rebuild |
 
 **To see changes immediately as a logged-in editor:** open an incognito window — this bypasses React Query's browser cache.
 

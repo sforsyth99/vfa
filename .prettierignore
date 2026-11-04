@@ -14,3 +14,6 @@ public/mockServiceWorker.js
 .specify/
 .github/agents/
 .github/prompts/
+
+# Markdown keeps its own style (e.g. *italics*)
+*.md
