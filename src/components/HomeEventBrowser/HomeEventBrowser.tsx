@@ -12,9 +12,9 @@ import { SkeletonBlock } from '../Skeleton/Skeleton';
 import { downloadIcs } from '../../utils/downloadIcs';
 import { track } from '../../utils/analytics';
 import type { PersonData } from '../../api/people/peopleTypes';
-import starryBg from '../../assets/starry-background-sm.jpg';
+import starryBg from '../../assets/starry-background-sm.webp';
 import artWorkshopBg from '../../assets/art-workshop.jpeg';
-import kidsFestPoster from '../../assets/kids-fest-crop.jpg';
+import kidsFestPoster from '../../assets/kids-fest-crop.webp';
 import { getPacificToday } from '../../utils/eventDates';
 import styles from './HomeEventBrowser.module.css';
 

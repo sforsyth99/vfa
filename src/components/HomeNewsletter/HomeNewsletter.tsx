@@ -4,7 +4,7 @@ import { Container } from '../Container/Container';
 import { useGetNewsletterPost } from '../../api/posts/useGetNewsletterPost';
 import { extractNewsletterExcerpt } from '../../utils/sanitizeHtml';
 import { track } from '../../utils/analytics';
-import newsletterImg from '../../assets/ire-photocreative.jpeg';
+import newsletterImg from '../../assets/ire-photocreative.webp';
 import { SkeletonBlock } from '../Skeleton/Skeleton';
 import styles from './HomeNewsletter.module.css';
 
