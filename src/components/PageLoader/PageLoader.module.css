@@ -2,9 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* At least a full screen, so the footer stays out of view while loading. */
-  min-height: 100vh;
-  min-height: 100svh;
+  /* Fills the rest of the screen (see App.module.css), keeping the footer
+     below the fold while loading. */
+  min-height: 50vh;
 }
 
 .spinner {

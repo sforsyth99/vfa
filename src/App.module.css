@@ -1,0 +1,23 @@
+/*
+ * The page area (between the header and the footer) is always at least one
+ * screen tall, so the footer (taller than a phone screen) always starts below
+ * the fold. When a page's content arrives, short or long, the footer never
+ * moves within view, so there's no layout shift. The header stays outside
+ * this wrapper so it can remain sticky all the way down the page.
+ */
+.screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.screen > * {
+  flex: 1 0 auto;
+}
+
+@media (max-width: 640px) {
+  .screen {
+    min-height: 100svh;
+  }
+}
