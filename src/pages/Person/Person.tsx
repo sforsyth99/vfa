@@ -105,9 +105,17 @@ function AuthorMeta({
 export default function PersonPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data: person, isLoading, error } = useGetPerson({ slug: slug! });
-  const { data: events } = useGetPersonEvents(person?.id);
-  const { data: books } = useGetPersonBooks(person?.id);
-  const { data: interviews } = useGetPersonInterviews(person?.id);
+  const eventsQuery = useGetPersonEvents(person?.id);
+  const booksQuery = useGetPersonBooks(person?.id);
+  const interviewsQuery = useGetPersonInterviews(person?.id);
+  const events = eventsQuery.data;
+  const books = booksQuery.data;
+  const interviews = interviewsQuery.data;
+  // Show the page once the person's events, books and interviews have arrived
+  // (or failed), so the sections they fill don't push the page down after it
+  // appears. A failed request isn't pending, so it never blocks the page.
+  const extrasPending =
+    !!person && (eventsQuery.isPending || booksQuery.isPending || interviewsQuery.isPending);
 
   const name = decodeHtmlEntities(person?.title?.rendered ?? '');
   usePageTitle(person ? name : null);
@@ -115,7 +123,7 @@ export default function PersonPage() {
     if (name) track({ name: 'content_view', event_label: name, content_type: 'person' });
   }, [name]);
 
-  if (isLoading) return <PageLoader />;
+  if (isLoading || extrasPending) return <PageLoader />;
   if (error || !person)
     return (
       <div>
