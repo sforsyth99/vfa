@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetFestivalEvent } from '../../api/festivalEvents/useGetFestivalEvent.ts';
-import { useGetFestivalEvents } from '../../api/festivalEvents/useGetFestivalEvents.ts';
+import { useGetFestivalEventsNav } from '../../api/festivalEvents/useGetFestivalEventsNav.ts';
+import { getEventNeighbours } from '../../utils/prevNext.ts';
 import { useGetPersonBooks } from '../../api/people/useGetPersonBooks.ts';
 import { decodeHtmlEntities } from '../../utils/decodeHtmlEntities.ts';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
@@ -102,7 +103,7 @@ export default function FestivalEventPage() {
   const intl = useIntl();
   const { slug } = useParams<{ slug: string }>();
   const { data: event, isLoading, error } = useGetFestivalEvent({ slug: slug! });
-  const { data: allEvents } = useGetFestivalEvents();
+  const { data: navEvents } = useGetFestivalEventsNav();
   const eventTitle = event ? decodeHtmlEntities(event.title?.rendered ?? '') : '';
   usePageTitle(eventTitle || null);
   useEffect(() => {
@@ -118,20 +119,13 @@ export default function FestivalEventPage() {
     );
 
   const today = getPacificToday();
-  const futureEvents = (allEvents ?? [])
-    .filter((e) => e.event_data.event_date >= today && e.event_data.event_type !== 'author_fair')
-    .sort((a, b) => {
-      const d = a.event_data.event_date.localeCompare(b.event_data.event_date);
-      return d !== 0
-        ? d
-        : (a.event_data.time_start ?? '').localeCompare(b.event_data.time_start ?? '');
-    });
-  const currentIndex = futureEvents.findIndex((e) => e.slug === slug);
+  const {
+    items: futureEvents,
+    currentIndex,
+    prev: prevEvent,
+    next: nextEvent,
+  } = getEventNeighbours(navEvents ?? [], slug, today);
   const isPast = event.event_data.event_date < today;
-  const prevEvent =
-    currentIndex > 0 ? futureEvents[currentIndex - 1] : futureEvents[futureEvents.length - 1];
-  const nextEvent =
-    currentIndex < futureEvents.length - 1 ? futureEvents[currentIndex + 1] : futureEvents[0];
 
   const {
     is_kidfest,
