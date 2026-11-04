@@ -27,8 +27,8 @@ const person = {
     name_pronunciation: '',
     bio: '<p>Ann writes books.</p>',
     website_url: '',
-    photo: false,
-    photo_square: false,
+    photo: ['https://example.org/ann-210x300.jpg', 210, 300, true],
+    photo_square: ['https://example.org/ann-sq-300x300.jpg', 300, 300, true],
     kidfest_years: [],
     kidfest_photo: false,
   },
@@ -49,7 +49,7 @@ function renderPage() {
   );
 }
 
-describe('PersonPage loading', () => {
+describe('PersonPage', () => {
   beforeEach(() => {
     state.person = { data: person, isPending: false, isLoading: false };
     state.events = done([]);
@@ -57,30 +57,25 @@ describe('PersonPage loading', () => {
     state.interviews = done([]);
   });
 
-  it('keeps showing the loader until events, books and interviews have arrived', () => {
-    state.books = pending;
+  it("gives the author's photos their width and height so the page doesn't shift as they load", () => {
     renderPage();
-    expect(screen.getByRole('status')).toBeInTheDocument();
-    expect(screen.queryByText('Ann writes books.')).not.toBeInTheDocument();
+    const [desktop, mobile] = screen.getAllByRole('img', { name: 'Ann Able' });
+    expect(desktop).toHaveAttribute('width', '210');
+    expect(desktop).toHaveAttribute('height', '300');
+    expect(mobile).toHaveAttribute('width', '300');
+    expect(mobile).toHaveAttribute('height', '300');
   });
 
-  it('shows the page once everything has arrived', () => {
-    renderPage();
-    expect(screen.getByText('Ann writes books.')).toBeInTheDocument();
-    expect(screen.queryByRole('status')).not.toBeInTheDocument();
-  });
-
-  it('does not wait on a request that failed', () => {
-    state.events = { data: undefined, isPending: false, error: new Error('500') };
-    renderPage();
-    expect(screen.getByText('Ann writes books.')).toBeInTheDocument();
-  });
-
-  it('shows "not found" instead of loading forever when the person does not exist', () => {
-    state.person = { data: undefined, isPending: false, isLoading: false };
+  it('renders the page while events, books and interviews are still loading', () => {
     state.events = pending;
     state.books = pending;
     state.interviews = pending;
+    renderPage();
+    expect(screen.getByText('Ann writes books.')).toBeInTheDocument();
+  });
+
+  it('shows "not found" when the person does not exist', () => {
+    state.person = { data: undefined, isPending: false, isLoading: false };
     renderPage();
     expect(screen.getByText('Person not found')).toBeInTheDocument();
   });

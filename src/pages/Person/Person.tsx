@@ -105,17 +105,9 @@ function AuthorMeta({
 export default function PersonPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data: person, isLoading, error } = useGetPerson({ slug: slug! });
-  const eventsQuery = useGetPersonEvents(person?.id);
-  const booksQuery = useGetPersonBooks(person?.id);
-  const interviewsQuery = useGetPersonInterviews(person?.id);
-  const events = eventsQuery.data;
-  const books = booksQuery.data;
-  const interviews = interviewsQuery.data;
-  // Show the page once the person's events, books and interviews have arrived
-  // (or failed), so the sections they fill don't push the page down after it
-  // appears. A failed request isn't pending, so it never blocks the page.
-  const extrasPending =
-    !!person && (eventsQuery.isPending || booksQuery.isPending || interviewsQuery.isPending);
+  const { data: events } = useGetPersonEvents(person?.id);
+  const { data: books } = useGetPersonBooks(person?.id);
+  const { data: interviews } = useGetPersonInterviews(person?.id);
 
   const name = decodeHtmlEntities(person?.title?.rendered ?? '');
   usePageTitle(person ? name : null);
@@ -123,7 +115,7 @@ export default function PersonPage() {
     if (name) track({ name: 'content_view', event_label: name, content_type: 'person' });
   }, [name]);
 
-  if (isLoading || extrasPending) return <PageLoader />;
+  if (isLoading) return <PageLoader />;
   if (error || !person)
     return (
       <div>
@@ -150,6 +142,12 @@ export default function PersonPage() {
   const photoSquareSrc = photo_square
     ? photo_square[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1')
     : photoSrc;
+  // Width and height from WordPress let the browser reserve each photo's space
+  // before it downloads, so the text below doesn't jump when it arrives.
+  const photoSize = photo ? { width: photo[1], height: photo[2] } : {};
+  const photoSquareSize = photo_square
+    ? { width: photo_square[1], height: photo_square[2] }
+    : photoSize;
   const kidfestPhotoSrc = kidfest_photo
     ? kidfest_photo[0].replace(/-\d+x\d+(\.[a-z]+)$/i, '$1')
     : null;
@@ -184,10 +182,17 @@ export default function PersonPage() {
         <div className={!isKidfest && photoSrc ? styles.adultHero : styles.profile}>
           {!isKidfest && photoSrc && (
             <div className={styles.photoCol}>
-              <img src={photoSrc} alt={name} className={styles.authorPhoto} loading="eager" />
+              <img
+                src={photoSrc}
+                alt={name}
+                {...photoSize}
+                className={styles.authorPhoto}
+                loading="eager"
+              />
               <img
                 src={photoSquareSrc ?? photoSrc}
                 alt={name}
+                {...photoSquareSize}
                 className={styles.authorPhotoMobile}
                 loading="eager"
               />
