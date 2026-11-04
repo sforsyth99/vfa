@@ -2,7 +2,7 @@
 /**
  * Plugin Name: VFA Custom Fields
  * Description: Custom fields for interviews, people, venues, and events.
- * Version: 2.2.9
+ * Version: 2.3.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -119,6 +119,52 @@ function vfa_extract_newsletter_excerpt(string $html, int $max_chars): string {
 
     $text = preg_replace('/\s+/', ' ', trim($body->textContent));
     return strlen($text) > $max_chars ? rtrim(substr($text, 0, $max_chars)) . '…' : $text;
+}
+
+/**
+ * Published books for one festival year, grouped by author ID, using one books
+ * query for all authors (instead of one request per author).
+ *
+ * Each book has only what a list needs: id, slug, title and cover (the
+ * [url, width, height, is_resized] array for the 'medium' size, or null).
+ * Books keep get_posts' default order (newest first), matching
+ * /people/{id}/books. Authors with no books that year are absent; callers
+ * should default to [].
+ *
+ * @param int[] $author_ids
+ * @return array<int, array<int, array{id:int, slug:string, title:string, cover:array|null}>>
+ */
+function vfa_get_books_by_author(array $author_ids, int $year): array {
+    $author_ids = array_map('intval', $author_ids);
+    if (empty($author_ids)) return [];
+
+    $book_posts = get_posts([
+        'post_type'      => 'books',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'meta_query'     => [
+            ['key' => 'festival_year', 'value' => $year, 'compare' => '=', 'type' => 'NUMERIC'],
+        ],
+    ]);
+
+    $by_author = [];
+    foreach ($book_posts as $book_post) {
+        $book_author_ids = array_map('intval', get_post_meta($book_post->ID, 'authors', false));
+        $matched_ids     = array_intersect($book_author_ids, $author_ids);
+        if (empty($matched_ids)) continue;
+
+        $cover = wp_get_attachment_image_src(get_post_meta($book_post->ID, 'cover_image', true), 'medium');
+        $entry = [
+            'id'    => (int) $book_post->ID,
+            'slug'  => $book_post->post_name,
+            'title' => $book_post->post_title,
+            'cover' => $cover ?: null,
+        ];
+        foreach (array_unique($matched_ids) as $author_id) {
+            $by_author[$author_id][] = $entry;
+        }
+    }
+    return $by_author;
 }
 
 add_action('rest_api_init', function() {
@@ -411,8 +457,17 @@ add_action('rest_api_init', function() {
                     ['key' => 'author_years', 'value' => $year, 'compare' => '=', 'type' => 'NUMERIC'],
                 ],
             ]);
-            return array_map(function($person) {
-                return vfa_get_person_data($person->ID);
+            // Each author's books for the same year, from one books query, so the
+            // Authors page doesn't need a separate books request per author.
+            $author_ids   = array_map(function($person) { return (int) $person->ID; }, $people);
+            $author_books = vfa_get_books_by_author($author_ids, $year);
+
+            return array_map(function($person) use ($author_books) {
+                $data = vfa_get_person_data($person->ID);
+                if (is_array($data)) {
+                    $data['books'] = $author_books[(int) $person->ID] ?? [];
+                }
+                return $data;
             }, $people);
         },
     ]);

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useGetAuthors } from '../../api/people/useGetAuthors';
-import { useGetPersonBooks } from '../../api/people/useGetPersonBooks';
 import { usePageTitle } from '../../utils/usePageTitle';
 import { CURRENT_YEAR } from '../../config/festival';
 import { bySurname } from '../../utils/sortBySurname';
@@ -29,10 +28,12 @@ function surnameInitial(name: string): string {
 }
 
 function AuthorRow({ author }: { author: PersonData }) {
-  const { data: books = [] } = useGetPersonBooks(author.id, CURRENT_YEAR);
   const photo = author.photo_square || author.photo;
   const bio = author.bio ? htmlToText(author.bio) : '';
-  const booksWithCover = books.filter((b) => b.cover_image);
+  // Books arrive with the author list (one request for the whole page).
+  const covers = (author.books ?? []).flatMap((b) =>
+    b.cover ? [{ id: b.id, title: b.title, src: b.cover[0] }] : [],
+  );
 
   return (
     <Link to={`/people/${author.slug}`} className={styles.item}>
@@ -47,12 +48,12 @@ function AuthorRow({ author }: { author: PersonData }) {
           )}
         </div>
 
-        {booksWithCover.length > 0 && (
+        {covers.length > 0 && (
           <div className={styles.books}>
-            {booksWithCover.map((book) => (
+            {covers.map((book) => (
               <img
                 key={book.id}
-                src={(book.cover_image as [string, number, number, boolean])[0]}
+                src={book.src}
                 alt={book.title}
                 className={styles.bookCover}
                 loading="lazy"
